@@ -92,6 +92,23 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
+          Container(
+            width: width,
+            height: 50,
+            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Colors.blue,
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: const Text(
+              'Tạo mã thanh toán VietQR',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
           Expanded(
             child: Visibility(
               visible: messagesByAddr.isNotEmpty,
