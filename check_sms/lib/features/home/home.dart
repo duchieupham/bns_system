@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sms_listener/flutter_sms_listener.dart' as smslistener;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -86,6 +87,19 @@ class _HomeScreen extends State<HomeScreen> {
               style: TextStyle(
                 color: Colors.white,
               ),
+            ),
+          ),
+          Container(
+            width: width,
+            alignment: Alignment.center,
+            height: 300,
+            child: QrImage(
+              data:
+                  '00020101021238570010A00000072701270006970403011300110123456780208QRIBFTTA530370454061800005802VN62340107NPS68690819thanh toan don hang63042E2E',
+              // data:
+              //     "00020101021138540010A00000072701240006970422011011233555890208QRIBFTTA53037045802VN6304866E",
+              version: QrVersions.auto,
+              size: 300.0,
             ),
           ),
           Expanded(
