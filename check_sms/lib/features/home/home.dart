@@ -1,4 +1,5 @@
 import 'package:check_sms/commons/utils/time_utils.dart';
+import 'package:check_sms/commons/utils/viet_qr_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sms_listener/flutter_sms_listener.dart' as smslistener;
 import 'package:permission_handler/permission_handler.dart';
@@ -66,6 +67,9 @@ class _HomeScreen extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    String value = VietQRUtils.instance.generateCRC(
+        '00020101021238570010A00000072701270006970403011300110123456780208QRIBFTTA530370454061800005802VN62340107NPS68690819thanh toan don hang6304');
+    print('------value: $value');
     return Scaffold(
       appBar: AppBar(
         title: const Text('BNS'),

@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
-class VietQRValueVN {
+class VietQRValue {
   //Payload Format Indicator length and value
   static const String PAYLOAD_FORMAT_INDICATOR_LENGTH = '02';
   static const String PAYLOAD_FORMAT_INDICATOR_VALUE = '01';

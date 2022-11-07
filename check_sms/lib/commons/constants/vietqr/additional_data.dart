@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
-class VietQRAdditionalData {
+class AdditionalData {
   //Cấu trúc dữ liệu cho Thông tin bổ sung (ID “62”) cho VietQR trong Dịch vụ Chuyển nhanh NAPAS247
   //
   //Số hóa đơn
