@@ -72,4 +72,13 @@ class VietQRUtils {
     result = crcValue.toRadixString(16).toString().toUpperCase();
     return result;
   }
+
+  //Tạo mã thông tin định danh
+  String generateMerchantAccountInformationValue() {
+    String result = '';
+    //Định danh duy nhất toàn cầu
+    //Tổ chức thụ hưởng
+    //Mã dịch vụ
+    return result;
+  }
 }
