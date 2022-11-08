@@ -1,10 +1,9 @@
 import 'package:check_sms/commons/utils/time_utils.dart';
-import 'package:check_sms/commons/utils/viet_qr_utils.dart';
+import 'package:check_sms/features/generate_qr/views/qr_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sms_listener/flutter_sms_listener.dart' as smslistener;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -67,45 +66,54 @@ class _HomeScreen extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    String value = VietQRUtils.instance.generateCRC(
-        '00020101021238570010A00000072701270006970403011300110123456780208QRIBFTTA530370454061800005802VN62340107NPS68690819thanh toan don hang6304');
-    print('------value: $value');
+    // String value = VietQRUtils.instance.generateCRC(
+    //     '00020101021138570010A00000072701270006970403011200110123456780208QRIBFTTA53037045802VN6304');
+    // print('------value: $value');
     return Scaffold(
       appBar: AppBar(
         title: const Text('BNS'),
       ),
       body: Column(
         children: [
-          Container(
-            width: width,
-            height: 50,
-            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: const Text(
-              'Tạo mã thanh toán VietQR',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const QRGeneratorScreen(),
+                ),
+              );
+            },
+            child: Container(
+              width: width,
+              height: 50,
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: const Text(
+                'Tạo mã thanh toán VietQR',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
-          Container(
-            width: width,
-            alignment: Alignment.center,
-            height: 300,
-            child: QrImage(
-              data:
-                  '00020101021238570010A00000072701270006970403011300110123456780208QRIBFTTA530370454061800005802VN62340107NPS68690819thanh toan don hang63042E2E',
-              // data:
-              //     "00020101021138540010A00000072701240006970422011011233555890208QRIBFTTA53037045802VN6304866E",
-              version: QrVersions.auto,
-              size: 300.0,
-            ),
-          ),
+          // Container(
+          //   width: width,
+          //   alignment: Alignment.center,
+          //   height: 300,
+          //   child: QrImage(
+          //     data:
+          //         '00020101021238570010A00000072701270006970403011300110123456780208QRIBFTTA530370454061800005802VN62340107NPS68690819thanh toan don hang63042E2E',
+          //     // data:
+          //     //     "00020101021138540010A00000072701240006970422011011233555890208QRIBFTTA53037045802VN6304866E",
+          //     version: QrVersions.auto,
+          //     size: 300.0,
+          //   ),
+          // ),
           Expanded(
             child: Visibility(
               visible: messagesByAddr.isNotEmpty,

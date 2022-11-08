@@ -40,4 +40,8 @@ class VietQRId {
   static const List<String> UNRESERVED_TEMPLATES_ID = ['80', '81', '82']; //...
   //Cyclic Redundancy Check
   static const String CRC_ID = '63';
+
+  //
+  //Mã dịch vụ
+  static const TRANSFER_SERVCICE_CODE = '02';
 }

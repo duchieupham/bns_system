@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
 import 'dart:convert';
+import 'package:check_sms/commons/constants/vietqr/aid.dart';
+import 'package:check_sms/commons/constants/vietqr/transfer_service_code.dart';
 import 'package:check_sms/commons/constants/vietqr/viet_qr_id.dart';
 import 'package:check_sms/commons/constants/vietqr/viet_qr_value.dart';
 import 'package:check_sms/models/viet_qr_generate_dto.dart';
@@ -19,34 +21,43 @@ class VietQRUtils {
     //Một đối tượng dữ liệu bao gồm: ID + Chiều dài + giá trị
     //Payload Format Indicator
     String pfi = VietQRId.PAYLOAD_FORMAT_INDICATOR_ID +
-        VietQRValue.PAYLOAD_FORMAT_INDICATOR_LENGTH +
+        generateLengthOfValue(VietQRValue.PAYLOAD_FORMAT_INDICATOR_VALUE) +
         VietQRValue.PAYLOAD_FORMAT_INDICATOR_VALUE;
     //Point of Initiation Method
     String poim = VietQRId.POINT_OF_INITIATION_METHOD_ID +
-        VietQRValue.POINT_OF_INITIATION_METHOD_LENGTH +
+        generateLengthOfValue(VietQRValue.POINT_OF_INITIATION_METHOD_VALUE) +
         VietQRValue.POINT_OF_INITIATION_METHOD_VALUE;
     //Consumer Account Information
     String cai = VietQRId.MERCHANT_ACCOUNT_INFORMATION_ID +
-        VietQRValue.MERCHANT_ACCOUNT_INFORMATION_LENGTH +
+        generateLengthOfValue(dto.cAIValue) +
         dto.cAIValue;
     //Transaction Currency
     String tc = VietQRId.TRANSACTION_CURRENCY_ID +
-        VietQRValue.TRANSACTION_CURRENCY_LENGTH +
+        generateLengthOfValue(VietQRValue.TRANSACTION_CURRENCY_VALUE) +
         VietQRValue.TRANSACTION_CURRENCY_VALUE;
     //Transaction Amount
     String ta = VietQRId.TRANSACTION_AMOUNT_ID +
-        dto.transactionAmountLength +
+        generateLengthOfValue(dto.transactionAmountValue) +
         dto.transactionAmountValue;
     //Country Code
     String cc = VietQRId.COUNTRY_CODE_ID +
-        VietQRValue.COUNTRY_CODE_LENGTH +
+        generateLengthOfValue(VietQRValue.COUNTRY_CODE_VALUE) +
         VietQRValue.COUNTRY_CODE_VALUE;
     //Additional Data Field Template
     String adft = VietQRId.ADDITIONAL_DATA_FIELD_TEMPLATE_ID +
-        dto.additionalDataFieldTemplateLength +
+        generateLengthOfValue(dto.additionalDataFieldTemplateValue) +
         dto.additionalDataFieldTemplateValue;
-    //CRC
-    String crc = VietQRId.CRC_ID + VietQRValue.CRC_LENGTH + dto.crcValue;
+    //CRC ID + CRC Length + CRC value (Cyclic Redundancy Check)
+    String crcValue = generateCRC(pfi +
+        poim +
+        cai +
+        tc +
+        ta +
+        cc +
+        adft +
+        VietQRId.CRC_ID +
+        VietQRValue.CRC_LENGTH);
+    String crc = VietQRId.CRC_ID + VietQRValue.CRC_LENGTH + crcValue;
     result = pfi + poim + cai + tc + ta + cc + adft + crc;
     return result;
   }
@@ -74,11 +85,30 @@ class VietQRUtils {
   }
 
   //Tạo mã thông tin định danh
-  String generateMerchantAccountInformationValue() {
+  //poimValue = BNB ID + Consumer ID
+  //- Định danh ACQ ID/ BNB ID: các ngân hàng tại Việt Nam sử dụng mã BIN cấp bởi
+  //NHNN. VD: 970403.
+  //- Định danh Merchant ID/ Consumer ID có định dạng chữ số (ANS) với độ dài tối đa 19
+  // ký tự. Giá trị của Merchant ID có thể là Mã số thuế, mã số doanh nghiệp, mã số đăng
+  // ký hộ kinh doanh hoặc mã định danh, chuỗi ký tự tùy chọn theo quy định cụ thể của
+  // ngân hàng thanh toán. Giá trị của Consumer ID là số tài khoản của khách hàng mở tại
+  // NH thụ hưởng (BNB ID).
+  String generateMerchantAccountInformationValue(String poimValue) {
     String result = '';
     //Định danh duy nhất toàn cầu
+    String guid = VietQRId.PAYLOAD_FORMAT_INDICATOR_ID +
+        generateLengthOfValue(AID.AID_NAPAS) +
+        AID.AID_NAPAS;
     //Tổ chức thụ hưởng
-    //Mã dịch vụ
+    String poim = VietQRId.POINT_OF_INITIATION_METHOD_ID +
+        generateLengthOfValue(poimValue) +
+        poimValue;
+    //Mã dịch vụ - Transfer Service code
+    String tsc = VietQRId.TRANSFER_SERVCICE_CODE +
+        generateLengthOfValue(
+            TransferServiceCode.QUICK_TRANSFER_FROM_QR_TO_BANK_ACCOUNT) +
+        TransferServiceCode.QUICK_TRANSFER_FROM_QR_TO_BANK_ACCOUNT;
+    result = guid + poim + tsc;
     return result;
   }
 }
