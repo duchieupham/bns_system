@@ -43,6 +43,7 @@ dependencies:
   provider: ^6.0.4
   qr_flutter: ^4.0.0
   crclib: ^3.0.0
+  shared_preferences: ^2.0.15
 
 
 dev_dependencies:
@@ -68,7 +69,13 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
+  assets:
+      - assets/images/ic-pop.png
+      - assets/images/ic-light-theme.png
+      - assets/images/ic-dark-theme.png
+      - assets/images/ic-system-theme.png
+      - assets/images/ic-checked.png
+      - assets/images/ic-uncheck.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

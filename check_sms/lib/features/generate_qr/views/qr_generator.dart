@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:check_sms/commons/widgets/sub_header.widget.dart';
 import 'package:check_sms/features/generate_qr/widgets/cal_keyboard_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -20,10 +21,11 @@ class _QRGeneratorScreen extends State<QRGeneratorScreen> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('BNS'),
+        toolbarHeight: 0,
       ),
       body: Column(
         children: [
+          const SubHeader(title: 'Giao diện'),
           TextFormField(
             showCursor: true,
             readOnly: true,

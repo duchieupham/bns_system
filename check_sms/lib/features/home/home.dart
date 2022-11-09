@@ -1,5 +1,6 @@
 import 'package:check_sms/commons/utils/time_utils.dart';
 import 'package:check_sms/features/generate_qr/views/qr_generator.dart';
+import 'package:check_sms/features/home/theme_setting.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sms_listener/flutter_sms_listener.dart' as smslistener;
 import 'package:permission_handler/permission_handler.dart';
@@ -71,10 +72,36 @@ class _HomeScreen extends State<HomeScreen> {
     // print('------value: $value');
     return Scaffold(
       appBar: AppBar(
-        title: const Text('BNS'),
+        toolbarHeight: 0,
       ),
       body: Column(
         children: [
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const ThemeSettingView(),
+                ),
+              );
+            },
+            child: Container(
+              width: width,
+              height: 50,
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: const Text(
+                'Đổi giao diện',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
           InkWell(
             onTap: () {
               Navigator.of(context).push(
