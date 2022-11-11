@@ -1,5 +1,6 @@
 import 'package:check_sms/commons/constants/configurations/theme.dart';
 import 'package:check_sms/features/home/home.dart';
+import 'package:check_sms/services/providers/page_select_provider.dart';
 import 'package:check_sms/services/providers/theme_provider.dart';
 import 'package:check_sms/services/shared_references/theme_helper.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,7 @@ class BNSApp extends StatelessWidget {
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => ThemeProvider()),
+          ChangeNotifierProvider(create: (context) => PageSelectProvider()),
         ],
         child: Consumer<ThemeProvider>(
           builder: (context, themeSelect, child) {

@@ -1,10 +1,12 @@
-import 'package:check_sms/commons/utils/time_utils.dart';
 import 'package:check_sms/features/generate_qr/views/qr_generator.dart';
-import 'package:check_sms/features/home/theme_setting.dart';
+import 'package:check_sms/features/log_sms/sms_list.dart';
+import 'package:check_sms/features/personal/user_setting.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sms_listener/flutter_sms_listener.dart' as smslistener;
-import 'package:permission_handler/permission_handler.dart';
-import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
+import 'package:provider/provider.dart';
+import 'package:check_sms/services/providers/page_select_provider.dart';
+import 'package:check_sms/commons/constants/configurations/theme.dart';
+import 'package:check_sms/commons/utils/time_utils.dart';
+import 'dart:ui';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -14,55 +16,29 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen> {
-  late SmsQuery query;
+  //page controller
+  static final PageController _pageController = PageController(
+    initialPage: 1,
+    keepPage: true,
+  );
 
   @override
   void initState() {
     super.initState();
-    query = SmsQuery();
-    getSMS();
   }
 
-  List<SmsMessage> messages = [];
-  Map<String, List<SmsMessage>> messagesByAddr = {};
-
-  Future<void> getSMS() async {
-    await Permission.sms.request();
-    //
-    smslistener.FlutterSmsListener smsListener =
-        smslistener.FlutterSmsListener();
-
-    Stream<smslistener.SmsMessage> msgStream = smsListener.onSmsReceived!;
-    msgStream.listen((msg) {
-      print('----on msg: ${msg.address} - ${msg.body}');
-      var snackBar = SnackBar(
-        content: Text(
-          msg.body.toString(),
-        ),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    });
-    //
-
-    messages = await query.getAllSms;
-    if (messages.isNotEmpty) {
-      for (int i = 0; i < messages.length; i++) {
-        // print(
-        //     '---message $i: id: ${messages[i].id} - address: ${messages[i].address} - msg: ${messages[i].body} - date sent: ${messages[i].dateSent}');
-        if (messagesByAddr.containsKey(messages[i].address)) {
-          messagesByAddr[messages[i].address]!.add(
-            messages[i],
-          );
-        } else {
-          messagesByAddr[messages[i].address ?? ''] = [];
-          messagesByAddr[messages[i].address]!.add(
-            messages[i],
-          );
-        }
-      }
-    }
-    setState(() {});
-  }
+  //list page
+  static const List<Widget> _homeScreens = [
+    QRGeneratorScreen(
+      key: PageStorageKey('QR_GENERATOR_PAGE'),
+    ),
+    SMSList(
+      key: PageStorageKey('SMS_LIST_PAGE'),
+    ),
+    UserSetting(
+      key: PageStorageKey('USER_SETTING_PAGE'),
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -74,147 +50,187 @@ class _HomeScreen extends State<HomeScreen> {
       appBar: AppBar(
         toolbarHeight: 0,
       ),
-      body: Column(
+      body: Stack(
         children: [
-          InkWell(
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const ThemeSettingView(),
-                ),
-              );
-            },
-            child: Container(
-              width: width,
-              height: 50,
-              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: const Text(
-                'Đổi giao diện',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
+          Padding(
+            padding: const EdgeInsets.only(top: 70),
+            child: PageView(
+              key: const PageStorageKey('PAGE_VIEW'),
+              allowImplicitScrolling: true,
+              physics: const NeverScrollableScrollPhysics(),
+              controller: _pageController,
+              onPageChanged: (index) {
+                Provider.of<PageSelectProvider>(context, listen: false)
+                    .updateIndex(index);
+              },
+              children: _homeScreens,
             ),
           ),
-          InkWell(
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const QRGeneratorScreen(),
+          //header
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: 65,
+            child: ClipRRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: 25,
+                  sigmaY: 25,
                 ),
-              );
-            },
-            child: Container(
-              width: width,
-              height: 50,
-              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: const Text(
-                'Tạo mã thanh toán VietQR',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
+                child: Container(
+                  padding: EdgeInsets.only(left: 10, right: 15),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context)
+                        .scaffoldBackgroundColor
+                        .withOpacity(0.4),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Consumer<PageSelectProvider>(
+                          builder: (context, page, child) {
+                        return Text(
+                          _getTitlePaqe(context, page.indexSelected),
+                          style: TextStyle(
+                            fontFamily: 'NewYork',
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 0.2,
+                          ),
+                        );
+                      }),
+                      Spacer(),
+                    ],
+                  ),
                 ),
-              ),
-            ),
-          ),
-          // Container(
-          //   width: width,
-          //   alignment: Alignment.center,
-          //   height: 300,
-          //   child: QrImage(
-          //     data:
-          //         '00020101021238570010A00000072701270006970403011300110123456780208QRIBFTTA530370454061800005802VN62340107NPS68690819thanh toan don hang63042E2E',
-          //     // data:
-          //     //     "00020101021138540010A00000072701240006970422011011233555890208QRIBFTTA53037045802VN6304866E",
-          //     version: QrVersions.auto,
-          //     size: 300.0,
-          //   ),
-          // ),
-          Expanded(
-            child: Visibility(
-              visible: messagesByAddr.isNotEmpty,
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: messagesByAddr.length,
-                padding: const EdgeInsets.only(left: 10, right: 10),
-                itemBuilder: ((context, index) {
-                  return Container(
-                    width: width,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      color: Colors.grey.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 50,
-                          height: 50,
-                          color: Colors.blue,
-                          margin: const EdgeInsets.only(right: 10),
-                        ),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                messagesByAddr.values
-                                    .elementAt(index)
-                                    .first
-                                    .address
-                                    .toString(),
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                messagesByAddr.values
-                                    .elementAt(index)
-                                    .first
-                                    .body
-                                    .toString(),
-                                style: const TextStyle(color: Colors.grey),
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          width: width * 0.2,
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            TimeUtils.instance.formatHour(messagesByAddr.values
-                                .elementAt(index)
-                                .first
-                                .dateSent
-                                .toString()),
-                            style: const TextStyle(color: Colors.grey),
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                }),
               ),
             ),
           ),
         ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(bottom: 5),
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(25)),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
+            child: Container(
+              alignment: Alignment.center,
+              height: 70,
+              decoration: BoxDecoration(
+                color:
+                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.6),
+                boxShadow: [
+                  BoxShadow(
+                    color: DefaultTheme.GREY_TOP_TAB_BAR.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 3,
+                    offset: Offset(2, 2),
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(25),
+              ),
+              width: MediaQuery.of(context).size.width * 0.75,
+              child: Stack(
+                children: [
+                  Consumer<PageSelectProvider>(
+                    builder: (context, page, child) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          _buildShortcut(
+                            0,
+                            page.indexSelected,
+                            context,
+                          ),
+                          _buildShortcut(
+                            1,
+                            page.indexSelected,
+                            context,
+                          ),
+                          _buildShortcut(
+                            2,
+                            page.indexSelected,
+                            context,
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
+  }
+
+  //build shorcuts in bottom bar
+  _buildShortcut(int index, int indexSelected, BuildContext context) {
+    bool isSelected = (index == indexSelected);
+    return InkWell(
+      onTap: () {
+        _animatedToPage(index);
+      },
+      child: Container(
+        padding: EdgeInsets.all(5),
+        width: 50,
+        height: 50,
+        decoration: BoxDecoration(
+          color:
+              (isSelected) ? Theme.of(context).hoverColor : Colors.transparent,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Image.asset(
+          _getAssetIcon(index, isSelected),
+          width: 35,
+          height: 35,
+        ),
+      ),
+    );
+  }
+
+  //navigate to page
+  void _animatedToPage(int index) {
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeInOutQuart,
+    );
+  }
+
+  //get image assets
+  String _getAssetIcon(int index, bool isSelected) {
+    const String prefix = 'assets/images/';
+    String assetImage = (index == 0 && isSelected)
+        ? 'ic-qr.png'
+        : (index == 0 && !isSelected)
+            ? 'ic-qr-unselect.png'
+            : (index == 1 && isSelected)
+                ? 'ic-dashboard.png'
+                : (index == 1 && !isSelected)
+                    ? 'ic-dashboard-unselect.png'
+                    : (index == 2 && isSelected)
+                        ? 'ic-user.png'
+                        : 'ic-user-unselect.png';
+    return '$prefix$assetImage';
+  }
+
+  //get title page
+  String _getTitlePaqe(BuildContext context, int indexSelected) {
+    String title = '';
+    if (indexSelected == 0) {
+      title = 'Tạo mã QR';
+    }
+    if (indexSelected == 1) {
+      title =
+          '${TimeUtils.instance.getCurrentDateInWeek()}\n${TimeUtils.instance.getCurentDate()}';
+    }
+    if (indexSelected == 2) {
+      title = 'Cá nhân';
+    }
+    return title;
   }
 }

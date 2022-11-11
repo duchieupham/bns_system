@@ -1,6 +1,5 @@
 // ignore_for_file: use_key_in_widget_constructors
 import 'package:check_sms/commons/widgets/cal_button_widget.dart';
-import 'package:check_sms/commons/widgets/sub_header.widget.dart';
 import 'package:flutter/material.dart';
 
 class CalKeyboardWidget extends StatelessWidget {
@@ -17,7 +16,7 @@ class CalKeyboardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double btnCalWidth = width * 0.3;
+    double btnCalWidth = width * 0.25;
     return SizedBox(
       width: width,
       height: height,
@@ -155,8 +154,8 @@ class CalKeyboardWidget extends StatelessWidget {
                     clearText();
                   },
                   child: Container(
-                    width: width * 0.2,
-                    height: width * 0.2,
+                    width: width * 0.15,
+                    height: width * 0.15,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(btnCalWidth),

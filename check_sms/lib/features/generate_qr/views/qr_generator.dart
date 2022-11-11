@@ -1,6 +1,4 @@
 import 'dart:ui';
-
-import 'package:check_sms/commons/widgets/sub_header.widget.dart';
 import 'package:check_sms/features/generate_qr/widgets/cal_keyboard_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -25,7 +23,6 @@ class _QRGeneratorScreen extends State<QRGeneratorScreen> {
       ),
       body: Column(
         children: [
-          const SubHeader(title: 'Giao diện'),
           TextFormField(
             showCursor: true,
             readOnly: true,
@@ -42,7 +39,7 @@ class _QRGeneratorScreen extends State<QRGeneratorScreen> {
               },
               child: Container(
                 width: width,
-                height: 60,
+                height: 50,
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
@@ -63,11 +60,11 @@ class _QRGeneratorScreen extends State<QRGeneratorScreen> {
             ),
           ),
           CalKeyboardWidget(
-            height: height * 0.45,
+            height: height * 0.4,
             width: width,
             txtController: txtController,
           ),
-          const Padding(padding: EdgeInsets.only(bottom: 20)),
+          const Padding(padding: EdgeInsets.only(bottom: 90)),
         ],
       ),
     );
@@ -94,10 +91,11 @@ class _QRGeneratorScreen extends State<QRGeneratorScreen> {
                 height: MediaQuery.of(context).size.height * 0.8,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(33.33),
-                  color: Colors.white,
+                  color: Theme.of(context).hoverColor,
                 ),
                 child: Column(
                   children: [
+                    const Padding(padding: EdgeInsets.only(top: 50)),
                     const Text(
                       'Mã QR thanh toán',
                       style: TextStyle(
@@ -117,6 +115,7 @@ class _QRGeneratorScreen extends State<QRGeneratorScreen> {
                         //     "00020101021138540010A00000072701240006970422011011233555890208QRIBFTTA53037045802VN6304866E",
                         version: QrVersions.auto,
                         size: 200.0,
+                        foregroundColor: Theme.of(context).hintColor,
                       ),
                     ),
                     const Spacer(),
@@ -130,7 +129,7 @@ class _QRGeneratorScreen extends State<QRGeneratorScreen> {
                         margin: const EdgeInsets.only(bottom: 20),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color: Colors.grey,
+                          color: Theme.of(context).buttonColor,
                           borderRadius: BorderRadius.circular(25),
                         ),
                         child: const Text(
