@@ -14,6 +14,7 @@ class DefaultTheme {
   static const Color GREY_VIEW = Color(0xFFEEEFF3);
   static const Color GREY_TEXT = Color(0xFF666A72);
   static const Color GREY_LIGHT = Color(0xFF9BA5B9);
+  static const Color GREY_BG = Color(0xFFF4F4F4);
   static const Color RED_TEXT = Color(0xFFFF0A0A);
   static const Color BLUE_TEXT = Color(0xFF0A7AFF);
   static const Color RED_CALENDAR = Color(0xFFF5233C);
@@ -44,7 +45,7 @@ class DefaultTheme {
   static const Color GREEN_NOTI_1 = Color(0xFFC4FAEE);
   static const Color GREEN_NOTI = Color(0xFF91F2D9);
   static const Color BANNER_DAY1 = Color(0xFF26B0FD);
-  static const Color BANNER_DAY2 = Color(0xFF014C8B);
+  static const Color BLUE_DARK = Color(0xFF014C8B);
   static const Color BANNER_NIGHT1 = Color(0xFF3D2BFF);
   static const Color BANNER_NIGHT2 = Color(0xFF0D0132);
   static const Color DARK_NIGHT = Color(0xFF6361C5);
@@ -119,13 +120,13 @@ class DefaultThemeData {
   ThemeData get lightTheme {
     return ThemeData(
       brightness: Brightness.light,
-      scaffoldBackgroundColor: DefaultTheme.WHITE,
+      scaffoldBackgroundColor: DefaultTheme.GREY_BG,
       buttonColor: DefaultTheme.WHITE,
       primaryColor: DefaultTheme.WHITE,
       hoverColor: DefaultTheme.WHITE,
       cursorColor: DefaultTheme.GREY_TEXT,
       accentColor: DefaultTheme.GREY_TEXT,
-      cardColor: DefaultTheme.GREY_VIEW,
+      cardColor: DefaultTheme.WHITE,
       shadowColor: DefaultTheme.GREY_LIGHT,
       indicatorColor: DefaultTheme.DARK_PINK,
       hintColor: DefaultTheme.BLACK,

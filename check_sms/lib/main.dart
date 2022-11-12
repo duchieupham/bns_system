@@ -1,7 +1,9 @@
 import 'package:check_sms/commons/constants/configurations/theme.dart';
 import 'package:check_sms/features/home/home.dart';
+import 'package:check_sms/services/providers/create_qr_page_select_provider.dart';
 import 'package:check_sms/services/providers/page_select_provider.dart';
 import 'package:check_sms/services/providers/theme_provider.dart';
+import 'package:check_sms/services/shared_references/create_qr_helper.dart';
 import 'package:check_sms/services/shared_references/theme_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,14 +15,18 @@ late SharedPreferences sharedPrefs;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   sharedPrefs = await SharedPreferences.getInstance();
-  _initialServiceHelper();
+  await _initialServiceHelper();
   runApp(const BNSApp());
 }
 
-void _initialServiceHelper() {
+Future<void> _initialServiceHelper() async {
   if (!sharedPrefs.containsKey('THEME_SYSTEM') ||
       sharedPrefs.getString('THEME_SYSTEM') == null) {
-    ThemeHelper.instance.initialTheme();
+    await ThemeHelper.instance.initialTheme();
+  }
+  if (!sharedPrefs.containsKey('TRANSACTION_AMOUNT') ||
+      sharedPrefs.getString('TRANSACTION_AMOUNT') == null) {
+    await CreateQRHelper.instance.initialCreateQRHelper();
   }
 }
 
@@ -38,6 +44,8 @@ class BNSApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(create: (context) => ThemeProvider()),
           ChangeNotifierProvider(create: (context) => PageSelectProvider()),
+          ChangeNotifierProvider(
+              create: (context) => CreateQRPageSelectProvider()),
         ],
         child: Consumer<ThemeProvider>(
           builder: (context, themeSelect, child) {

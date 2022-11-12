@@ -1,3 +1,4 @@
+import 'package:check_sms/commons/constants/configurations/theme.dart';
 import 'package:flutter/material.dart';
 
 class CalButtonWidget extends StatelessWidget {
@@ -23,17 +24,18 @@ class CalButtonWidget extends StatelessWidget {
       onTap: function,
       child: Container(
         width: size,
-        height: size * 2 / 3,
+        height: size * 3 / 4,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(33.33),
+          color: Theme.of(context).buttonColor,
+          borderRadius: BorderRadius.circular(10),
         ),
         child: Text(
           value.toString(),
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: textColor,
+            color: DefaultTheme.GREEN,
+            fontWeight: FontWeight.w500,
             fontSize: size / 5,
           ),
         ),

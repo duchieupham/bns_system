@@ -62,7 +62,7 @@ class _QRGeneratorScreen extends State<QRGeneratorScreen> {
           CalKeyboardWidget(
             height: height * 0.4,
             width: width,
-            txtController: txtController,
+            //     txtController: txtController,
           ),
           const Padding(padding: EdgeInsets.only(bottom: 90)),
         ],

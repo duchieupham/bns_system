@@ -5,13 +5,11 @@ import 'package:flutter/material.dart';
 class CalKeyboardWidget extends StatelessWidget {
   final double width;
   final double height;
-  final TextEditingController txtController;
 
   const CalKeyboardWidget({
     Key? key,
     required this.width,
     required this.height,
-    required this.txtController,
   }) : super(key: key);
 
   @override
@@ -24,7 +22,7 @@ class CalKeyboardWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CalButtonWidget(
@@ -36,6 +34,7 @@ class CalKeyboardWidget extends StatelessWidget {
                 color: Colors.grey,
                 textColor: Colors.black,
               ),
+              const Padding(padding: EdgeInsets.only(left: 10)),
               CalButtonWidget(
                 size: btnCalWidth,
                 value: 2.toString(),
@@ -45,6 +44,7 @@ class CalKeyboardWidget extends StatelessWidget {
                 color: Colors.grey,
                 textColor: Colors.black,
               ),
+              const Padding(padding: EdgeInsets.only(left: 10)),
               CalButtonWidget(
                 size: btnCalWidth,
                 value: 3.toString(),
@@ -58,7 +58,7 @@ class CalKeyboardWidget extends StatelessWidget {
           ),
           const Padding(padding: EdgeInsets.only(bottom: 10)),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CalButtonWidget(
@@ -70,6 +70,7 @@ class CalKeyboardWidget extends StatelessWidget {
                 color: Colors.grey,
                 textColor: Colors.black,
               ),
+              const Padding(padding: EdgeInsets.only(left: 10)),
               CalButtonWidget(
                 size: btnCalWidth,
                 value: 5.toString(),
@@ -79,6 +80,7 @@ class CalKeyboardWidget extends StatelessWidget {
                 color: Colors.grey,
                 textColor: Colors.black,
               ),
+              const Padding(padding: EdgeInsets.only(left: 10)),
               CalButtonWidget(
                 size: btnCalWidth,
                 value: 6.toString(),
@@ -92,7 +94,7 @@ class CalKeyboardWidget extends StatelessWidget {
           ),
           const Padding(padding: EdgeInsets.only(bottom: 10)),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CalButtonWidget(
@@ -104,6 +106,7 @@ class CalKeyboardWidget extends StatelessWidget {
                 color: Colors.grey,
                 textColor: Colors.black,
               ),
+              const Padding(padding: EdgeInsets.only(left: 10)),
               CalButtonWidget(
                 size: btnCalWidth,
                 value: 8.toString(),
@@ -113,6 +116,7 @@ class CalKeyboardWidget extends StatelessWidget {
                 color: Colors.grey,
                 textColor: Colors.black,
               ),
+              const Padding(padding: EdgeInsets.only(left: 10)),
               CalButtonWidget(
                 size: btnCalWidth,
                 value: 9.toString(),
@@ -126,18 +130,19 @@ class CalKeyboardWidget extends StatelessWidget {
           ),
           const Padding(padding: EdgeInsets.only(bottom: 10)),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CalButtonWidget(
                 size: btnCalWidth,
-                value: '00',
+                value: '000',
                 function: () {
-                  setValue('00');
+                  setValue('000');
                 },
                 color: Colors.grey,
                 textColor: Colors.black,
               ),
+              const Padding(padding: EdgeInsets.only(left: 10)),
               CalButtonWidget(
                 size: btnCalWidth,
                 value: 0.toString(),
@@ -147,6 +152,7 @@ class CalKeyboardWidget extends StatelessWidget {
                 color: Colors.grey,
                 textColor: Colors.black,
               ),
+              const Padding(padding: EdgeInsets.only(left: 10)),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: width * 0.05),
                 child: InkWell(
@@ -177,16 +183,17 @@ class CalKeyboardWidget extends StatelessWidget {
   }
 
   void setValue(String value) {
-    if (txtController.text.isEmpty && (value == '0' || value == '00')) {
+    /* if (txtController.text.isEmpty && (value == '0' || value == '00')) {
     } else {
       txtController.text = txtController.text + value;
-    }
+    }*/
   }
 
   void clearText() {
-    if (txtController.text.isNotEmpty) {
+    /* if (txtController.text.isNotEmpty) {
       txtController.text =
           txtController.text.substring(0, txtController.text.length - 1);
     }
+*/
   }
 }

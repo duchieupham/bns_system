@@ -15,6 +15,48 @@ class VietQRUtils {
   static const VietQRUtils _instance = VietQRUtils._privateConsrtructor();
   static VietQRUtils get instance => _instance;
 
+//Tạo QR không bao gồm giá tiền
+  String generateVietQRWithoutTransactionAmount(VietQRGenerateDTO dto) {
+    String result = '';
+    //Một đối tượng dữ liệu bao gồm: ID + Chiều dài + giá trị
+    //Payload Format Indicator
+    String pfi = VietQRId.PAYLOAD_FORMAT_INDICATOR_ID +
+        generateLengthOfValue(VietQRValue.PAYLOAD_FORMAT_INDICATOR_VALUE) +
+        VietQRValue.PAYLOAD_FORMAT_INDICATOR_VALUE;
+    //Point of Initiation Method
+    String poim = VietQRId.POINT_OF_INITIATION_METHOD_ID +
+        generateLengthOfValue(VietQRValue.POINT_OF_INITIATION_METHOD_VALUE) +
+        VietQRValue.POINT_OF_INITIATION_METHOD_VALUE_STATIC;
+    //Consumer Account Information
+    String cai = VietQRId.MERCHANT_ACCOUNT_INFORMATION_ID +
+        generateLengthOfValue(dto.cAIValue) +
+        dto.cAIValue;
+    //Transaction Currency
+    String tc = VietQRId.TRANSACTION_CURRENCY_ID +
+        generateLengthOfValue(VietQRValue.TRANSACTION_CURRENCY_VALUE) +
+        VietQRValue.TRANSACTION_CURRENCY_VALUE;
+    //Country Code
+    String cc = VietQRId.COUNTRY_CODE_ID +
+        generateLengthOfValue(VietQRValue.COUNTRY_CODE_VALUE) +
+        VietQRValue.COUNTRY_CODE_VALUE;
+    //Additional Data Field Template
+    String adft = VietQRId.ADDITIONAL_DATA_FIELD_TEMPLATE_ID +
+        generateLengthOfValue(dto.additionalDataFieldTemplateValue) +
+        dto.additionalDataFieldTemplateValue;
+    //CRC ID + CRC Length + CRC value (Cyclic Redundancy Check)
+    String crcValue = generateCRC(pfi +
+        poim +
+        cai +
+        tc +
+        cc +
+        adft +
+        VietQRId.CRC_ID +
+        VietQRValue.CRC_LENGTH);
+    String crc = VietQRId.CRC_ID + VietQRValue.CRC_LENGTH + crcValue;
+    result = pfi + poim + cai + tc + cc + adft + crc;
+    return result;
+  }
+
 //Tạo QR động đến tài khoản
   String generateVietQR(VietQRGenerateDTO dto) {
     String result = '';

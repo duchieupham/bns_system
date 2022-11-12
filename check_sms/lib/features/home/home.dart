@@ -1,4 +1,5 @@
 import 'package:check_sms/features/generate_qr/views/qr_generator.dart';
+import 'package:check_sms/features/generate_qr/views/qr_information_view.dart';
 import 'package:check_sms/features/log_sms/sms_list.dart';
 import 'package:check_sms/features/personal/user_setting.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ class _HomeScreen extends State<HomeScreen> {
 
   //list page
   static const List<Widget> _homeScreens = [
-    QRGeneratorScreen(
+    QRInformationView(
       key: PageStorageKey('QR_GENERATOR_PAGE'),
     ),
     SMSList(
@@ -77,7 +78,7 @@ class _HomeScreen extends State<HomeScreen> {
                   sigmaY: 25,
                 ),
                 child: Container(
-                  padding: EdgeInsets.only(left: 10, right: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                     color: Theme.of(context)
                         .scaffoldBackgroundColor
@@ -88,15 +89,17 @@ class _HomeScreen extends State<HomeScreen> {
                     children: [
                       Consumer<PageSelectProvider>(
                           builder: (context, page, child) {
-                        return Text(
+                        return
+                            /*  Text(
                           _getTitlePaqe(context, page.indexSelected),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontFamily: 'NewYork',
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 0.2,
                           ),
-                        );
+                        );*/
+                            _getTitlePaqe(context, page.indexSelected);
                       }),
                       Spacer(),
                     ],
@@ -130,13 +133,13 @@ class _HomeScreen extends State<HomeScreen> {
                 ],
                 borderRadius: BorderRadius.circular(25),
               ),
-              width: MediaQuery.of(context).size.width * 0.75,
+              width: MediaQuery.of(context).size.width * 0.6,
               child: Stack(
                 children: [
                   Consumer<PageSelectProvider>(
                     builder: (context, page, child) {
                       return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           _buildShortcut(
@@ -219,18 +222,59 @@ class _HomeScreen extends State<HomeScreen> {
   }
 
   //get title page
-  String _getTitlePaqe(BuildContext context, int indexSelected) {
-    String title = '';
+  Widget _getTitlePaqe(BuildContext context, int indexSelected) {
+    Widget titleWidget = const SizedBox();
     if (indexSelected == 0) {
-      title = 'Tạo mã QR';
+      titleWidget = const Text(
+        'Mã QR',
+        style: TextStyle(
+          fontFamily: 'NewYork',
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.2,
+        ),
+      );
     }
     if (indexSelected == 1) {
-      title =
-          '${TimeUtils.instance.getCurrentDateInWeek()}\n${TimeUtils.instance.getCurentDate()}';
+      /* title =
+          '${TimeUtils.instance.getCurrentDateInWeek()}\n${TimeUtils.instance.getCurentDate()}';*/
+      titleWidget = RichText(
+        textAlign: TextAlign.left,
+        text: TextSpan(
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: Theme.of(context).hintColor,
+            letterSpacing: 0.2,
+          ),
+          children: [
+            const TextSpan(
+              text: 'Trang chủ\n',
+            ),
+            TextSpan(
+              text:
+                  '${TimeUtils.instance.getCurrentDateInWeek()}, ${TimeUtils.instance.getCurentDate()}',
+              style: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.normal,
+                color: DefaultTheme.GREY_TEXT,
+              ),
+            ),
+          ],
+        ),
+      );
     }
     if (indexSelected == 2) {
-      title = 'Cá nhân';
+      titleWidget = const Text(
+        'Cá nhân',
+        style: TextStyle(
+          fontFamily: 'NewYork',
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.2,
+        ),
+      );
     }
-    return title;
+    return titleWidget;
   }
 }

@@ -7,16 +7,12 @@ class ThemeHelper {
   static const ThemeHelper _instance = ThemeHelper._privateConsrtructor();
   static ThemeHelper get instance => _instance;
   //
-  void initialTheme() {
-    sharedPrefs.setString('THEME_SYSTEM', DefaultTheme.THEME_SYSTEM);
+  Future<void> initialTheme() async {
+    await sharedPrefs.setString('THEME_SYSTEM', DefaultTheme.THEME_SYSTEM);
   }
 
-  void updateTheme(String theme) {
-    if (!sharedPrefs.containsKey('THEME_SYSTEM') ||
-        sharedPrefs.getString('THEME_SYSTEM') == null) {
-      initialTheme();
-    }
-    sharedPrefs.setString('THEME_SYSTEM', theme);
+  Future<void> updateTheme(String theme) async {
+    await sharedPrefs.setString('THEME_SYSTEM', theme);
   }
 
   String getTheme() {

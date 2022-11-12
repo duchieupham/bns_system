@@ -1,4 +1,8 @@
+import 'package:check_sms/commons/constants/configurations/theme.dart';
+import 'package:check_sms/commons/widgets/button_text_widget.dart';
+import 'package:check_sms/features/home/theme_setting.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class UserSetting extends StatefulWidget {
   const UserSetting({Key? key}) : super(key: key);
@@ -10,6 +14,82 @@ class UserSetting extends StatefulWidget {
 class _UserSetting extends State<UserSetting> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    double width = MediaQuery.of(context).size.width;
+    Alignment buttonTextAlignment = Alignment.centerLeft;
+    return Column(
+      children: [
+        SizedBox(
+          width: 150,
+          height: 150,
+          child: Image.asset('assets/images/ic-avatar.png'),
+        ),
+        const Padding(
+          padding: EdgeInsets.only(
+            bottom: 30,
+          ),
+          child: Text(
+            'Phạm Đức Tuấn',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        Container(
+          width: width - 20,
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            children: [
+              ButtonTextWidget(
+                width: width,
+                alignment: buttonTextAlignment,
+                text: 'Chỉnh sửa thông tin cá nhân',
+                textColor: DefaultTheme.BLUE_TEXT,
+                function: () {},
+              ),
+              const Divider(
+                color: DefaultTheme.GREY_LIGHT,
+                height: 1,
+              ),
+              ButtonTextWidget(
+                width: width,
+                alignment: buttonTextAlignment,
+                text: 'Kết nối với Telegram',
+                textColor: DefaultTheme.BLUE_TEXT,
+                function: () {},
+              ),
+              const Divider(
+                color: DefaultTheme.GREY_LIGHT,
+                height: 1,
+              ),
+              ButtonTextWidget(
+                width: width,
+                alignment: buttonTextAlignment,
+                text: 'Thay đổi giao diện',
+                textColor: DefaultTheme.BLUE_TEXT,
+                function: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const ThemeSettingView()));
+                },
+              ),
+              const Divider(
+                color: DefaultTheme.GREY_LIGHT,
+                height: 1,
+              ),
+              ButtonTextWidget(
+                width: width,
+                alignment: buttonTextAlignment,
+                text: 'Đăng xuất',
+                textColor: DefaultTheme.RED_TEXT,
+                function: () {},
+              ),
+            ],
+          ),
+        )
+      ],
+    );
   }
 }
