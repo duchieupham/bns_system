@@ -1,6 +1,6 @@
 import 'package:check_sms/commons/constants/configurations/theme.dart';
 import 'package:check_sms/commons/widgets/checkbox_widget.dart';
-import 'package:check_sms/commons/widgets/sub_header.widget.dart';
+import 'package:check_sms/commons/widgets/sub_header_widget.dart';
 import 'package:check_sms/services/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +33,7 @@ class ThemeSettingView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SubHeader(title: 'Giao diện'),
+          SubHeader(title: 'Giao diện'),
           Expanded(
             child: ListView(
               children: [

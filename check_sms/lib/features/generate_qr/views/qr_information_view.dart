@@ -1,5 +1,6 @@
 import 'package:check_sms/commons/constants/configurations/theme.dart';
 import 'package:check_sms/commons/widgets/button_widget.dart';
+import 'package:check_sms/commons/widgets/dialog_widget.dart';
 import 'package:check_sms/commons/widgets/qr_information_widget.dart';
 import 'package:check_sms/features/generate_qr/views/create_qr.dart';
 import 'package:flutter/material.dart';

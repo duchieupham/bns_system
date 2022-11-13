@@ -1,6 +1,8 @@
 import 'package:check_sms/commons/constants/configurations/theme.dart';
 import 'package:check_sms/features/generate_qr/widgets/cal_keyboard_widget.dart';
+import 'package:check_sms/services/providers/create_qr_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class InputTAWidget extends StatefulWidget {
   const InputTAWidget({Key? key}) : super(key: key);
@@ -23,13 +25,17 @@ class _InputTAWidget extends State<InputTAWidget> {
             Container(
               width: width * 0.6 - 15,
               alignment: Alignment.centerRight,
-              child: Text(
-                '0',
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                    color: DefaultTheme.GREEN,
-                    fontSize: 30,
-                    fontWeight: FontWeight.w500),
+              child: Consumer<CreateQRProvider>(
+                builder: (context, value, child) {
+                  return Text(
+                    value.currencyFormatted,
+                    textAlign: TextAlign.right,
+                    style: const TextStyle(
+                        color: DefaultTheme.GREEN,
+                        fontSize: 30,
+                        fontWeight: FontWeight.w500),
+                  );
+                },
               ),
             ),
             const Padding(padding: EdgeInsets.only(left: 10)),
@@ -48,7 +54,7 @@ class _InputTAWidget extends State<InputTAWidget> {
           ],
         ),
         const Spacer(),
-        Text('Nhập số tiền cần thanh toán'),
+        const Text('Nhập số tiền cần thanh toán'),
         CalKeyboardWidget(width: width, height: height * 0.45),
       ],
     );

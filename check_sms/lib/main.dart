@@ -1,6 +1,7 @@
 import 'package:check_sms/commons/constants/configurations/theme.dart';
 import 'package:check_sms/features/home/home.dart';
 import 'package:check_sms/services/providers/create_qr_page_select_provider.dart';
+import 'package:check_sms/services/providers/create_qr_provider.dart';
 import 'package:check_sms/services/providers/page_select_provider.dart';
 import 'package:check_sms/services/providers/theme_provider.dart';
 import 'package:check_sms/services/shared_references/create_qr_helper.dart';
@@ -46,6 +47,7 @@ class BNSApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => PageSelectProvider()),
           ChangeNotifierProvider(
               create: (context) => CreateQRPageSelectProvider()),
+          ChangeNotifierProvider(create: (context) => CreateQRProvider()),
         ],
         child: Consumer<ThemeProvider>(
           builder: (context, themeSelect, child) {

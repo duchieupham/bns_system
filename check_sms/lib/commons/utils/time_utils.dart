@@ -10,9 +10,43 @@ class TimeUtils {
   String formatHour(String date) {
     String formattedTime = '';
     DateFormat format = DateFormat('HH:mm');
+    DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+    String dateNow = DateTime.now().toString();
     bool isValidDate = DateTime.tryParse(date.toString()) != null;
-    if (date != '' && isValidDate) {
-      formattedTime = format.format(DateTime.parse(date.toString()));
+
+    if (dateFormat.format(DateTime.parse(dateNow)).toString() ==
+        dateFormat.format(DateTime.parse(date)).toString()) {
+      if (date != '' && isValidDate) {
+        formattedTime = format.format(DateTime.parse(date.toString()));
+      }
+    } else {
+      if (date != '' && isValidDate) {
+        formattedTime = dateFormat.format(DateTime.parse(date)).toString();
+      }
+    }
+    return formattedTime;
+  }
+
+  //format hour to display message detail.
+  String formatHour2(String date) {
+    String formattedTime = '';
+    DateFormat format = DateFormat('HH:mm');
+    DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+    String dateNow = DateTime.now().toString();
+    bool isValidDate = DateTime.tryParse(date.toString()) != null;
+
+    if (dateFormat.format(DateTime.parse(dateNow)).toString() ==
+        dateFormat.format(DateTime.parse(date)).toString()) {
+      if (date != '' && isValidDate) {
+        formattedTime =
+            format.format(DateTime.parse(date.toString())) + ' Hôm nay';
+      }
+    } else {
+      if (date != '' && isValidDate) {
+        formattedTime = format.format(DateTime.parse(date.toString())) +
+            ' ' +
+            dateFormat.format(DateTime.parse(date)).toString();
+      }
     }
     return formattedTime;
   }

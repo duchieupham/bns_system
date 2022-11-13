@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class SubHeader extends StatelessWidget {
   final String title;
+  VoidCallback? function;
 
-  const SubHeader({Key? key, required this.title}) : super(key: key);
+  SubHeader({Key? key, required this.title, this.function}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,9 +19,11 @@ class SubHeader extends StatelessWidget {
           Container(
             //  color: Colors.red,
             child: InkWell(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
+              onTap: (function == null)
+                  ? () {
+                      Navigator.of(context).pop();
+                    }
+                  : function,
               child: Image.asset(
                 'assets/images/ic-pop.png',
                 fit: BoxFit.contain,
@@ -32,7 +35,7 @@ class SubHeader extends StatelessWidget {
           Spacer(),
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w500,
             ),
