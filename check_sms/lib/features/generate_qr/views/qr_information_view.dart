@@ -38,7 +38,13 @@ class QRInformationView extends StatelessWidget {
             text: 'Chia sẻ mã QR của bạn',
             textColor: DefaultTheme.WHITE,
             bgColor: DefaultTheme.GREEN,
-            function: () {},
+            function: () {
+              DialogWidget.instance.openTransactionFormattedDialog(
+                context,
+                'Viettin Bank',
+                'VietinBank:21/01/2022 09:20|TK:115000067275|GD:-1,817,432VND|SDC:160,063,611VND|ND:CT DEN:000522831193 CN CTY TNHH MTV VIEN THONG Q.TE FPT TT HD SO 0000111 ~',
+              );
+            },
           ),
           const Padding(
             padding: EdgeInsets.only(top: 10),
