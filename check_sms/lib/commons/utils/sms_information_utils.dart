@@ -22,9 +22,6 @@ class SmsInformationUtils {
     //Viettin Bank
     if (bankName == BANKNAME.VIETTINBANK.toString()) {
       List<String> data = body.split('|');
-      print('data: $data');
-      //having 5 components
-
       String time =
           '${data[0].trim().split(':')[1]}:${data[0].trim().split(':')[2]}';
       String bankAccount = data[1].trim().split(':')[1];
@@ -62,7 +59,6 @@ class SmsInformationUtils {
     }
     //Agribank
     //Techcombank
-    print('Bank name: $bankName');
     if (bankName == BANKNAME.TECHCOMBANK.toString()) {
       String time = date!;
       String bankAccount = body.split('TK ')[1].split('So tien')[0].trim();
@@ -88,7 +84,57 @@ class SmsInformationUtils {
       );
     }
     //SCB
+    if (bankName == BANKNAME.SCB.toString()) {
+      String time = body.split('NGAY ')[1].split('SD DAU')[0].trim();
+      String bankAccount = body.split('TK ')[1].split(' NGAY')[0].trim();
+      String transaction = '';
+      if (body.split(' VND')[0].contains('GIAM')) {
+        transaction =
+            '-${body.split('GIAM ')[1].split(' SD CUOI')[0].trim()} VND';
+      } else {
+        String prefix = '';
+        if (body.split(' VND')[0].contains('TANG')) {
+          prefix = 'TANG';
+        } else if (body.split(' VND')[0].contains('CONG')) {
+          prefix = 'CONG';
+        } else if (body.split(' VND')[0].contains('NHAN')) {
+          prefix = 'NHAN';
+        }
+        transaction =
+            '+${body.split('$prefix ')[1].split(' SD CUOI')[0].trim()} VND';
+      }
+      String accountBalance =
+          '${body.split('SD CUOI ')[1].split(' VND')[0].trim()} VND';
+      String content = body.split('(')[1].split(')')[0].trim();
+      result = BankInformationDTO(
+        address: bankName.replaceAll('BANKNAME.', ''),
+        time: time,
+        transaction: transaction,
+        accountBalance: accountBalance,
+        content: content,
+        bankAccount: bankAccount,
+      );
+    }
     //Vietcombank
+    if (bankName == BANKNAME.VIETCOMBANK.toString()) {
+      print('${body.split('lúc ')[1].split('.')[0].trim()}');
+      String time = body.split('lúc ')[1].split('.')[0].trim();
+      String bankAccount =
+          body.split('TK VCB ')[1].split(' VND')[0].split(' ')[0];
+      String transaction =
+          body.split('TK VCB ')[1].split(' VND')[0].split(' ')[1] + ' VND';
+      String accountBalance =
+          body.split('Số dư ')[1].split(' VND.')[0].trim() + ' VND';
+      String content = body.split(' VND.')[1].trim();
+      result = BankInformationDTO(
+        address: bankName.replaceAll('BANKNAME.', ''),
+        time: time,
+        transaction: transaction,
+        accountBalance: accountBalance,
+        content: content,
+        bankAccount: bankAccount,
+      );
+    }
     return result;
   }
 }

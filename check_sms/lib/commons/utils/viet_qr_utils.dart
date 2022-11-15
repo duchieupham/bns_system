@@ -97,17 +97,31 @@ class VietQRUtils {
           ' ';
     }
     //CRC ID + CRC Length + CRC value (Cyclic Redundancy Check)
-    String crcValue = generateCRC(pfi +
-        poim +
-        cai +
-        tc +
-        ta +
-        cc +
-        adft +
-        VietQRId.CRC_ID +
-        VietQRValue.CRC_LENGTH);
-    String crc = VietQRId.CRC_ID + VietQRValue.CRC_LENGTH + crcValue;
-    result = pfi + poim + cai + tc + ta + cc + adft + crc;
+    String crcValue = '';
+    if (dto.additionalDataFieldTemplateValue.isEmpty) {
+      crcValue = generateCRC(pfi +
+          poim +
+          cai +
+          tc +
+          ta +
+          cc +
+          VietQRId.CRC_ID +
+          VietQRValue.CRC_LENGTH);
+      String crc = VietQRId.CRC_ID + VietQRValue.CRC_LENGTH + crcValue;
+      result = pfi + poim + cai + tc + ta + cc + crc;
+    } else {
+      crcValue = generateCRC(pfi +
+          poim +
+          cai +
+          tc +
+          ta +
+          cc +
+          adft +
+          VietQRId.CRC_ID +
+          VietQRValue.CRC_LENGTH);
+      String crc = VietQRId.CRC_ID + VietQRValue.CRC_LENGTH + crcValue;
+      result = pfi + poim + cai + tc + ta + cc + adft + crc;
+    }
     return result;
   }
 

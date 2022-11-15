@@ -13,6 +13,7 @@ class AvatarTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('text: $text');
     return Container(
       width: size,
       height: size,
