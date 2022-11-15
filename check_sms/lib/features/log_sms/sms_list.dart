@@ -49,6 +49,7 @@ class _SMSList extends State<SMSList> {
           context,
           msg.address.toString(),
           msg.body.toString(),
+          TimeUtils.instance.formatTime(msg.date.toString()),
         );
         MessageDTO dto = MessageDTO(
             id: msg.id ?? 0,
@@ -105,6 +106,11 @@ class _SMSList extends State<SMSList> {
                     .first
                     .body
                     .toString();
+                String date = messagesByAddr.values
+                    .elementAt(index)
+                    .first
+                    .date
+                    .toString();
                 BankInformationDTO dto = const BankInformationDTO(
                     address: '',
                     time: '',
@@ -118,6 +124,7 @@ class _SMSList extends State<SMSList> {
                   dto = SmsInformationUtils.instance.transferSmsData(
                     BankInformationUtil.instance.getBankName(address),
                     body,
+                    TimeUtils.instance.formatTime(date),
                   );
                 }
                 return InkWell(

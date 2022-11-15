@@ -9,3 +9,14 @@ class DefaultBankInformation {
   static const String DEFAULT_BANK_ACCOUNT = '1000006789';
   static const String DEFAULT_BANK_NAME = 'Ngân hàng TMCP Sài Gòn - Hà Nội';
 }
+
+
+//??????? 970403/970436 la cai gi
+//sub tab 00
+//do dai 06, toi da 19 
+//970443
+//00-06-970443
+
+///
+//so tai khoan 
+//01-10-1000006789

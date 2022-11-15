@@ -132,11 +132,12 @@ class DialogWidget {
   }
 
   openTransactionFormattedDialog(
-      BuildContext context, String address, String body) {
+      BuildContext context, String address, String body, String? date) {
     final ScrollController _scrollContoller = ScrollController();
     final BankInformationDTO dto = SmsInformationUtils.instance.transferSmsData(
       BankInformationUtil.instance.getBankName(address),
       body,
+      date,
     );
     Color transactionColor =
         (BankInformationUtil.instance.isIncome(dto.transaction))

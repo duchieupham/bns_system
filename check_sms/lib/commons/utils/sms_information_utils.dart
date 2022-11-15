@@ -9,7 +9,8 @@ class SmsInformationUtils {
   static SmsInformationUtils get instance => _instance;
 
   //transfer sms data to information
-  BankInformationDTO transferSmsData(String bankName, String body) {
+  BankInformationDTO transferSmsData(
+      String bankName, String body, String? date) {
     print('bank name: $bankName');
     BankInformationDTO result = const BankInformationDTO(
         address: '',
@@ -59,6 +60,35 @@ class SmsInformationUtils {
         bankAccount: bankAccount,
       );
     }
+    //Agribank
+    //Techcombank
+    print('Bank name: $bankName');
+    if (bankName == BANKNAME.TECHCOMBANK.toString()) {
+      String time = date!;
+      String bankAccount = body.split('TK ')[1].split('So tien')[0].trim();
+      String transaction =
+          '${body.split('GD:')[1].split('So du')[0].trim()} VND';
+      String accountBalance =
+          '${body.split('So du:')[1].split(' ')[0].trim()} VND';
+      List<String> contents = body.split('So du:')[1].split(' ');
+      String content = '';
+      for (int i = 0; i < contents.length; i++) {
+        if (i != 0) {
+          content += '${contents[i]} ';
+        }
+      }
+      content.trim();
+      result = BankInformationDTO(
+        address: bankName.replaceAll('BANKNAME.', ''),
+        time: time,
+        transaction: transaction,
+        accountBalance: accountBalance,
+        content: content,
+        bankAccount: bankAccount,
+      );
+    }
+    //SCB
+    //Vietcombank
     return result;
   }
 }

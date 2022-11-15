@@ -19,6 +19,9 @@ class BankInformationUtil {
     if (bankName == '0909999999') {
       bankName = 'SHB';
     }
+    if (bankName == '0909090909') {
+      bankName = 'Techcombank';
+    }
     //
     bankName = 'BANKNAME.${bankName.trim().replaceAll(' ', '').toUpperCase()}';
     if (BANKNAME.values.toString().contains(bankName)) {
@@ -40,6 +43,9 @@ class BankInformationUtil {
     if (bankName == '0909999999') {
       bankName = 'SHB';
     }
+    if (bankName == '0909090909') {
+      bankName = 'Techcombank';
+    }
     //
     bankName = 'BANKNAME.${bankName.trim().replaceAll(' ', '').toUpperCase()}';
     if (AVAILABLE_FORMAT_BANKNAME.values.toString().contains(bankName)) {
@@ -58,6 +64,9 @@ class BankInformationUtil {
     }
     if (address == '0909999999') {
       address = 'SHB';
+    }
+    if (address == '0909090909') {
+      address = 'TechcomBank';
     }
     String result =
         'BANKNAME.${address.trim().replaceAll(' ', '').toUpperCase()}';

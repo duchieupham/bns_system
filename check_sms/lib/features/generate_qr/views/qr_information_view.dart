@@ -1,4 +1,5 @@
 import 'package:check_sms/commons/constants/configurations/theme.dart';
+import 'package:check_sms/commons/utils/time_utils.dart';
 import 'package:check_sms/commons/widgets/button_widget.dart';
 import 'package:check_sms/commons/widgets/dialog_widget.dart';
 import 'package:check_sms/commons/widgets/qr_information_widget.dart';
@@ -43,6 +44,7 @@ class QRInformationView extends StatelessWidget {
                 context,
                 'Viettin Bank',
                 'VietinBank:21/01/2022 09:20|TK:115000067275|GD:-1,817,432VND|SDC:160,063,611VND|ND:CT DEN:000522831193 CN CTY TNHH MTV VIEN THONG Q.TE FPT TT HD SO 0000111 ~',
+                TimeUtils.instance.formatTime('15/11/2022 13:58'),
               );
             },
           ),

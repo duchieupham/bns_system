@@ -50,10 +50,13 @@ class _SmsDetailScreen extends State<SmsDetailScreen> {
                       bankAccount: '');
                   String address = widget.messages[index].address;
                   String body = widget.messages[index].body;
+                  String date = widget.messages[index].date;
                   if (widget.isFormatData) {
                     dto = SmsInformationUtils.instance.transferSmsData(
-                        BankInformationUtil.instance.getBankName(address),
-                        body);
+                      BankInformationUtil.instance.getBankName(address),
+                      body,
+                      TimeUtils.instance.formatTime(date),
+                    );
                   }
                   return (widget.isFormatData)
                       ? SmsDetailItem(bankInforDTO: dto)
