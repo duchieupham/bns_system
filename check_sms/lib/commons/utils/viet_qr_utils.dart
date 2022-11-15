@@ -40,20 +40,20 @@ class VietQRUtils {
         generateLengthOfValue(VietQRValue.COUNTRY_CODE_VALUE) +
         VietQRValue.COUNTRY_CODE_VALUE;
     //Additional Data Field Template
-    String adft = VietQRId.ADDITIONAL_DATA_FIELD_TEMPLATE_ID +
-        generateLengthOfValue(dto.additionalDataFieldTemplateValue) +
-        dto.additionalDataFieldTemplateValue;
+    // String adft = VietQRId.ADDITIONAL_DATA_FIELD_TEMPLATE_ID +
+    //   generateLengthOfValue(dto.additionalDataFieldTemplateValue) +
+    // dto.additionalDataFieldTemplateValue;
     //CRC ID + CRC Length + CRC value (Cyclic Redundancy Check)
     String crcValue = generateCRC(pfi +
         poim +
         cai +
         tc +
         cc +
-        adft +
+        //  adft +
         VietQRId.CRC_ID +
         VietQRValue.CRC_LENGTH);
     String crc = VietQRId.CRC_ID + VietQRValue.CRC_LENGTH + crcValue;
-    result = pfi + poim + cai + tc + cc + adft + crc;
+    result = pfi + poim + cai + tc + cc /*+ adft*/ + crc;
     return result;
   }
 
@@ -86,9 +86,16 @@ class VietQRUtils {
         generateLengthOfValue(VietQRValue.COUNTRY_CODE_VALUE) +
         VietQRValue.COUNTRY_CODE_VALUE;
     //Additional Data Field Template
-    String adft = VietQRId.ADDITIONAL_DATA_FIELD_TEMPLATE_ID +
-        generateLengthOfValue(dto.additionalDataFieldTemplateValue) +
-        dto.additionalDataFieldTemplateValue;
+    String adft = '';
+    if (dto.additionalDataFieldTemplateValue.isNotEmpty) {
+      adft = VietQRId.ADDITIONAL_DATA_FIELD_TEMPLATE_ID +
+          generateLengthOfValue(dto.additionalDataFieldTemplateValue) +
+          dto.additionalDataFieldTemplateValue;
+    } else {
+      adft = VietQRId.ADDITIONAL_DATA_FIELD_TEMPLATE_ID +
+          generateLengthOfValue(' ') +
+          ' ';
+    }
     //CRC ID + CRC Length + CRC value (Cyclic Redundancy Check)
     String crcValue = generateCRC(pfi +
         poim +

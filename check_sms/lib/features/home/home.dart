@@ -1,4 +1,3 @@
-import 'package:check_sms/features/generate_qr/views/qr_generator.dart';
 import 'package:check_sms/features/generate_qr/views/qr_information_view.dart';
 import 'package:check_sms/features/log_sms/sms_list.dart';
 import 'package:check_sms/features/personal/user_setting.dart';
@@ -19,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreen extends State<HomeScreen> {
   //page controller
   static final PageController _pageController = PageController(
-    initialPage: 1,
+    initialPage: 0,
     keepPage: true,
   );
 

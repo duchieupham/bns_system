@@ -1,4 +1,10 @@
 import 'package:check_sms/commons/constants/configurations/theme.dart';
+import 'package:check_sms/commons/constants/vietqr/additional_data.dart';
+import 'package:check_sms/commons/constants/vietqr/default_bank_information.dart';
+import 'package:check_sms/commons/constants/vietqr/qr_guid.dart';
+import 'package:check_sms/commons/constants/vietqr/transfer_service_code.dart';
+import 'package:check_sms/commons/constants/vietqr/viet_qr_id.dart';
+import 'package:check_sms/commons/utils/bank_information_utils.dart';
 import 'package:check_sms/commons/utils/viet_qr_utils.dart';
 import 'package:check_sms/models/viet_qr_generate_dto.dart';
 import 'package:flutter/material.dart';
@@ -13,14 +19,27 @@ class QRInformationWidget extends StatelessWidget {
     required this.width,
   }) : super(key: key);
 
-  final VietQRGenerateDTO vietQRGenerateDTO = const VietQRGenerateDTO(
-    cAIValue: '0010A00000072701240006970436011090000067890208QRIBFTTA',
-    transactionAmountValue: '0',
-    additionalDataFieldTemplateValue: '0806Vietqr',
-  );
-
   @override
   Widget build(BuildContext context) {
+    String contentQR = 'VietQR';
+    String additionalDataFieldTemplateValue =
+        AdditionalData.PURPOSE_OF_TRANSACTION_ID +
+            VietQRUtils.instance.generateLengthOfValue(contentQR) +
+            contentQR;
+    String cAIValue = QRGuid.GUID +
+        VietQRId.POINT_OF_INITIATION_METHOD_ID +
+        VietQRUtils.instance
+            .generateLengthOfValue(DefaultBankInformation.DEFAULT_CAI) +
+        DefaultBankInformation.DEFAULT_CAI +
+        VietQRId.TRANSFER_SERVCICE_CODE +
+        VietQRUtils.instance.generateLengthOfValue(
+            TransferServiceCode.QUICK_TRANSFER_FROM_QR_TO_BANK_ACCOUNT) +
+        TransferServiceCode.QUICK_TRANSFER_FROM_QR_TO_BANK_ACCOUNT;
+    VietQRGenerateDTO vietQRGenerateDTO = VietQRGenerateDTO(
+      cAIValue: cAIValue,
+      transactionAmountValue: '0',
+      additionalDataFieldTemplateValue: '',
+    );
     String vietQRCode = VietQRUtils.instance
         .generateVietQRWithoutTransactionAmount(vietQRGenerateDTO);
     //print('viet QR code: $vietQRCode');
@@ -87,16 +106,16 @@ class QRInformationWidget extends StatelessWidget {
             ),
             //Tên chủ tài khoản
             Text(
-              'Tên chủ TK: Pham Duc Tuan'.toUpperCase(),
+              'Tên chủ TK: ${DefaultBankInformation.FULL_NAME}'.toUpperCase(),
               style: const TextStyle(
                 color: DefaultTheme.BLUE_DARK,
                 fontSize: 12,
               ),
             ),
             //Số tài khoản
-            const Text(
-              'Số TK: 900****789',
-              style: TextStyle(
+            Text(
+              'Số TK: ${BankInformationUtil.instance.hideBankAccount(DefaultBankInformation.DEFAULT_BANK_ACCOUNT)}',
+              style: const TextStyle(
                 fontWeight: FontWeight.w500,
                 color: DefaultTheme.BLUE_DARK,
                 fontSize: 12,
@@ -104,7 +123,7 @@ class QRInformationWidget extends StatelessWidget {
             ),
             //Tên ngân hàng
             const Text(
-              'Ngân hàng TMCP Kỹ thương Việt Nam',
+              DefaultBankInformation.DEFAULT_BANK_NAME,
               style: TextStyle(
                 color: DefaultTheme.BLUE_DARK,
                 fontSize: 12,

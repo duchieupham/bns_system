@@ -1,4 +1,6 @@
 import 'package:check_sms/commons/constants/configurations/theme.dart';
+import 'package:check_sms/commons/constants/vietqr/default_bank_information.dart';
+import 'package:check_sms/commons/utils/bank_information_utils.dart';
 import 'package:check_sms/commons/utils/viet_qr_utils.dart';
 import 'package:check_sms/models/viet_qr_generate_dto.dart';
 import 'package:flutter/material.dart';
@@ -61,16 +63,16 @@ class QRGeneratedWidget extends StatelessWidget {
             ),
             //Tên chủ tài khoản
             Text(
-              'Tên chủ TK: Pham Duc Tuan'.toUpperCase(),
+              'Tên chủ TK: ${DefaultBankInformation.FULL_NAME}'.toUpperCase(),
               style: const TextStyle(
                 color: DefaultTheme.BLUE_DARK,
                 fontSize: 12,
               ),
             ),
             //Số tài khoản
-            const Text(
-              'Số TK: 900****789',
-              style: TextStyle(
+            Text(
+              'Số TK: ${BankInformationUtil.instance.hideBankAccount(DefaultBankInformation.DEFAULT_BANK_ACCOUNT)}',
+              style: const TextStyle(
                 fontWeight: FontWeight.w500,
                 color: DefaultTheme.BLUE_DARK,
                 fontSize: 12,
@@ -78,7 +80,7 @@ class QRGeneratedWidget extends StatelessWidget {
             ),
             //Tên ngân hàng
             const Text(
-              'Ngân hàng TMCP Kỹ thương Việt Nam',
+              DefaultBankInformation.DEFAULT_BANK_NAME,
               style: TextStyle(
                 color: DefaultTheme.BLUE_DARK,
                 fontSize: 12,

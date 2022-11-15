@@ -1,5 +1,6 @@
 import 'package:check_sms/commons/constants/configurations/theme.dart';
 import 'package:check_sms/commons/constants/vietqr/additional_data.dart';
+import 'package:check_sms/commons/constants/vietqr/default_bank_information.dart';
 import 'package:check_sms/commons/constants/vietqr/qr_guid.dart';
 import 'package:check_sms/commons/constants/vietqr/transfer_service_code.dart';
 import 'package:check_sms/commons/constants/vietqr/viet_qr_id.dart';
@@ -125,13 +126,12 @@ class _CreateQR extends State<CreateQR> {
                                     listen: false)
                                 .transactionAmount) ??
                             0;
-                        String defaultCAI = '000697043601109000006789';
                         //
                         String cAIValue = QRGuid.GUID +
                             VietQRId.POINT_OF_INITIATION_METHOD_ID +
-                            VietQRUtils.instance
-                                .generateLengthOfValue(defaultCAI) +
-                            defaultCAI +
+                            VietQRUtils.instance.generateLengthOfValue(
+                                DefaultBankInformation.DEFAULT_CAI) +
+                            DefaultBankInformation.DEFAULT_CAI +
                             VietQRId.TRANSFER_SERVCICE_CODE +
                             VietQRUtils.instance.generateLengthOfValue(
                                 TransferServiceCode
@@ -139,11 +139,14 @@ class _CreateQR extends State<CreateQR> {
                             TransferServiceCode
                                 .QUICK_TRANSFER_FROM_QR_TO_BANK_ACCOUNT;
                         //
-                        String additionalDataFieldTemplateValue =
-                            AdditionalData.PURPOSE_OF_TRANSACTION_ID +
-                                VietQRUtils.instance
-                                    .generateLengthOfValue(msgController.text) +
-                                msgController.text;
+                        String additionalDataFieldTemplateValue = '';
+                        if (msgController.text.isNotEmpty) {
+                          additionalDataFieldTemplateValue = AdditionalData
+                                  .PURPOSE_OF_TRANSACTION_ID +
+                              VietQRUtils.instance
+                                  .generateLengthOfValue(msgController.text) +
+                              msgController.text;
+                        }
                         VietQRGenerateDTO dto = VietQRGenerateDTO(
                           cAIValue: cAIValue,
                           //'0010A00000072701240006970436011090000067890208QRIBFTTA',

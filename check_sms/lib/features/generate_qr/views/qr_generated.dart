@@ -1,4 +1,5 @@
 import 'package:check_sms/commons/constants/configurations/theme.dart';
+import 'package:check_sms/commons/constants/vietqr/default_bank_information.dart';
 import 'package:check_sms/commons/utils/currency_utils.dart';
 import 'package:check_sms/commons/widgets/button_widget.dart';
 import 'package:check_sms/commons/widgets/header_button_widet.dart';
@@ -58,9 +59,11 @@ class QRGenerated extends StatelessWidget {
         // Text('${dto.transactionAmountValue}'),
         // Text('${dto.additionalDataFieldTemplateValue}'),
         const Padding(padding: EdgeInsets.only(top: 30)),
-        _buildInformationText(width * 0.9, 'Tên:', 'Phạm Đức Tuấn'),
+        _buildInformationText(
+            width * 0.9, 'Tên:', DefaultBankInformation.FULL_NAME),
         const Padding(padding: EdgeInsets.only(top: 10)),
-        _buildInformationText(width * 0.9, 'Số TK:', '9000006789'),
+        _buildInformationText(
+            width * 0.9, 'Số TK:', DefaultBankInformation.DEFAULT_BANK_ACCOUNT),
         const Padding(padding: EdgeInsets.only(top: 10)),
         _buildInformationText(width * 0.9, 'Số tiền:',
             '${CurrencyUtils.instance.getCurrencyFormatted(dto.transactionAmountValue)} VND'),
@@ -78,7 +81,9 @@ class QRGenerated extends StatelessWidget {
         SizedBox(
           width: width * 0.9,
           child: Text(
-            dto.additionalDataFieldTemplateValue.substring(4),
+            (dto.additionalDataFieldTemplateValue.isEmpty)
+                ? ''
+                : dto.additionalDataFieldTemplateValue.substring(4),
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
