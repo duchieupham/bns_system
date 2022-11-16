@@ -1,11 +1,14 @@
 import 'package:check_sms/commons/constants/configurations/theme.dart';
 import 'package:check_sms/features/home/home.dart';
+import 'package:check_sms/features/login/views/login.dart';
 import 'package:check_sms/services/providers/create_qr_page_select_provider.dart';
 import 'package:check_sms/services/providers/create_qr_provider.dart';
 import 'package:check_sms/services/providers/page_select_provider.dart';
 import 'package:check_sms/services/providers/theme_provider.dart';
 import 'package:check_sms/services/shared_references/create_qr_helper.dart';
 import 'package:check_sms/services/shared_references/theme_helper.dart';
+import 'package:check_sms/services/shared_references/user_information_helper.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +19,7 @@ late SharedPreferences sharedPrefs;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   sharedPrefs = await SharedPreferences.getInstance();
+  await Firebase.initializeApp();
   await _initialServiceHelper();
   runApp(const BNSApp());
 }
@@ -29,10 +33,18 @@ Future<void> _initialServiceHelper() async {
       sharedPrefs.getString('TRANSACTION_AMOUNT') == null) {
     await CreateQRHelper.instance.initialCreateQRHelper();
   }
+  if (!sharedPrefs.containsKey('USER_ID') ||
+      sharedPrefs.getString('USER_ID') == null) {
+    await UserInformationHelper.instance.initialUserInformationHelper();
+  }
 }
 
 class BNSApp extends StatelessWidget {
   const BNSApp({Key? key}) : super(key: key);
+
+  static final _homeScreen = (UserInformationHelper.instance.getUserId() != '')
+      ? const HomeScreen()
+      : const Login();
 
   // This widget is the root of your application.
   @override
@@ -60,7 +72,7 @@ class BNSApp extends StatelessWidget {
                       : ThemeMode.dark,
               darkTheme: DefaultThemeData(context: context).darkTheme,
               theme: DefaultThemeData(context: context).lightTheme,
-              home: const HomeScreen(),
+              home: _homeScreen,
             );
           },
         ),

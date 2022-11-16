@@ -93,7 +93,6 @@ class BankInformationUtil {
 
   bool isIncome(String transaction) {
     bool result = false;
-    print('transaction: $transaction');
     if (transaction.trim().startsWith('+')) {
       result = true;
     }

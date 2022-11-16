@@ -1,4 +1,4 @@
-package com.example.check_sms
+package com.bns.stagging
 
 import io.flutter.embedding.android.FlutterActivity
 

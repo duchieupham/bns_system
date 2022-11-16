@@ -38,8 +38,9 @@ class SMSListItem extends StatelessWidget {
                 RichText(
                   textAlign: TextAlign.left,
                   text: TextSpan(
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 15,
+                      color: Theme.of(context).hintColor,
                     ),
                     children: [
                       TextSpan(

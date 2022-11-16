@@ -15,7 +15,6 @@ class CurrencyUtils {
 
   String getCurrencyFormatted(String value) {
     String result = '';
-    print('value: $value');
     if (value.isNotEmpty) {
       if (value.length > 3) {
         result = _formatNumber(value.replaceAll(',', ''));

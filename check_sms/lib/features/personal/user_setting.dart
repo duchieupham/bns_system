@@ -1,7 +1,9 @@
 import 'package:check_sms/commons/constants/configurations/theme.dart';
 import 'package:check_sms/commons/widgets/button_text_widget.dart';
+import 'package:check_sms/features/home/home.dart';
 import 'package:check_sms/features/home/theme_setting.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:check_sms/features/login/views/login.dart';
+import 'package:check_sms/services/shared_references/user_information_helper.dart';
 import 'package:flutter/material.dart';
 
 class UserSetting extends StatefulWidget {
@@ -23,13 +25,13 @@ class _UserSetting extends State<UserSetting> {
           height: 150,
           child: Image.asset('assets/images/ic-avatar.png'),
         ),
-        const Padding(
-          padding: EdgeInsets.only(
+        Padding(
+          padding: const EdgeInsets.only(
             bottom: 30,
           ),
           child: Text(
-            'Phạm Đức Tuấn',
-            style: TextStyle(
+            '${UserInformationHelper.instance.getUserInformation().lastName} ${UserInformationHelper.instance.getUserInformation().middleName} ${UserInformationHelper.instance.getUserInformation().firstName}',
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
@@ -84,7 +86,15 @@ class _UserSetting extends State<UserSetting> {
                 alignment: buttonTextAlignment,
                 text: 'Đăng xuất',
                 textColor: DefaultTheme.RED_TEXT,
-                function: () {},
+                function: () async {
+                  await UserInformationHelper.instance
+                      .initialUserInformationHelper();
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const Login(),
+                    ),
+                  );
+                },
               ),
             ],
           ),
