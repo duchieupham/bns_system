@@ -2,9 +2,13 @@
 
 import 'dart:convert';
 import 'package:check_sms/commons/constants/vietqr/aid.dart';
+import 'package:check_sms/commons/constants/vietqr/cai_bank.dart';
+import 'package:check_sms/commons/constants/vietqr/qr_guid.dart';
 import 'package:check_sms/commons/constants/vietqr/transfer_service_code.dart';
 import 'package:check_sms/commons/constants/vietqr/viet_qr_id.dart';
 import 'package:check_sms/commons/constants/vietqr/viet_qr_value.dart';
+import 'package:check_sms/commons/enums/bank_name.dart';
+import 'package:check_sms/commons/utils/bank_information_utils.dart';
 import 'package:check_sms/models/viet_qr_generate_dto.dart';
 import 'package:crclib/catalog.dart';
 import 'package:crclib/crclib.dart';
@@ -172,6 +176,46 @@ class VietQRUtils {
             TransferServiceCode.QUICK_TRANSFER_FROM_QR_TO_BANK_ACCOUNT) +
         TransferServiceCode.QUICK_TRANSFER_FROM_QR_TO_BANK_ACCOUNT;
     result = guid + poim + tsc;
+    return result;
+  }
+
+  String generateCAIValue(String bankName, String bankAccount) {
+    String result = '';
+    if (BankInformationUtil.instance.checkAvailableGenerateBank(bankName)) {
+      String middleCAIValue = '';
+      if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.TECHCOMBANK.toString()) {
+        middleCAIValue = CAIBank.PREFIX_CAI_VALUE +
+            CAIBank.MID_CAI_TECHCOMBANK +
+            VietQRValue.PAYLOAD_FORMAT_INDICATOR_VALUE +
+            VietQRUtils.instance.generateLengthOfValue(bankAccount) +
+            bankAccount;
+      }
+      if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.SHB.toString()) {
+        middleCAIValue = CAIBank.PREFIX_CAI_VALUE +
+            CAIBank.MID_CAI_SHB +
+            VietQRValue.PAYLOAD_FORMAT_INDICATOR_VALUE +
+            VietQRUtils.instance.generateLengthOfValue(bankAccount) +
+            bankAccount;
+      }
+      if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.VIETCOMBANK.toString()) {
+        middleCAIValue = CAIBank.PREFIX_CAI_VALUE +
+            CAIBank.MID_CAI_VIETCOMBANK +
+            VietQRValue.PAYLOAD_FORMAT_INDICATOR_VALUE +
+            VietQRUtils.instance.generateLengthOfValue(bankAccount) +
+            bankAccount;
+      }
+      result = QRGuid.GUID +
+          VietQRId.POINT_OF_INITIATION_METHOD_ID +
+          VietQRUtils.instance.generateLengthOfValue(middleCAIValue) +
+          middleCAIValue +
+          VietQRId.TRANSFER_SERVCICE_CODE +
+          VietQRUtils.instance.generateLengthOfValue(
+              TransferServiceCode.QUICK_TRANSFER_FROM_QR_TO_BANK_ACCOUNT) +
+          TransferServiceCode.QUICK_TRANSFER_FROM_QR_TO_BANK_ACCOUNT;
+    }
     return result;
   }
 }

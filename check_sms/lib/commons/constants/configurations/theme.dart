@@ -50,6 +50,10 @@ class DefaultTheme {
   static const Color BANNER_NIGHT2 = Color(0xFF0D0132);
   static const Color DARK_NIGHT = Color(0xFF6361C5);
   static const Color LIGHT_DAY = Color(0xFF42D8F2);
+  static const Color BANK_CARD_COLOR_1 = Color(0xFFD4D3D1);
+  static const Color BANK_CARD_COLOR_2 = Color(0xFFE4E3DF);
+  static const Color BANK_CARD_COLOR_3 = Color(0xFFA1A09C);
+
   //THEME NAME
   static const String THEME_LIGHT = 'LIGHT';
   static const String THEME_DARK = 'DARK';

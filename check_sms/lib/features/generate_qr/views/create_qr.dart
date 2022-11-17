@@ -10,6 +10,8 @@ import 'package:check_sms/commons/widgets/sub_header_widget.dart';
 import 'package:check_sms/features/generate_qr/views/qr_generated.dart';
 import 'package:check_sms/features/generate_qr/widgets/input_content_widget.dart';
 import 'package:check_sms/features/generate_qr/widgets/input_ta_widget.dart';
+import 'package:check_sms/features/generate_qr/widgets/qr_select_bank.dart';
+import 'package:check_sms/models/bank_account_dto.dart';
 import 'package:check_sms/models/viet_qr_generate_dto.dart';
 import 'package:check_sms/services/providers/create_qr_page_select_provider.dart';
 import 'package:check_sms/services/providers/create_qr_provider.dart';
@@ -37,6 +39,9 @@ class _CreateQR extends State<CreateQR> {
   void initState() {
     super.initState();
     _pages.addAll([
+      const QRSelectBankWidget(
+        key: PageStorageKey('QR_SELECT_BANK'),
+      ),
       const InputTAWidget(
         key: PageStorageKey('INPUT_TA_PAGE'),
       ),
@@ -57,14 +62,18 @@ class _CreateQR extends State<CreateQR> {
           Consumer<CreateQRPageSelectProvider>(
             builder: (context, page, child) {
               return SubHeader(
-                title: 'Tạo mã QR',
+                title: 'Tạo mã VietQR',
                 function: () {
                   if (page.indexSelected == 0) {
                     Provider.of<CreateQRProvider>(context, listen: false)
                         .reset();
+                    Provider.of<CreateQRPageSelectProvider>(context,
+                            listen: false)
+                        .reset();
+
                     Navigator.pop(context);
                   } else {
-                    _animatedToPage(0);
+                    _animatedToPage(page.indexSelected - 1);
                   }
                 },
               );
@@ -96,6 +105,11 @@ class _CreateQR extends State<CreateQR> {
                       left: 5,
                     )),
                     _buildDot(1, page.indexSelected),
+                    const Padding(
+                        padding: EdgeInsets.only(
+                      left: 5,
+                    )),
+                    _buildDot(2, page.indexSelected),
                   ],
                 );
               },
@@ -115,52 +129,76 @@ class _CreateQR extends State<CreateQR> {
                         _animatedToPage(1);
                       },
                     )
-                  : ButtonWidget(
-                      width: width,
-                      text: 'Tạo mã QR',
-                      textColor: DefaultTheme.WHITE,
-                      bgColor: DefaultTheme.GREEN,
-                      function: () {
-                        int ta = int.tryParse(Provider.of<CreateQRProvider>(
-                                    context,
-                                    listen: false)
-                                .transactionAmount) ??
-                            0;
-                        //
-                        String cAIValue = QRGuid.GUID +
-                            VietQRId.POINT_OF_INITIATION_METHOD_ID +
-                            VietQRUtils.instance.generateLengthOfValue(
-                                DefaultBankInformation.DEFAULT_CAI) +
-                            DefaultBankInformation.DEFAULT_CAI +
-                            VietQRId.TRANSFER_SERVCICE_CODE +
-                            VietQRUtils.instance.generateLengthOfValue(
+                  : (page.indexSelected == 1)
+                      ? ButtonWidget(
+                          width: width,
+                          text: 'Tiếp theo',
+                          textColor: DefaultTheme.GREEN,
+                          bgColor: Theme.of(context).buttonColor,
+                          function: () {
+                            _animatedToPage(2);
+                          },
+                        )
+                      : ButtonWidget(
+                          width: width,
+                          text: 'Tạo mã QR',
+                          textColor: DefaultTheme.WHITE,
+                          bgColor: DefaultTheme.GREEN,
+                          function: () {
+                            int ta = int.tryParse(Provider.of<CreateQRProvider>(
+                                        context,
+                                        listen: false)
+                                    .transactionAmount) ??
+                                0;
+                            //
+                            String cAIValue = QRGuid.GUID +
+                                VietQRId.POINT_OF_INITIATION_METHOD_ID +
+                                VietQRUtils.instance.generateLengthOfValue(
+                                    DefaultBankInformation.DEFAULT_CAI) +
+                                DefaultBankInformation.DEFAULT_CAI +
+                                VietQRId.TRANSFER_SERVCICE_CODE +
+                                VietQRUtils.instance.generateLengthOfValue(
+                                    TransferServiceCode
+                                        .QUICK_TRANSFER_FROM_QR_TO_BANK_ACCOUNT) +
                                 TransferServiceCode
-                                    .QUICK_TRANSFER_FROM_QR_TO_BANK_ACCOUNT) +
-                            TransferServiceCode
-                                .QUICK_TRANSFER_FROM_QR_TO_BANK_ACCOUNT;
-                        //
-                        String additionalDataFieldTemplateValue = '';
-                        if (msgController.text.isNotEmpty) {
-                          additionalDataFieldTemplateValue = AdditionalData
-                                  .PURPOSE_OF_TRANSACTION_ID +
-                              VietQRUtils.instance
-                                  .generateLengthOfValue(msgController.text) +
-                              msgController.text;
-                        }
-                        VietQRGenerateDTO dto = VietQRGenerateDTO(
-                          cAIValue: cAIValue,
-                          //'0010A00000072701240006970436011090000067890208QRIBFTTA',
-                          transactionAmountValue: ta.toString(),
-                          additionalDataFieldTemplateValue:
-                              additionalDataFieldTemplateValue,
+                                    .QUICK_TRANSFER_FROM_QR_TO_BANK_ACCOUNT;
+                            //
+                            String additionalDataFieldTemplateValue = '';
+                            if (msgController.text.isNotEmpty) {
+                              additionalDataFieldTemplateValue = AdditionalData
+                                      .PURPOSE_OF_TRANSACTION_ID +
+                                  VietQRUtils.instance.generateLengthOfValue(
+                                      msgController.text) +
+                                  msgController.text;
+                            }
+                            final BankAccountDTO bankAccountDTO =
+                                Provider.of<CreateQRPageSelectProvider>(context,
+                                        listen: false)
+                                    .bankAccountDTO;
+                            print(
+                                'CAI VALUE:${VietQRUtils.instance.generateCAIValue(bankAccountDTO.bankCode, bankAccountDTO.bankAccount)}');
+                            VietQRGenerateDTO dto = VietQRGenerateDTO(
+                              cAIValue: VietQRUtils.instance.generateCAIValue(
+                                  bankAccountDTO.bankCode,
+                                  bankAccountDTO.bankAccount),
+                              //'0010A00000072701240006970436011090000067890208QRIBFTTA',
+                              transactionAmountValue: ta.toString(),
+                              additionalDataFieldTemplateValue:
+                                  additionalDataFieldTemplateValue,
+                            );
+                            Provider.of<CreateQRPageSelectProvider>(context,
+                                    listen: false)
+                                .reset();
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => QRGenerated(
+                                  vietQRGenerateDTO: dto,
+                                  bankAccountDTO: bankAccountDTO,
+                                ),
+                              ),
+                            );
+                          },
                         );
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) => QRGenerated(dto: dto),
-                          ),
-                        );
-                      },
-                    );
             }),
           ),
           const Padding(padding: EdgeInsets.only(bottom: 20))

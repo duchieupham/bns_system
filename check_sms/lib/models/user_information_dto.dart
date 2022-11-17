@@ -9,6 +9,8 @@ class UserInformationDTO {
   final String gender;
   final String phoneNo;
 
+  final String address;
+
   const UserInformationDTO({
     required this.userId,
     required this.firstName,
@@ -17,6 +19,7 @@ class UserInformationDTO {
     required this.birthDate,
     required this.gender,
     required this.phoneNo,
+    required this.address,
   });
 
   factory UserInformationDTO.fromJson(Map<String, dynamic> json) {
@@ -28,6 +31,7 @@ class UserInformationDTO {
       birthDate: json['birthDate'] ?? '',
       gender: json['gender'] ?? 'false',
       phoneNo: json['phoneNo'] ?? '',
+      address: json['address'] ?? '',
     );
   }
   Map<String, dynamic> toJson() {
@@ -38,6 +42,7 @@ class UserInformationDTO {
     data['"birthDate"'] = (birthDate == '') ? '""' : '"$birthDate"';
     data['"gender"'] = (gender == '') ? '""' : '"$gender"';
     data['"phoneNo"'] = (phoneNo == '') ? '""' : '"$phoneNo"';
+    data['"address"'] = (address == '') ? '""' : '"$address"';
     return data;
   }
 }

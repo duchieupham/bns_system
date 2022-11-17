@@ -66,6 +66,36 @@ class BankInformationUtil {
     return result;
   }
 
+  bool checkAvailableGenerateBank(String bankName) {
+    bool result = false;
+
+    //to fake data to check SMS
+    if (bankName == '0909000999') {
+      bankName = 'MB Bank';
+    }
+    if (bankName == '0900000000') {
+      bankName = 'Viettin Bank';
+    }
+    if (bankName == '0909999999') {
+      bankName = 'SHB';
+    }
+    if (bankName == '0909090909') {
+      bankName = 'Techcombank';
+    }
+    if (bankName == '0909090901') {
+      bankName = 'SCB';
+    }
+    if (bankName == '0909090902') {
+      bankName = 'VietcomBank';
+    }
+    //
+    bankName = 'BANKNAME.${bankName.trim().replaceAll(' ', '').toUpperCase()}';
+    if (AVAILABLE_ADD_BANKNAME.values.toString().contains(bankName)) {
+      result = true;
+    }
+    return result;
+  }
+
   String getBankName(String address) {
     //to fake data to check SMS
     if (address == '0909000999') {

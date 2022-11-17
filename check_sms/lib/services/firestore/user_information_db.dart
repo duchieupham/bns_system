@@ -12,13 +12,15 @@ class UserInformationDB {
 
   Future<UserInformationDTO> getUserInformation(String userId) async {
     UserInformationDTO result = const UserInformationDTO(
-        userId: '',
-        firstName: '',
-        middleName: '',
-        lastName: '',
-        birthDate: '',
-        gender: 'false',
-        phoneNo: '');
+      userId: '',
+      firstName: '',
+      middleName: '',
+      lastName: '',
+      birthDate: '',
+      gender: 'false',
+      phoneNo: '',
+      address: '',
+    );
     try {
       await userInformationDb
           .where('id', isEqualTo: userId)
@@ -32,6 +34,7 @@ class UserInformationDB {
           String birthDate = querySnapshot.docs.first['birthDate'];
           String phoneNo = querySnapshot.docs.first['phoneNo'];
           bool gender = querySnapshot.docs.first['gender'];
+          String address = querySnapshot.docs.first['address'];
           result = UserInformationDTO(
             userId: userId,
             firstName: firstName,
@@ -40,6 +43,7 @@ class UserInformationDB {
             birthDate: birthDate,
             gender: gender.toString(),
             phoneNo: phoneNo,
+            address: address,
           );
         }
       });

@@ -30,6 +30,7 @@ class QRInformationWidget extends StatelessWidget {
         VietQRId.POINT_OF_INITIATION_METHOD_ID +
         VietQRUtils.instance
             .generateLengthOfValue(DefaultBankInformation.DEFAULT_CAI) +
+        //change default CAI to generate CAI
         DefaultBankInformation.DEFAULT_CAI +
         VietQRId.TRANSFER_SERVCICE_CODE +
         VietQRUtils.instance.generateLengthOfValue(

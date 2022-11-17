@@ -23,13 +23,15 @@ class LoginRepository {
 
   Future<UserInformationDTO> getUserInformation(String userId) async {
     UserInformationDTO result = const UserInformationDTO(
-        userId: '',
-        firstName: '',
-        middleName: '',
-        lastName: '',
-        birthDate: '',
-        gender: 'false',
-        phoneNo: '');
+      userId: '',
+      firstName: '',
+      middleName: '',
+      lastName: '',
+      birthDate: '',
+      gender: 'false',
+      phoneNo: '',
+      address: '',
+    );
     try {
       result = await UserInformationDB.instance.getUserInformation(userId);
       await UserInformationHelper.instance.setUserInformation(result);

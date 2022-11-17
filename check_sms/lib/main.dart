@@ -1,6 +1,8 @@
 import 'package:check_sms/commons/constants/configurations/theme.dart';
 import 'package:check_sms/features/home/home.dart';
 import 'package:check_sms/features/login/views/login.dart';
+import 'package:check_sms/features/personal/blocs/bank_manage_bloc.dart';
+import 'package:check_sms/services/providers/bank_account_provider.dart';
 import 'package:check_sms/services/providers/create_qr_page_select_provider.dart';
 import 'package:check_sms/services/providers/create_qr_provider.dart';
 import 'package:check_sms/services/providers/page_select_provider.dart';
@@ -10,6 +12,7 @@ import 'package:check_sms/services/shared_references/theme_helper.dart';
 import 'package:check_sms/services/shared_references/user_information_helper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -53,28 +56,37 @@ class BNSApp extends StatelessWidget {
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
       },
-      child: MultiProvider(
+      child: MultiBlocProvider(
         providers: [
-          ChangeNotifierProvider(create: (context) => ThemeProvider()),
-          ChangeNotifierProvider(create: (context) => PageSelectProvider()),
-          ChangeNotifierProvider(
-              create: (context) => CreateQRPageSelectProvider()),
-          ChangeNotifierProvider(create: (context) => CreateQRProvider()),
+          BlocProvider<BankManageBloc>(
+            create: (BuildContext context) => BankManageBloc(),
+          ),
         ],
-        child: Consumer<ThemeProvider>(
-          builder: (context, themeSelect, child) {
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              themeMode: (themeSelect.themeSystem == DefaultTheme.THEME_SYSTEM)
-                  ? ThemeMode.system
-                  : (themeSelect.themeSystem == DefaultTheme.THEME_LIGHT)
-                      ? ThemeMode.light
-                      : ThemeMode.dark,
-              darkTheme: DefaultThemeData(context: context).darkTheme,
-              theme: DefaultThemeData(context: context).lightTheme,
-              home: _homeScreen,
-            );
-          },
+        child: MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (context) => ThemeProvider()),
+            ChangeNotifierProvider(create: (context) => PageSelectProvider()),
+            ChangeNotifierProvider(
+                create: (context) => CreateQRPageSelectProvider()),
+            ChangeNotifierProvider(create: (context) => CreateQRProvider()),
+            ChangeNotifierProvider(create: (context) => BankAccountProvider()),
+          ],
+          child: Consumer<ThemeProvider>(
+            builder: (context, themeSelect, child) {
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                themeMode:
+                    (themeSelect.themeSystem == DefaultTheme.THEME_SYSTEM)
+                        ? ThemeMode.system
+                        : (themeSelect.themeSystem == DefaultTheme.THEME_LIGHT)
+                            ? ThemeMode.light
+                            : ThemeMode.dark,
+                darkTheme: DefaultThemeData(context: context).darkTheme,
+                theme: DefaultThemeData(context: context).lightTheme,
+                home: _homeScreen,
+              );
+            },
+          ),
         ),
       ),
     );

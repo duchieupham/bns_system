@@ -1,8 +1,8 @@
 import 'package:check_sms/commons/constants/configurations/theme.dart';
 import 'package:check_sms/commons/widgets/button_text_widget.dart';
-import 'package:check_sms/features/home/home.dart';
 import 'package:check_sms/features/home/theme_setting.dart';
 import 'package:check_sms/features/login/views/login.dart';
+import 'package:check_sms/features/personal/bank_manage.dart';
 import 'package:check_sms/services/shared_references/user_information_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -51,6 +51,20 @@ class _UserSetting extends State<UserSetting> {
                 text: 'Chỉnh sửa thông tin cá nhân',
                 textColor: DefaultTheme.BLUE_TEXT,
                 function: () {},
+              ),
+              const Divider(
+                color: DefaultTheme.GREY_LIGHT,
+                height: 1,
+              ),
+              ButtonTextWidget(
+                width: width,
+                alignment: buttonTextAlignment,
+                text: 'Quản lý tài khoản ngân hàng',
+                textColor: DefaultTheme.BLUE_TEXT,
+                function: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const BankManageView()));
+                },
               ),
               const Divider(
                 color: DefaultTheme.GREY_LIGHT,

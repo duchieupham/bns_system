@@ -12,13 +12,15 @@ class UserInformationHelper {
 
   Future<void> initialUserInformationHelper() async {
     const UserInformationDTO dto = UserInformationDTO(
-        userId: '',
-        firstName: '',
-        middleName: '',
-        lastName: '',
-        birthDate: '',
-        gender: 'false',
-        phoneNo: '');
+      userId: '',
+      firstName: '',
+      middleName: '',
+      lastName: '',
+      birthDate: '',
+      gender: 'false',
+      phoneNo: '',
+      address: '',
+    );
     await sharedPrefs.setString('USER_ID', '');
     await sharedPrefs.setString('USER_INFORMATION', dto.toJson().toString());
   }

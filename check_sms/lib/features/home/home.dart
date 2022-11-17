@@ -17,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreen extends State<HomeScreen> {
   //page controller
-  static final PageController _pageController = PageController(
+  final PageController _pageController = PageController(
     initialPage: 0,
     keepPage: true,
   );
@@ -28,7 +28,7 @@ class _HomeScreen extends State<HomeScreen> {
   }
 
   //list page
-  static const List<Widget> _homeScreens = [
+  final List<Widget> _homeScreens = const [
     QRInformationView(
       key: PageStorageKey('QR_GENERATOR_PAGE'),
     ),

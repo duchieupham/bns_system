@@ -2,6 +2,7 @@ import 'package:check_sms/commons/constants/configurations/theme.dart';
 import 'package:check_sms/commons/constants/vietqr/default_bank_information.dart';
 import 'package:check_sms/commons/utils/bank_information_utils.dart';
 import 'package:check_sms/commons/utils/viet_qr_utils.dart';
+import 'package:check_sms/models/bank_account_dto.dart';
 import 'package:check_sms/models/viet_qr_generate_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -9,17 +10,19 @@ import 'package:qr_flutter/qr_flutter.dart';
 //set default values (except QR code)
 class QRGeneratedWidget extends StatelessWidget {
   final double width;
-  final VietQRGenerateDTO dto;
+  final VietQRGenerateDTO vietQRGenerateDTO;
+  final BankAccountDTO bankAccountDTO;
 
   const QRGeneratedWidget({
     Key? key,
     required this.width,
-    required this.dto,
+    required this.vietQRGenerateDTO,
+    required this.bankAccountDTO,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String vietQRCode = VietQRUtils.instance.generateVietQR(dto);
+    String vietQRCode = VietQRUtils.instance.generateVietQR(vietQRGenerateDTO);
     return Container(
       width: width,
       height: width,
@@ -63,7 +66,7 @@ class QRGeneratedWidget extends StatelessWidget {
             ),
             //Tên chủ tài khoản
             Text(
-              'Tên chủ TK: ${DefaultBankInformation.FULL_NAME}'.toUpperCase(),
+              'Tên chủ TK: ${bankAccountDTO.bankAccountName}'.toUpperCase(),
               style: const TextStyle(
                 color: DefaultTheme.BLUE_DARK,
                 fontSize: 12,
@@ -71,7 +74,7 @@ class QRGeneratedWidget extends StatelessWidget {
             ),
             //Số tài khoản
             Text(
-              'Số TK: ${BankInformationUtil.instance.hideBankAccount(DefaultBankInformation.DEFAULT_BANK_ACCOUNT)}',
+              'Số TK: ${BankInformationUtil.instance.hideBankAccount(bankAccountDTO.bankAccount)}',
               style: const TextStyle(
                 fontWeight: FontWeight.w500,
                 color: DefaultTheme.BLUE_DARK,
@@ -79,9 +82,9 @@ class QRGeneratedWidget extends StatelessWidget {
               ),
             ),
             //Tên ngân hàng
-            const Text(
-              DefaultBankInformation.DEFAULT_BANK_NAME,
-              style: TextStyle(
+            Text(
+              bankAccountDTO.bankName,
+              style: const TextStyle(
                 color: DefaultTheme.BLUE_DARK,
                 fontSize: 12,
               ),

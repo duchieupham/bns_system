@@ -5,6 +5,8 @@ class DefaultBankInformation {
   static const String FULL_NAME = 'Pham Duc Tuan';
   //static const String DEFAULT_CAI = '000697043601109000006789';
   //PHAM DUC TUAN SHB
+  //00069704-4310-1000006789
+  //00069704-430110-1000006789
   static const String DEFAULT_CAI = '000697044301101000006789';
   static const String DEFAULT_BANK_ACCOUNT = '1000006789';
   static const String DEFAULT_BANK_NAME = 'Ngân hàng TMCP Sài Gòn - Hà Nội';

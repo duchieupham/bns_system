@@ -37,8 +37,8 @@ class QRInformationView extends StatelessWidget {
           ButtonWidget(
             width: width,
             text: 'Chia sẻ mã QR của bạn',
-            textColor: DefaultTheme.WHITE,
-            bgColor: DefaultTheme.GREEN,
+            textColor: DefaultTheme.GREEN,
+            bgColor: Theme.of(context).buttonColor,
             function: () {
               DialogWidget.instance.openTransactionFormattedDialog(
                 context,
@@ -54,8 +54,8 @@ class QRInformationView extends StatelessWidget {
           ButtonWidget(
             width: width,
             text: 'Tạo mã QR thanh toán',
-            textColor: DefaultTheme.GREEN,
-            bgColor: Theme.of(context).buttonColor,
+            textColor: DefaultTheme.WHITE,
+            bgColor: DefaultTheme.GREEN,
             function: () {
               Navigator.of(context).push(
                 MaterialPageRoute(

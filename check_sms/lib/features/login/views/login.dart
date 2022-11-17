@@ -5,9 +5,11 @@ import 'package:check_sms/features/home/home.dart';
 import 'package:check_sms/features/login/repositories/login_repository.dart';
 import 'package:check_sms/models/account_login_dto.dart';
 import 'package:check_sms/services/firestore/user_information_db.dart';
+import 'package:check_sms/services/providers/page_select_provider.dart';
 import 'package:check_sms/services/shared_references/user_information_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Login extends StatelessWidget {
   static final TextEditingController phoneNoController =
@@ -90,6 +92,9 @@ class Login extends StatelessWidget {
                     await loginRepository.login(dto).then(
                       (isLogin) async {
                         if (isLogin) {
+                          Provider.of<PageSelectProvider>(context,
+                                  listen: false)
+                              .updateIndex(0);
                           await loginRepository.getUserInformation(
                               UserInformationHelper.instance.getUserId());
                           Navigator.of(context).push(
