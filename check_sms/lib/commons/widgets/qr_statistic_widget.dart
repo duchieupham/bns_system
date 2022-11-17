@@ -1,30 +1,22 @@
 import 'dart:ui';
 
 import 'package:check_sms/commons/constants/configurations/theme.dart';
-import 'package:check_sms/commons/constants/vietqr/default_bank_information.dart';
 import 'package:check_sms/commons/utils/bank_information_utils.dart';
-import 'package:check_sms/commons/utils/viet_qr_utils.dart';
 import 'package:check_sms/models/bank_account_dto.dart';
-import 'package:check_sms/models/viet_qr_generate_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-//set default values (except QR code)
-class QRGeneratedWidget extends StatelessWidget {
-  final double width;
-  final VietQRGenerateDTO vietQRGenerateDTO;
+class QRStatisticWidget extends StatelessWidget {
   final BankAccountDTO bankAccountDTO;
 
-  const QRGeneratedWidget({
+  const QRStatisticWidget({
     Key? key,
-    required this.width,
-    required this.vietQRGenerateDTO,
     required this.bankAccountDTO,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String vietQRCode = VietQRUtils.instance.generateVietQR(vietQRGenerateDTO);
+    double width = MediaQuery.of(context).size.width;
     return UnconstrainedBox(
       alignment: Alignment.center,
       child: ClipRRect(
@@ -33,14 +25,13 @@ class QRGeneratedWidget extends StatelessWidget {
           filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
           child: Container(
             alignment: Alignment.center,
-            width: width - 30,
+            width: width - 60,
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
             decoration: BoxDecoration(
               color: DefaultTheme.WHITE.withOpacity(0.8),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
                   width: width * 0.4,
@@ -58,7 +49,7 @@ class QRGeneratedWidget extends StatelessWidget {
                     ),
                   ),
                   child: QrImage(
-                    data: vietQRCode,
+                    data: 1.toString(),
                     version: QrVersions.auto,
                     size: width * 0.5,
                     embeddedImage:
@@ -66,6 +57,7 @@ class QRGeneratedWidget extends StatelessWidget {
                     embeddedImageStyle: QrEmbeddedImageStyle(
                       size: Size(width * 0.075, width * 0.075),
                     ),
+                    backgroundColor: DefaultTheme.WHITE,
                   ),
                 ),
                 const Padding(padding: EdgeInsets.only(top: 10)),
@@ -88,6 +80,8 @@ class QRGeneratedWidget extends StatelessWidget {
                 //Tên ngân hàng
                 Text(
                   bankAccountDTO.bankName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     color: DefaultTheme.BLUE_DARK,
                     fontSize: 13,

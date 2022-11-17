@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:check_sms/commons/constants/configurations/theme.dart';
 import 'package:check_sms/commons/constants/vietqr/default_bank_information.dart';
 import 'package:check_sms/commons/utils/currency_utils.dart';
@@ -25,115 +27,162 @@ class QRGenerated extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
+    final double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(toolbarHeight: 0),
-      body: Column(children: [
-        HeaderButtonWidget(
-          title: 'Mã QR của bạn',
-          button: InkWell(
-            onTap: () {
-              Provider.of<CreateQRProvider>(context, listen: false).reset();
-              Provider.of<CreateQRPageSelectProvider>(context, listen: false)
-                  .updateIndex(0);
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const CreateQR(),
+      body: Container(
+        width: width,
+        height: height,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/bg-qr.png'),
+            fit: BoxFit.fitHeight,
+          ),
+        ),
+        child: Column(children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: 65,
+            child: ClipRRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: 25,
+                  sigmaY: 25,
                 ),
-              );
-            },
-            child: SizedBox(
-              height: 60,
-              child: Row(
-                children: const [
-                  Text(
-                    'Tạo lại mã QR',
-                    style: TextStyle(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context)
+                        .scaffoldBackgroundColor
+                        .withOpacity(0.6),
+                  ),
+                  child: HeaderButtonWidget(
+                    title: 'Mã VietQR Thanh toán',
+                    button: InkWell(
+                      onTap: () {
+                        Provider.of<CreateQRProvider>(context, listen: false)
+                            .reset();
+                        Provider.of<CreateQRPageSelectProvider>(context,
+                                listen: false)
+                            .updateIndex(0);
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => const CreateQR(),
+                          ),
+                        );
+                      },
+                      child: SizedBox(
+                        height: 60,
+                        child: Row(
+                          children: const [
+                            Text(
+                              'Tạo lại mã QR',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: DefaultTheme.GREEN,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            Icon(
+                              Icons.refresh,
+                              color: DefaultTheme.GREEN,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const Padding(padding: EdgeInsets.only(top: 30)),
+          QRGeneratedWidget(
+            width: width * 0.9,
+            vietQRGenerateDTO: vietQRGenerateDTO,
+            bankAccountDTO: bankAccountDTO,
+          ),
+          // Text('${dto.transactionAmountValue}'),
+          // Text('${dto.additionalDataFieldTemplateValue}'),
+          const Spacer(),
+          ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(15)),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
+              child: Container(
+                width: width,
+                margin: const EdgeInsets.symmetric(horizontal: 30),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).cardColor.withOpacity(0.8),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Column(children: [
+                  _buildInformationText(width * 0.9 - 42.5, 'Số tiền:',
+                      '${CurrencyUtils.instance.getCurrencyFormatted(vietQRGenerateDTO.transactionAmountValue)} VND'),
+                  const Padding(padding: EdgeInsets.only(top: 10)),
+                  SizedBox(
+                    width: width * 0.9,
+                    child: const Text(
+                      'Nội dung:',
+                      style: TextStyle(
                         fontSize: 16,
-                        color: DefaultTheme.GREEN,
-                        fontWeight: FontWeight.w500),
+                      ),
+                    ),
                   ),
-                  Icon(
-                    Icons.refresh,
-                    color: DefaultTheme.GREEN,
+                  const Padding(padding: EdgeInsets.only(top: 5)),
+                  SizedBox(
+                    width: width * 0.9,
+                    child: Text(
+                      (vietQRGenerateDTO
+                              .additionalDataFieldTemplateValue.isEmpty)
+                          ? ''
+                          : vietQRGenerateDTO.additionalDataFieldTemplateValue
+                              .substring(4),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
                   ),
-                ],
+                ]),
               ),
             ),
           ),
-        ),
-        QRGeneratedWidget(
-          width: width * 0.9,
-          vietQRGenerateDTO: vietQRGenerateDTO,
-          bankAccountDTO: bankAccountDTO,
-        ),
-        // Text('${dto.transactionAmountValue}'),
-        // Text('${dto.additionalDataFieldTemplateValue}'),
-        const Padding(padding: EdgeInsets.only(top: 30)),
-        _buildInformationText(
-            width * 0.9, 'Tên:', DefaultBankInformation.FULL_NAME),
-        const Padding(padding: EdgeInsets.only(top: 10)),
-        _buildInformationText(
-            width * 0.9, 'Số TK:', DefaultBankInformation.DEFAULT_BANK_ACCOUNT),
-        const Padding(padding: EdgeInsets.only(top: 10)),
-        _buildInformationText(width * 0.9, 'Số tiền:',
-            '${CurrencyUtils.instance.getCurrencyFormatted(vietQRGenerateDTO.transactionAmountValue)} VND'),
-        const Padding(padding: EdgeInsets.only(top: 10)),
-        SizedBox(
-          width: width * 0.9,
-          child: const Text(
-            'Nội dung:',
-            style: TextStyle(
-              fontSize: 16,
-              color: DefaultTheme.GREY_TEXT,
-            ),
-          ),
-        ),
-        SizedBox(
-          width: width * 0.9,
-          child: Text(
-            (vietQRGenerateDTO.additionalDataFieldTemplateValue.isEmpty)
-                ? ''
-                : vietQRGenerateDTO.additionalDataFieldTemplateValue
-                    .substring(4),
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 16,
-            ),
-          ),
-        ),
-        const Spacer(),
-        SizedBox(
-          width: width * 0.9,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ButtonWidget(
-                width: width * 0.42,
-                text: 'Trang chủ',
-                textColor: DefaultTheme.GREEN,
-                bgColor: Theme.of(context).buttonColor,
-                function: () {
-                  Provider.of<CreateQRProvider>(context, listen: false).reset();
-                  Provider.of<CreateQRPageSelectProvider>(context,
-                          listen: false)
-                      .updateIndex(0);
+          const Padding(padding: EdgeInsets.only(bottom: 20)),
+          SizedBox(
+            width: width * 0.9,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ButtonWidget(
+                  width: width * 0.42,
+                  text: 'Trang chủ',
+                  textColor: DefaultTheme.WHITE,
+                  bgColor: DefaultTheme.GREEN,
+                  function: () {
+                    Provider.of<CreateQRProvider>(context, listen: false)
+                        .reset();
+                    Provider.of<CreateQRPageSelectProvider>(context,
+                            listen: false)
+                        .updateIndex(0);
 
-                  Navigator.pop(context);
-                },
-              ),
-              ButtonWidget(
-                width: width * 0.42,
-                text: 'Chia sẻ',
-                textColor: DefaultTheme.WHITE,
-                bgColor: DefaultTheme.GREEN,
-                function: () {},
-              ),
-            ],
+                    Navigator.pop(context);
+                  },
+                ),
+                ButtonWidget(
+                  width: width * 0.42,
+                  text: 'Chia sẻ',
+                  textColor: DefaultTheme.GREEN,
+                  bgColor: Theme.of(context).buttonColor,
+                  function: () {},
+                ),
+              ],
+            ),
           ),
-        ),
-        const Padding(padding: EdgeInsets.only(bottom: 20)),
-      ]),
+          const Padding(padding: EdgeInsets.only(bottom: 20)),
+        ]),
+      ),
     );
   }
 
@@ -147,7 +196,6 @@ class QRGenerated extends StatelessWidget {
             title,
             style: const TextStyle(
               fontSize: 16,
-              color: DefaultTheme.GREY_TEXT,
             ),
           ),
         ),

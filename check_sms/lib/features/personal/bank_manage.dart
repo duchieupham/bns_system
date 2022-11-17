@@ -18,7 +18,7 @@ class BankManageView extends StatelessWidget {
   static late BankManageBloc _bankManageBloc;
   static final List<BankAccountDTO> _bankAccounts = [];
   static final PageController _pageController =
-      PageController(initialPage: 0, keepPage: true);
+      PageController(initialPage: 0, keepPage: false);
   static final List<Widget> _cardWidgets = [];
 
   void initialServices(BuildContext context) {
@@ -45,6 +45,8 @@ class BankManageView extends StatelessWidget {
           BlocConsumer<BankManageBloc, BankManageState>(
             listener: ((context, state) {
               if (state is BankManageListSuccessState) {
+                Provider.of<BankAccountProvider>(context, listen: false)
+                    .updateIndex(0);
                 if (_bankAccounts.isEmpty) {
                   _bankAccounts.addAll(state.list);
                   for (BankAccountDTO bankAccountDTO in _bankAccounts) {

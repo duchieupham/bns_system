@@ -87,10 +87,11 @@ flutter:
       - assets/images/ic-qr.png
       - assets/images/ic-qr-unselect.png
       - assets/images/ic-avatar.png
-      - assets/images/ic-viet-qr.jpeg
+      - assets/images/ic-viet-qr.png
       - assets/images/ic-viet-qr-small.png
       - assets/images/logo.png
       - assets/images/ic-dropdown.png
+      - assets/images/bg-qr.png
        
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

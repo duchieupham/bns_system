@@ -84,141 +84,146 @@ class _SMSList extends State<SMSList> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Visibility(
-            visible: messagesByAddr.isNotEmpty,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: messagesByAddr.length,
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              itemBuilder: ((context, index) {
-                bool isFormatData = false;
-                String address = messagesByAddr.values
-                    .elementAt(index)
-                    .first
-                    .address
-                    .toString();
-                String body = messagesByAddr.values
-                    .elementAt(index)
-                    .first
-                    .body
-                    .toString();
-                String date = messagesByAddr.values
-                    .elementAt(index)
-                    .first
-                    .date
-                    .toString();
-                BankInformationDTO dto = const BankInformationDTO(
-                    address: '',
-                    time: '',
-                    transaction: '',
-                    accountBalance: '',
-                    content: '',
-                    bankAccount: '');
-                if (BankInformationUtil.instance
-                    .checkAvailableAddress(address)) {
-                  isFormatData = true;
-                  dto = SmsInformationUtils.instance.transferSmsData(
-                    BankInformationUtil.instance.getBankName(address),
-                    body,
-                    TimeUtils.instance.formatTime(date),
-                  );
-                }
-                return InkWell(
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => SmsDetailScreen(
-                          address: address,
-                          messages: messagesByAddr.values.elementAt(index),
-                          isFormatData: isFormatData,
-                        ),
-                      ),
+    return Padding(
+      padding: const EdgeInsets.only(top: 70),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Visibility(
+              visible: messagesByAddr.isNotEmpty,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: messagesByAddr.length,
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                itemBuilder: ((context, index) {
+                  bool isFormatData = false;
+                  String address = messagesByAddr.values
+                      .elementAt(index)
+                      .first
+                      .address
+                      .toString();
+                  String body = messagesByAddr.values
+                      .elementAt(index)
+                      .first
+                      .body
+                      .toString();
+                  String date = messagesByAddr.values
+                      .elementAt(index)
+                      .first
+                      .date
+                      .toString();
+                  BankInformationDTO dto = const BankInformationDTO(
+                      address: '',
+                      time: '',
+                      transaction: '',
+                      accountBalance: '',
+                      content: '',
+                      bankAccount: '');
+                  if (BankInformationUtil.instance
+                      .checkAvailableAddress(address)) {
+                    isFormatData = true;
+                    dto = SmsInformationUtils.instance.transferSmsData(
+                      BankInformationUtil.instance.getBankName(address),
+                      body,
+                      TimeUtils.instance.formatTime(date),
                     );
-                  },
-                  child: (isFormatData)
-                      ? SMSListItem(bankInforDTO: dto)
-                      : Container(
-                          width: width,
-                          margin: EdgeInsets.only(
-                              top: 10,
-                              bottom: (index == messagesByAddr.length - 1)
-                                  ? 100
-                                  : 0),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).cardColor,
-                            borderRadius: BorderRadius.circular(15),
+                  }
+                  return InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => SmsDetailScreen(
+                            address: address,
+                            messages: messagesByAddr.values.elementAt(index),
+                            isFormatData: isFormatData,
                           ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 15),
-                          child: Row(
-                            children: [
-                              AvatarTextWidget(
-                                size: 50,
-                                text: messagesByAddr.values
-                                    .elementAt(index)
-                                    .first
-                                    .address
-                                    .toString(),
-                              ),
-                              const Padding(padding: EdgeInsets.only(left: 10)),
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      messagesByAddr.values
-                                          .elementAt(index)
-                                          .first
-                                          .address
-                                          .toString(),
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
-                                      ),
-                                    ),
-                                    const Padding(
-                                        padding: EdgeInsets.only(bottom: 5)),
-                                    Text(
-                                      messagesByAddr.values
-                                          .elementAt(index)
-                                          .first
-                                          .body
-                                          .toString(),
-                                      style:
-                                          const TextStyle(color: Colors.grey),
-                                      maxLines: 3,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: width * 0.2,
-                                alignment: Alignment.topRight,
-                                child: Text(
-                                  TimeUtils.instance.formatHour(messagesByAddr
-                                      .values
+                        ),
+                      );
+                    },
+                    child: (isFormatData)
+                        ? SMSListItem(bankInforDTO: dto)
+                        : Container(
+                            width: width,
+                            margin: EdgeInsets.only(
+                                top: 10,
+                                bottom: (index == messagesByAddr.length - 1)
+                                    ? 100
+                                    : 0),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).cardColor,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 15),
+                            child: Row(
+                              children: [
+                                AvatarTextWidget(
+                                  size: 50,
+                                  text: messagesByAddr.values
                                       .elementAt(index)
                                       .first
-                                      .date
-                                      .toString()),
-                                  style: const TextStyle(color: Colors.grey),
+                                      .address
+                                      .toString(),
                                 ),
-                              ),
-                            ],
+                                const Padding(
+                                    padding: EdgeInsets.only(left: 10)),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        messagesByAddr.values
+                                            .elementAt(index)
+                                            .first
+                                            .address
+                                            .toString(),
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      const Padding(
+                                          padding: EdgeInsets.only(bottom: 5)),
+                                      Text(
+                                        messagesByAddr.values
+                                            .elementAt(index)
+                                            .first
+                                            .body
+                                            .toString(),
+                                        style:
+                                            const TextStyle(color: Colors.grey),
+                                        maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  width: width * 0.2,
+                                  alignment: Alignment.topRight,
+                                  child: Text(
+                                    TimeUtils.instance.formatHour(messagesByAddr
+                                        .values
+                                        .elementAt(index)
+                                        .first
+                                        .date
+                                        .toString()),
+                                    style: const TextStyle(color: Colors.grey),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                );
-              }),
+                  );
+                }),
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

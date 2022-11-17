@@ -1,6 +1,7 @@
 import 'package:check_sms/features/generate_qr/views/qr_information_view.dart';
 import 'package:check_sms/features/log_sms/sms_list.dart';
 import 'package:check_sms/features/personal/user_setting.dart';
+import 'package:check_sms/services/providers/bank_account_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:check_sms/services/providers/page_select_provider.dart';
@@ -52,20 +53,21 @@ class _HomeScreen extends State<HomeScreen> {
       ),
       body: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 70),
-            child: PageView(
-              key: const PageStorageKey('PAGE_VIEW'),
-              allowImplicitScrolling: true,
-              physics: const NeverScrollableScrollPhysics(),
-              controller: _pageController,
-              onPageChanged: (index) {
-                Provider.of<PageSelectProvider>(context, listen: false)
-                    .updateIndex(index);
-              },
-              children: _homeScreens,
-            ),
+          //Padding(
+          //padding: const EdgeInsets.only(top: 70),
+          //child:
+          PageView(
+            key: const PageStorageKey('PAGE_VIEW'),
+            allowImplicitScrolling: true,
+            physics: const NeverScrollableScrollPhysics(),
+            controller: _pageController,
+            onPageChanged: (index) {
+              Provider.of<PageSelectProvider>(context, listen: false)
+                  .updateIndex(index);
+            },
+            children: _homeScreens,
           ),
+          //),
           //header
           SizedBox(
             width: MediaQuery.of(context).size.width,
@@ -81,7 +83,7 @@ class _HomeScreen extends State<HomeScreen> {
                   decoration: BoxDecoration(
                     color: Theme.of(context)
                         .scaffoldBackgroundColor
-                        .withOpacity(0.4),
+                        .withOpacity(0.6),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -224,13 +226,27 @@ class _HomeScreen extends State<HomeScreen> {
   Widget _getTitlePaqe(BuildContext context, int indexSelected) {
     Widget titleWidget = const SizedBox();
     if (indexSelected == 0) {
-      titleWidget = const Text(
-        'Mã QR',
-        style: TextStyle(
-          fontFamily: 'NewYork',
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-          letterSpacing: 0.2,
+      titleWidget = RichText(
+        textAlign: TextAlign.left,
+        text: TextSpan(
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: Theme.of(context).hintColor,
+            letterSpacing: 0.2,
+          ),
+          children: const [
+            TextSpan(
+              text: 'Mã QR tĩnh\n',
+            ),
+            TextSpan(
+              text: 'Đây là mã QR không chứa thông tin thanh toán.',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.normal,
+              ),
+            ),
+          ],
         ),
       );
     }
