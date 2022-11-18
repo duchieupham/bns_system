@@ -1,17 +1,17 @@
 import 'package:check_sms/commons/constants/configurations/theme.dart';
+import 'package:check_sms/commons/widgets/setting_bank_sheet.dart';
 import 'package:check_sms/models/bank_account_dto.dart';
+import 'package:check_sms/services/shared_references/user_information_helper.dart';
 import 'package:flutter/material.dart';
 
 class BankCardWidget extends StatelessWidget {
   final BankAccountDTO bankAccountDTO;
   final bool? isRemove;
-  final VoidCallback? function;
 
   const BankCardWidget({
     Key? key,
     required this.bankAccountDTO,
     this.isRemove,
-    this.function,
   }) : super(key: key);
 
   @override
@@ -36,15 +36,53 @@ class BankCardWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //need to add remove function
-          Text(
-            bankAccountDTO.bankCode,
-            style: const TextStyle(
-              color: DefaultTheme.GREY_TEXT,
-              fontSize: 25,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
+          (isRemove != null && isRemove!)
+              ? SizedBox(
+                  width: width,
+                  child: Row(
+                    children: [
+                      Text(
+                        bankAccountDTO.bankCode,
+                        style: const TextStyle(
+                          color: DefaultTheme.GREY_TEXT,
+                          fontSize: 25,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const Spacer(),
+                      InkWell(
+                        onTap: () {
+                          SettingBankSheet.instance.openSettingCard(
+                            context,
+                            UserInformationHelper.instance.getUserId(),
+                            bankAccountDTO.bankAccount,
+                          );
+                        },
+                        child: Container(
+                          width: 25,
+                          height: 25,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).cardColor.withOpacity(0.5),
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          child: Icon(
+                            Icons.more_horiz_outlined,
+                            color: Theme.of(context).hintColor,
+                            size: 16,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : Text(
+                  bankAccountDTO.bankCode,
+                  style: const TextStyle(
+                    color: DefaultTheme.GREY_TEXT,
+                    fontSize: 25,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
           Text(
             bankAccountDTO.bankName,
             style: const TextStyle(

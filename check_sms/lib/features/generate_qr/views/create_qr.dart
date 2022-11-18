@@ -124,7 +124,7 @@ class _CreateQR extends State<CreateQR> {
                       width: width,
                       text: 'Tiếp theo',
                       textColor: DefaultTheme.GREEN,
-                      bgColor: Theme.of(context).buttonColor,
+                      bgColor: Theme.of(context).cardColor,
                       function: () {
                         _animatedToPage(1);
                       },
@@ -134,7 +134,7 @@ class _CreateQR extends State<CreateQR> {
                           width: width,
                           text: 'Tiếp theo',
                           textColor: DefaultTheme.GREEN,
-                          bgColor: Theme.of(context).buttonColor,
+                          bgColor: Theme.of(context).cardColor,
                           function: () {
                             _animatedToPage(2);
                           },
@@ -175,8 +175,6 @@ class _CreateQR extends State<CreateQR> {
                                 Provider.of<CreateQRPageSelectProvider>(context,
                                         listen: false)
                                     .bankAccountDTO;
-                            print(
-                                'CAI VALUE:${VietQRUtils.instance.generateCAIValue(bankAccountDTO.bankCode, bankAccountDTO.bankAccount)}');
                             VietQRGenerateDTO dto = VietQRGenerateDTO(
                               cAIValue: VietQRUtils.instance.generateCAIValue(
                                   bankAccountDTO.bankCode,

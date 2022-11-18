@@ -1,12 +1,14 @@
 import 'package:check_sms/commons/constants/configurations/theme.dart';
 import 'package:check_sms/commons/widgets/bank_card_widget.dart';
 import 'package:check_sms/commons/widgets/button_widget.dart';
+import 'package:check_sms/commons/widgets/setting_bank_sheet.dart';
 import 'package:check_sms/commons/widgets/sub_header_widget.dart';
 import 'package:check_sms/features/personal/blocs/bank_manage_bloc.dart';
 import 'package:check_sms/features/personal/events/bank_manage_event.dart';
 import 'package:check_sms/features/personal/states/bank_manage_state.dart';
 import 'package:check_sms/models/bank_account_dto.dart';
 import 'package:check_sms/services/providers/bank_account_provider.dart';
+import 'package:check_sms/services/providers/bank_select_provider.dart';
 import 'package:check_sms/services/shared_references/user_information_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +22,10 @@ class BankManageView extends StatelessWidget {
   static final PageController _pageController =
       PageController(initialPage: 0, keepPage: false);
   static final List<Widget> _cardWidgets = [];
+  static final TextEditingController _bankAccountController =
+      TextEditingController();
+  static final TextEditingController _bankAccountNameController =
+      TextEditingController();
 
   void initialServices(BuildContext context) {
     _bankManageBloc = BlocProvider.of(context);
@@ -51,11 +57,21 @@ class BankManageView extends StatelessWidget {
                   _bankAccounts.addAll(state.list);
                   for (BankAccountDTO bankAccountDTO in _bankAccounts) {
                     BankCardWidget cardWidget = BankCardWidget(
-                        key: PageStorageKey(bankAccountDTO.bankCode),
-                        bankAccountDTO: bankAccountDTO);
+                      key: PageStorageKey(bankAccountDTO.bankCode),
+                      bankAccountDTO: bankAccountDTO,
+                      isRemove: true,
+                    );
                     _cardWidgets.add(cardWidget);
                   }
                 }
+              }
+              if (state is BankManageRemoveSuccessState ||
+                  state is BankManageAddSuccessState) {
+                _bankAccounts.clear();
+                _cardWidgets.clear();
+                _bankManageBloc.add(BankManageEventGetList(
+                    userId: UserInformationHelper.instance.getUserId()));
+                Navigator.pop(context);
               }
             }),
             builder: ((context, state) {
@@ -112,7 +128,20 @@ class BankManageView extends StatelessWidget {
             text: 'Thêm tài khoản ngân hàng',
             textColor: DefaultTheme.WHITE,
             bgColor: DefaultTheme.GREEN,
-            function: () {},
+            function: () async {
+              List<String> banks =
+                  Provider.of<BankSelectProvider>(context, listen: false)
+                      .getListAvailableBank();
+              await SettingBankSheet.instance
+                  .openAddingFormCard(context, banks, _bankAccountController,
+                      _bankAccountNameController)
+                  .then((value) {
+                _bankAccountController.clear();
+                _bankAccountNameController.clear();
+                Provider.of<BankSelectProvider>(context, listen: false)
+                    .updateBankSelected(banks.first);
+              });
+            },
           ),
           const Padding(padding: EdgeInsets.only(bottom: 20)),
         ],

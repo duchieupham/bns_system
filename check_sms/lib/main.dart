@@ -3,6 +3,7 @@ import 'package:check_sms/features/home/home.dart';
 import 'package:check_sms/features/login/views/login.dart';
 import 'package:check_sms/features/personal/blocs/bank_manage_bloc.dart';
 import 'package:check_sms/services/providers/bank_account_provider.dart';
+import 'package:check_sms/services/providers/bank_select_provider.dart';
 import 'package:check_sms/services/providers/create_qr_page_select_provider.dart';
 import 'package:check_sms/services/providers/create_qr_provider.dart';
 import 'package:check_sms/services/providers/page_select_provider.dart';
@@ -70,6 +71,7 @@ class BNSApp extends StatelessWidget {
                 create: (context) => CreateQRPageSelectProvider()),
             ChangeNotifierProvider(create: (context) => CreateQRProvider()),
             ChangeNotifierProvider(create: (context) => BankAccountProvider()),
+            ChangeNotifierProvider(create: (context) => BankSelectProvider()),
           ],
           child: Consumer<ThemeProvider>(
             builder: (context, themeSelect, child) {

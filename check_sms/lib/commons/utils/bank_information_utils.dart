@@ -139,4 +139,32 @@ class BankInformationUtil {
     }
     return result;
   }
+
+  List<String> getAvailableAddingBanks() {
+    List<String> result = [];
+    String prefix = '';
+    String suffix = '';
+    for (var bankName in AVAILABLE_ADD_BANKNAME.values) {
+      prefix = bankName.toString().replaceAll('AVAILABLE_ADD_BANKNAME.', '');
+      if (prefix ==
+          AVAILABLE_ADD_BANKNAME.SHB
+              .toString()
+              .replaceAll('AVAILABLE_ADD_BANKNAME.', '')) {
+        suffix = 'Ngân hàng TMCP Sài Gòn - Hà Nội';
+      } else if (prefix ==
+          AVAILABLE_ADD_BANKNAME.TECHCOMBANK
+              .toString()
+              .replaceAll('AVAILABLE_ADD_BANKNAME.', '')) {
+        suffix = 'Ngân hàng TMCP Kỹ thương Việt Nam';
+      } else if (prefix ==
+          AVAILABLE_ADD_BANKNAME.VIETCOMBANK
+              .toString()
+              .replaceAll('AVAILABLE_ADD_BANKNAME.', '')) {
+        suffix = 'Ngân hàng TMCP Ngoại thương Việt Nam';
+      }
+      String value = '$prefix - $suffix';
+      result.add(value);
+    }
+    return result;
+  }
 }

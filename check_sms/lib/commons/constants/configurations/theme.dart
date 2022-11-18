@@ -125,7 +125,7 @@ class DefaultThemeData {
     return ThemeData(
       brightness: Brightness.light,
       scaffoldBackgroundColor: DefaultTheme.GREY_BG,
-      buttonColor: DefaultTheme.WHITE,
+      buttonColor: DefaultTheme.GREY_VIEW,
       primaryColor: DefaultTheme.WHITE,
       hoverColor: DefaultTheme.WHITE,
       cursorColor: DefaultTheme.GREY_TEXT,

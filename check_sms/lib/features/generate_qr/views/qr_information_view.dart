@@ -26,6 +26,8 @@ class QRInformationView extends StatelessWidget {
   static final List<Widget> _cardWidgets = [];
 
   void initialServices(BuildContext context) {
+    _cardWidgets.clear();
+    _bankAccounts.clear();
     _bankManageBloc = BlocProvider.of(context);
     _bankManageBloc.add(BankManageEventGetList(
         userId: UserInformationHelper.instance.getUserId()));
@@ -33,6 +35,7 @@ class QRInformationView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('build qr information widget');
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     initialServices(context);
@@ -67,6 +70,13 @@ class QRInformationView extends StatelessWidget {
                         _cardWidgets.add(qrWidget);
                       }
                     }
+                  }
+                  if (state is BankManageRemoveSuccessState ||
+                      state is BankManageAddSuccessState) {
+                    _bankAccounts.clear();
+                    _cardWidgets.clear();
+                    _bankManageBloc.add(BankManageEventGetList(
+                        userId: UserInformationHelper.instance.getUserId()));
                   }
                 }),
                 builder: ((context, state) {

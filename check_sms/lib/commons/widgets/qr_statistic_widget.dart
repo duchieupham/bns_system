@@ -2,7 +2,9 @@ import 'dart:ui';
 
 import 'package:check_sms/commons/constants/configurations/theme.dart';
 import 'package:check_sms/commons/utils/bank_information_utils.dart';
+import 'package:check_sms/commons/utils/viet_qr_utils.dart';
 import 'package:check_sms/models/bank_account_dto.dart';
+import 'package:check_sms/models/viet_qr_generate_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -16,6 +18,15 @@ class QRStatisticWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    VietQRGenerateDTO dto = VietQRGenerateDTO(
+      cAIValue: VietQRUtils.instance.generateCAIValue(
+          bankAccountDTO.bankCode, bankAccountDTO.bankAccount),
+      //'0010A00000072701240006970436011090000067890208QRIBFTTA',
+      transactionAmountValue: '',
+      additionalDataFieldTemplateValue: '',
+    );
+    String qrCode =
+        VietQRUtils.instance.generateVietQRWithoutTransactionAmount(dto);
     double width = MediaQuery.of(context).size.width;
     return UnconstrainedBox(
       alignment: Alignment.center,
@@ -49,7 +60,7 @@ class QRStatisticWidget extends StatelessWidget {
                     ),
                   ),
                   child: QrImage(
-                    data: 1.toString(),
+                    data: qrCode,
                     version: QrVersions.auto,
                     size: width * 0.5,
                     embeddedImage:
