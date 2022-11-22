@@ -66,7 +66,9 @@ class QRGenerated extends StatelessWidget {
                             .updateIndex(0);
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
-                            builder: (context) => const CreateQR(),
+                            builder: (context) => CreateQR(
+                              bankAccountDTO: bankAccountDTO,
+                            ),
                           ),
                         );
                       },

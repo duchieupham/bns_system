@@ -1,6 +1,7 @@
 import 'package:check_sms/commons/constants/configurations/theme.dart';
 import 'package:check_sms/commons/widgets/bank_card_widget.dart';
 import 'package:check_sms/commons/widgets/button_widget.dart';
+import 'package:check_sms/commons/widgets/dialog_widget.dart';
 import 'package:check_sms/commons/widgets/setting_bank_sheet.dart';
 import 'package:check_sms/commons/widgets/sub_header_widget.dart';
 import 'package:check_sms/features/personal/blocs/bank_manage_bloc.dart';
@@ -65,8 +66,26 @@ class BankManageView extends StatelessWidget {
                   }
                 }
               }
+              if (state is BankManageLoadingState) {
+                DialogWidget.instance.openLoadingDialog(context);
+              }
+              if (state is BankManageListFailedState) {
+                DialogWidget.instance.openMsgDialog(context,
+                    'Không thể tải danh sách tài khoản ngân hàng. Vui lòng kiểm tra lại kết nối mạng');
+              }
+              if (state is BankManageAddFailedState) {
+                DialogWidget.instance.openMsgDialog(context,
+                    'Không thể thêm tài khoản ngân hàng. Vui lòng kiểm tra lại kết nối mạng');
+              }
+              if (state is BankManageRemoveFailedState) {
+                DialogWidget.instance.openMsgDialog(context,
+                    'Không thể xoá tài khoản ngân hàng. Vui lòng kiểm tra lại kết nối mạng');
+              }
               if (state is BankManageRemoveSuccessState ||
                   state is BankManageAddSuccessState) {
+                //close loading dialog
+                Navigator.pop(context);
+                //
                 _bankAccounts.clear();
                 _cardWidgets.clear();
                 _bankManageBloc.add(BankManageEventGetList(
@@ -140,6 +159,8 @@ class BankManageView extends StatelessWidget {
                 _bankAccountNameController.clear();
                 Provider.of<BankSelectProvider>(context, listen: false)
                     .updateBankSelected(banks.first);
+                Provider.of<BankSelectProvider>(context, listen: false)
+                    .updateErrs(false, false, false);
               });
             },
           ),

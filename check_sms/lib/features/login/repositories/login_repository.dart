@@ -7,13 +7,14 @@ import 'package:check_sms/services/shared_references/user_information_helper.dar
 class LoginRepository {
   const LoginRepository();
 
-  Future<bool> login(AccountLoginDTO dto) async {
-    bool result = false;
+  Future<Map<String, dynamic>> login(AccountLoginDTO dto) async {
+    Map<String, dynamic> result = {'isLogin': false, 'userId': ''};
     try {
       String userId = await LoginDB.instance.login(dto.phoneNo, dto.password);
       if (userId.isNotEmpty) {
         await UserInformationHelper.instance.setUserId(userId);
-        result = true;
+        result['isLogin'] = true;
+        result['userId'] = userId;
       }
     } catch (e) {
       print('Error at login: $e');
@@ -21,20 +22,20 @@ class LoginRepository {
     return result;
   }
 
-  Future<UserInformationDTO> getUserInformation(String userId) async {
-    UserInformationDTO result = const UserInformationDTO(
-      userId: '',
-      firstName: '',
-      middleName: '',
-      lastName: '',
-      birthDate: '',
-      gender: 'false',
-      phoneNo: '',
-      address: '',
-    );
+  Future<bool> getUserInformation(String userId) async {
+    bool result = false;
     try {
-      result = await UserInformationDB.instance.getUserInformation(userId);
-      await UserInformationHelper.instance.setUserInformation(result);
+      await UserInformationDB.instance
+          .getUserInformation(userId)
+          .then((value) async {
+        UserInformationDTO dto = value;
+        if (value.userId != '') {
+          await UserInformationHelper.instance.setUserInformation(dto);
+          result = true;
+        }
+      });
+
+      result = true;
     } catch (e) {
       print('Error at getUserInformation - login repository: $e');
     }

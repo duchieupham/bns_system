@@ -1,10 +1,7 @@
 import 'dart:ui';
 
 import 'package:check_sms/commons/constants/configurations/theme.dart';
-import 'package:check_sms/commons/utils/time_utils.dart';
 import 'package:check_sms/commons/widgets/button_widget.dart';
-import 'package:check_sms/commons/widgets/dialog_widget.dart';
-import 'package:check_sms/commons/widgets/qr_information_widget.dart';
 import 'package:check_sms/commons/widgets/qr_statistic_widget.dart';
 import 'package:check_sms/features/generate_qr/views/create_qr.dart';
 import 'package:check_sms/features/personal/blocs/bank_manage_bloc.dart';
@@ -12,6 +9,7 @@ import 'package:check_sms/features/personal/events/bank_manage_event.dart';
 import 'package:check_sms/features/personal/states/bank_manage_state.dart';
 import 'package:check_sms/models/bank_account_dto.dart';
 import 'package:check_sms/services/providers/bank_account_provider.dart';
+import 'package:check_sms/services/providers/create_qr_page_select_provider.dart';
 import 'package:check_sms/services/shared_references/user_information_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -96,6 +94,11 @@ class QRInformationView extends StatelessWidget {
                                     Provider.of<BankAccountProvider>(context,
                                             listen: false)
                                         .updateIndex(index);
+                                    Provider.of<CreateQRPageSelectProvider>(
+                                            context,
+                                            listen: false)
+                                        .updateBankAccountDTO(
+                                            _bankAccounts[index]);
                                   },
                                   children: _cardWidgets,
                                 ),
@@ -132,14 +135,7 @@ class QRInformationView extends StatelessWidget {
                 text: 'Chia sẻ mã QR của bạn',
                 textColor: DefaultTheme.GREEN,
                 bgColor: Theme.of(context).cardColor,
-                function: () {
-                  DialogWidget.instance.openTransactionFormattedDialog(
-                    context,
-                    'Viettin Bank',
-                    'VietinBank:21/01/2022 09:20|TK:115000067275|GD:-1,817,432VND|SDC:160,063,611VND|ND:CT DEN:000522831193 CN CTY TNHH MTV VIEN THONG Q.TE FPT TT HD SO 0000111 ~',
-                    TimeUtils.instance.formatTime('15/11/2022 13:58'),
-                  );
-                },
+                function: () {},
               ),
             ),
             const Padding(
@@ -155,7 +151,12 @@ class QRInformationView extends StatelessWidget {
                 function: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => const CreateQR(),
+                      builder: (context) => CreateQR(
+                        bankAccountDTO: Provider.of<CreateQRPageSelectProvider>(
+                                context,
+                                listen: false)
+                            .bankAccountDTO,
+                      ),
                     ),
                   );
                 },

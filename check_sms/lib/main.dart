@@ -1,5 +1,6 @@
 import 'package:check_sms/commons/constants/configurations/theme.dart';
 import 'package:check_sms/features/home/home.dart';
+import 'package:check_sms/features/login/blocs/login_bloc.dart';
 import 'package:check_sms/features/login/views/login.dart';
 import 'package:check_sms/features/personal/blocs/bank_manage_bloc.dart';
 import 'package:check_sms/services/providers/bank_account_provider.dart';
@@ -61,6 +62,9 @@ class BNSApp extends StatelessWidget {
         providers: [
           BlocProvider<BankManageBloc>(
             create: (BuildContext context) => BankManageBloc(),
+          ),
+          BlocProvider<LoginBloc>(
+            create: (BuildContext context) => LoginBloc(),
           ),
         ],
         child: MultiProvider(

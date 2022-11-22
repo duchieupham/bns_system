@@ -16,7 +16,6 @@ class BankManageBloc extends Bloc<BankManageEvent, BankManageState> {
 
   void _getListBankAccount(BankManageEvent event, Emitter emit) async {
     try {
-      emit(BankManageLoadingState());
       if (event is BankManageEventGetList) {
         List<BankAccountDTO> list =
             await bankManageRepository.getListBankAccount(event.userId);
@@ -30,8 +29,8 @@ class BankManageBloc extends Bloc<BankManageEvent, BankManageState> {
 
   void _addBankAccount(BankManageEvent event, Emitter emit) async {
     try {
-      emit(BankManageLoadingState());
       if (event is BankManageEventAddDTO) {
+        emit(BankManageLoadingState());
         bool result =
             await bankManageRepository.addBankAccount(event.userId, event.dto);
         if (result) {
@@ -46,8 +45,8 @@ class BankManageBloc extends Bloc<BankManageEvent, BankManageState> {
 
   void _removeBankAccount(BankManageEvent event, Emitter emit) async {
     try {
-      emit(BankManageLoadingState());
       if (event is BankManageEventRemoveDTO) {
+        emit(BankManageLoadingState());
         bool result = await bankManageRepository.removeBankAccount(
             event.userId, event.bankCode);
         if (result) {

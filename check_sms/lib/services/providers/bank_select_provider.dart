@@ -4,13 +4,27 @@ import 'package:flutter/cupertino.dart';
 class BankSelectProvider with ChangeNotifier {
   //
   String _bankSelected = 'Chọn ngân hàng';
-  List<String> _banks = BankInformationUtil.instance.getAvailableAddingBanks();
 
-  get banks => _banks;
+  //error handler
+  bool _isBankSelectErr = false;
+  bool _isBankAccountErr = false;
+  bool _isBankAccountNameErr = false;
+
   get bankSelected => _bankSelected;
+  get bankSelectErr => _isBankSelectErr;
+  get bankAccountErr => _isBankAccountErr;
+  get bankAccountNameErr => _isBankAccountNameErr;
 
   void updateBankSelected(String value) {
     _bankSelected = value;
+    notifyListeners();
+  }
+
+  void updateErrs(
+      bool bankSelectErr, bool bankAccountErr, bool bankAccountNameErr) {
+    _isBankSelectErr = bankSelectErr;
+    _isBankAccountErr = bankAccountErr;
+    _isBankAccountNameErr = bankAccountNameErr;
     notifyListeners();
   }
 

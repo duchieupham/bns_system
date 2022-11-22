@@ -1,6 +1,7 @@
 import 'package:check_sms/commons/constants/configurations/theme.dart';
 import 'package:check_sms/commons/utils/bank_information_utils.dart';
 import 'package:check_sms/commons/utils/sms_information_utils.dart';
+import 'package:check_sms/commons/widgets/button_widget.dart';
 import 'package:check_sms/models/bank_information_dto.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,78 @@ class DialogWidget {
   const DialogWidget._privateConstructor();
   static const DialogWidget _instance = DialogWidget._privateConstructor();
   static DialogWidget get instance => _instance;
+
+  openLoadingDialog(BuildContext context) {
+    return showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return Material(
+            color: DefaultTheme.TRANSPARENT,
+            child: Center(
+              child: Container(
+                width: 250,
+                height: 200,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).cardColor.withOpacity(0.9),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const CircularProgressIndicator(
+                  color: DefaultTheme.GREEN,
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
+  openMsgDialog(BuildContext context, String msg) {
+    return showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return Material(
+            color: DefaultTheme.TRANSPARENT,
+            child: Center(
+              child: Container(
+                  width: 300,
+                  height: 250,
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor.withOpacity(0.9),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Spacer(),
+                      Text(
+                        msg,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      const Spacer(),
+                      ButtonWidget(
+                        width: 230,
+                        text: 'OK',
+                        textColor: DefaultTheme.WHITE,
+                        bgColor: DefaultTheme.GREEN,
+                        function: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      const Padding(padding: EdgeInsets.only(bottom: 20)),
+                    ],
+                  )),
+            ),
+          );
+        });
+  }
 
   openTransactionDialog(BuildContext context, String address, String body) {
     final ScrollController _scrollContoller = ScrollController();

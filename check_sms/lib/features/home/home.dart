@@ -1,6 +1,6 @@
 import 'package:check_sms/features/generate_qr/views/qr_information_view.dart';
 import 'package:check_sms/features/log_sms/sms_list.dart';
-import 'package:check_sms/features/personal/user_setting.dart';
+import 'package:check_sms/features/personal/views/user_setting.dart';
 import 'package:check_sms/services/providers/bank_account_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

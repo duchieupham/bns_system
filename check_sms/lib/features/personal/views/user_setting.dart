@@ -2,7 +2,7 @@ import 'package:check_sms/commons/constants/configurations/theme.dart';
 import 'package:check_sms/commons/widgets/button_text_widget.dart';
 import 'package:check_sms/features/home/theme_setting.dart';
 import 'package:check_sms/features/login/views/login.dart';
-import 'package:check_sms/features/personal/bank_manage.dart';
+import 'package:check_sms/features/personal/views/bank_manage.dart';
 import 'package:check_sms/services/shared_references/user_information_helper.dart';
 import 'package:flutter/material.dart';
 
