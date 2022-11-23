@@ -1,8 +1,10 @@
 import 'dart:ui';
 
 import 'package:check_sms/commons/constants/configurations/theme.dart';
+import 'package:check_sms/commons/utils/share_utils.dart';
 import 'package:check_sms/commons/widgets/button_widget.dart';
 import 'package:check_sms/commons/widgets/qr_statistic_widget.dart';
+import 'package:check_sms/commons/widgets/repaint_boundary_widget.dart';
 import 'package:check_sms/features/generate_qr/views/create_qr.dart';
 import 'package:check_sms/features/personal/blocs/bank_manage_bloc.dart';
 import 'package:check_sms/features/personal/events/bank_manage_event.dart';
@@ -22,6 +24,7 @@ class QRInformationView extends StatelessWidget {
   static final PageController _pageController =
       PageController(initialPage: 0, keepPage: false);
   static final List<Widget> _cardWidgets = [];
+  static final List<GlobalKey> _keys = [];
 
   void initialServices(BuildContext context) {
     _cardWidgets.clear();
@@ -38,186 +41,148 @@ class QRInformationView extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     initialServices(context);
     return Container(
-        width: width,
-        height: height,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/bg-qr.png'),
-            fit: BoxFit.fitHeight,
-          ),
+      width: width,
+      height: height,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/bg-qr.png'),
+          fit: BoxFit.fitHeight,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Padding(padding: EdgeInsets.only(top: 40)),
-            Expanded(
-              child: BlocConsumer<BankManageBloc, BankManageState>(
-                listener: ((context, state) {
-                  if (state is BankManageListSuccessState) {
-                    Provider.of<BankAccountProvider>(context, listen: false)
-                        .updateIndex(0);
-                    if (_pageController.positions.isNotEmpty) {
-                      _pageController.jumpToPage(0);
-                    }
-                    if (_bankAccounts.isEmpty) {
-                      _bankAccounts.addAll(state.list);
-                      for (BankAccountDTO bankAccountDTO in _bankAccounts) {
-                        QRStatisticWidget qrWidget = QRStatisticWidget(
-                            key: PageStorageKey(bankAccountDTO.bankCode),
-                            bankAccountDTO: bankAccountDTO);
-                        _cardWidgets.add(qrWidget);
-                      }
-                    }
-                  }
-                  if (state is BankManageRemoveSuccessState ||
-                      state is BankManageAddSuccessState) {
-                    _bankAccounts.clear();
-                    _cardWidgets.clear();
-                    _bankManageBloc.add(BankManageEventGetList(
-                        userId: UserInformationHelper.instance.getUserId()));
-                  }
-                }),
-                builder: ((context, state) {
-                  return Column(
-                    children: [
-                      Expanded(
-                        child: (_bankAccounts.isEmpty)
-                            ? const SizedBox()
-                            : SizedBox(
-                                width: width,
-                                child: PageView(
-                                  key: const PageStorageKey(
-                                      'QR_STATIC_PAGE_VIEW'),
-                                  // physics: const NeverScrollableScrollPhysics(),
-                                  controller: _pageController,
-                                  onPageChanged: (index) {
-                                    Provider.of<BankAccountProvider>(context,
-                                            listen: false)
-                                        .updateIndex(index);
-                                    Provider.of<CreateQRPageSelectProvider>(
-                                            context,
-                                            listen: false)
-                                        .updateBankAccountDTO(
-                                            _bankAccounts[index]);
-                                  },
-                                  children: _cardWidgets,
-                                ),
-                              ),
-                      ),
-                      (_bankAccounts.isEmpty)
-                          ? const SizedBox()
-                          : Container(
-                              width: width,
-                              height: 10,
-                              alignment: Alignment.center,
-                              child: Consumer<BankAccountProvider>(
-                                  builder: (context, page, child) {
-                                return ListView.builder(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount: _bankAccounts.length,
-                                    itemBuilder: ((context, index) => _buildDot(
-                                        (index == page.indexSelected))));
-                              }),
-                            ),
-                    ],
-                  );
-                }),
-              ),
-            ),
-            const Padding(padding: EdgeInsets.only(top: 20)),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: ButtonWidget(
-                width: width,
-                text: 'Chia sẻ mã QR của bạn',
-                textColor: DefaultTheme.GREEN,
-                bgColor: Theme.of(context).cardColor,
-                function: () {},
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(top: 10),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: ButtonWidget(
-                width: width,
-                text: 'Tạo mã QR thanh toán',
-                textColor: DefaultTheme.WHITE,
-                bgColor: DefaultTheme.GREEN,
-                function: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => CreateQR(
-                        bankAccountDTO: Provider.of<CreateQRPageSelectProvider>(
-                                context,
-                                listen: false)
-                            .bankAccountDTO,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(bottom: 100),
-            ),
-          ],
-        ));
-    /*  return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          /*const Text(
-            'Mã QR của bạn',
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-          ),*/
-          const Text(
-            'Mã QR này là mã QR tĩnh và không chứa thông tin số tiền thanh toán.',
-            style: TextStyle(
-                color: DefaultTheme.GREY_TEXT, fontStyle: FontStyle.italic),
+          const Padding(padding: EdgeInsets.only(top: 40)),
+          Expanded(
+            child: BlocConsumer<BankManageBloc, BankManageState>(
+              listener: ((context, state) {
+                if (state is BankManageListSuccessState) {
+                  Provider.of<BankAccountProvider>(context, listen: false)
+                      .updateIndex(0);
+
+                  if (_pageController.positions.isNotEmpty) {
+                    _pageController.jumpToPage(0);
+                  }
+                  if (_bankAccounts.isEmpty) {
+                    _bankAccounts.addAll(state.list);
+                    for (BankAccountDTO bankAccountDTO in _bankAccounts) {
+                      GlobalKey key = GlobalKey();
+                      _keys.add(key);
+                      QRStatisticWidget qrWidget = QRStatisticWidget(
+                        bankAccountDTO: bankAccountDTO,
+                      );
+                      RepaintBoundaryWidget repaintBoundaryWidget =
+                          RepaintBoundaryWidget(
+                              globalKey: key,
+                              builder: (key) {
+                                return SizedBox(
+                                  width: 350,
+                                  height: 300,
+                                  child: qrWidget,
+                                );
+                              });
+                      _cardWidgets.add(repaintBoundaryWidget);
+                    }
+                  }
+                  Provider.of<CreateQRPageSelectProvider>(context,
+                          listen: false)
+                      .updateBankAccountDTO(_bankAccounts[0]);
+                }
+                if (state is BankManageRemoveSuccessState ||
+                    state is BankManageAddSuccessState) {
+                  _bankAccounts.clear();
+                  _cardWidgets.clear();
+                  _bankManageBloc.add(BankManageEventGetList(
+                      userId: UserInformationHelper.instance.getUserId()));
+                }
+              }),
+              builder: ((context, state) {
+                return Column(
+                  children: [
+                    Expanded(
+                      child: (_bankAccounts.isEmpty)
+                          ? const SizedBox()
+                          : SizedBox(
+                              width: width,
+                              child: PageView(
+                                key:
+                                    const PageStorageKey('QR_STATIC_PAGE_VIEW'),
+                                // physics: const NeverScrollableScrollPhysics(),
+                                controller: _pageController,
+                                onPageChanged: (index) {
+                                  Provider.of<BankAccountProvider>(context,
+                                          listen: false)
+                                      .updateIndex(index);
+                                  Provider.of<CreateQRPageSelectProvider>(
+                                          context,
+                                          listen: false)
+                                      .updateBankAccountDTO(
+                                          _bankAccounts[index]);
+                                },
+                                children: _cardWidgets,
+                              ),
+                            ),
+                    ),
+                    (_bankAccounts.isEmpty)
+                        ? const SizedBox()
+                        : Container(
+                            width: width,
+                            height: 10,
+                            alignment: Alignment.center,
+                            child: Consumer<BankAccountProvider>(
+                                builder: (context, page, child) {
+                              return ListView.builder(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: _bankAccounts.length,
+                                  itemBuilder: ((context, index) => _buildDot(
+                                      (index == page.indexSelected))));
+                            }),
+                          ),
+                  ],
+                );
+              }),
+            ),
+          ),
+          const Padding(padding: EdgeInsets.only(top: 20)),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: ButtonWidget(
+              width: width,
+              text: 'Chia sẻ mã QR của bạn',
+              textColor: DefaultTheme.GREEN,
+              bgColor: Theme.of(context).cardColor,
+              function: () async {
+                await ShareUtils.instance.shareImage(_keys[
+                    Provider.of<BankAccountProvider>(context, listen: false)
+                        .indexSelected]);
+              },
+            ),
           ),
           const Padding(
             padding: EdgeInsets.only(top: 10),
           ),
-          Align(
-            alignment: Alignment.center,
-            child: QRInformationWidget(width: width * 0.9),
-          ),
-          const Spacer(),
-          ButtonWidget(
-            width: width,
-            text: 'Chia sẻ mã QR của bạn',
-            textColor: DefaultTheme.GREEN,
-            bgColor: Theme.of(context).buttonColor,
-            function: () {
-              DialogWidget.instance.openTransactionFormattedDialog(
-                context,
-                'Viettin Bank',
-                'VietinBank:21/01/2022 09:20|TK:115000067275|GD:-1,817,432VND|SDC:160,063,611VND|ND:CT DEN:000522831193 CN CTY TNHH MTV VIEN THONG Q.TE FPT TT HD SO 0000111 ~',
-                TimeUtils.instance.formatTime('15/11/2022 13:58'),
-              );
-            },
-          ),
-          const Padding(
-            padding: EdgeInsets.only(top: 10),
-          ),
-          ButtonWidget(
-            width: width,
-            text: 'Tạo mã QR thanh toán',
-            textColor: DefaultTheme.WHITE,
-            bgColor: DefaultTheme.GREEN,
-            function: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const CreateQR(),
-                ),
-              );
-            },
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: ButtonWidget(
+              width: width,
+              text: 'Tạo mã QR thanh toán',
+              textColor: DefaultTheme.WHITE,
+              bgColor: DefaultTheme.GREEN,
+              function: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => CreateQR(
+                      bankAccountDTO: Provider.of<CreateQRPageSelectProvider>(
+                              context,
+                              listen: false)
+                          .bankAccountDTO,
+                    ),
+                  ),
+                );
+              },
+            ),
           ),
           const Padding(
             padding: EdgeInsets.only(bottom: 100),
@@ -225,7 +190,6 @@ class QRInformationView extends StatelessWidget {
         ],
       ),
     );
-  */
   }
 
   Widget _buildDot(bool isSelected) {

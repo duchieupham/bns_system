@@ -1,11 +1,11 @@
 import 'dart:ui';
-
 import 'package:check_sms/commons/constants/configurations/theme.dart';
-import 'package:check_sms/commons/constants/vietqr/default_bank_information.dart';
 import 'package:check_sms/commons/utils/currency_utils.dart';
+import 'package:check_sms/commons/utils/share_utils.dart';
 import 'package:check_sms/commons/widgets/button_widget.dart';
 import 'package:check_sms/commons/widgets/header_button_widet.dart';
 import 'package:check_sms/commons/widgets/qr_generated_widget.dart';
+import 'package:check_sms/commons/widgets/repaint_boundary_widget.dart';
 import 'package:check_sms/features/generate_qr/views/create_qr.dart';
 import 'package:check_sms/models/bank_account_dto.dart';
 import 'package:check_sms/models/viet_qr_generate_dto.dart';
@@ -28,6 +28,7 @@ class QRGenerated extends StatelessWidget {
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
+    final GlobalKey key = GlobalKey();
     return Scaffold(
       appBar: AppBar(toolbarHeight: 0),
       body: Container(
@@ -97,10 +98,15 @@ class QRGenerated extends StatelessWidget {
             ),
           ),
           const Padding(padding: EdgeInsets.only(top: 30)),
-          QRGeneratedWidget(
-            width: width * 0.9,
-            vietQRGenerateDTO: vietQRGenerateDTO,
-            bankAccountDTO: bankAccountDTO,
+          RepaintBoundaryWidget(
+            globalKey: key,
+            builder: (key) {
+              return QRGeneratedWidget(
+                width: width * 0.9,
+                vietQRGenerateDTO: vietQRGenerateDTO,
+                bankAccountDTO: bankAccountDTO,
+              );
+            },
           ),
           // Text('${dto.transactionAmountValue}'),
           // Text('${dto.additionalDataFieldTemplateValue}'),
@@ -177,7 +183,9 @@ class QRGenerated extends StatelessWidget {
                   text: 'Chia sẻ',
                   textColor: DefaultTheme.GREEN,
                   bgColor: Theme.of(context).buttonColor,
-                  function: () {},
+                  function: () async {
+                    await ShareUtils.instance.shareImage(key);
+                  },
                 ),
               ],
             ),

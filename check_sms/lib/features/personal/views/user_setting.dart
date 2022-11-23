@@ -105,7 +105,7 @@ class _UserSetting extends State<UserSetting> {
                   function: () async {
                     await UserInformationHelper.instance
                         .initialUserInformationHelper();
-                    Navigator.of(context).push(
+                    Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                         builder: (context) => const Login(),
                       ),

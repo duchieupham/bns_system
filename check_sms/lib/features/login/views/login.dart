@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:check_sms/commons/constants/configurations/theme.dart';
+import 'package:check_sms/commons/utils/encrypt_utils.dart';
 import 'package:check_sms/commons/widgets/button_widget.dart';
 import 'package:check_sms/commons/widgets/dialog_widget.dart';
 import 'package:check_sms/commons/widgets/textfield_widget.dart';
@@ -131,15 +132,10 @@ class Login extends StatelessWidget {
                     textColor: DefaultTheme.WHITE,
                     bgColor: DefaultTheme.GREEN,
                     function: () {
-                      List<int> key = utf8.encode(phoneNoController.text);
-                      List<int> passwordData =
-                          utf8.encode(passwordController.text);
-                      Hmac hmacSHA256 = Hmac(sha256, key);
-                      Digest passwordEncrypted =
-                          hmacSHA256.convert(passwordData);
                       AccountLoginDTO dto = AccountLoginDTO(
                           phoneNo: phoneNoController.text,
-                          password: passwordEncrypted.toString());
+                          password: EncryptUtils.instance.encrypted(
+                              phoneNoController.text, passwordController.text));
                       _loginBloc.add(LoginEventByPhone(dto: dto));
                     },
                   ),

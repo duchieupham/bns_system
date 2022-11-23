@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:check_sms/commons/utils/encrypt_utils.dart';
 import 'package:crypto/crypto.dart';
 
 class AccountRegisterDTO {
@@ -47,14 +48,10 @@ class AccountRegisterDTO {
   }
 
   Map<String, dynamic> toUserAccountJson() {
-    List<int> key = utf8.encode(phoneNo);
-    List<int> passwordData = utf8.encode(password);
-    Hmac hmacSHA256 = Hmac(sha256, key);
-    Digest passwordEncrypted = hmacSHA256.convert(passwordData);
     Map<String, dynamic> data = {};
     data['id'] = userId;
     data['phoneNo'] = phoneNo;
-    data['password'] = passwordEncrypted.toString();
+    data['password'] = EncryptUtils.instance.encrypted(phoneNo, password);
     return data;
   }
 
