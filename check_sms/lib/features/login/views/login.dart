@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:check_sms/commons/constants/configurations/theme.dart';
 import 'package:check_sms/commons/widgets/button_widget.dart';
 import 'package:check_sms/commons/widgets/dialog_widget.dart';
@@ -9,6 +11,7 @@ import 'package:check_sms/features/login/states/login_state.dart';
 import 'package:check_sms/features/register/views/register_view.dart';
 import 'package:check_sms/models/account_login_dto.dart';
 import 'package:check_sms/services/providers/page_select_provider.dart';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -48,7 +51,7 @@ class Login extends StatelessWidget {
             Provider.of<PageSelectProvider>(context, listen: false)
                 .updateIndex(0);
             //navigate to home screen
-            Navigator.of(context).push(
+            Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => const HomeScreen(),
               ),
@@ -127,10 +130,16 @@ class Login extends StatelessWidget {
                     text: 'Đăng nhập',
                     textColor: DefaultTheme.WHITE,
                     bgColor: DefaultTheme.GREEN,
-                    function: () async {
+                    function: () {
+                      List<int> key = utf8.encode(phoneNoController.text);
+                      List<int> passwordData =
+                          utf8.encode(passwordController.text);
+                      Hmac hmacSHA256 = Hmac(sha256, key);
+                      Digest passwordEncrypted =
+                          hmacSHA256.convert(passwordData);
                       AccountLoginDTO dto = AccountLoginDTO(
                           phoneNo: phoneNoController.text,
-                          password: passwordController.text);
+                          password: passwordEncrypted.toString());
                       _loginBloc.add(LoginEventByPhone(dto: dto));
                     },
                   ),
@@ -138,7 +147,7 @@ class Login extends StatelessWidget {
                     width: width / 2 - 20,
                     text: 'Đăng ký',
                     textColor: DefaultTheme.GREEN,
-                    bgColor: DefaultTheme.WHITE,
+                    bgColor: Theme.of(context).buttonColor,
                     function: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(

@@ -17,6 +17,16 @@ class TimeUtils {
     return result;
   }
 
+  String formatDate(String date) {
+    String result = '';
+    DateFormat format = DateFormat('dd/MM/yyyy');
+    bool isValidDate = DateTime.tryParse(date.toString()) != null;
+    if (date != '' && isValidDate) {
+      result = format.format(DateTime.parse(date)).toString();
+    }
+    return result;
+  }
+
   String formatHour(String date) {
     String formattedTime = '';
     DateFormat format = DateFormat('HH:mm');

@@ -81,7 +81,7 @@ class ThemeSettingView extends StatelessWidget {
                           alignment: Alignment.centerLeft,
                           child: Row(
                             children: [
-                              Text('${getTitleTheme(index)}'),
+                              Text(getTitleTheme(index)),
                               Spacer(),
                               //check box
                               CheckBoxWidget(
@@ -89,8 +89,8 @@ class ThemeSettingView extends StatelessWidget {
                                             listen: false)
                                         .getThemeIndex() ==
                                     index),
-                                resize: false,
-                                edge: 0,
+                                size: 25,
+                                function: () {},
                               ),
                             ],
                           ),

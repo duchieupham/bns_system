@@ -10,6 +10,16 @@ class UserInformationDB {
   static final userInformationDb =
       FirebaseFirestore.instance.collection('user-information');
 
+  Future<bool> insertUserInformation(Map<String, dynamic> data) async {
+    bool result = false;
+    try {
+      await userInformationDb.add(data).then((value) => result = true);
+    } catch (e) {
+      print('Error at insertUserInformation - UserInformationDB: $e');
+    }
+    return result;
+  }
+
   Future<UserInformationDTO> getUserInformation(String userId) async {
     UserInformationDTO result = const UserInformationDTO(
       userId: '',

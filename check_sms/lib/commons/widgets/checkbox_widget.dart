@@ -2,20 +2,28 @@ import 'package:flutter/material.dart';
 
 class CheckBoxWidget extends StatelessWidget {
   final bool check;
-  final bool resize;
-  final double edge;
+  final double size;
+  final VoidCallback function;
 
-  const CheckBoxWidget(
-      {Key? key, required this.check, required this.resize, required this.edge})
-      : super(key: key);
+  const CheckBoxWidget({
+    Key? key,
+    required this.check,
+    required this.size,
+    required this.function,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      (check) ? 'assets/images/ic-checked.png' : 'assets/images/ic-uncheck.png',
-      width: (resize) ? edge : 25,
-      height: (resize) ? edge : 25,
-      fit: BoxFit.contain,
+    return InkWell(
+      onTap: function,
+      child: Image.asset(
+        (check)
+            ? 'assets/images/ic-checked.png'
+            : 'assets/images/ic-uncheck.png',
+        width: size,
+        height: size,
+        fit: BoxFit.contain,
+      ),
     );
   }
 }

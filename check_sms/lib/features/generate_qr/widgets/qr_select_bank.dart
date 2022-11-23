@@ -55,7 +55,6 @@ class QRSelectBankWidget extends StatelessWidget {
                   ? const SizedBox()
                   : Consumer<CreateQRPageSelectProvider>(
                       builder: ((context, value, child) {
-                        print('bank accounts length: ${_bankAccounts.length}');
                         return DropdownButton<BankAccountDTO>(
                           value: value.bankAccountDTO,
                           icon: Image.asset(

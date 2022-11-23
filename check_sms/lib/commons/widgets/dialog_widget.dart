@@ -1,8 +1,11 @@
+import 'dart:ui';
+
 import 'package:check_sms/commons/constants/configurations/theme.dart';
 import 'package:check_sms/commons/utils/bank_information_utils.dart';
 import 'package:check_sms/commons/utils/sms_information_utils.dart';
 import 'package:check_sms/commons/widgets/button_widget.dart';
 import 'package:check_sms/models/bank_information_dto.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DialogWidget {
@@ -10,6 +13,68 @@ class DialogWidget {
   const DialogWidget._privateConstructor();
   static const DialogWidget _instance = DialogWidget._privateConstructor();
   static DialogWidget get instance => _instance;
+
+  Future openDateTimePickerDialog(
+      BuildContext context, String title, Function(DateTime) onChanged) async {
+    double width = MediaQuery.of(context).size.width;
+    return await showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        backgroundColor: DefaultTheme.TRANSPARENT,
+        builder: (context) {
+          return BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+            child: ClipRRect(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 5, left: 5, right: 5),
+                child: Container(
+                    padding: const EdgeInsets.only(
+                      left: 20,
+                      right: 20,
+                      top: 10,
+                    ),
+                    width: MediaQuery.of(context).size.width - 10,
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Theme.of(context).cardColor,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(padding: EdgeInsets.only(top: 30)),
+                        Text(
+                          title,
+                          style: const TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Expanded(
+                          child: CupertinoDatePicker(
+                            initialDateTime: DateTime.now(),
+                            maximumDate: DateTime.now(),
+                            mode: CupertinoDatePickerMode.date,
+                            onDateTimeChanged: onChanged,
+                          ),
+                        ),
+                        ButtonWidget(
+                          width: width,
+                          text: 'OK',
+                          textColor: DefaultTheme.WHITE,
+                          bgColor: DefaultTheme.GREEN,
+                          function: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        const Padding(padding: EdgeInsets.only(bottom: 20)),
+                      ],
+                    )),
+              ),
+            ),
+          );
+        });
+  }
 
   openLoadingDialog(BuildContext context) {
     return showDialog(

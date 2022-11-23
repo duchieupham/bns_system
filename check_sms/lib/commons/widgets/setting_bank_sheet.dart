@@ -1,8 +1,7 @@
 import 'dart:ui';
-
 import 'package:check_sms/commons/constants/configurations/theme.dart';
+import 'package:check_sms/commons/utils/bank_information_utils.dart';
 import 'package:check_sms/commons/utils/string_utils.dart';
-import 'package:check_sms/commons/utils/time_utils.dart';
 import 'package:check_sms/commons/widgets/button_widget.dart';
 import 'package:check_sms/commons/widgets/dialog_widget.dart';
 import 'package:check_sms/commons/widgets/textfield_widget.dart';
@@ -203,23 +202,13 @@ class SettingBankSheet {
                                   !value.bankAccountErr &&
                                   !value.bankAccountNameErr) {
                                 if (bankSelected != 'Chọn ngân hàng') {
-                                  List<String> bankNameChars =
-                                      bankSelected.split('-');
-                                  String bankName = '';
-                                  for (int i = 0;
-                                      i < bankNameChars.length;
-                                      i++) {
-                                    if (i != 0) {
-                                      bankName += bankNameChars[i];
-                                    }
-                                  }
-                                  bankName.trim();
                                   BankAccountDTO dto = BankAccountDTO(
                                     bankAccount: bankAccountController.text,
                                     bankAccountName:
                                         bankAccountNameController.text,
                                     bankCode: bankSelected.split('-')[0].trim(),
-                                    bankName: bankName,
+                                    bankName: BankInformationUtil.instance
+                                        .getBankNameFromSelectBox(bankSelected),
                                   );
                                   bankManageBloc.add(BankManageEventAddDTO(
                                       userId: UserInformationHelper.instance

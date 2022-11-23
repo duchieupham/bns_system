@@ -9,6 +9,16 @@ class BankAccountDB {
   static final bankAccountDb =
       FirebaseFirestore.instance.collection('user-bank');
 
+  Future<bool> insertUserBank(Map<String, dynamic> data) async {
+    bool result = false;
+    try {
+      await bankAccountDb.add(data).then((value) => result = true);
+    } catch (e) {
+      print('Error at insertUserBank - BankAccountDB: $e');
+    }
+    return result;
+  }
+
   Future<List<BankAccountDTO>> getListBankAccount(String userId) async {
     List<BankAccountDTO> result = [];
     try {

@@ -3,11 +3,13 @@ import 'package:check_sms/features/home/home.dart';
 import 'package:check_sms/features/login/blocs/login_bloc.dart';
 import 'package:check_sms/features/login/views/login.dart';
 import 'package:check_sms/features/personal/blocs/bank_manage_bloc.dart';
+import 'package:check_sms/features/register/blocs/register_bloc.dart';
 import 'package:check_sms/services/providers/bank_account_provider.dart';
 import 'package:check_sms/services/providers/bank_select_provider.dart';
 import 'package:check_sms/services/providers/create_qr_page_select_provider.dart';
 import 'package:check_sms/services/providers/create_qr_provider.dart';
 import 'package:check_sms/services/providers/page_select_provider.dart';
+import 'package:check_sms/services/providers/register_provider.dart';
 import 'package:check_sms/services/providers/theme_provider.dart';
 import 'package:check_sms/services/shared_references/create_qr_helper.dart';
 import 'package:check_sms/services/shared_references/theme_helper.dart';
@@ -15,6 +17,7 @@ import 'package:check_sms/services/shared_references/user_information_helper.dar
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -66,6 +69,9 @@ class BNSApp extends StatelessWidget {
           BlocProvider<LoginBloc>(
             create: (BuildContext context) => LoginBloc(),
           ),
+          BlocProvider<RegisterBloc>(
+            create: (BuildContext context) => RegisterBloc(),
+          ),
         ],
         child: MultiProvider(
           providers: [
@@ -76,6 +82,7 @@ class BNSApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => CreateQRProvider()),
             ChangeNotifierProvider(create: (context) => BankAccountProvider()),
             ChangeNotifierProvider(create: (context) => BankSelectProvider()),
+            ChangeNotifierProvider(create: (context) => RegisterProvider()),
           ],
           child: Consumer<ThemeProvider>(
             builder: (context, themeSelect, child) {
@@ -89,6 +96,15 @@ class BNSApp extends StatelessWidget {
                             : ThemeMode.dark,
                 darkTheme: DefaultThemeData(context: context).darkTheme,
                 theme: DefaultThemeData(context: context).lightTheme,
+                localizationsDelegates: const [
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: const [
+                  //  Locale('en'), // English
+                  Locale('vi'), // Vietnamese
+                ],
                 home: _homeScreen,
               );
             },
