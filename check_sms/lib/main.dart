@@ -1,9 +1,10 @@
 import 'package:check_sms/commons/constants/configurations/theme.dart';
-import 'package:check_sms/features/home/home.dart';
-import 'package:check_sms/features/login/blocs/login_bloc.dart';
-import 'package:check_sms/features/login/views/login.dart';
-import 'package:check_sms/features/personal/blocs/bank_manage_bloc.dart';
-import 'package:check_sms/features/register/blocs/register_bloc.dart';
+import 'package:check_sms/features_mobile/home/home.dart';
+import 'package:check_sms/features_mobile/login/blocs/login_bloc.dart';
+import 'package:check_sms/features_mobile/login/views/login.dart';
+import 'package:check_sms/features_mobile/personal/blocs/bank_manage_bloc.dart';
+import 'package:check_sms/features_mobile/register/blocs/register_bloc.dart';
+import 'package:check_sms/features_web/home/views/bns_web_app.dart';
 import 'package:check_sms/services/providers/bank_account_provider.dart';
 import 'package:check_sms/services/providers/bank_select_provider.dart';
 import 'package:check_sms/services/providers/create_qr_page_select_provider.dart';
@@ -20,6 +21,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 //Share Preferences
 late SharedPreferences sharedPrefs;
@@ -29,7 +31,13 @@ void main() async {
   sharedPrefs = await SharedPreferences.getInstance();
   await Firebase.initializeApp();
   await _initialServiceHelper();
-  runApp(const BNSApp());
+  Widget initialApp = const SizedBox();
+  if (kIsWeb) {
+    initialApp = BNSWebApp();
+  } else {
+    initialApp = BNSApp();
+  }
+  runApp(initialApp);
 }
 
 Future<void> _initialServiceHelper() async {
