@@ -13,6 +13,7 @@ import 'package:vierqr/services/providers/page_select_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class Login extends StatelessWidget {
   static final TextEditingController phoneNoController =
@@ -31,6 +32,7 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     initialServices(context);
     return Scaffold(
       appBar: AppBar(toolbarHeight: 0),
@@ -68,92 +70,207 @@ class Login extends StatelessWidget {
                 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin đăng nhập.');
           }
         }),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: width,
-              height: 150,
-              child: Image.asset(
-                'assets/images/logo.png',
-                width: 150,
-                height: 150,
-              ),
-            ),
-            const Padding(padding: EdgeInsets.only(top: 20)),
-            Container(
-              width: width,
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              decoration: BoxDecoration(
-                color: Theme.of(context).cardColor,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Column(
+        child: (width >= 600 && kIsWeb)
+            ? Container(
+                width: width * 0.8,
+                height: height * 0.8,
+                margin: EdgeInsets.only(left: width * 0.1, top: height * 0.1),
+                child: Row(
+                  children: [
+                    Container(
+                      width: width * 0.3,
+                      height: height,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/bg-qr.png'),
+                          fit: BoxFit.fitHeight,
+                        ),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15),
+                          bottomLeft: Radius.circular(15),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: width * 0.5,
+                      height: height,
+                      padding: const EdgeInsets.symmetric(horizontal: 50),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).cardColor,
+                        borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(15),
+                          bottomRight: Radius.circular(15),
+                        ),
+                      ),
+                      child: SingleChildScrollView(
+                        controller: ScrollController(),
+                        child: SizedBox(
+                          width: width * 0.5,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Image.asset(
+                                'assets/images/logo.png',
+                                width: width * 0.15,
+                              ),
+                              const Divider(
+                                height: 0.5,
+                                color: DefaultTheme.GREY_LIGHT,
+                              ),
+                              TextFieldWidget(
+                                width: width,
+                                isObscureText: false,
+                                hintText: 'Số điện thoại',
+                                controller: phoneNoController,
+                                inputType: TextInputType.number,
+                                keyboardAction: TextInputAction.next,
+                                onChange: (vavlue) {},
+                              ),
+                              const Divider(
+                                height: 0.5,
+                                color: DefaultTheme.GREY_LIGHT,
+                              ),
+                              TextFieldWidget(
+                                width: width,
+                                isObscureText: true,
+                                hintText: 'Mật khẩu',
+                                controller: passwordController,
+                                inputType: TextInputType.text,
+                                keyboardAction: TextInputAction.done,
+                                onChange: (vavlue) {},
+                              ),
+                              const Divider(
+                                height: 0.5,
+                                color: DefaultTheme.GREY_LIGHT,
+                              ),
+                              const Padding(
+                                  padding: EdgeInsets.only(bottom: 80)),
+                              ButtonWidget(
+                                width: width,
+                                text: 'Đăng nhập',
+                                textColor: DefaultTheme.WHITE,
+                                bgColor: DefaultTheme.GREEN,
+                                function: () {
+                                  AccountLoginDTO dto = AccountLoginDTO(
+                                      phoneNo: phoneNoController.text,
+                                      password: EncryptUtils.instance.encrypted(
+                                          phoneNoController.text,
+                                          passwordController.text));
+                                  _loginBloc.add(LoginEventByPhone(dto: dto));
+                                },
+                              ),
+                              const Padding(
+                                  padding: EdgeInsets.only(bottom: 10)),
+                              ButtonWidget(
+                                width: width,
+                                text: 'Đăng ký',
+                                textColor: DefaultTheme.GREEN,
+                                bgColor: Theme.of(context).buttonColor,
+                                function: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const RegisterView()),
+                                  );
+                                },
+                              ),
+                              const Padding(
+                                  padding: EdgeInsets.only(bottom: 20)),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  TextFieldWidget(
+                  SizedBox(
                     width: width,
-                    isObscureText: false,
-                    hintText: 'Số điện thoại',
-                    controller: phoneNoController,
-                    inputType: TextInputType.number,
-                    keyboardAction: TextInputAction.next,
-                    onChange: (vavlue) {},
+                    height: 150,
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      width: 150,
+                      height: 150,
+                    ),
                   ),
-                  const Divider(
-                    height: 0.5,
-                    color: DefaultTheme.GREY_LIGHT,
-                  ),
-                  TextFieldWidget(
+                  const Padding(padding: EdgeInsets.only(top: 20)),
+                  Container(
                     width: width,
-                    isObscureText: true,
-                    hintText: 'Mật khẩu',
-                    controller: passwordController,
-                    inputType: TextInputType.text,
-                    keyboardAction: TextInputAction.done,
-                    onChange: (vavlue) {},
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).cardColor,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Column(
+                      children: [
+                        TextFieldWidget(
+                          width: width,
+                          isObscureText: false,
+                          hintText: 'Số điện thoại',
+                          controller: phoneNoController,
+                          inputType: TextInputType.number,
+                          keyboardAction: TextInputAction.next,
+                          onChange: (vavlue) {},
+                        ),
+                        const Divider(
+                          height: 0.5,
+                          color: DefaultTheme.GREY_LIGHT,
+                        ),
+                        TextFieldWidget(
+                          width: width,
+                          isObscureText: true,
+                          hintText: 'Mật khẩu',
+                          controller: passwordController,
+                          inputType: TextInputType.text,
+                          keyboardAction: TextInputAction.done,
+                          onChange: (vavlue) {},
+                        ),
+                      ],
+                    ),
                   ),
+                  const Spacer(),
+                  SizedBox(
+                    width: width,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ButtonWidget(
+                          width: width / 2 - 20,
+                          text: 'Đăng nhập',
+                          textColor: DefaultTheme.WHITE,
+                          bgColor: DefaultTheme.GREEN,
+                          function: () {
+                            AccountLoginDTO dto = AccountLoginDTO(
+                                phoneNo: phoneNoController.text,
+                                password: EncryptUtils.instance.encrypted(
+                                    phoneNoController.text,
+                                    passwordController.text));
+                            _loginBloc.add(LoginEventByPhone(dto: dto));
+                          },
+                        ),
+                        ButtonWidget(
+                          width: width / 2 - 20,
+                          text: 'Đăng ký',
+                          textColor: DefaultTheme.GREEN,
+                          bgColor: Theme.of(context).buttonColor,
+                          function: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => const RegisterView()),
+                            );
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                  const Padding(padding: EdgeInsets.only(bottom: 20)),
                 ],
               ),
-            ),
-            const Spacer(),
-            SizedBox(
-              width: width,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ButtonWidget(
-                    width: width / 2 - 20,
-                    text: 'Đăng nhập',
-                    textColor: DefaultTheme.WHITE,
-                    bgColor: DefaultTheme.GREEN,
-                    function: () {
-                      AccountLoginDTO dto = AccountLoginDTO(
-                          phoneNo: phoneNoController.text,
-                          password: EncryptUtils.instance.encrypted(
-                              phoneNoController.text, passwordController.text));
-                      _loginBloc.add(LoginEventByPhone(dto: dto));
-                    },
-                  ),
-                  ButtonWidget(
-                    width: width / 2 - 20,
-                    text: 'Đăng ký',
-                    textColor: DefaultTheme.GREEN,
-                    bgColor: Theme.of(context).buttonColor,
-                    function: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => const RegisterView()),
-                      );
-                    },
-                  )
-                ],
-              ),
-            ),
-            const Padding(padding: EdgeInsets.only(bottom: 20)),
-          ],
-        ),
       ),
     );
   }

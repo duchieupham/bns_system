@@ -11,7 +11,6 @@ import 'package:vierqr/features_mobile/login/blocs/login_bloc.dart';
 import 'package:vierqr/features_mobile/login/views/login.dart';
 import 'package:vierqr/features_mobile/personal/blocs/bank_manage_bloc.dart';
 import 'package:vierqr/features_mobile/register/blocs/register_bloc.dart';
-import 'package:vierqr/features_web/home/views/bns_web_app.dart';
 import 'package:vierqr/services/providers/bank_account_provider.dart';
 import 'package:vierqr/services/providers/bank_select_provider.dart';
 import 'package:vierqr/services/providers/create_qr_page_select_provider.dart';
@@ -29,15 +28,12 @@ late SharedPreferences sharedPrefs;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   sharedPrefs = await SharedPreferences.getInstance();
-  await Firebase.initializeApp();
   await _initialServiceHelper();
-  Widget initialApp = const SizedBox();
   if (kIsWeb) {
-    initialApp = BNSWebApp();
   } else {
-    initialApp = BNSApp();
+    await Firebase.initializeApp();
   }
-  runApp(initialApp);
+  runApp(const BNSApp());
 }
 
 Future<void> _initialServiceHelper() async {
