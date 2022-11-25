@@ -1,5 +1,6 @@
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/utils/encrypt_utils.dart';
+import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
 import 'package:vierqr/commons/widgets/button_widget.dart';
 import 'package:vierqr/commons/widgets/dialog_widget.dart';
 import 'package:vierqr/commons/widgets/textfield_widget.dart';
@@ -13,7 +14,6 @@ import 'package:vierqr/services/providers/page_select_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 class Login extends StatelessWidget {
   static final TextEditingController phoneNoController =
@@ -70,7 +70,7 @@ class Login extends StatelessWidget {
                 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin đăng nhập.');
           }
         }),
-        child: (width >= 600 && kIsWeb)
+        child: (ScreenResolutionUtils.instance.checkResize(width))
             ? Container(
                 width: width * 0.8,
                 height: height * 0.8,

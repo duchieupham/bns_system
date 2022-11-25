@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-ms/values-ms.xml",
+            "outputFile": "/Users/phamduchieu/Documents/projects/BNS/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-ms/values-ms.xml",
             "map": [
                 {
                     "source": "/Users/phamduchieu/.gradle/caches/transforms-3/3be1c84ba3978673562f295cdead12c4/transformed/core-1.9.0/res/values-ms/values-ms.xml",

@@ -14,6 +14,65 @@ class DialogWidget {
   static const DialogWidget _instance = DialogWidget._privateConstructor();
   static DialogWidget get instance => _instance;
 
+  openContentDialog(BuildContext context, Widget child) {
+    final double width = MediaQuery.of(context).size.width;
+    final double height = MediaQuery.of(context).size.height;
+    return showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return Material(
+            color: DefaultTheme.TRANSPARENT,
+            child: Center(
+              child: Container(
+                  width: 500,
+                  height: 500,
+                  alignment: Alignment.center,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            width: 25,
+                            height: 25,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                            ),
+                            child: const Icon(
+                              Icons.close_rounded,
+                              color: DefaultTheme.RED_TEXT,
+                              size: 15,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: width * 0.5,
+                        height: height * 0.5,
+                        child: child,
+                      ),
+                      const Spacer(),
+                    ],
+                  )),
+            ),
+          );
+        });
+  }
+
   Future openDateTimePickerDialog(
       BuildContext context, String title, Function(DateTime) onChanged) async {
     double width = MediaQuery.of(context).size.width;

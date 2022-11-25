@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-b+sr+Latn/values-b+sr+Latn.xml",
+            "outputFile": "/Users/phamduchieu/Documents/projects/BNS/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-b+sr+Latn/values-b+sr+Latn.xml",
             "map": [
                 {
                     "source": "/Users/phamduchieu/.gradle/caches/transforms-3/19fea4fb28dedd992824e13cc158e7a1/transformed/jetified-play-services-base-18.0.1/res/values-b+sr+Latn/values.xml",

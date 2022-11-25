@@ -1,20 +1,20 @@
 -- Merging decision tree log ---
 application
-INJECTED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml:3:4-34:19
-MERGED from [:cloud_firestore] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
-MERGED from [:cloud_firestore] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
-MERGED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:13:5-19:19
-MERGED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:13:5-19:19
-MERGED from [:firebase_auth] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
-MERGED from [:firebase_auth] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
-MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:15:5-48:19
-MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:15:5-48:19
-MERGED from [:firebase_core] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
-MERGED from [:firebase_core] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
-MERGED from [:geolocator_android] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:5-17:19
-MERGED from [:geolocator_android] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:5-17:19
-MERGED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-35:19
-MERGED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-35:19
+INJECTED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml:3:4-34:19
+MERGED from [:cloud_firestore] /Users/phamduchieu/Documents/projects/BNS/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
+MERGED from [:cloud_firestore] /Users/phamduchieu/Documents/projects/BNS/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
+MERGED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:13:5-19:19
+MERGED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:13:5-19:19
+MERGED from [:firebase_auth] /Users/phamduchieu/Documents/projects/BNS/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
+MERGED from [:firebase_auth] /Users/phamduchieu/Documents/projects/BNS/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
+MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:15:5-48:19
+MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:15:5-48:19
+MERGED from [:firebase_core] /Users/phamduchieu/Documents/projects/BNS/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
+MERGED from [:firebase_core] /Users/phamduchieu/Documents/projects/BNS/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
+MERGED from [:geolocator_android] /Users/phamduchieu/Documents/projects/BNS/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:5-17:19
+MERGED from [:geolocator_android] /Users/phamduchieu/Documents/projects/BNS/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:5-17:19
+MERGED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-35:19
+MERGED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-35:19
 MERGED from [com.google.firebase:firebase-analytics-ktx:21.2.0] /Users/phamduchieu/.gradle/caches/transforms-3/77fcfc1a5ffca8d94a6c1536b3786a34/transformed/jetified-firebase-analytics-ktx-21.2.0/AndroidManifest.xml:7:5-15:19
 MERGED from [com.google.firebase:firebase-analytics-ktx:21.2.0] /Users/phamduchieu/.gradle/caches/transforms-3/77fcfc1a5ffca8d94a6c1536b3786a34/transformed/jetified-firebase-analytics-ktx-21.2.0/AndroidManifest.xml:7:5-15:19
 MERGED from [com.google.firebase:firebase-common-ktx:20.2.0] /Users/phamduchieu/.gradle/caches/transforms-3/309717f48df73e3617a5b148ffb548ad/transformed/jetified-firebase-common-ktx-20.2.0/AndroidManifest.xml:10:5-18:19
@@ -80,25 +80,25 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/pham
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.9.0] /Users/phamduchieu/.gradle/caches/transforms-3/3be1c84ba3978673562f295cdead12c4/transformed/core-1.9.0/AndroidManifest.xml:28:18-86
 	android:name
-		INJECTED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml
 manifest
-ADDED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml:1:1-38:12
-INJECTED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml:1:1-38:12
-INJECTED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml:1:1-38:12
-INJECTED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml:1:1-38:12
-MERGED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml:1:1-38:12
-MERGED from [:cloud_firestore] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-17:12
-MERGED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-21:12
-MERGED from [:firebase_auth] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-17:12
-MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-50:12
-MERGED from [:firebase_core] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-17:12
-MERGED from [:geolocator_android] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-19:12
-MERGED from [:flutter_sms_listener] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/flutter_sms_listener/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-12:12
-MERGED from [:path_provider_android] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/path_provider_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
-MERGED from [:shared_preferences_android] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/shared_preferences_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
-MERGED from [:permission_handler_android] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/permission_handler_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
-MERGED from [:flutter_sms_inbox] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/flutter_sms_inbox/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
-MERGED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-37:12
+ADDED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml:1:1-38:12
+INJECTED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml:1:1-38:12
+INJECTED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml:1:1-38:12
+INJECTED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml:1:1-38:12
+MERGED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml:1:1-38:12
+MERGED from [:cloud_firestore] /Users/phamduchieu/Documents/projects/BNS/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-17:12
+MERGED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-21:12
+MERGED from [:firebase_auth] /Users/phamduchieu/Documents/projects/BNS/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-17:12
+MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-50:12
+MERGED from [:firebase_core] /Users/phamduchieu/Documents/projects/BNS/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-17:12
+MERGED from [:geolocator_android] /Users/phamduchieu/Documents/projects/BNS/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-19:12
+MERGED from [:flutter_sms_listener] /Users/phamduchieu/Documents/projects/BNS/build/flutter_sms_listener/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-12:12
+MERGED from [:path_provider_android] /Users/phamduchieu/Documents/projects/BNS/build/path_provider_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
+MERGED from [:shared_preferences_android] /Users/phamduchieu/Documents/projects/BNS/build/shared_preferences_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
+MERGED from [:permission_handler_android] /Users/phamduchieu/Documents/projects/BNS/build/permission_handler_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
+MERGED from [:flutter_sms_inbox] /Users/phamduchieu/Documents/projects/BNS/build/flutter_sms_inbox/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
+MERGED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-37:12
 MERGED from [androidx.multidex:multidex:2.0.1] /Users/phamduchieu/.gradle/caches/transforms-3/90bf28973fd446d08c79e8865d177be2/transformed/multidex-2.0.1/AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.firebase:firebase-analytics-ktx:21.2.0] /Users/phamduchieu/.gradle/caches/transforms-3/77fcfc1a5ffca8d94a6c1536b3786a34/transformed/jetified-firebase-analytics-ktx-21.2.0/AndroidManifest.xml:2:1-17:12
 MERGED from [com.google.firebase:firebase-common-ktx:20.2.0] /Users/phamduchieu/.gradle/caches/transforms-3/309717f48df73e3617a5b148ffb548ad/transformed/jetified-firebase-common-ktx-20.2.0/AndroidManifest.xml:2:1-20:12
@@ -162,37 +162,37 @@ MERGED from [androidx.arch.core:core-runtime:2.1.0] /Users/phamduchieu/.gradle/c
 MERGED from [androidx.annotation:annotation-experimental:1.3.0] /Users/phamduchieu/.gradle/caches/transforms-3/8dcb19c8cebf1ee10bca0e03b6b28144/transformed/jetified-annotation-experimental-1.3.0/AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] /Users/phamduchieu/.gradle/caches/transforms-3/8129b238d4d069661aca07bff47ad65b/transformed/jetified-protolite-well-known-types-18.0.0/AndroidManifest.xml:2:1-11:12
 MERGED from [io.grpc:grpc-android:1.48.1] /Users/phamduchieu/.gradle/caches/transforms-3/2926cbc8da7cfff1c5633b32799072d8/transformed/jetified-grpc-android-1.48.1/AndroidManifest.xml:2:1-11:12
-INJECTED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/debug/AndroidManifest.xml:1:1-9:12
-INJECTED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/debug/AndroidManifest.xml:1:1-9:12
-INJECTED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/debug/AndroidManifest.xml:1:1-9:12
+INJECTED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/debug/AndroidManifest.xml:1:1-9:12
+INJECTED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/debug/AndroidManifest.xml:1:1-9:12
+INJECTED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/debug/AndroidManifest.xml:1:1-9:12
 	package
-		ADDED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml:2:5-31
-		INJECTED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/debug/AndroidManifest.xml
+		ADDED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml:2:5-31
+		INJECTED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/debug/AndroidManifest.xml
 	android:versionName
-		INJECTED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml:1:1-38:12
-		INJECTED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/debug/AndroidManifest.xml
+		INJECTED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml
+		ADDED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml:1:1-38:12
+		INJECTED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/debug/AndroidManifest.xml
 	android:versionCode
-		INJECTED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml:1:1-38:12
-		INJECTED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/debug/AndroidManifest.xml
+		INJECTED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml
+		ADDED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml:1:1-38:12
+		INJECTED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/debug/AndroidManifest.xml
 	xmlns:android
-		ADDED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml:1:11-69
+		ADDED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml:1:11-69
 uses-permission#android.permission.READ_SMS
-ADDED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml:35:5-67
-MERGED from [:flutter_sms_listener] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/flutter_sms_listener/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-67
-MERGED from [:flutter_sms_listener] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/flutter_sms_listener/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-67
+ADDED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml:35:5-67
+MERGED from [:flutter_sms_listener] /Users/phamduchieu/Documents/projects/BNS/build/flutter_sms_listener/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-67
+MERGED from [:flutter_sms_listener] /Users/phamduchieu/Documents/projects/BNS/build/flutter_sms_listener/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-67
 	android:name
-		ADDED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml:35:22-64
+		ADDED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml:35:22-64
 uses-permission#android.permission.INTERNET
-ADDED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml:36:5-67
-MERGED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml:36:5-67
-MERGED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml:36:5-67
-MERGED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-67
-MERGED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-67
-MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-67
-MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-67
+ADDED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml:36:5-67
+MERGED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml:36:5-67
+MERGED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml:36:5-67
+MERGED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-67
+MERGED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-67
+MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-67
+MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-67
 MERGED from [com.google.android.datatransport:transport-backend-cct:3.1.8] /Users/phamduchieu/.gradle/caches/transforms-3/2e212974fabf70c844067783fe04df4d/transformed/jetified-transport-backend-cct-3.1.8/AndroidManifest.xml:25:5-67
 MERGED from [com.google.android.datatransport:transport-backend-cct:3.1.8] /Users/phamduchieu/.gradle/caches/transforms-3/2e212974fabf70c844067783fe04df4d/transformed/jetified-transport-backend-cct-3.1.8/AndroidManifest.xml:25:5-67
 MERGED from [com.google.firebase:firebase-auth:21.1.0] /Users/phamduchieu/.gradle/caches/transforms-3/0548e507d3019ac84ce4969b57803f45/transformed/jetified-firebase-auth-21.1.0/AndroidManifest.xml:23:5-67
@@ -214,15 +214,15 @@ MERGED from [com.google.android.gms:play-services-measurement-impl:21.2.0] /User
 MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.2.0] /Users/phamduchieu/.gradle/caches/transforms-3/bccbe6d122c1b8acd4eabe8df012de0c/transformed/jetified-play-services-measurement-sdk-api-21.2.0/AndroidManifest.xml:23:5-67
 MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.2.0] /Users/phamduchieu/.gradle/caches/transforms-3/bccbe6d122c1b8acd4eabe8df012de0c/transformed/jetified-play-services-measurement-sdk-api-21.2.0/AndroidManifest.xml:23:5-67
 	android:name
-		ADDED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml:36:22-64
+		ADDED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml:36:22-64
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml:37:5-79
-MERGED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml:37:5-79
-MERGED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml:37:5-79
-MERGED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-79
-MERGED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-79
-MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:11:5-79
-MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:11:5-79
+ADDED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml:37:5-79
+MERGED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml:37:5-79
+MERGED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml:37:5-79
+MERGED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-79
+MERGED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-79
+MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:11:5-79
+MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:11:5-79
 MERGED from [com.google.firebase:firebase-messaging:23.1.0] /Users/phamduchieu/.gradle/caches/transforms-3/b57df5d590e748a32ef06a865c954969/transformed/jetified-firebase-messaging-23.1.0/AndroidManifest.xml:24:5-79
 MERGED from [com.google.firebase:firebase-messaging:23.1.0] /Users/phamduchieu/.gradle/caches/transforms-3/b57df5d590e748a32ef06a865c954969/transformed/jetified-firebase-messaging-23.1.0/AndroidManifest.xml:24:5-79
 MERGED from [com.google.android.datatransport:transport-backend-cct:3.1.8] /Users/phamduchieu/.gradle/caches/transforms-3/2e212974fabf70c844067783fe04df4d/transformed/jetified-transport-backend-cct-3.1.8/AndroidManifest.xml:24:5-79
@@ -250,35 +250,35 @@ MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.2.0] /U
 MERGED from [io.grpc:grpc-android:1.48.1] /Users/phamduchieu/.gradle/caches/transforms-3/2926cbc8da7cfff1c5633b32799072d8/transformed/jetified-grpc-android-1.48.1/AndroidManifest.xml:9:5-79
 MERGED from [io.grpc:grpc-android:1.48.1] /Users/phamduchieu/.gradle/caches/transforms-3/2926cbc8da7cfff1c5633b32799072d8/transformed/jetified-grpc-android-1.48.1/AndroidManifest.xml:9:5-79
 	android:name
-		ADDED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml:37:22-76
+		ADDED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml:37:22-76
 uses-sdk
-INJECTED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml
-INJECTED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml
-MERGED from [:cloud_firestore] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:cloud_firestore] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:firebase_auth] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:firebase_auth] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:firebase_core] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:firebase_core] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:geolocator_android] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:geolocator_android] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:flutter_sms_listener] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/flutter_sms_listener/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:flutter_sms_listener] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/flutter_sms_listener/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:path_provider_android] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/path_provider_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:path_provider_android] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/path_provider_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:shared_preferences_android] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/shared_preferences_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:shared_preferences_android] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/shared_preferences_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:permission_handler_android] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/permission_handler_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:permission_handler_android] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/permission_handler_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:flutter_sms_inbox] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/flutter_sms_inbox/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:flutter_sms_inbox] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/flutter_sms_inbox/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+INJECTED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml
+INJECTED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml
+MERGED from [:cloud_firestore] /Users/phamduchieu/Documents/projects/BNS/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:cloud_firestore] /Users/phamduchieu/Documents/projects/BNS/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:firebase_auth] /Users/phamduchieu/Documents/projects/BNS/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:firebase_auth] /Users/phamduchieu/Documents/projects/BNS/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:firebase_core] /Users/phamduchieu/Documents/projects/BNS/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:firebase_core] /Users/phamduchieu/Documents/projects/BNS/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:geolocator_android] /Users/phamduchieu/Documents/projects/BNS/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:geolocator_android] /Users/phamduchieu/Documents/projects/BNS/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_sms_listener] /Users/phamduchieu/Documents/projects/BNS/build/flutter_sms_listener/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_sms_listener] /Users/phamduchieu/Documents/projects/BNS/build/flutter_sms_listener/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:path_provider_android] /Users/phamduchieu/Documents/projects/BNS/build/path_provider_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:path_provider_android] /Users/phamduchieu/Documents/projects/BNS/build/path_provider_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:shared_preferences_android] /Users/phamduchieu/Documents/projects/BNS/build/shared_preferences_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:shared_preferences_android] /Users/phamduchieu/Documents/projects/BNS/build/shared_preferences_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:permission_handler_android] /Users/phamduchieu/Documents/projects/BNS/build/permission_handler_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:permission_handler_android] /Users/phamduchieu/Documents/projects/BNS/build/permission_handler_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_sms_inbox] /Users/phamduchieu/Documents/projects/BNS/build/flutter_sms_inbox/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_sms_inbox] /Users/phamduchieu/Documents/projects/BNS/build/flutter_sms_inbox/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.multidex:multidex:2.0.1] /Users/phamduchieu/.gradle/caches/transforms-3/90bf28973fd446d08c79e8865d177be2/transformed/multidex-2.0.1/AndroidManifest.xml:20:5-43
 MERGED from [androidx.multidex:multidex:2.0.1] /Users/phamduchieu/.gradle/caches/transforms-3/90bf28973fd446d08c79e8865d177be2/transformed/multidex-2.0.1/AndroidManifest.xml:20:5-43
 MERGED from [com.google.firebase:firebase-analytics-ktx:21.2.0] /Users/phamduchieu/.gradle/caches/transforms-3/77fcfc1a5ffca8d94a6c1536b3786a34/transformed/jetified-firebase-analytics-ktx-21.2.0/AndroidManifest.xml:5:5-44
@@ -405,24 +405,24 @@ MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] /Users/phamd
 MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] /Users/phamduchieu/.gradle/caches/transforms-3/8129b238d4d069661aca07bff47ad65b/transformed/jetified-protolite-well-known-types-18.0.0/AndroidManifest.xml:7:5-9:41
 MERGED from [io.grpc:grpc-android:1.48.1] /Users/phamduchieu/.gradle/caches/transforms-3/2926cbc8da7cfff1c5633b32799072d8/transformed/jetified-grpc-android-1.48.1/AndroidManifest.xml:5:5-7:41
 MERGED from [io.grpc:grpc-android:1.48.1] /Users/phamduchieu/.gradle/caches/transforms-3/2926cbc8da7cfff1c5633b32799072d8/transformed/jetified-grpc-android-1.48.1/AndroidManifest.xml:5:5-7:41
-INJECTED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/debug/AndroidManifest.xml
-INJECTED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/debug/AndroidManifest.xml
+INJECTED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/debug/AndroidManifest.xml
+INJECTED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/debug/AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/debug/AndroidManifest.xml
+		INJECTED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/debug/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/debug/AndroidManifest.xml
+		INJECTED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/phamduchieu/Documents/projects/BNS/android/app/src/debug/AndroidManifest.xml
 service#com.google.firebase.components.ComponentDiscoveryService
-ADDED from [:cloud_firestore] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-14:19
-MERGED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:14:9-18:19
-MERGED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:14:9-18:19
-MERGED from [:firebase_auth] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-14:19
-MERGED from [:firebase_auth] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-14:19
-MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:37:9-41:19
-MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:37:9-41:19
-MERGED from [:firebase_core] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-14:19
-MERGED from [:firebase_core] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-14:19
+ADDED from [:cloud_firestore] /Users/phamduchieu/Documents/projects/BNS/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-14:19
+MERGED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:14:9-18:19
+MERGED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:14:9-18:19
+MERGED from [:firebase_auth] /Users/phamduchieu/Documents/projects/BNS/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-14:19
+MERGED from [:firebase_auth] /Users/phamduchieu/Documents/projects/BNS/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-14:19
+MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:37:9-41:19
+MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:37:9-41:19
+MERGED from [:firebase_core] /Users/phamduchieu/Documents/projects/BNS/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-14:19
+MERGED from [:firebase_core] /Users/phamduchieu/Documents/projects/BNS/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-14:19
 MERGED from [com.google.firebase:firebase-analytics-ktx:21.2.0] /Users/phamduchieu/.gradle/caches/transforms-3/77fcfc1a5ffca8d94a6c1536b3786a34/transformed/jetified-firebase-analytics-ktx-21.2.0/AndroidManifest.xml:8:9-14:19
 MERGED from [com.google.firebase:firebase-analytics-ktx:21.2.0] /Users/phamduchieu/.gradle/caches/transforms-3/77fcfc1a5ffca8d94a6c1536b3786a34/transformed/jetified-firebase-analytics-ktx-21.2.0/AndroidManifest.xml:8:9-14:19
 MERGED from [com.google.firebase:firebase-common-ktx:20.2.0] /Users/phamduchieu/.gradle/caches/transforms-3/309717f48df73e3617a5b148ffb548ad/transformed/jetified-firebase-common-ktx-20.2.0/AndroidManifest.xml:11:9-17:19
@@ -450,17 +450,17 @@ MERGED from [com.google.firebase:firebase-common:20.2.0] /Users/phamduchieu/.gra
 	android:directBootAware
 		ADDED from [com.google.firebase:firebase-common:20.2.0] /Users/phamduchieu/.gradle/caches/transforms-3/c1f7cd0e68ddf89c76a753ac7fd1a66c/transformed/jetified-firebase-common-20.2.0/AndroidManifest.xml:34:13-43
 	android:name
-		ADDED from [:cloud_firestore] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:10:18-89
+		ADDED from [:cloud_firestore] /Users/phamduchieu/Documents/projects/BNS/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:10:18-89
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar
-ADDED from [:cloud_firestore] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-13:85
+ADDED from [:cloud_firestore] /Users/phamduchieu/Documents/projects/BNS/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-13:85
 	android:value
-		ADDED from [:cloud_firestore] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:13:17-82
+		ADDED from [:cloud_firestore] /Users/phamduchieu/Documents/projects/BNS/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:13:17-82
 	android:name
-		ADDED from [:cloud_firestore] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:12:17-134
+		ADDED from [:cloud_firestore] /Users/phamduchieu/Documents/projects/BNS/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:12:17-134
 uses-permission#android.permission.WAKE_LOCK
-ADDED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:11:5-68
-MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-68
-MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-68
+ADDED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:11:5-68
+MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-68
+MERGED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-68
 MERGED from [com.google.firebase:firebase-messaging:23.1.0] /Users/phamduchieu/.gradle/caches/transforms-3/b57df5d590e748a32ef06a865c954969/transformed/jetified-firebase-messaging-23.1.0/AndroidManifest.xml:26:5-68
 MERGED from [com.google.firebase:firebase-messaging:23.1.0] /Users/phamduchieu/.gradle/caches/transforms-3/b57df5d590e748a32ef06a865c954969/transformed/jetified-firebase-messaging-23.1.0/AndroidManifest.xml:26:5-68
 MERGED from [com.google.firebase:firebase-iid:21.1.0] /Users/phamduchieu/.gradle/caches/transforms-3/eaed7886d53cb1ba0475f52afb0dc686/transformed/jetified-firebase-iid-21.1.0/AndroidManifest.xml:24:5-68
@@ -476,127 +476,127 @@ MERGED from [com.google.android.gms:play-services-measurement-impl:21.2.0] /User
 MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.2.0] /Users/phamduchieu/.gradle/caches/transforms-3/bccbe6d122c1b8acd4eabe8df012de0c/transformed/jetified-play-services-measurement-sdk-api-21.2.0/AndroidManifest.xml:25:5-68
 MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.2.0] /Users/phamduchieu/.gradle/caches/transforms-3/bccbe6d122c1b8acd4eabe8df012de0c/transformed/jetified-play-services-measurement-sdk-api-21.2.0/AndroidManifest.xml:25:5-68
 	android:name
-		ADDED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:11:22-65
+		ADDED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:11:22-65
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.analytics.FlutterFirebaseAppRegistrar
-ADDED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-17:85
+ADDED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-17:85
 	android:value
-		ADDED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:17:17-82
+		ADDED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:17:17-82
 	android:name
-		ADDED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:16:17-128
+		ADDED from [:firebase_analytics] /Users/phamduchieu/Documents/projects/BNS/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:16:17-128
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar
-ADDED from [:firebase_auth] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-13:85
+ADDED from [:firebase_auth] /Users/phamduchieu/Documents/projects/BNS/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-13:85
 	android:value
-		ADDED from [:firebase_auth] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:13:17-82
+		ADDED from [:firebase_auth] /Users/phamduchieu/Documents/projects/BNS/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:13:17-82
 	android:name
-		ADDED from [:firebase_auth] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:12:17-124
+		ADDED from [:firebase_auth] /Users/phamduchieu/Documents/projects/BNS/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:12:17-124
 uses-permission#android.permission.POST_NOTIFICATIONS
-ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:13:5-77
+ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:13:5-77
 MERGED from [com.google.firebase:firebase-messaging:23.1.0] /Users/phamduchieu/.gradle/caches/transforms-3/b57df5d590e748a32ef06a865c954969/transformed/jetified-firebase-messaging-23.1.0/AndroidManifest.xml:25:5-77
 MERGED from [com.google.firebase:firebase-messaging:23.1.0] /Users/phamduchieu/.gradle/caches/transforms-3/b57df5d590e748a32ef06a865c954969/transformed/jetified-firebase-messaging-23.1.0/AndroidManifest.xml:25:5-77
 	android:name
-		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:13:22-74
+		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:13:22-74
 service#io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingBackgroundService
-ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:16:9-19:72
+ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:16:9-19:72
 	android:exported
-		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:18:13-37
+		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:18:13-37
 	android:permission
-		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:19:13-69
+		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:19:13-69
 	android:name
-		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:17:13-107
+		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:17:13-107
 service#io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingService
-ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:20:9-26:19
+ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:20:9-26:19
 	android:exported
-		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:22:13-37
+		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:22:13-37
 	android:name
-		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:21:13-97
+		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:21:13-97
 intent-filter#action:name:com.google.firebase.MESSAGING_EVENT
-ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:23:13-25:29
+ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:23:13-25:29
 action#com.google.firebase.MESSAGING_EVENT
-ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:24:17-78
+ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:24:17-78
 	android:name
-		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:24:25-75
+		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:24:25-75
 receiver#io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingReceiver
-ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:28:9-35:20
+ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:28:9-35:20
 	android:exported
-		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:30:13-36
+		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:30:13-36
 	android:permission
-		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:31:13-73
+		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:31:13-73
 	android:name
-		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:29:13-98
+		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:29:13-98
 intent-filter#action:name:com.google.android.c2dm.intent.RECEIVE
-ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:32:13-34:29
+ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:32:13-34:29
 action#com.google.android.c2dm.intent.RECEIVE
-ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:33:17-81
+ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:33:17-81
 	android:name
-		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:33:25-78
+		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:33:25-78
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.messaging.FlutterFirebaseAppRegistrar
-ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:38:13-40:85
+ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:38:13-40:85
 	android:value
-		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:40:17-82
+		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:40:17-82
 	android:name
-		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:39:17-128
+		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:39:17-128
 provider#io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingInitProvider
-ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:43:9-47:38
+ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:43:9-47:38
 	android:authorities
-		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:45:13-88
+		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:45:13-88
 	android:exported
-		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:46:13-37
+		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:46:13-37
 	android:initOrder
-		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:47:13-35
+		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:47:13-35
 	android:name
-		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:44:13-102
+		ADDED from [:firebase_messaging] /Users/phamduchieu/Documents/projects/BNS/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:44:13-102
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar
-ADDED from [:firebase_core] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-13:85
+ADDED from [:firebase_core] /Users/phamduchieu/Documents/projects/BNS/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-13:85
 	android:value
-		ADDED from [:firebase_core] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:13:17-82
+		ADDED from [:firebase_core] /Users/phamduchieu/Documents/projects/BNS/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:13:17-82
 	android:name
-		ADDED from [:firebase_core] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:12:17-124
+		ADDED from [:firebase_core] /Users/phamduchieu/Documents/projects/BNS/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:12:17-124
 uses-permission#android.permission.FOREGROUND_SERVICE
-ADDED from [:geolocator_android] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-77
+ADDED from [:geolocator_android] /Users/phamduchieu/Documents/projects/BNS/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-77
 	android:name
-		ADDED from [:geolocator_android] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:22-74
+		ADDED from [:geolocator_android] /Users/phamduchieu/Documents/projects/BNS/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:22-74
 service#com.baseflow.geolocator.GeolocatorLocationService
-ADDED from [:geolocator_android] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:9-16:56
+ADDED from [:geolocator_android] /Users/phamduchieu/Documents/projects/BNS/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:9-16:56
 	android:enabled
-		ADDED from [:geolocator_android] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:14:13-35
+		ADDED from [:geolocator_android] /Users/phamduchieu/Documents/projects/BNS/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:14:13-35
 	android:exported
-		ADDED from [:geolocator_android] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-37
+		ADDED from [:geolocator_android] /Users/phamduchieu/Documents/projects/BNS/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-37
 	android:foregroundServiceType
-		ADDED from [:geolocator_android] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:16:13-53
+		ADDED from [:geolocator_android] /Users/phamduchieu/Documents/projects/BNS/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:16:13-53
 	android:name
-		ADDED from [:geolocator_android] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-77
+		ADDED from [:geolocator_android] /Users/phamduchieu/Documents/projects/BNS/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-77
 uses-permission#android.permission.RECEIVE_SMS
-ADDED from [:flutter_sms_listener] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/flutter_sms_listener/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-70
+ADDED from [:flutter_sms_listener] /Users/phamduchieu/Documents/projects/BNS/build/flutter_sms_listener/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-70
 	android:name
-		ADDED from [:flutter_sms_listener] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/flutter_sms_listener/intermediates/merged_manifest/debug/AndroidManifest.xml:10:22-67
+		ADDED from [:flutter_sms_listener] /Users/phamduchieu/Documents/projects/BNS/build/flutter_sms_listener/intermediates/merged_manifest/debug/AndroidManifest.xml:10:22-67
 provider#dev.fluttercommunity.plus.share.ShareFileProvider
-ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:15:9-23:20
+ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:15:9-23:20
 	android:grantUriPermissions
-		ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:19:13-47
+		ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:19:13-47
 	android:authorities
-		ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:17:13-74
+		ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:17:13-74
 	android:exported
-		ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:18:13-37
+		ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:18:13-37
 	android:name
-		ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:16:13-77
+		ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:16:13-77
 meta-data#android.support.FILE_PROVIDER_PATHS
-ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:20:13-22:68
+ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:20:13-22:68
 	android:resource
-		ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:22:17-65
+		ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:22:17-65
 	android:name
-		ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:21:17-67
+		ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:21:17-67
 receiver#dev.fluttercommunity.plus.share.SharePlusPendingIntent
-ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:28:9-34:20
+ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:28:9-34:20
 	android:exported
-		ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:30:13-36
+		ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:30:13-36
 	android:name
-		ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:29:13-82
+		ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:29:13-82
 intent-filter#action:name:EXTRA_CHOSEN_COMPONENT
-ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:31:13-33:29
+ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:31:13-33:29
 action#EXTRA_CHOSEN_COMPONENT
-ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:32:17-65
+ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:32:17-65
 	android:name
-		ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:32:25-62
+		ADDED from [:share_plus] /Users/phamduchieu/Documents/projects/BNS/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:32:25-62
 meta-data#com.google.firebase.components:com.google.firebase.analytics.ktx.FirebaseAnalyticsKtxRegistrar
 ADDED from [com.google.firebase:firebase-analytics-ktx:21.2.0] /Users/phamduchieu/.gradle/caches/transforms-3/77fcfc1a5ffca8d94a6c1536b3786a34/transformed/jetified-firebase-analytics-ktx-21.2.0/AndroidManifest.xml:11:13-13:85
 	android:value

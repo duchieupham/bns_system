@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
+            "outputFile": "/Users/phamduchieu/Documents/projects/BNS/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
             "map": [
                 {
                     "source": "/Users/phamduchieu/.gradle/caches/transforms-3/b57df5d590e748a32ef06a865c954969/transformed/jetified-firebase-messaging-23.1.0/res/values/values.xml",
@@ -76,6 +76,25 @@
                     }
                 },
                 {
+                    "source": "/Users/phamduchieu/Documents/projects/BNS/android/app/src/main/res/values/styles.xml",
+                    "from": {
+                        "startLines": "3,14",
+                        "startColumns": "4,4",
+                        "startOffsets": "173,818",
+                        "endLines": "7,16",
+                        "endColumns": "12,12",
+                        "endOffsets": "476,982"
+                    },
+                    "to": {
+                        "startLines": "139,144",
+                        "startColumns": "4,4",
+                        "startOffsets": "10112,10420",
+                        "endLines": "143,146",
+                        "endColumns": "12,12",
+                        "endOffsets": "10415,10584"
+                    }
+                },
+                {
                     "source": "/Users/phamduchieu/.gradle/caches/transforms-3/38e30c664341fe5bfcc1d9de04582443/transformed/browser-1.4.0/res/values/values.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11",
@@ -93,7 +112,7 @@
                     }
                 },
                 {
-                    "source": "/Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/build/app/generated/res/google-services/debug/values/values.xml",
+                    "source": "/Users/phamduchieu/Documents/projects/BNS/build/app/generated/res/google-services/debug/values/values.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8",
                         "startColumns": "4,4,4,4,4,4,4",
@@ -107,25 +126,6 @@
                         "startOffsets": "9016,9457,9539,9643,9752,9872,9968",
                         "endColumns": "143,81,103,108,119,95,72",
                         "endOffsets": "9155,9534,9638,9747,9867,9963,10036"
-                    }
-                },
-                {
-                    "source": "/Users/phamduchieu/Documents/projects/BNS/vietqr.org/vietqr/android/app/src/main/res/values/styles.xml",
-                    "from": {
-                        "startLines": "3,14",
-                        "startColumns": "4,4",
-                        "startOffsets": "173,818",
-                        "endLines": "7,16",
-                        "endColumns": "12,12",
-                        "endOffsets": "476,982"
-                    },
-                    "to": {
-                        "startLines": "139,144",
-                        "startColumns": "4,4",
-                        "startOffsets": "10112,10420",
-                        "endLines": "143,146",
-                        "endColumns": "12,12",
-                        "endOffsets": "10415,10584"
                     }
                 },
                 {

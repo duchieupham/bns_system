@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:vierqr/commons/constants/configurations/firebase_config.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/features_mobile/home/home.dart';
 import 'package:vierqr/features_mobile/login/blocs/login_bloc.dart';
@@ -30,6 +31,9 @@ void main() async {
   sharedPrefs = await SharedPreferences.getInstance();
   await _initialServiceHelper();
   if (kIsWeb) {
+    await Firebase.initializeApp(
+      options: FirebaseConfig.FIREBASE_STAGGING_OPTION,
+    );
   } else {
     await Firebase.initializeApp();
   }
