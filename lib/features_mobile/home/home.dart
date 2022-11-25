@@ -230,6 +230,7 @@ class _HomeScreen extends State<HomeScreen> {
                                               _carouselController,
                                           options: CarouselOptions(
                                             viewportFraction: 0.7,
+                                            height: 365,
                                             enlargeCenterPage: true,
                                             onPageChanged: ((index, reason) {
                                               Provider.of<BankAccountProvider>(

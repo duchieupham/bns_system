@@ -37,68 +37,69 @@ class QRStatisticWidget extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
             ),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 100,
-                    height: 50,
-                    child: Image.asset('assets/images/ic-viet-qr.png'),
-                  ),
-                  const Padding(padding: EdgeInsets.only(top: 5)),
-                  Container(
-                    padding: const EdgeInsets.all(2),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: DefaultTheme.WHITE,
-                      border: Border.all(
-                        color: DefaultTheme.GREY_TEXT,
-                        width: 0.5,
-                      ),
-                    ),
-                    child: QrImage(
-                      data: qrCode,
-                      version: QrVersions.auto,
-                      size: 150,
-                      embeddedImage: const AssetImage(
-                          'assets/images/ic-viet-qr-small.png'),
-                      embeddedImageStyle: QrEmbeddedImageStyle(
-                        size: const Size(20, 20),
-                      ),
-                      backgroundColor: DefaultTheme.WHITE,
+            // child: SingleChildScrollView(
+            //   padding: const EdgeInsets.all(0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: 100,
+                  height: 50,
+                  child: Image.asset('assets/images/ic-viet-qr.png'),
+                ),
+                const Padding(padding: EdgeInsets.only(top: 5)),
+                Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: DefaultTheme.WHITE,
+                    border: Border.all(
+                      color: DefaultTheme.GREY_TEXT,
+                      width: 0.5,
                     ),
                   ),
-                  const Padding(padding: EdgeInsets.only(top: 10)),
-                  Text(
-                    'Tên chủ TK: ${bankAccountDTO.bankAccountName.toUpperCase()}',
-                    style: TextStyle(
-                      color: Theme.of(context).focusColor,
-                      fontSize: 13,
+                  child: QrImage(
+                    data: qrCode,
+                    version: QrVersions.auto,
+                    size: 150,
+                    embeddedImage:
+                        const AssetImage('assets/images/ic-viet-qr-small.png'),
+                    embeddedImageStyle: QrEmbeddedImageStyle(
+                      size: const Size(20, 20),
                     ),
+                    backgroundColor: DefaultTheme.WHITE,
                   ),
-                  //Số tài khoản
-                  Text(
-                    'Số TK: ${BankInformationUtil.instance.hideBankAccount(bankAccountDTO.bankAccount)}',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).focusColor,
-                      fontSize: 13,
-                    ),
+                ),
+                const Padding(padding: EdgeInsets.only(top: 10)),
+                Text(
+                  'Tên chủ TK: ${bankAccountDTO.bankAccountName.toUpperCase()}',
+                  style: TextStyle(
+                    color: Theme.of(context).focusColor,
+                    fontSize: 13,
                   ),
-                  //Tên ngân hàng
-                  Text(
-                    bankAccountDTO.bankName,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Theme.of(context).focusColor,
-                      fontSize: 12,
-                    ),
+                ),
+                //Số tài khoản
+                Text(
+                  'Số TK: ${BankInformationUtil.instance.hideBankAccount(bankAccountDTO.bankAccount)}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).focusColor,
+                    fontSize: 13,
                   ),
-                ],
-              ),
+                ),
+                //Tên ngân hàng
+                Text(
+                  bankAccountDTO.bankName,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Theme.of(context).focusColor,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+              //   ),
             ),
           )
         : UnconstrainedBox(

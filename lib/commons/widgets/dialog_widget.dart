@@ -65,7 +65,7 @@ class DialogWidget {
                         height: height * 0.5,
                         child: child,
                       ),
-                      const Spacer(),
+                      // const Spacer(),
                     ],
                   )),
             ),
