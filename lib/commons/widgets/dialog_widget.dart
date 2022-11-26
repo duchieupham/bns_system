@@ -61,8 +61,6 @@ class DialogWidget {
                         ),
                       ),
                       SizedBox(
-                        width: width * 0.5,
-                        height: height * 0.5,
                         child: child,
                       ),
                       const Spacer(),

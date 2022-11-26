@@ -114,7 +114,7 @@ class Login extends StatelessWidget {
                                 width: width * 0.15,
                               ),
                               const Divider(
-                                height: 0.5,
+                                height: 1,
                                 color: DefaultTheme.GREY_LIGHT,
                               ),
                               TextFieldWidget(
@@ -127,7 +127,7 @@ class Login extends StatelessWidget {
                                 onChange: (vavlue) {},
                               ),
                               const Divider(
-                                height: 0.5,
+                                height: 1,
                                 color: DefaultTheme.GREY_LIGHT,
                               ),
                               TextFieldWidget(
@@ -140,7 +140,7 @@ class Login extends StatelessWidget {
                                 onChange: (vavlue) {},
                               ),
                               const Divider(
-                                height: 0.5,
+                                height: 1,
                                 color: DefaultTheme.GREY_LIGHT,
                               ),
                               const Padding(
