@@ -3,18 +3,21 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/widgets/web_widgets/pop_up_menu_web_widget.dart';
+import 'package:vierqr/features_mobile/home/home.dart';
 import 'package:vierqr/services/shared_references/user_information_helper.dart';
 
 class HeaderWebWidget extends StatelessWidget {
   final String title;
   final bool? isSubHeader;
-  final VoidCallback? function;
+  final VoidCallback? functionBack;
+  final VoidCallback? functionHome;
 
   const HeaderWebWidget({
     super.key,
     required this.title,
     this.isSubHeader,
-    this.function,
+    this.functionBack,
+    this.functionHome,
   });
 
   @override
@@ -37,11 +40,11 @@ class HeaderWebWidget extends StatelessWidget {
               ),
               (isSubHeader != null && isSubHeader!)
                   ? InkWell(
-                      onTap: (function == null)
+                      onTap: (functionBack == null)
                           ? () {
                               Navigator.of(context).pop();
                             }
-                          : function,
+                          : functionBack,
                       child: Tooltip(
                         message: 'Trở về',
                         child: Container(
@@ -81,9 +84,15 @@ class HeaderWebWidget extends StatelessWidget {
               const Spacer(),
               (isSubHeader != null && isSubHeader!)
                   ? InkWell(
-                      onTap: () {
-                        //
-                      },
+                      onTap: (functionHome != null)
+                          ? functionHome
+                          : () {
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (context) => const HomeScreen(),
+                                ),
+                              );
+                            },
                       child: Tooltip(
                         message: 'Trang chủ',
                         child: Container(

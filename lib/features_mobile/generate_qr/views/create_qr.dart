@@ -1,12 +1,14 @@
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/constants/vietqr/additional_data.dart';
-import 'package:vierqr/commons/constants/vietqr/default_bank_information.dart';
-import 'package:vierqr/commons/constants/vietqr/qr_guid.dart';
-import 'package:vierqr/commons/constants/vietqr/transfer_service_code.dart';
-import 'package:vierqr/commons/constants/vietqr/viet_qr_id.dart';
+import 'package:vierqr/commons/utils/string_utils.dart';
 import 'package:vierqr/commons/utils/viet_qr_utils.dart';
+import 'package:vierqr/commons/widgets/bank_card_widget.dart';
 import 'package:vierqr/commons/widgets/button_widget.dart';
+import 'package:vierqr/commons/widgets/dialog_widget.dart';
+import 'package:vierqr/commons/widgets/qr_generated_widget.dart';
 import 'package:vierqr/commons/widgets/sub_header_widget.dart';
+import 'package:vierqr/commons/widgets/textfield_widget.dart';
+import 'package:vierqr/features_mobile/generate_qr/frames/create_qr_frame.dart';
 import 'package:vierqr/features_mobile/generate_qr/views/qr_generated.dart';
 import 'package:vierqr/features_mobile/generate_qr/widgets/input_content_widget.dart';
 import 'package:vierqr/features_mobile/generate_qr/widgets/input_ta_widget.dart';
@@ -19,6 +21,7 @@ import 'package:provider/provider.dart';
 
 class CreateQR extends StatefulWidget {
   final BankAccountDTO bankAccountDTO;
+
   const CreateQR({
     Key? key,
     required this.bankAccountDTO,
@@ -34,7 +37,13 @@ class _CreateQR extends State<CreateQR> {
     keepPage: true,
   );
 
+  final TextEditingController amountController = TextEditingController();
   final TextEditingController msgController = TextEditingController();
+
+  VietQRGenerateDTO _vietQRGenerateDTO = const VietQRGenerateDTO(
+      cAIValue: '',
+      transactionAmountValue: '',
+      additionalDataFieldTemplateValue: '');
 
   final List<Widget> _pages = [];
 
@@ -42,9 +51,6 @@ class _CreateQR extends State<CreateQR> {
   void initState() {
     super.initState();
     _pages.addAll([
-      // const QRSelectBankWidget(
-      //   key: PageStorageKey('QR_SELECT_BANK'),
-      // ),
       const InputTAWidget(
         key: PageStorageKey('INPUT_TA_PAGE'),
       ),
@@ -58,10 +64,13 @@ class _CreateQR extends State<CreateQR> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(toolbarHeight: 0),
-      body: Column(
-        children: [
+      body: CreateQRFrame(
+        width: width,
+        height: height,
+        mobileChildren: [
           Consumer<CreateQRPageSelectProvider>(
             builder: (context, page, child) {
               return SubHeader(
@@ -127,16 +136,6 @@ class _CreateQR extends State<CreateQR> {
                         _animatedToPage(1);
                       },
                     )
-                  // : (page.indexSelected == 1)
-                  //     ? ButtonWidget(
-                  //         width: width,
-                  //         text: 'Tiếp theo',
-                  //         textColor: DefaultTheme.GREEN,
-                  //         bgColor: Theme.of(context).cardColor,
-                  //         function: () {
-                  //           _animatedToPage(2);
-                  //         },
-                  //       )
                   : ButtonWidget(
                       width: width,
                       text: 'Tạo mã QR',
@@ -149,18 +148,6 @@ class _CreateQR extends State<CreateQR> {
                                 .transactionAmount) ??
                             0;
                         //
-                        String cAIValue = QRGuid.GUID +
-                            VietQRId.POINT_OF_INITIATION_METHOD_ID +
-                            VietQRUtils.instance.generateLengthOfValue(
-                                DefaultBankInformation.DEFAULT_CAI) +
-                            DefaultBankInformation.DEFAULT_CAI +
-                            VietQRId.TRANSFER_SERVCICE_CODE +
-                            VietQRUtils.instance.generateLengthOfValue(
-                                TransferServiceCode
-                                    .QUICK_TRANSFER_FROM_QR_TO_BANK_ACCOUNT) +
-                            TransferServiceCode
-                                .QUICK_TRANSFER_FROM_QR_TO_BANK_ACCOUNT;
-                        //
                         String additionalDataFieldTemplateValue = '';
                         if (msgController.text.isNotEmpty) {
                           additionalDataFieldTemplateValue = AdditionalData
@@ -169,15 +156,11 @@ class _CreateQR extends State<CreateQR> {
                                   .generateLengthOfValue(msgController.text) +
                               msgController.text;
                         }
-                        // final BankAccountDTO bankAccountDTO =
-                        //     Provider.of<CreateQRPageSelectProvider>(context,
-                        //             listen: false)
-                        //         .bankAccountDTO;
+
                         VietQRGenerateDTO dto = VietQRGenerateDTO(
                           cAIValue: VietQRUtils.instance.generateCAIValue(
                               widget.bankAccountDTO.bankCode,
                               widget.bankAccountDTO.bankAccount),
-                          //'0010A00000072701240006970436011090000067890208QRIBFTTA',
                           transactionAmountValue: ta.toString(),
                           additionalDataFieldTemplateValue:
                               additionalDataFieldTemplateValue,
@@ -199,6 +182,197 @@ class _CreateQR extends State<CreateQR> {
           ),
           const Padding(padding: EdgeInsets.only(bottom: 20))
         ],
+        widget1: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildTitle('Số tiền cần thanh toán'),
+              const Padding(padding: EdgeInsets.only(top: 5)),
+              Consumer<CreateQRProvider>(
+                builder: (context, value, child) {
+                  return Container(
+                    width: width,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: (value.amountErr)
+                              ? DefaultTheme.RED_TEXT
+                              : DefaultTheme.GREY_TOP_TAB_BAR,
+                          width: 0.5),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: TextFieldWidget(
+                      width: width,
+                      isObscureText: false,
+                      hintText: '(vd: 50000)',
+                      controller: amountController,
+                      inputType: TextInputType.number,
+                      keyboardAction: TextInputAction.next,
+                      onChange: (text) {
+                        value.updateErr(!StringUtils.instance
+                            .isNumeric(amountController.text));
+                      },
+                    ),
+                  );
+                },
+              ),
+              Consumer<CreateQRProvider>(builder: (context, value, child) {
+                return Visibility(
+                  visible: value.amountErr,
+                  child: const Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: Text(
+                      'Số tiền không đúng định dạng, vui lòng nhập lại,',
+                      style: TextStyle(
+                        color: DefaultTheme.RED_TEXT,
+                      ),
+                    ),
+                  ),
+                );
+              }),
+              const Padding(padding: EdgeInsets.only(top: 20)),
+              _buildTitle('Nội dung chuyển khoản'),
+              const Padding(padding: EdgeInsets.only(top: 5)),
+              Container(
+                width: width,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      color: DefaultTheme.GREY_TOP_TAB_BAR, width: 0.5),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: TextField(
+                  controller: msgController,
+                  autofocus: false,
+                  maxLength: 99,
+                  maxLines: 2,
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Nội dung chứa tối đa 99 ký tự.',
+                    hintStyle: TextStyle(
+                      color: DefaultTheme.GREY_TEXT,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                ),
+              ),
+              const Padding(padding: EdgeInsets.only(top: 50)),
+              ButtonWidget(
+                width: width,
+                text: 'Tạo mã QR',
+                textColor: DefaultTheme.WHITE,
+                bgColor: DefaultTheme.GREEN,
+                function: () {
+                  if (amountController.text.isNotEmpty &&
+                      !Provider.of<CreateQRProvider>(context, listen: false)
+                          .amountErr) {
+                    String additionalDataFieldTemplateValue = '';
+                    if (msgController.text.isNotEmpty) {
+                      additionalDataFieldTemplateValue =
+                          AdditionalData.PURPOSE_OF_TRANSACTION_ID +
+                              VietQRUtils.instance
+                                  .generateLengthOfValue(msgController.text) +
+                              msgController.text;
+                    }
+                    _vietQRGenerateDTO = VietQRGenerateDTO(
+                      cAIValue: VietQRUtils.instance.generateCAIValue(
+                          widget.bankAccountDTO.bankCode,
+                          widget.bankAccountDTO.bankAccount),
+                      transactionAmountValue: amountController.text,
+                      additionalDataFieldTemplateValue:
+                          additionalDataFieldTemplateValue,
+                    );
+                    Provider.of<CreateQRProvider>(context, listen: false)
+                        .updateQrGenerated(true);
+                  }
+                },
+              ),
+            ],
+          ),
+        ),
+        widget2: BankCardWidget(bankAccountDTO: widget.bankAccountDTO),
+        widget3: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildTitle('Mã VietQR thanh toán'),
+              const Padding(padding: EdgeInsets.only(top: 10)),
+              Expanded(
+                child: Consumer<CreateQRProvider>(
+                  builder: (context, value, child) {
+                    return (value.qrGenerated)
+                        ? Container(
+                            width: width,
+                            alignment: Alignment.center,
+                            child: Column(
+                              children: [
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: InkWell(
+                                    onTap: () {
+                                      DialogWidget.instance.openContentDialog(
+                                        context,
+                                        QRGeneratedWidget(
+                                          isWeb: true,
+                                          isExpanded: true,
+                                          width: width,
+                                          bankAccountDTO: widget.bankAccountDTO,
+                                          vietQRGenerateDTO: _vietQRGenerateDTO,
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      width: 30,
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
+                                        borderRadius: BorderRadius.circular(40),
+                                      ),
+                                      child: const Icon(
+                                        Icons.zoom_out_map_rounded,
+                                        color: DefaultTheme.GREEN,
+                                        size: 15,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: QRGeneratedWidget(
+                                    isWeb: true,
+                                    width: width,
+                                    bankAccountDTO: widget.bankAccountDTO,
+                                    vietQRGenerateDTO: _vietQRGenerateDTO,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Container(
+                            width: width,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: DefaultTheme.GREY_TEXT, width: 0.5),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: const Text(
+                              'Mã VietQR chưa được tạo.',
+                              style: TextStyle(
+                                color: DefaultTheme.GREY_TEXT,
+                              ),
+                            ),
+                          );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -209,6 +383,16 @@ class _CreateQR extends State<CreateQR> {
       index,
       duration: const Duration(milliseconds: 200),
       curve: Curves.easeInOutQuart,
+    );
+  }
+
+  Widget _buildTitle(String title) {
+    return Text(
+      title,
+      style: const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+      ),
     );
   }
 

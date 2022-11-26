@@ -5,7 +5,12 @@ class CreateQRProvider with ChangeNotifier {
   String _transactionAmount = '0';
   String _currencyFormatted = '0';
 
-  final NumberFormat numberFormat = new NumberFormat("##,#0", "en_US");
+  bool _isQRGenerated = false;
+
+  //errors
+  bool _isAmountErr = false;
+
+  final NumberFormat numberFormat = NumberFormat("##,#0", "en_US");
   static const _locale = 'en';
   String _formatNumber(String s) =>
       NumberFormat.decimalPattern(_locale).format(int.tryParse(s) ?? '0');
@@ -14,10 +19,24 @@ class CreateQRProvider with ChangeNotifier {
 
   get transactionAmount => _transactionAmount;
   get currencyFormatted => _currencyFormatted;
+  get amountErr => _isAmountErr;
+  get qrGenerated => _isQRGenerated;
 
   void reset() {
     _transactionAmount = '0';
     _currencyFormatted = '0';
+    _isQRGenerated = false;
+    _isAmountErr = false;
+    notifyListeners();
+  }
+
+  void updateErr(bool amountErr) {
+    _isAmountErr = amountErr;
+    notifyListeners();
+  }
+
+  void updateQrGenerated(bool value) {
+    _isQRGenerated = value;
     notifyListeners();
   }
 

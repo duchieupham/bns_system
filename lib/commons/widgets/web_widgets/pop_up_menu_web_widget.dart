@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
+import 'package:vierqr/features_mobile/home/home.dart';
 import 'package:vierqr/features_mobile/login/views/login.dart';
 import 'package:vierqr/services/shared_references/user_information_helper.dart';
 
@@ -60,7 +61,8 @@ class PopupMenuWebWidget {
     );
   }
 
-  Future<void> showPopupMMenu(BuildContext context, bool? isSubHeader) async {
+  Future<void> showPopupMMenu(BuildContext context, bool? isSubHeader,
+      VoidCallback? functionHome) async {
     final RelativeRect position = _buttonMenuPosition(context);
     await showMenu(
       context: context,
@@ -86,9 +88,18 @@ class PopupMenuWebWidget {
           ]),
         ),
         if (isSubHeader != null && isSubHeader)
-          const PopupMenuItem<int>(
+          PopupMenuItem<int>(
+            onTap: (functionHome != null)
+                ? functionHome
+                : () {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => const HomeScreen(),
+                      ),
+                    );
+                  },
             value: 1,
-            child: Text('Trang chủ'),
+            child: const Text('Trang chủ'),
           ),
         const PopupMenuItem<int>(
           value: 2,

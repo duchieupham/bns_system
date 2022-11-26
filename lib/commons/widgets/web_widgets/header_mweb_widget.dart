@@ -7,13 +7,15 @@ import 'package:vierqr/commons/widgets/web_widgets/pop_up_menu_web_widget.dart';
 class HeaderMwebWidget extends StatelessWidget {
   final String title;
   final bool? isSubHeader;
-  final VoidCallback? function;
+  final VoidCallback? functionBack;
+  final VoidCallback? functionHome;
 
   const HeaderMwebWidget({
     super.key,
     required this.title,
     this.isSubHeader,
-    this.function,
+    this.functionBack,
+    this.functionHome,
   });
 
   @override
@@ -33,11 +35,11 @@ class HeaderMwebWidget extends StatelessWidget {
             children: [
               (isSubHeader != null && isSubHeader!)
                   ? InkWell(
-                      onTap: (function == null)
+                      onTap: (functionBack == null)
                           ? () {
                               Navigator.of(context).pop();
                             }
-                          : function,
+                          : functionBack,
                       child: Tooltip(
                         message: 'Trở về',
                         child: Container(
@@ -79,7 +81,7 @@ class HeaderMwebWidget extends StatelessWidget {
               InkWell(
                 onTap: () {
                   PopupMenuWebWidget.instance
-                      .showPopupMMenu(context, isSubHeader);
+                      .showPopupMMenu(context, isSubHeader, functionHome);
                 },
                 child: Tooltip(
                   message: 'Menu',

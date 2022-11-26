@@ -15,9 +15,9 @@ class ScreenResolutionUtils {
     return check;
   }
 
-  bool checkHomeResize(double width) {
+  bool checkHomeResize(double width, double widthResize) {
     bool check = false;
-    check = width >= 870 && kIsWeb;
+    check = ((width >= widthResize) && kIsWeb);
     return check;
   }
 

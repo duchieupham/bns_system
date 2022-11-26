@@ -29,7 +29,7 @@ class ButtonIconWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         decoration: BoxDecoration(
           color: bgColor,
-          borderRadius: BorderRadius.circular(width),
+          borderRadius: BorderRadius.circular(5),
         ),
         child: Row(
           children: [

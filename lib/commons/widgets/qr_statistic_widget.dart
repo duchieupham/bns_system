@@ -11,11 +11,13 @@ import 'package:qr_flutter/qr_flutter.dart';
 class QRStatisticWidget extends StatelessWidget {
   final BankAccountDTO bankAccountDTO;
   final bool? isWeb;
+  final bool? isExpanded;
 
   const QRStatisticWidget({
     Key? key,
     required this.bankAccountDTO,
     this.isWeb,
+    this.isExpanded,
   }) : super(key: key);
 
   @override
@@ -43,7 +45,7 @@ class QRStatisticWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: 100,
+                  width: (isExpanded != null && isExpanded!) ? 200 : 100,
                   height: 50,
                   child: Image.asset('assets/images/ic-viet-qr.png'),
                 ),
@@ -61,11 +63,13 @@ class QRStatisticWidget extends StatelessWidget {
                   child: QrImage(
                     data: qrCode,
                     version: QrVersions.auto,
-                    size: 150,
+                    size: (isExpanded != null && isExpanded!) ? 300 : 150,
                     embeddedImage:
                         const AssetImage('assets/images/ic-viet-qr-small.png'),
                     embeddedImageStyle: QrEmbeddedImageStyle(
-                      size: const Size(20, 20),
+                      size: (isExpanded != null && isExpanded!)
+                          ? const Size(40, 40)
+                          : const Size(20, 20),
                     ),
                     backgroundColor: DefaultTheme.WHITE,
                   ),

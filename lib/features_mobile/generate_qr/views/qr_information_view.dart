@@ -172,10 +172,10 @@ class QRInformationView extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => CreateQR(
-                      bankAccountDTO: Provider.of<CreateQRPageSelectProvider>(
-                              context,
-                              listen: false)
-                          .bankAccountDTO,
+                      bankAccountDTO: _bankAccounts[
+                          Provider.of<BankAccountProvider>(context,
+                                  listen: false)
+                              .indexSelected],
                     ),
                   ),
                 );

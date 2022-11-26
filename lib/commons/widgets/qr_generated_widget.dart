@@ -1,7 +1,5 @@
 import 'dart:ui';
-
 import 'package:vierqr/commons/constants/configurations/theme.dart';
-import 'package:vierqr/commons/constants/vietqr/default_bank_information.dart';
 import 'package:vierqr/commons/utils/bank_information_utils.dart';
 import 'package:vierqr/commons/utils/viet_qr_utils.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
@@ -14,41 +12,36 @@ class QRGeneratedWidget extends StatelessWidget {
   final double width;
   final VietQRGenerateDTO vietQRGenerateDTO;
   final BankAccountDTO bankAccountDTO;
+  final bool? isWeb;
+  final bool? isExpanded;
 
   const QRGeneratedWidget({
     Key? key,
     required this.width,
     required this.vietQRGenerateDTO,
     required this.bankAccountDTO,
+    this.isWeb,
+    this.isExpanded,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     String vietQRCode = VietQRUtils.instance.generateVietQR(vietQRGenerateDTO);
-    return UnconstrainedBox(
-      alignment: Alignment.center,
-      child: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(15)),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
-          child: Container(
+    return (isWeb != null && isWeb!)
+        ? Container(
             alignment: Alignment.center,
-            width: width - 30,
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-            decoration: BoxDecoration(
-              color: DefaultTheme.WHITE.withOpacity(0.8),
-            ),
+            width: width,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: width * 0.4,
+                  width: (isExpanded != null && isExpanded!) ? 200 : 100,
+                  height: 50,
                   child: Image.asset('assets/images/ic-viet-qr.png'),
                 ),
                 const Padding(padding: EdgeInsets.only(top: 5)),
                 Container(
-                  padding: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(2),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: DefaultTheme.WHITE,
@@ -60,11 +53,13 @@ class QRGeneratedWidget extends StatelessWidget {
                   child: QrImage(
                     data: vietQRCode,
                     version: QrVersions.auto,
-                    size: width * 0.5,
+                    size: (isExpanded != null && isExpanded!) ? 300 : 150,
                     embeddedImage:
                         const AssetImage('assets/images/ic-viet-qr-small.png'),
                     embeddedImageStyle: QrEmbeddedImageStyle(
-                      size: Size(width * 0.075, width * 0.075),
+                      size: (isExpanded != null && isExpanded!)
+                          ? const Size(40, 40)
+                          : const Size(20, 20),
                     ),
                   ),
                 ),
@@ -73,7 +68,7 @@ class QRGeneratedWidget extends StatelessWidget {
                   'Tên chủ TK: ${bankAccountDTO.bankAccountName.toUpperCase()}',
                   style: const TextStyle(
                     color: DefaultTheme.BLUE_DARK,
-                    fontSize: 15,
+                    fontSize: 13,
                   ),
                 ),
                 //Số tài khoản
@@ -82,7 +77,7 @@ class QRGeneratedWidget extends StatelessWidget {
                   style: const TextStyle(
                     fontWeight: FontWeight.w500,
                     color: DefaultTheme.BLUE_DARK,
-                    fontSize: 15,
+                    fontSize: 13,
                   ),
                 ),
                 //Tên ngân hàng
@@ -90,14 +85,86 @@ class QRGeneratedWidget extends StatelessWidget {
                   bankAccountDTO.bankName,
                   style: const TextStyle(
                     color: DefaultTheme.BLUE_DARK,
-                    fontSize: 13,
+                    fontSize: 12,
                   ),
                 ),
               ],
             ),
-          ),
-        ),
-      ),
-    );
+          )
+        : UnconstrainedBox(
+            alignment: Alignment.center,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
+                child: Container(
+                  alignment: Alignment.center,
+                  width: width - 30,
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                  decoration: BoxDecoration(
+                    color: DefaultTheme.WHITE.withOpacity(0.8),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: width * 0.4,
+                        child: Image.asset('assets/images/ic-viet-qr.png'),
+                      ),
+                      const Padding(padding: EdgeInsets.only(top: 5)),
+                      Container(
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: DefaultTheme.WHITE,
+                          border: Border.all(
+                            color: DefaultTheme.GREY_TEXT,
+                            width: 0.5,
+                          ),
+                        ),
+                        child: QrImage(
+                          data: vietQRCode,
+                          version: QrVersions.auto,
+                          size: width * 0.5,
+                          embeddedImage: const AssetImage(
+                              'assets/images/ic-viet-qr-small.png'),
+                          embeddedImageStyle: QrEmbeddedImageStyle(
+                            size: Size(width * 0.075, width * 0.075),
+                          ),
+                        ),
+                      ),
+                      const Padding(padding: EdgeInsets.only(top: 10)),
+                      Text(
+                        'Tên chủ TK: ${bankAccountDTO.bankAccountName.toUpperCase()}',
+                        style: const TextStyle(
+                          color: DefaultTheme.BLUE_DARK,
+                          fontSize: 15,
+                        ),
+                      ),
+                      //Số tài khoản
+                      Text(
+                        'Số TK: ${BankInformationUtil.instance.hideBankAccount(bankAccountDTO.bankAccount)}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: DefaultTheme.BLUE_DARK,
+                          fontSize: 15,
+                        ),
+                      ),
+                      //Tên ngân hàng
+                      Text(
+                        bankAccountDTO.bankName,
+                        style: const TextStyle(
+                          color: DefaultTheme.BLUE_DARK,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
   }
 }

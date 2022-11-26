@@ -5,6 +5,7 @@ import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
 import 'package:vierqr/commons/widgets/button_icon_widget.dart';
 import 'package:vierqr/commons/widgets/dialog_widget.dart';
 import 'package:vierqr/commons/widgets/qr_statistic_widget.dart';
+import 'package:vierqr/features_mobile/generate_qr/views/create_qr.dart';
 import 'package:vierqr/features_mobile/generate_qr/views/qr_information_view.dart';
 import 'package:vierqr/features_mobile/home/frames/home_frame.dart';
 import 'package:vierqr/features_mobile/home/widgets/button_navigate_page_widget.dart';
@@ -248,14 +249,21 @@ class _HomeScreen extends State<HomeScreen> {
                                           right: 0,
                                           child: InkWell(
                                             onTap: () {
+                                              QRStatisticWidget qrWidget =
+                                                  QRStatisticWidget(
+                                                isWeb: true,
+                                                isExpanded: true,
+                                                bankAccountDTO: _bankAccounts[
+                                                    Provider.of<BankAccountProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .indexSelected],
+                                              );
                                               DialogWidget.instance
                                                   .openContentDialog(
-                                                      context,
-                                                      _cardWidgets[Provider.of<
-                                                                  BankAccountProvider>(
-                                                              context,
-                                                              listen: false)
-                                                          .indexSelected]);
+                                                context,
+                                                qrWidget,
+                                              );
                                             },
                                             child: Container(
                                               width: 40,
@@ -317,7 +325,18 @@ class _HomeScreen extends State<HomeScreen> {
                         width: 185,
                         icon: Icons.add_rounded,
                         title: 'Tạo mã QR thanh toán',
-                        function: () {},
+                        function: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => CreateQR(
+                                bankAccountDTO: _bankAccounts[
+                                    Provider.of<BankAccountProvider>(context,
+                                            listen: false)
+                                        .indexSelected],
+                              ),
+                            ),
+                          );
+                        },
                         bgColor: DefaultTheme.GREEN,
                         textColor: Theme.of(context).primaryColor,
                       ),
@@ -345,7 +364,7 @@ class _HomeScreen extends State<HomeScreen> {
                   alignment: Alignment.center,
                   color: Theme.of(context).cardColor,
                   child: const Text(
-                    'Tính năng hiện đang phát triển trên nền nền tảng web.',
+                    'Tính năng hiện đang trong giai đoạn phát triển.',
                     style: TextStyle(
                       color: DefaultTheme.GREY_TEXT,
                     ),

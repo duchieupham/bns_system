@@ -27,7 +27,7 @@ class HomeFrame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: (ScreenResolutionUtils.instance.checkHomeResize(width))
+      children: (ScreenResolutionUtils.instance.checkHomeResize(width, 870))
           ? [
               Container(
                 width: width,
@@ -125,7 +125,7 @@ class HomeFrame extends StatelessWidget {
                               defaultWidth: 350,
                               minWidth: width * 0.8,
                             ),
-                            height: 620,
+                            height: 350,
                             child: widget3,
                           ),
                           const Padding(padding: EdgeInsets.only(top: 100)),
