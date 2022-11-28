@@ -3,6 +3,7 @@ import 'package:vierqr/commons/utils/encrypt_utils.dart';
 import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
 import 'package:vierqr/commons/widgets/button_widget.dart';
 import 'package:vierqr/commons/widgets/dialog_widget.dart';
+import 'package:vierqr/commons/widgets/divider_widget.dart';
 import 'package:vierqr/commons/widgets/textfield_widget.dart';
 import 'package:vierqr/features_mobile/home/home.dart';
 import 'package:vierqr/features_mobile/login/blocs/login_bloc.dart';
@@ -113,10 +114,7 @@ class Login extends StatelessWidget {
                                 'assets/images/logo.png',
                                 width: width * 0.15,
                               ),
-                              const Divider(
-                                height: 1,
-                                color: DefaultTheme.GREY_LIGHT,
-                              ),
+                              DividerWidget(width: width),
                               TextFieldWidget(
                                 width: width,
                                 isObscureText: false,
@@ -126,10 +124,7 @@ class Login extends StatelessWidget {
                                 keyboardAction: TextInputAction.next,
                                 onChange: (vavlue) {},
                               ),
-                              const Divider(
-                                height: 1,
-                                color: DefaultTheme.GREY_LIGHT,
-                              ),
+                              DividerWidget(width: width),
                               TextFieldWidget(
                                 width: width,
                                 isObscureText: true,
@@ -139,10 +134,7 @@ class Login extends StatelessWidget {
                                 keyboardAction: TextInputAction.done,
                                 onChange: (vavlue) {},
                               ),
-                              const Divider(
-                                height: 1,
-                                color: DefaultTheme.GREY_LIGHT,
-                              ),
+                              DividerWidget(width: width),
                               const Padding(
                                   padding: EdgeInsets.only(bottom: 80)),
                               ButtonWidget(

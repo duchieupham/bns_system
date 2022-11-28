@@ -169,16 +169,18 @@ class QRInformationView extends StatelessWidget {
               textColor: DefaultTheme.WHITE,
               bgColor: DefaultTheme.GREEN,
               function: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => CreateQR(
-                      bankAccountDTO: _bankAccounts[
-                          Provider.of<BankAccountProvider>(context,
-                                  listen: false)
-                              .indexSelected],
+                if (_bankAccounts.isNotEmpty) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => CreateQR(
+                        bankAccountDTO: _bankAccounts[
+                            Provider.of<BankAccountProvider>(context,
+                                    listen: false)
+                                .indexSelected],
+                      ),
                     ),
-                  ),
-                );
+                  );
+                }
               },
             ),
           ),
