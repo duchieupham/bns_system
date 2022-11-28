@@ -113,7 +113,11 @@ class BNSApp extends StatelessWidget {
                   //  Locale('en'), // English
                   Locale('vi'), // Vietnamese
                 ],
-                home: _homeScreen,
+                home: Title(
+                  title: 'VietQR',
+                  color: DefaultTheme.BLACK,
+                  child: _homeScreen,
+                ),
               );
             },
           ),
