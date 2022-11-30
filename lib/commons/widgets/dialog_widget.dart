@@ -1,12 +1,16 @@
+import 'dart:async';
 import 'dart:ui';
-
+import 'package:provider/provider.dart';
+import 'package:vierqr/commons/constants/configurations/numeral.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/utils/bank_information_utils.dart';
 import 'package:vierqr/commons/utils/sms_information_utils.dart';
 import 'package:vierqr/commons/widgets/button_widget.dart';
+import 'package:vierqr/commons/widgets/pin_widget.dart';
 import 'package:vierqr/models/bank_information_dto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vierqr/services/providers/pin_provider.dart';
 
 class DialogWidget {
   //
@@ -14,9 +18,82 @@ class DialogWidget {
   static const DialogWidget _instance = DialogWidget._privateConstructor();
   static DialogWidget get instance => _instance;
 
+  openPINDialog(
+      {required BuildContext context,
+      required String title,
+      required Function(String) onDone}) {
+    final FocusNode focusNode = FocusNode();
+    focusNode.requestFocus();
+    return showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return Material(
+          color: DefaultTheme.TRANSPARENT,
+          child: Center(
+            child: Container(
+              width: 350,
+              height: 200,
+              alignment: Alignment.center,
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: InkWell(
+                      onTap: () {
+                        focusNode.dispose();
+                        Provider.of<PinProvider>(context, listen: false)
+                            .reset();
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        width: 25,
+                        height: 25,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                        ),
+                        child: const Icon(
+                          Icons.close_rounded,
+                          color: DefaultTheme.RED_TEXT,
+                          size: 15,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Padding(padding: EdgeInsets.only(top: 50)),
+                  PinWidget(
+                    width: 350,
+                    pinSize: 15,
+                    pinLength: Numeral.DEFAULT_PIN_LENGTH,
+                    focusNode: focusNode,
+                    onDone: onDone,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   openContentDialog(BuildContext context, Widget child) {
-    final double width = MediaQuery.of(context).size.width;
-    final double height = MediaQuery.of(context).size.height;
     return showDialog(
         barrierDismissible: false,
         context: context,

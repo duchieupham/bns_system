@@ -94,51 +94,63 @@ class BankManageView extends StatelessWidget {
               }
             }),
             builder: ((context, state) {
-              return Visibility(
-                visible: _bankAccounts.isNotEmpty,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    (_bankAccounts.isEmpty)
-                        ? const SizedBox()
-                        : Container(
-                            width: width,
-                            height: 200,
-                            child: PageView(
-                              key: const PageStorageKey('CARD_PAGE_VIEW'),
-                              // physics: const NeverScrollableScrollPhysics(),
-                              controller: _pageController,
-                              onPageChanged: (index) {
-                                Provider.of<BankAccountProvider>(context,
-                                        listen: false)
-                                    .updateIndex(index);
-                              },
-                              children: _cardWidgets,
-                            ),
+              return (_bankAccounts.isEmpty)
+                  ? Container(
+                      width: width,
+                      height: 200,
+                      alignment: Alignment.center,
+                      child: const Text(
+                        'Chưa có tài khoản ngân hàng nào được thêm.',
+                        style: TextStyle(color: DefaultTheme.GREY_TEXT),
+                      ),
+                    )
+                  : Visibility(
+                      visible: _bankAccounts.isNotEmpty,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          (_bankAccounts.isEmpty)
+                              ? const SizedBox()
+                              : SizedBox(
+                                  width: width,
+                                  height: 200,
+                                  child: PageView(
+                                    key: const PageStorageKey('CARD_PAGE_VIEW'),
+                                    // physics: const NeverScrollableScrollPhysics(),
+                                    controller: _pageController,
+                                    onPageChanged: (index) {
+                                      Provider.of<BankAccountProvider>(context,
+                                              listen: false)
+                                          .updateIndex(index);
+                                    },
+                                    children: _cardWidgets,
+                                  ),
+                                ),
+                          const Padding(
+                            padding: EdgeInsets.only(top: 10),
                           ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 10),
-                    ),
-                    (_bankAccounts.isEmpty)
-                        ? const SizedBox()
-                        : Container(
-                            width: width,
-                            height: 10,
-                            alignment: Alignment.center,
-                            child: Consumer<BankAccountProvider>(
-                                builder: (context, page, child) {
-                              return ListView.builder(
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: _bankAccounts.length,
-                                  itemBuilder: ((context, index) => _buildDot(
-                                      (index == page.indexSelected))));
-                            }),
-                          ),
-                  ],
-                ),
-              );
+                          (_bankAccounts.isEmpty)
+                              ? const SizedBox()
+                              : Container(
+                                  width: width,
+                                  height: 10,
+                                  alignment: Alignment.center,
+                                  child: Consumer<BankAccountProvider>(
+                                      builder: (context, page, child) {
+                                    return ListView.builder(
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.horizontal,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemCount: _bankAccounts.length,
+                                        itemBuilder: ((context, index) =>
+                                            _buildDot((index ==
+                                                page.indexSelected))));
+                                  }),
+                                ),
+                        ],
+                      ),
+                    );
             }),
           ),
           const Spacer(),

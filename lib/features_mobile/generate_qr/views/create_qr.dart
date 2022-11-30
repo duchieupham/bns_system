@@ -82,7 +82,6 @@ class _CreateQR extends State<CreateQR> {
                     Provider.of<CreateQRPageSelectProvider>(context,
                             listen: false)
                         .reset();
-
                     Navigator.pop(context);
                   } else {
                     _animatedToPage(page.indexSelected - 1);
@@ -133,7 +132,19 @@ class _CreateQR extends State<CreateQR> {
                       textColor: DefaultTheme.GREEN,
                       bgColor: Theme.of(context).cardColor,
                       function: () {
-                        _animatedToPage(1);
+                        if ((Provider.of<CreateQRProvider>(context,
+                                        listen: false)
+                                    .transactionAmount ==
+                                '0') ||
+                            (Provider.of<CreateQRProvider>(context,
+                                        listen: false)
+                                    .transactionAmount ==
+                                '')) {
+                          DialogWidget.instance.openMsgDialog(
+                              context, 'Vui lòng nhập số tiền cần thanh toán.');
+                        } else {
+                          _animatedToPage(1);
+                        }
                       },
                     )
                   : ButtonWidget(

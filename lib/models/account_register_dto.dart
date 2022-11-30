@@ -1,8 +1,3 @@
-import 'dart:convert';
-
-import 'package:vierqr/commons/utils/encrypt_utils.dart';
-import 'package:crypto/crypto.dart';
-
 class AccountRegisterDTO {
   final String userId;
   final String firstName;
@@ -13,10 +8,6 @@ class AccountRegisterDTO {
   final String phoneNo;
   final String address;
   final String password;
-  final String bankAccount;
-  final String bankAccountName;
-  final String bankCode;
-  final String bankName;
 
   const AccountRegisterDTO({
     required this.userId,
@@ -28,10 +19,6 @@ class AccountRegisterDTO {
     required this.phoneNo,
     required this.address,
     required this.password,
-    required this.bankAccount,
-    required this.bankAccountName,
-    required this.bankCode,
-    required this.bankName,
   });
 
   Map<String, dynamic> toUserInformationJson() {
@@ -51,17 +38,7 @@ class AccountRegisterDTO {
     Map<String, dynamic> data = {};
     data['id'] = userId;
     data['phoneNo'] = phoneNo;
-    data['password'] = EncryptUtils.instance.encrypted(phoneNo, password);
-    return data;
-  }
-
-  Map<String, dynamic> toUserBankJson() {
-    Map<String, dynamic> data = {};
-    data['id'] = userId;
-    data['bankAccount'] = bankAccount;
-    data['bankAccountName'] = bankAccountName;
-    data['bankCode'] = bankCode;
-    data['bankName'] = bankName;
+    data['password'] = password;
     return data;
   }
 }

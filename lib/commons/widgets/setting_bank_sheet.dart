@@ -71,7 +71,7 @@ class SettingBankSheet {
                             decoration: BoxDecoration(
                               color: (value.bankSelectErr)
                                   ? DefaultTheme.RED_TEXT.withOpacity(0.2)
-                                  : Theme.of(context).buttonColor,
+                                  : Theme.of(context).scaffoldBackgroundColor,
                               borderRadius: BorderRadius.circular(15),
                             ),
                             child: DropdownButton<String>(
@@ -117,7 +117,7 @@ class SettingBankSheet {
                             child: const Padding(
                               padding: EdgeInsets.only(left: 10, top: 5),
                               child: Text(
-                                'Vui lòng chọn Ngân hàng để thêm tài khoản.',
+                                'Vui lòng chọn Ngân hàng.',
                                 style: TextStyle(
                                     color: DefaultTheme.RED_TEXT, fontSize: 13),
                               ),
@@ -131,7 +131,7 @@ class SettingBankSheet {
                             decoration: BoxDecoration(
                               color: (value.bankAccountErr)
                                   ? DefaultTheme.RED_TEXT.withOpacity(0.2)
-                                  : Theme.of(context).buttonColor,
+                                  : Theme.of(context).scaffoldBackgroundColor,
                               borderRadius: BorderRadius.circular(15),
                             ),
                             child: TextFieldWidget(
@@ -148,7 +148,7 @@ class SettingBankSheet {
                             child: const Padding(
                               padding: EdgeInsets.only(left: 10, top: 5),
                               child: Text(
-                                'Số tài khoản cần đúng định dạng và không được để trống.',
+                                'Số tài khoản không đúng định dạng.',
                                 style: TextStyle(
                                     color: DefaultTheme.RED_TEXT, fontSize: 13),
                               ),
@@ -162,7 +162,7 @@ class SettingBankSheet {
                             decoration: BoxDecoration(
                               color: (value.bankAccountNameErr)
                                   ? DefaultTheme.RED_TEXT.withOpacity(0.2)
-                                  : Theme.of(context).buttonColor,
+                                  : Theme.of(context).scaffoldBackgroundColor,
                               borderRadius: BorderRadius.circular(15),
                             ),
                             child: TextFieldWidget(
@@ -179,7 +179,7 @@ class SettingBankSheet {
                             child: const Padding(
                               padding: EdgeInsets.only(left: 10, top: 5),
                               child: Text(
-                                'Vui lòng nhập tên tài khoản.',
+                                'Tên tài khoản không được để trống.',
                                 style: TextStyle(
                                     color: DefaultTheme.RED_TEXT, fontSize: 13),
                               ),

@@ -36,7 +36,7 @@ class CalButtonWidget extends StatelessWidget {
           style: TextStyle(
             color: DefaultTheme.GREEN,
             fontWeight: FontWeight.w500,
-            fontSize: size / 5,
+            fontSize: size / 3.5,
           ),
         ),
       ),

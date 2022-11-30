@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:vierqr/commons/constants/configurations/firebase_config.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
+import 'package:vierqr/commons/utils/encrypt_utils.dart';
 import 'package:vierqr/features_mobile/home/home.dart';
 import 'package:vierqr/features_mobile/login/blocs/login_bloc.dart';
 import 'package:vierqr/features_mobile/login/views/login.dart';
@@ -17,6 +18,7 @@ import 'package:vierqr/services/providers/bank_select_provider.dart';
 import 'package:vierqr/services/providers/create_qr_page_select_provider.dart';
 import 'package:vierqr/services/providers/create_qr_provider.dart';
 import 'package:vierqr/services/providers/page_select_provider.dart';
+import 'package:vierqr/services/providers/pin_provider.dart';
 import 'package:vierqr/services/providers/register_provider.dart';
 import 'package:vierqr/services/providers/theme_provider.dart';
 import 'package:vierqr/services/shared_references/create_qr_helper.dart';
@@ -65,6 +67,7 @@ class BNSApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    print(EncryptUtils.instance.encrypted('0931865469', '123456'));
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
@@ -91,6 +94,7 @@ class BNSApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => BankAccountProvider()),
             ChangeNotifierProvider(create: (context) => BankSelectProvider()),
             ChangeNotifierProvider(create: (context) => RegisterProvider()),
+            ChangeNotifierProvider(create: (context) => PinProvider()),
           ],
           child: Consumer<ThemeProvider>(
             builder: (context, themeSelect, child) {

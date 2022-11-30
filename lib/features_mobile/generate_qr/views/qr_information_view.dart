@@ -1,12 +1,14 @@
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/utils/share_utils.dart';
 import 'package:vierqr/commons/widgets/button_widget.dart';
+import 'package:vierqr/commons/widgets/dialog_widget.dart';
 import 'package:vierqr/commons/widgets/qr_statistic_widget.dart';
 import 'package:vierqr/commons/widgets/repaint_boundary_widget.dart';
 import 'package:vierqr/features_mobile/generate_qr/views/create_qr.dart';
 import 'package:vierqr/features_mobile/personal/blocs/bank_manage_bloc.dart';
 import 'package:vierqr/features_mobile/personal/events/bank_manage_event.dart';
 import 'package:vierqr/features_mobile/personal/states/bank_manage_state.dart';
+import 'package:vierqr/features_mobile/personal/views/bank_manage.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
 import 'package:vierqr/services/providers/bank_account_provider.dart';
 import 'package:vierqr/services/providers/create_qr_page_select_provider.dart';
@@ -82,9 +84,6 @@ class QRInformationView extends StatelessWidget {
                       _cardWidgets.add(repaintBoundaryWidget);
                     }
                   }
-                  Provider.of<CreateQRPageSelectProvider>(context,
-                          listen: false)
-                      .updateBankAccountDTO(_bankAccounts[0]);
                 }
                 if (state is BankManageRemoveSuccessState ||
                     state is BankManageAddSuccessState) {
@@ -99,7 +98,44 @@ class QRInformationView extends StatelessWidget {
                   children: [
                     Expanded(
                       child: (_bankAccounts.isEmpty)
-                          ? const SizedBox()
+                          ? UnconstrainedBox(
+                              child: Container(
+                                width: width - 60,
+                                height: 200,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Theme.of(context).cardColor,
+                                ),
+                                alignment: Alignment.center,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    const Text(
+                                      'Mã QR thanh toán chưa được tạo.',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    ButtonWidget(
+                                      width: width * 0.5,
+                                      text: 'Thêm tài khoản ngân hàng',
+                                      textColor: DefaultTheme.WHITE,
+                                      bgColor: DefaultTheme.GREEN,
+                                      function: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const BankManageView(),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
                           : SizedBox(
                               width: width,
                               child: PageView(
@@ -111,11 +147,6 @@ class QRInformationView extends StatelessWidget {
                                   Provider.of<BankAccountProvider>(context,
                                           listen: false)
                                       .updateIndex(index);
-                                  Provider.of<CreateQRPageSelectProvider>(
-                                          context,
-                                          listen: false)
-                                      .updateBankAccountDTO(
-                                          _bankAccounts[index]);
                                 },
                                 children: _cardWidgets,
                               ),
@@ -152,9 +183,14 @@ class QRInformationView extends StatelessWidget {
               textColor: DefaultTheme.GREEN,
               bgColor: Theme.of(context).cardColor,
               function: () async {
-                await ShareUtils.instance.shareImage(_keys[
-                    Provider.of<BankAccountProvider>(context, listen: false)
-                        .indexSelected]);
+                if (_bankAccounts.isNotEmpty) {
+                  await ShareUtils.instance.shareImage(_keys[
+                      Provider.of<BankAccountProvider>(context, listen: false)
+                          .indexSelected]);
+                } else {
+                  DialogWidget.instance.openMsgDialog(context,
+                      'Thêm tài khoản ngân hàng để sử dụng chức năng này.');
+                }
               },
             ),
           ),
@@ -180,6 +216,9 @@ class QRInformationView extends StatelessWidget {
                       ),
                     ),
                   );
+                } else {
+                  DialogWidget.instance.openMsgDialog(context,
+                      'Thêm tài khoản ngân hàng để sử dụng chức năng này.');
                 }
               },
             ),

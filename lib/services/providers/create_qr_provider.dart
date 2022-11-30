@@ -62,21 +62,16 @@ class CreateQRProvider with ChangeNotifier {
   void updateCurrencyFormat(String value) {
     if (value.isNotEmpty && value.characters.first == '0') {
       value = value.substring(1);
-      /* if (value.length > 3) {
-        _currencyFormatted = numberFormat.format(value);
-      } else {
-        _currencyFormatted = value;
-      }*/
-      if (value.isEmpty) {
-        _currencyFormatted = '0';
-      } else if (value.length > 3) {
-        _currencyFormatted = _formatNumber(value.replaceAll(',', ''));
-      } else {
-        _currencyFormatted = value;
-      }
-    } else {
-      _currencyFormatted = '0';
+      _transactionAmount = _transactionAmount.substring(1);
     }
+    if (value.isEmpty) {
+      _currencyFormatted = '0';
+    } else if (value.length > 3) {
+      _currencyFormatted = _formatNumber(value.replaceAll(',', ''));
+    } else {
+      _currencyFormatted = value;
+    }
+
     notifyListeners();
   }
 }

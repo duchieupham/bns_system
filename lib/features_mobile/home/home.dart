@@ -205,10 +205,6 @@ class _HomeScreen extends State<HomeScreen> {
                                     );
                                     _cardWidgets.add(qrWidget);
                                   }
-                                  Provider.of<CreateQRPageSelectProvider>(
-                                          context,
-                                          listen: false)
-                                      .updateBankAccountDTO(_bankAccounts[0]);
                                 }
                               }
                               if (state is BankManageRemoveSuccessState ||
@@ -221,8 +217,36 @@ class _HomeScreen extends State<HomeScreen> {
                               }
                             }),
                             builder: ((context, state) {
-                              return (_cardWidgets.isEmpty)
-                                  ? const SizedBox()
+                              return (_bankAccounts.isEmpty)
+                                  ? Container(
+                                      width: width - 60,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      alignment: Alignment.center,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          const Text(
+                                            'Mã QR thanh toán chưa được tạo.',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: DefaultTheme.GREY_TEXT,
+                                            ),
+                                          ),
+                                          ButtonIconWidget(
+                                            width: 220,
+                                            icon: Icons.add_rounded,
+                                            title: 'Thêm tài khoản ngân hàng',
+                                            bgColor: DefaultTheme.GREEN,
+                                            textColor:
+                                                Theme.of(context).primaryColor,
+                                            function: () {},
+                                          ),
+                                        ],
+                                      ),
+                                    )
                                   : Stack(
                                       fit: StackFit.expand,
                                       children: [
@@ -321,25 +345,28 @@ class _HomeScreen extends State<HomeScreen> {
                         ),
                       ),
                       const Padding(padding: EdgeInsets.only(top: 5)),
-                      ButtonIconWidget(
-                        width: 185,
-                        icon: Icons.add_rounded,
-                        title: 'Tạo mã QR thanh toán',
-                        function: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => CreateQR(
-                                bankAccountDTO: _bankAccounts[
-                                    Provider.of<BankAccountProvider>(context,
-                                            listen: false)
-                                        .indexSelected],
-                              ),
+                      (_bankAccounts.isEmpty)
+                          ? const SizedBox()
+                          : ButtonIconWidget(
+                              width: 185,
+                              icon: Icons.add_rounded,
+                              title: 'Tạo mã QR thanh toán',
+                              function: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => CreateQR(
+                                      bankAccountDTO: _bankAccounts[
+                                          Provider.of<BankAccountProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .indexSelected],
+                                    ),
+                                  ),
+                                );
+                              },
+                              bgColor: DefaultTheme.GREEN,
+                              textColor: Theme.of(context).primaryColor,
                             ),
-                          );
-                        },
-                        bgColor: DefaultTheme.GREEN,
-                        textColor: Theme.of(context).primaryColor,
-                      ),
                     ],
                   ),
                 ),

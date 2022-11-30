@@ -64,8 +64,11 @@ class _UserSetting extends State<UserSetting> {
                   text: 'Quản lý tài khoản ngân hàng',
                   textColor: DefaultTheme.BLUE_TEXT,
                   function: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const BankManageView()));
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const BankManageView(),
+                      ),
+                    );
                   },
                 ),
                 const Divider(

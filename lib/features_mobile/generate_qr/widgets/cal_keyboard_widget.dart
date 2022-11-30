@@ -198,12 +198,14 @@ class CalKeyboardWidget extends StatelessWidget {
   }
 
   void setValue(String value, String currentValue, BuildContext context) {
-    if (currentValue.isEmpty && (value == '0' || value == '000')) {
-    } else {
-      if (currentValue.length <= 9) {
-        Provider.of<CreateQRProvider>(context, listen: false)
-            .updateTransactionAmount(value);
+    if (currentValue.isEmpty || currentValue == '0' || currentValue == '000') {
+      if (value == '0' || value == '000') {
+        value = '';
       }
+    }
+    if (value.length <= 9) {
+      Provider.of<CreateQRProvider>(context, listen: false)
+          .updateTransactionAmount(value);
     }
   }
 
