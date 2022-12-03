@@ -10,8 +10,8 @@ class DividerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      height: 0.5,
-      color: DefaultTheme.GREY_TEXT,
+      height: 0.25,
+      color: DefaultTheme.GREY_TOP_TAB_BAR,
     );
   }
 }

@@ -18,6 +18,36 @@ class UserAccountDB {
     return result;
   }
 
+  Future<Map<String, dynamic>> updatePassword(
+      String userId, String oldPassword, String newPassword) async {
+    Map<String, dynamic> result = {'check': false, 'msg': ''};
+    try {
+      await userAccountDb
+          .where('id', isEqualTo: userId)
+          .where('password', isEqualTo: oldPassword)
+          .get()
+          .then(
+        (QuerySnapshot querySnapshot) async {
+          if (querySnapshot.docs.isNotEmpty) {
+            await querySnapshot.docs.first.reference
+                .update({'password': newPassword}).then((_) {
+              result = {'check': true, 'msg': ''};
+            });
+          } else {
+            result = {
+              'check': false,
+              'msg': 'Mã PIN cũ không chính xác, vui lòng thử lại.'
+            };
+          }
+        },
+      );
+    } catch (e) {
+      result = {'check': false, 'msg': 'Vui lòng kiểm tra lại kết nối mạng.'};
+      print('Error at updatePassword - UserAccountDB: $e');
+    }
+    return result;
+  }
+
   Future<String> login(String phone, String password) async {
     String result = '';
     try {

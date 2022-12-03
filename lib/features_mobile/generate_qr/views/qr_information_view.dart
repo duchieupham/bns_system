@@ -11,7 +11,6 @@ import 'package:vierqr/features_mobile/personal/states/bank_manage_state.dart';
 import 'package:vierqr/features_mobile/personal/views/bank_manage.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
 import 'package:vierqr/services/providers/bank_account_provider.dart';
-import 'package:vierqr/services/providers/create_qr_page_select_provider.dart';
 import 'package:vierqr/services/shared_references/user_information_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,7 +35,6 @@ class QRInformationView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('build qr information widget');
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     initialServices(context);

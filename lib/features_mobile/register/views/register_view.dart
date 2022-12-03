@@ -1,4 +1,5 @@
 import 'package:vierqr/commons/constants/configurations/theme.dart';
+import 'package:vierqr/commons/enums/textfield_type.dart';
 import 'package:vierqr/commons/utils/encrypt_utils.dart';
 import 'package:vierqr/commons/utils/string_utils.dart';
 import 'package:vierqr/commons/widgets/button_widget.dart';
@@ -8,6 +9,7 @@ import 'package:vierqr/commons/widgets/textfield_widget.dart';
 import 'package:vierqr/features_mobile/register/blocs/register_bloc.dart';
 import 'package:vierqr/features_mobile/register/events/register_event.dart';
 import 'package:vierqr/features_mobile/register/states/register_state.dart';
+import 'package:vierqr/layouts/box_layout.dart';
 import 'package:vierqr/models/account_register_dto.dart';
 import 'package:vierqr/services/providers/register_provider.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +20,6 @@ import 'package:uuid/uuid.dart';
 class RegisterView extends StatelessWidget {
   final String phoneNo;
 
-  const RegisterView({super.key, required this.phoneNo});
   static final TextEditingController _phoneNoController =
       TextEditingController();
 
@@ -32,6 +33,8 @@ class RegisterView extends StatelessWidget {
 
   static bool _isChangePhone = false;
   static bool _isChangePass = false;
+
+  const RegisterView({super.key, required this.phoneNo});
 
   void initialServices(BuildContext context) {
     _registerBloc = BlocProvider.of(context);
@@ -85,21 +88,19 @@ class RegisterView extends StatelessWidget {
               child: Consumer<RegisterProvider>(
                 builder: (context, value, child) {
                   return ListView(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     children: [
-                      Container(
+                      BoxLayout(
                         width: width,
-                        margin: const EdgeInsets.symmetric(horizontal: 20),
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).cardColor,
-                          borderRadius: BorderRadius.circular(15),
-                        ),
                         child: Column(
                           children: [
                             TextFieldWidget(
                               width: width,
                               isObscureText: false,
-                              hintText: 'Số điện thoại',
+                              textfieldType: TextfieldType.LABEL,
+                              title: 'Số điện thoại',
+                              titleWidth: 100,
+                              hintText: '090 123 4567',
                               controller: _phoneNoController,
                               inputType: TextInputType.number,
                               keyboardAction: TextInputAction.next,
@@ -114,7 +115,10 @@ class RegisterView extends StatelessWidget {
                             TextFieldWidget(
                               width: width,
                               isObscureText: true,
-                              hintText: 'Mã PIN (6 số)',
+                              textfieldType: TextfieldType.LABEL,
+                              title: 'Mã PIN',
+                              titleWidth: 100,
+                              hintText: 'Bao gồm 6 số',
                               controller: _passwordController,
                               inputType: TextInputType.number,
                               keyboardAction: TextInputAction.next,
@@ -129,6 +133,9 @@ class RegisterView extends StatelessWidget {
                             TextFieldWidget(
                               width: width,
                               isObscureText: true,
+                              textfieldType: TextfieldType.LABEL,
+                              title: 'Xác nhận lại',
+                              titleWidth: 100,
                               hintText: 'Xác nhận lại mã PIN',
                               controller: _confirmPassController,
                               inputType: TextInputType.number,
@@ -143,7 +150,7 @@ class RegisterView extends StatelessWidget {
                       Visibility(
                         visible: value.phoneErr,
                         child: const Padding(
-                          padding: EdgeInsets.only(left: 30, top: 5, right: 30),
+                          padding: EdgeInsets.only(left: 10, top: 5, right: 30),
                           child: Text(
                             'Số điện thoại không đúng định dạng.',
                             style: TextStyle(
@@ -154,7 +161,7 @@ class RegisterView extends StatelessWidget {
                       Visibility(
                         visible: value.passwordErr,
                         child: const Padding(
-                          padding: EdgeInsets.only(left: 30, top: 5, right: 30),
+                          padding: EdgeInsets.only(left: 10, top: 5, right: 30),
                           child: Text(
                             'Mã PIN bao gồm 6 số.',
                             style: TextStyle(
@@ -165,7 +172,7 @@ class RegisterView extends StatelessWidget {
                       Visibility(
                         visible: value.confirmPassErr,
                         child: const Padding(
-                          padding: EdgeInsets.only(left: 30, top: 5, right: 30),
+                          padding: EdgeInsets.only(left: 10, top: 5, right: 30),
                           child: Text(
                             'Xác nhận mã PIN không trùng khớp.',
                             style: TextStyle(

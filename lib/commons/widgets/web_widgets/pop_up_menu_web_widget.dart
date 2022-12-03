@@ -29,7 +29,7 @@ class PopupMenuWebWidget {
             SizedBox(
               width: 190,
               child: Text(
-                '${UserInformationHelper.instance.getUserInformation().lastName} ${UserInformationHelper.instance.getUserInformation().middleName} ${UserInformationHelper.instance.getUserInformation().firstName}',
+                UserInformationHelper.instance.getUserFullname(),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),

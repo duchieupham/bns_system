@@ -7,6 +7,19 @@ class TimeUtils {
   static const TimeUtils _instance = TimeUtils._privateConsrtructor();
   static TimeUtils get instance => _instance;
 
+  DateTime getDateFromString(String time) {
+    List<String> times = time.split('/');
+    DateTime result = DateTime.now();
+    if (times.length == 3) {
+      result = DateTime(
+        int.parse(times[2]),
+        int.parse(times[1]),
+        int.parse(times[0]),
+      );
+    }
+    return result;
+  }
+
   String formatTime(String date) {
     String result = '';
     DateFormat format = DateFormat('dd/MM/yyyy HH:mm');

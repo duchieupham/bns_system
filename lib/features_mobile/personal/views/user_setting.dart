@@ -3,6 +3,7 @@ import 'package:vierqr/commons/widgets/button_text_widget.dart';
 import 'package:vierqr/features_mobile/home/theme_setting.dart';
 import 'package:vierqr/features_mobile/login/views/login.dart';
 import 'package:vierqr/features_mobile/personal/views/bank_manage.dart';
+import 'package:vierqr/features_mobile/personal/views/user_edit_view.dart';
 import 'package:vierqr/services/shared_references/user_information_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -32,7 +33,7 @@ class _UserSetting extends State<UserSetting> {
               bottom: 30,
             ),
             child: Text(
-              '${UserInformationHelper.instance.getUserInformation().lastName} ${UserInformationHelper.instance.getUserInformation().middleName} ${UserInformationHelper.instance.getUserInformation().firstName}',
+              UserInformationHelper.instance.getUserFullname(),
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
@@ -40,10 +41,10 @@ class _UserSetting extends State<UserSetting> {
             ),
           ),
           Container(
-            width: width - 20,
+            width: width - 40,
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(15),
             ),
             child: Column(
               children: [
@@ -51,8 +52,14 @@ class _UserSetting extends State<UserSetting> {
                   width: width,
                   alignment: buttonTextAlignment,
                   text: 'Chỉnh sửa thông tin cá nhân',
-                  textColor: DefaultTheme.BLUE_TEXT,
-                  function: () {},
+                  textColor: DefaultTheme.GREEN,
+                  function: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => UserEditView(),
+                      ),
+                    );
+                  },
                 ),
                 const Divider(
                   color: DefaultTheme.GREY_LIGHT,
@@ -62,7 +69,7 @@ class _UserSetting extends State<UserSetting> {
                   width: width,
                   alignment: buttonTextAlignment,
                   text: 'Quản lý tài khoản ngân hàng',
-                  textColor: DefaultTheme.BLUE_TEXT,
+                  textColor: DefaultTheme.GREEN,
                   function: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -79,7 +86,7 @@ class _UserSetting extends State<UserSetting> {
                   width: width,
                   alignment: buttonTextAlignment,
                   text: 'Kết nối với Telegram',
-                  textColor: DefaultTheme.BLUE_TEXT,
+                  textColor: DefaultTheme.GREEN,
                   function: () {},
                 ),
                 const Divider(
@@ -90,7 +97,7 @@ class _UserSetting extends State<UserSetting> {
                   width: width,
                   alignment: buttonTextAlignment,
                   text: 'Thay đổi giao diện',
-                  textColor: DefaultTheme.BLUE_TEXT,
+                  textColor: DefaultTheme.GREEN,
                   function: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const ThemeSettingView()));

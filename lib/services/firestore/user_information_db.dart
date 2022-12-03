@@ -20,6 +20,25 @@ class UserInformationDB {
     return result;
   }
 
+  Future<bool> updateUserInformation(UserInformationDTO dto) async {
+    bool result = false;
+    try {
+      await userInformationDb
+          .where('id', isEqualTo: dto.userId)
+          .get()
+          .then((QuerySnapshot querySnapshot) async {
+        if (querySnapshot.docs.isNotEmpty) {
+          await querySnapshot.docs.first.reference
+              .update(dto.toJson())
+              .then((value) => result = true);
+        }
+      });
+    } catch (e) {
+      print('Error at updateUserInformation - UserInformationDB: $e');
+    }
+    return result;
+  }
+
   Future<UserInformationDTO> getUserInformation(String userId) async {
     UserInformationDTO result = const UserInformationDTO(
       userId: '',

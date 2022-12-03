@@ -22,7 +22,7 @@ class UserInformationHelper {
       address: '',
     );
     await sharedPrefs.setString('USER_ID', '');
-    await sharedPrefs.setString('USER_INFORMATION', dto.toJson().toString());
+    await sharedPrefs.setString('USER_INFORMATION', dto.toSPJson().toString());
   }
 
   Future<void> setUserId(String userId) async {
@@ -30,7 +30,7 @@ class UserInformationHelper {
   }
 
   Future<void> setUserInformation(UserInformationDTO dto) async {
-    await sharedPrefs.setString('USER_INFORMATION', dto.toJson().toString());
+    await sharedPrefs.setString('USER_INFORMATION', dto.toSPJson().toString());
   }
 
   UserInformationDTO getUserInformation() {
@@ -40,5 +40,10 @@ class UserInformationHelper {
 
   String getUserId() {
     return sharedPrefs.getString('USER_ID')!;
+  }
+
+  String getUserFullname() {
+    return ('${getUserInformation().lastName} ${getUserInformation().middleName} ${getUserInformation().firstName}')
+        .trim();
   }
 }

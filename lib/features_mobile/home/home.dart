@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
@@ -19,7 +18,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
 import 'package:vierqr/services/providers/bank_account_provider.dart';
-import 'package:vierqr/services/providers/create_qr_page_select_provider.dart';
 import 'package:vierqr/services/providers/page_select_provider.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/utils/time_utils.dart';
@@ -36,10 +34,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreen extends State<HomeScreen> {
   //page controller
-  final PageController _pageController = PageController(
-    initialPage: 0,
-    keepPage: true,
-  );
+  static late PageController _pageController;
 
   //list page
   final List<Widget> _homeScreens = [];
@@ -60,6 +55,11 @@ class _HomeScreen extends State<HomeScreen> {
       _bankManageBloc.add(BankManageEventGetList(
           userId: UserInformationHelper.instance.getUserId()));
     }
+    _pageController = PageController(
+      initialPage:
+          Provider.of<PageSelectProvider>(context, listen: false).indexSelected,
+      keepPage: true,
+    );
     _homeScreens.addAll([
       const QRInformationView(
         key: PageStorageKey('QR_GENERATOR_PAGE'),
@@ -226,7 +226,7 @@ class _HomeScreen extends State<HomeScreen> {
                                       alignment: Alignment.center,
                                       child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                            MainAxisAlignment.center,
                                         children: [
                                           const Text(
                                             'Mã QR thanh toán chưa được tạo.',
@@ -235,6 +235,9 @@ class _HomeScreen extends State<HomeScreen> {
                                               color: DefaultTheme.GREY_TEXT,
                                             ),
                                           ),
+                                          const Padding(
+                                              padding:
+                                                  EdgeInsets.only(top: 10)),
                                           ButtonIconWidget(
                                             width: 220,
                                             icon: Icons.add_rounded,
@@ -345,28 +348,30 @@ class _HomeScreen extends State<HomeScreen> {
                         ),
                       ),
                       const Padding(padding: EdgeInsets.only(top: 5)),
-                      (_bankAccounts.isEmpty)
-                          ? const SizedBox()
-                          : ButtonIconWidget(
-                              width: 185,
-                              icon: Icons.add_rounded,
-                              title: 'Tạo mã QR thanh toán',
-                              function: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => CreateQR(
-                                      bankAccountDTO: _bankAccounts[
-                                          Provider.of<BankAccountProvider>(
-                                                  context,
-                                                  listen: false)
-                                              .indexSelected],
-                                    ),
-                                  ),
-                                );
-                              },
-                              bgColor: DefaultTheme.GREEN,
-                              textColor: Theme.of(context).primaryColor,
-                            ),
+                      ButtonIconWidget(
+                        width: 185,
+                        icon: Icons.add_rounded,
+                        title: 'Tạo mã QR thanh toán',
+                        function: () {
+                          if (_bankAccounts.isNotEmpty) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => CreateQR(
+                                  bankAccountDTO: _bankAccounts[
+                                      Provider.of<BankAccountProvider>(context,
+                                              listen: false)
+                                          .indexSelected],
+                                ),
+                              ),
+                            );
+                          } else {
+                            DialogWidget.instance.openMsgDialog(context,
+                                'Thêm tài khoản ngân hàng để sử dụng chức năng này.');
+                          }
+                        },
+                        bgColor: DefaultTheme.GREEN,
+                        textColor: Theme.of(context).primaryColor,
+                      ),
                     ],
                   ),
                 ),

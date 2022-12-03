@@ -174,7 +174,6 @@ class QRGenerated extends StatelessWidget {
                     Provider.of<CreateQRPageSelectProvider>(context,
                             listen: false)
                         .updateIndex(0);
-
                     Navigator.pop(context);
                   },
                 ),

@@ -34,7 +34,7 @@ class UserInformationDTO {
       address: json['address'] ?? '',
     );
   }
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toSPJson() {
     final Map<String, dynamic> data = {};
     data['"firstName"'] = (firstName == '') ? '""' : '"$firstName"';
     data['"middleName"'] = (middleName == '') ? '""' : '"$middleName"';
@@ -43,6 +43,19 @@ class UserInformationDTO {
     data['"gender"'] = (gender == '') ? '""' : '"$gender"';
     data['"phoneNo"'] = (phoneNo == '') ? '""' : '"$phoneNo"';
     data['"address"'] = (address == '') ? '""' : '"$address"';
+    return data;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+    data['firstName'] = firstName;
+    data['middleName'] = middleName;
+    data['lastName'] = lastName;
+    data['id'] = userId;
+    data['address'] = address;
+    data['birthDate'] = birthDate;
+    data['phoneNo'] = phoneNo;
+    data['gender'] = (gender == 'true');
     return data;
   }
 }
