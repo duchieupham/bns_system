@@ -274,37 +274,41 @@ class _HomeScreen extends State<HomeScreen> {
                                         Positioned(
                                           top: 0,
                                           right: 0,
-                                          child: InkWell(
-                                            onTap: () {
-                                              QRStatisticWidget qrWidget =
-                                                  QRStatisticWidget(
-                                                isWeb: true,
-                                                isExpanded: true,
-                                                bankAccountDTO: _bankAccounts[
-                                                    Provider.of<BankAccountProvider>(
-                                                            context,
-                                                            listen: false)
-                                                        .indexSelected],
-                                              );
-                                              DialogWidget.instance
-                                                  .openContentDialog(
-                                                context,
-                                                qrWidget,
-                                              );
-                                            },
-                                            child: Container(
-                                              width: 40,
-                                              height: 40,
-                                              decoration: BoxDecoration(
-                                                color: Theme.of(context)
-                                                    .scaffoldBackgroundColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(40),
-                                              ),
-                                              child: const Icon(
-                                                Icons.zoom_out_map_rounded,
-                                                color: DefaultTheme.GREEN,
-                                                size: 20,
+                                          child: Tooltip(
+                                            message: 'Phóng to mã QR',
+                                            child: InkWell(
+                                              onTap: () {
+                                                QRStatisticWidget qrWidget =
+                                                    QRStatisticWidget(
+                                                  isWeb: true,
+                                                  isExpanded: true,
+                                                  bankAccountDTO: _bankAccounts[
+                                                      Provider.of<BankAccountProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .indexSelected],
+                                                );
+                                                DialogWidget.instance
+                                                    .openContentDialog(
+                                                  context,
+                                                  null,
+                                                  qrWidget,
+                                                );
+                                              },
+                                              child: Container(
+                                                width: 30,
+                                                height: 30,
+                                                decoration: BoxDecoration(
+                                                  color: Theme.of(context)
+                                                      .canvasColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                ),
+                                                child: const Icon(
+                                                  Icons.zoom_out_map_rounded,
+                                                  color: DefaultTheme.GREY_TEXT,
+                                                  size: 15,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -414,9 +418,9 @@ class _HomeScreen extends State<HomeScreen> {
       floatingActionButton: (ScreenResolutionUtils.instance.isWeb())
           ? null
           : Container(
-              margin: EdgeInsets.only(bottom: 5),
+              margin: const EdgeInsets.only(bottom: 5),
               child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(25)),
+                borderRadius: const BorderRadius.all(Radius.circular(25)),
                 child: BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
                   child: Container(
@@ -485,8 +489,9 @@ class _HomeScreen extends State<HomeScreen> {
         width: 50,
         height: 50,
         decoration: BoxDecoration(
-          color:
-              (isSelected) ? Theme.of(context).hoverColor : Colors.transparent,
+          color: (isSelected)
+              ? Theme.of(context).toggleableActiveColor
+              : Colors.transparent,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Image.asset(

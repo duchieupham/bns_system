@@ -71,7 +71,7 @@ class SettingBankSheet {
                             decoration: BoxDecoration(
                               color: (value.bankSelectErr)
                                   ? DefaultTheme.RED_TEXT.withOpacity(0.2)
-                                  : Theme.of(context).scaffoldBackgroundColor,
+                                  : Theme.of(context).canvasColor,
                               borderRadius: BorderRadius.circular(15),
                             ),
                             child: DropdownButton<String>(
@@ -93,6 +93,11 @@ class SettingBankSheet {
                                 } else {
                                   bankSelected = selected;
                                   value.updateBankSelected(selected);
+                                  value.updateErrs(
+                                    (value.bankSelected == 'Chọn ngân hàng'),
+                                    value.bankAccountErr,
+                                    value.bankAccountNameErr,
+                                  );
                                 }
                               },
                               items: banks.map<DropdownMenuItem<String>>(
@@ -131,7 +136,7 @@ class SettingBankSheet {
                             decoration: BoxDecoration(
                               color: (value.bankAccountErr)
                                   ? DefaultTheme.RED_TEXT.withOpacity(0.2)
-                                  : Theme.of(context).scaffoldBackgroundColor,
+                                  : Theme.of(context).canvasColor,
                               borderRadius: BorderRadius.circular(15),
                             ),
                             child: TextFieldWidget(
@@ -162,7 +167,7 @@ class SettingBankSheet {
                             decoration: BoxDecoration(
                               color: (value.bankAccountNameErr)
                                   ? DefaultTheme.RED_TEXT.withOpacity(0.2)
-                                  : Theme.of(context).scaffoldBackgroundColor,
+                                  : Theme.of(context).canvasColor,
                               borderRadius: BorderRadius.circular(15),
                             ),
                             child: TextFieldWidget(
@@ -258,7 +263,7 @@ class SettingBankSheet {
                     width: width,
                     height: 140,
                     decoration: BoxDecoration(
-                      color: Theme.of(context).cardColor.withOpacity(0.8),
+                      color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Column(
@@ -301,7 +306,7 @@ class SettingBankSheet {
                     width: width,
                     text: 'Huỷ',
                     textColor: DefaultTheme.BLUE_TEXT,
-                    bgColor: Theme.of(context).cardColor.withOpacity(0.8),
+                    bgColor: Theme.of(context).cardColor,
                     function: () {
                       Navigator.pop(context);
                     },

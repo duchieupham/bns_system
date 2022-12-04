@@ -30,6 +30,7 @@ class BankSelectProvider with ChangeNotifier {
 
   List<String> getListAvailableBank() {
     List<String> result = [];
+    _bankSelected = 'Chọn ngân hàng';
     result.add(_bankSelected);
     result.addAll(BankInformationUtil.instance.getAvailableAddingBanks());
     return result;

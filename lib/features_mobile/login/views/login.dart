@@ -1,6 +1,5 @@
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/utils/encrypt_utils.dart';
-import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
 import 'package:vierqr/commons/widgets/button_widget.dart';
 import 'package:vierqr/commons/widgets/dialog_widget.dart';
 import 'package:vierqr/commons/widgets/textfield_widget.dart';
@@ -184,7 +183,7 @@ class Login extends StatelessWidget {
               width: width,
               text: 'Đăng ký',
               textColor: DefaultTheme.GREEN,
-              bgColor: Theme.of(context).scaffoldBackgroundColor,
+              bgColor: Theme.of(context).canvasColor,
               function: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(

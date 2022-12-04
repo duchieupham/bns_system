@@ -77,17 +77,17 @@ class QRStatisticWidget extends StatelessWidget {
                 const Padding(padding: EdgeInsets.only(top: 10)),
                 Text(
                   'Tên chủ TK: ${bankAccountDTO.bankAccountName.toUpperCase()}',
-                  style: TextStyle(
-                    color: Theme.of(context).focusColor,
+                  style: const TextStyle(
+                    color: DefaultTheme.BLUE_TEXT,
                     fontSize: 13,
                   ),
                 ),
                 //Số tài khoản
                 Text(
                   'Số TK: ${BankInformationUtil.instance.hideBankAccount(bankAccountDTO.bankAccount)}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w500,
-                    color: Theme.of(context).focusColor,
+                    color: DefaultTheme.BLUE_TEXT,
                     fontSize: 13,
                   ),
                 ),
@@ -97,8 +97,8 @@ class QRStatisticWidget extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Theme.of(context).focusColor,
+                  style: const TextStyle(
+                    color: DefaultTheme.BLUE_TEXT,
                     fontSize: 12,
                   ),
                 ),
@@ -153,17 +153,17 @@ class QRStatisticWidget extends StatelessWidget {
                       const Padding(padding: EdgeInsets.only(top: 10)),
                       Text(
                         'Tên chủ TK: ${bankAccountDTO.bankAccountName.toUpperCase()}',
-                        style: TextStyle(
-                          color: Theme.of(context).focusColor,
+                        style: const TextStyle(
+                          color: DefaultTheme.BLUE_TEXT,
                           fontSize: 15,
                         ),
                       ),
                       //Số tài khoản
                       Text(
                         'Số TK: ${BankInformationUtil.instance.hideBankAccount(bankAccountDTO.bankAccount)}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.w500,
-                          color: Theme.of(context).focusColor,
+                          color: DefaultTheme.BLUE_TEXT,
                           fontSize: 15,
                         ),
                       ),
@@ -172,8 +172,8 @@ class QRStatisticWidget extends StatelessWidget {
                         bankAccountDTO.bankName,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: Theme.of(context).focusColor,
+                        style: const TextStyle(
+                          color: DefaultTheme.BLUE_TEXT,
                           fontSize: 13,
                         ),
                       ),

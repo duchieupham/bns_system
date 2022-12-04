@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ThemeSettingView extends StatelessWidget {
-  const ThemeSettingView();
+  const ThemeSettingView({super.key});
 
   //theme UI controller
   static late PageController _themeUIController;
@@ -44,7 +44,7 @@ class ThemeSettingView extends StatelessWidget {
                   height: 200,
                   child: PageView.builder(
                     controller: _themeUIController,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: _assetList.length,
                     itemBuilder: (context, index) {
                       return Image.asset(
@@ -59,8 +59,8 @@ class ThemeSettingView extends StatelessWidget {
                 //
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.only(left: 20, right: 20),
-                  padding: EdgeInsets.only(left: 20, right: 20),
+                  margin: const EdgeInsets.only(left: 20, right: 20),
+                  padding: const EdgeInsets.only(left: 20, right: 20),
                   decoration: DefaultTheme.cardDecoration(context),
                   child: ListView.separated(
                     physics: NeverScrollableScrollPhysics(),

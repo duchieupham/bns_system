@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/features_mobile/home/home.dart';
 import 'package:vierqr/features_mobile/login/views/login.dart';
+import 'package:vierqr/features_mobile/personal/views/bank_manage.dart';
 import 'package:vierqr/services/shared_references/user_information_helper.dart';
 
 class PopupMenuWebWidget {
@@ -16,6 +17,7 @@ class PopupMenuWebWidget {
     await showMenu(
       context: context,
       position: position,
+      useRootNavigator: true,
       items: [
         PopupMenuItem<int>(
           value: 0,
@@ -38,10 +40,30 @@ class PopupMenuWebWidget {
         ),
         const PopupMenuItem<int>(
           value: 1,
-          child: Text('Thay đổi giao diện'),
+          child: Text('Giao dịch'),
         ),
         PopupMenuItem<int>(
           value: 2,
+          child: const Text('Tài khoản ngân hàng'),
+          onTap: () async {
+            await Future.delayed(const Duration(milliseconds: 200), () {});
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const BankManageView(),
+              ),
+            );
+          },
+        ),
+        const PopupMenuItem<int>(
+          value: 3,
+          child: Text('Mã QR'),
+        ),
+        const PopupMenuItem<int>(
+          value: 4,
+          child: Text('Thay đổi giao diện'),
+        ),
+        PopupMenuItem<int>(
+          value: 5,
           onTap: () async {
             await UserInformationHelper.instance.initialUserInformationHelper();
             Navigator.of(context).pushReplacement(
@@ -105,19 +127,29 @@ class PopupMenuWebWidget {
           value: 2,
           child: Text('Giao dịch'),
         ),
-        const PopupMenuItem<int>(
+        PopupMenuItem<int>(
           value: 3,
-          child: Text('Mã QR'),
+          child: const Text('Tài khoản ngân hàng'),
+          onTap: () async {
+            await Future.delayed(const Duration(milliseconds: 200), () {});
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const BankManageView()),
+            );
+          },
         ),
         const PopupMenuItem<int>(
           value: 4,
+          child: Text('Mã QR'),
+        ),
+        const PopupMenuItem<int>(
+          value: 5,
           child: Text('Thay đổi giao diện'),
         ),
         PopupMenuItem<int>(
-          value: 5,
+          value: 6,
           onTap: () async {
             await UserInformationHelper.instance.initialUserInformationHelper();
-            Navigator.of(context).pushReplacement(
+            await Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => const Login(),
               ),

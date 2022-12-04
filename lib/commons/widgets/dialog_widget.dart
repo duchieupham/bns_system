@@ -59,7 +59,7 @@ class DialogWidget {
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(25),
-                          color: Theme.of(context).scaffoldBackgroundColor,
+                          color: Theme.of(context).canvasColor,
                         ),
                         child: const Icon(
                           Icons.close_rounded,
@@ -93,7 +93,16 @@ class DialogWidget {
     );
   }
 
-  openContentDialog(BuildContext context, Widget child) {
+  openBoxWebConfirm({
+    required BuildContext context,
+    required String title,
+    required String confirmText,
+    required String imageAsset,
+    required String description,
+    required VoidCallback confirmFunction,
+    VoidCallback? cancelFunction,
+    Color? confirmColor,
+  }) {
     return showDialog(
         barrierDismissible: false,
         context: context,
@@ -102,47 +111,137 @@ class DialogWidget {
             color: DefaultTheme.TRANSPARENT,
             child: Center(
               child: Container(
-                  width: 500,
-                  height: 500,
-                  alignment: Alignment.center,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Align(
-                        alignment: Alignment.topRight,
+                width: 300,
+                height: 350,
+                alignment: Alignment.center,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).cardColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      imageAsset,
+                      width: 80,
+                      height: 80,
+                    ),
+                    const Padding(padding: EdgeInsets.only(top: 30)),
+                    Text(
+                      title,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const Padding(padding: EdgeInsets.only(top: 10)),
+                    SizedBox(
+                      width: 250,
+                      child: Text(
+                        description,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 13,
+                        ),
+                      ),
+                    ),
+                    const Padding(padding: EdgeInsets.only(top: 30)),
+                    ButtonWidget(
+                      width: 250,
+                      height: 30,
+                      text: confirmText,
+                      textColor: DefaultTheme.WHITE,
+                      bgColor: (confirmColor != null)
+                          ? confirmColor
+                          : DefaultTheme.BLUE_TEXT,
+                      borderRadius: 5,
+                      function: confirmFunction,
+                    ),
+                    const Padding(padding: EdgeInsets.only(top: 10)),
+                    ButtonWidget(
+                      width: 250,
+                      height: 30,
+                      text: 'Đóng',
+                      textColor: Theme.of(context).hintColor,
+                      bgColor: Theme.of(context).canvasColor,
+                      borderRadius: 5,
+                      function: (cancelFunction != null)
+                          ? cancelFunction
+                          : () {
+                              Navigator.pop(context);
+                            },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
+  openContentDialog(
+    BuildContext context,
+    VoidCallback? onClose,
+    Widget child,
+  ) {
+    return showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return Material(
+            color: DefaultTheme.TRANSPARENT,
+            child: Center(
+              child: Container(
+                width: 500,
+                height: 500,
+                alignment: Alignment.center,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).cardColor,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Tooltip(
+                        message: 'Đóng',
                         child: InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
+                          onTap: (onClose != null)
+                              ? onClose
+                              : () {
+                                  Navigator.pop(context);
+                                },
                           child: Container(
                             width: 25,
                             height: 25,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(25),
-                              color: Theme.of(context).scaffoldBackgroundColor,
+                              color: Theme.of(context).canvasColor,
                             ),
                             child: const Icon(
                               Icons.close_rounded,
-                              color: DefaultTheme.RED_TEXT,
+                              color: DefaultTheme.GREY_TEXT,
                               size: 15,
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(
-                        child: child,
-                      ),
-                      const Spacer(),
-                    ],
-                  )),
+                    ),
+                    Expanded(
+                      child: child,
+                    ),
+                  ],
+                ),
+              ),
             ),
           );
         });

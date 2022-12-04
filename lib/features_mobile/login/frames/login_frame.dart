@@ -30,7 +30,7 @@ class LoginFrame extends StatelessWidget {
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/bg-qr.png'),
-                      fit: BoxFit.fitHeight,
+                      fit: BoxFit.cover,
                     ),
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(15),

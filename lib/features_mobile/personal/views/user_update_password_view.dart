@@ -86,7 +86,7 @@ class UserUpdatePassword extends StatelessWidget {
                               isObscureText: true,
                               textfieldType: TextfieldType.LABEL,
                               title: 'Mã PIN cũ',
-                              titleWidth: 100,
+                              titleWidth: 120,
                               hintText: 'Mã PIN hiện tại',
                               controller: _oldPasswordController,
                               inputType: TextInputType.number,
@@ -102,7 +102,7 @@ class UserUpdatePassword extends StatelessWidget {
                               isObscureText: true,
                               textfieldType: TextfieldType.LABEL,
                               title: 'Mã PIN mới',
-                              titleWidth: 100,
+                              titleWidth: 120,
                               hintText: 'Bao gồm 6 số',
                               controller: _newPasswordController,
                               inputType: TextInputType.number,
@@ -118,7 +118,7 @@ class UserUpdatePassword extends StatelessWidget {
                               isObscureText: true,
                               textfieldType: TextfieldType.LABEL,
                               title: 'Xác nhận lại',
-                              titleWidth: 100,
+                              titleWidth: 120,
                               hintText: 'Xác nhận lại mã PIN mới',
                               controller: _confirmPassController,
                               inputType: TextInputType.number,
@@ -177,9 +177,9 @@ class UserUpdatePassword extends StatelessWidget {
               function: () {
                 Provider.of<UserEditProvider>(context, listen: false)
                     .updatePasswordErrs(
-                  (_oldPasswordController.text.isEmpty &&
+                  (_oldPasswordController.text.isEmpty ||
                       _oldPasswordController.text.length != 6),
-                  (_newPasswordController.text.isEmpty &&
+                  (_newPasswordController.text.isEmpty ||
                       _newPasswordController.text.length != 6),
                   (_confirmPassController.text != _newPasswordController.text),
                 );

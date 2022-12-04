@@ -12,6 +12,7 @@ import 'package:vierqr/features_mobile/generate_qr/frames/create_qr_frame.dart';
 import 'package:vierqr/features_mobile/generate_qr/views/qr_generated.dart';
 import 'package:vierqr/features_mobile/generate_qr/widgets/input_content_widget.dart';
 import 'package:vierqr/features_mobile/generate_qr/widgets/input_ta_widget.dart';
+import 'package:vierqr/layouts/border_layout.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
 import 'package:vierqr/models/viet_qr_generate_dto.dart';
 import 'package:vierqr/services/providers/create_qr_page_select_provider.dart';
@@ -203,16 +204,9 @@ class _CreateQR extends State<CreateQR> {
               const Padding(padding: EdgeInsets.only(top: 5)),
               Consumer<CreateQRProvider>(
                 builder: (context, value, child) {
-                  return Container(
+                  return BorderLayout(
                     width: width,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          color: (value.amountErr)
-                              ? DefaultTheme.RED_TEXT
-                              : DefaultTheme.GREY_TOP_TAB_BAR,
-                          width: 0.5),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
+                    isError: value.amountErr,
                     child: TextFieldWidget(
                       width: width,
                       isObscureText: false,
@@ -303,7 +297,8 @@ class _CreateQR extends State<CreateQR> {
             ],
           ),
         ),
-        widget2: BankCardWidget(bankAccountDTO: widget.bankAccountDTO),
+        widget2: BankCardWidget(
+            width: width - 80, bankAccountDTO: widget.bankAccountDTO),
         widget3: Container(
           margin: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
@@ -327,6 +322,7 @@ class _CreateQR extends State<CreateQR> {
                                     onTap: () {
                                       DialogWidget.instance.openContentDialog(
                                         context,
+                                        null,
                                         QRGeneratedWidget(
                                           isWeb: true,
                                           isExpanded: true,
@@ -340,8 +336,7 @@ class _CreateQR extends State<CreateQR> {
                                       width: 30,
                                       height: 30,
                                       decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .scaffoldBackgroundColor,
+                                        color: Theme.of(context).canvasColor,
                                         borderRadius: BorderRadius.circular(40),
                                       ),
                                       child: const Icon(

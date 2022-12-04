@@ -47,12 +47,13 @@ class HeaderMwebWidget extends StatelessWidget {
                           height: 25,
                           padding: const EdgeInsets.all(2),
                           decoration: BoxDecoration(
-                            color: Theme.of(context).scaffoldBackgroundColor,
+                            color: Theme.of(context).canvasColor,
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          child: Image.asset(
-                            'assets/images/ic-pop.png',
-                            fit: BoxFit.contain,
+                          child: const Icon(
+                            Icons.arrow_back_ios_rounded,
+                            color: DefaultTheme.GREY_TEXT,
+                            size: 15,
                           ),
                         ),
                       ),
@@ -90,13 +91,13 @@ class HeaderMwebWidget extends StatelessWidget {
                       height: 25,
                       padding: const EdgeInsets.all(2),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).scaffoldBackgroundColor,
+                        color: Theme.of(context).canvasColor,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: const Icon(
                         Icons.menu_rounded,
                         size: 20,
-                        color: DefaultTheme.GREY_TOP_TAB_BAR,
+                        color: DefaultTheme.GREY_TEXT,
                       )),
                 ),
               )

@@ -7,6 +7,8 @@ class ButtonWidget extends StatelessWidget {
   final Color textColor;
   final Color bgColor;
   final VoidCallback function;
+  final double? height;
+  final double? borderRadius;
 
   const ButtonWidget({
     Key? key,
@@ -15,6 +17,8 @@ class ButtonWidget extends StatelessWidget {
     required this.textColor,
     required this.bgColor,
     required this.function,
+    this.height,
+    this.borderRadius,
   }) : super(key: key);
 
   @override
@@ -23,10 +27,11 @@ class ButtonWidget extends StatelessWidget {
       onTap: function,
       child: Container(
         width: width,
-        height: 50,
+        height: (height != null) ? height : 50,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(
+              (borderRadius != null) ? borderRadius! : 15),
           color: bgColor,
         ),
         child: Text(

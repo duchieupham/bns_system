@@ -15,6 +15,7 @@ class DefaultTheme {
   static const Color GREY_TEXT = Color(0xFF666A72);
   static const Color GREY_LIGHT = Color(0xFF9BA5B9);
   static const Color GREY_BG = Color(0xFFF4F4F4);
+  static const Color GREY_HIGHLIGHT = Color(0xFF222222);
   static const Color RED_TEXT = Color(0xFFFF0A0A);
   static const Color BLUE_TEXT = Color(0xFF0A7AFF);
   static const Color RED_CALENDAR = Color(0xFFF5233C);
@@ -64,29 +65,6 @@ class DefaultTheme {
         borderRadius: BorderRadius.circular(12),
         color: Theme.of(context).cardColor);
   }
-
-  static BoxDecoration cardDecorationWithOpacity(BuildContext context) {
-    return BoxDecoration(
-      borderRadius: BorderRadius.circular(12),
-      color: Theme.of(context).cardColor.withOpacity(0.9),
-    );
-  }
-
-  static Widget buildButtonBox({
-    required VoidCallback onTap,
-    required double borderRadius,
-    required Widget child,
-  }) {
-    return InkWell(
-      hoverColor: DefaultTheme.LIGHT_PURPLE.withOpacity(0.5),
-      focusColor: DefaultTheme.LIGHT_PURPLE.withOpacity(0.5),
-      splashColor: DefaultTheme.LIGHT_PURPLE.withOpacity(0.5),
-      highlightColor: DefaultTheme.LIGHT_PURPLE.withOpacity(0.5),
-      borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
-      onTap: onTap,
-      child: child,
-    );
-  }
 }
 
 //theme data
@@ -99,11 +77,13 @@ class DefaultThemeData {
     return ThemeData(
       brightness: Brightness.dark,
       scaffoldBackgroundColor: DefaultTheme.BLACK,
+      canvasColor: DefaultTheme.GREY_HIGHLIGHT,
       buttonColor: DefaultTheme.BLACK_BUTTON,
       primaryColor: DefaultTheme.BLACK,
       accentColor: DefaultTheme.GREY_LIGHT,
-      hoverColor: DefaultTheme.BLACK_LIGHT,
-      focusColor: DefaultTheme.BLUE_TEXT,
+      hoverColor: DefaultTheme.TRANSPARENT,
+      toggleableActiveColor: DefaultTheme.BLACK_LIGHT,
+      //  focusColor: DefaultTheme.BLUE_TEXT,
       cardColor: DefaultTheme.BLACK_BUTTON,
       shadowColor: DefaultTheme.WHITE,
       hintColor: DefaultTheme.WHITE,
@@ -125,10 +105,12 @@ class DefaultThemeData {
     return ThemeData(
       brightness: Brightness.light,
       scaffoldBackgroundColor: DefaultTheme.GREY_BG,
+      canvasColor: DefaultTheme.GREY_BG,
       buttonColor: DefaultTheme.GREY_VIEW,
       primaryColor: DefaultTheme.WHITE,
-      hoverColor: DefaultTheme.WHITE,
-      focusColor: DefaultTheme.BLUE_DARK,
+      hoverColor: DefaultTheme.TRANSPARENT,
+      toggleableActiveColor: DefaultTheme.WHITE,
+      // focusColor: DefaultTheme.BLUE_DARK,
       accentColor: DefaultTheme.GREY_TEXT,
       cardColor: DefaultTheme.WHITE,
       shadowColor: DefaultTheme.GREY_LIGHT,

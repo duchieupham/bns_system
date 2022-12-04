@@ -1,14 +1,18 @@
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/enums/textfield_type.dart';
 import 'package:vierqr/commons/utils/encrypt_utils.dart';
+import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
 import 'package:vierqr/commons/utils/string_utils.dart';
 import 'package:vierqr/commons/widgets/button_widget.dart';
 import 'package:vierqr/commons/widgets/dialog_widget.dart';
 import 'package:vierqr/commons/widgets/sub_header_widget.dart';
 import 'package:vierqr/commons/widgets/textfield_widget.dart';
+import 'package:vierqr/commons/widgets/web_widgets/header_web_widget.dart';
 import 'package:vierqr/features_mobile/register/blocs/register_bloc.dart';
 import 'package:vierqr/features_mobile/register/events/register_event.dart';
+import 'package:vierqr/features_mobile/register/frame/register_frame.dart';
 import 'package:vierqr/features_mobile/register/states/register_state.dart';
+import 'package:vierqr/layouts/border_layout.dart';
 import 'package:vierqr/layouts/box_layout.dart';
 import 'package:vierqr/models/account_register_dto.dart';
 import 'package:vierqr/services/providers/register_provider.dart';
@@ -58,13 +62,22 @@ class RegisterView extends StatelessWidget {
       appBar: AppBar(toolbarHeight: 0),
       body: Column(
         children: [
-          SubHeader(
-              title: 'Đăng ký',
-              function: () {
-                _isChangePhone = false;
-                _isChangePass = false;
-                Navigator.pop(context);
-              }),
+          (ScreenResolutionUtils.instance.isWeb())
+              ? HeaderWebWidget(
+                  title: 'Đăng ký',
+                  isAuthenticate: false,
+                  functionBack: () {
+                    backToPreviousPage(context);
+                  },
+                )
+              : SubHeader(
+                  title: 'Đăng ký',
+                  function: () {
+                    backToPreviousPage(context);
+                  }),
+          (ScreenResolutionUtils.instance.isWeb())
+              ? const Padding(padding: EdgeInsets.only(top: 10))
+              : const SizedBox(),
           Expanded(
             child: BlocListener<RegisterBloc, RegisterState>(
               listener: ((context, state) {
@@ -82,69 +95,138 @@ class RegisterView extends StatelessWidget {
                   //pop loading dialog
                   Navigator.pop(context);
                   //pop to login page
-                  Navigator.pop(context);
+                  backToPreviousPage(context);
                 }
               }),
               child: Consumer<RegisterProvider>(
                 builder: (context, value, child) {
-                  return ListView(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    children: [
-                      BoxLayout(
+                  return RegisterFrame(
+                    mobileChildren: ListView(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      children: [
+                        BoxLayout(
+                          width: width,
+                          child: Column(
+                            children: [
+                              TextFieldWidget(
+                                width: width,
+                                isObscureText: false,
+                                textfieldType: TextfieldType.LABEL,
+                                title: 'Số điện thoại',
+                                titleWidth: 100,
+                                hintText: '090 123 4567',
+                                controller: _phoneNoController,
+                                inputType: TextInputType.number,
+                                keyboardAction: TextInputAction.next,
+                                onChange: (vavlue) {
+                                  _isChangePhone = true;
+                                },
+                              ),
+                              const Divider(
+                                height: 0.5,
+                                color: DefaultTheme.GREY_LIGHT,
+                              ),
+                              TextFieldWidget(
+                                width: width,
+                                isObscureText: true,
+                                textfieldType: TextfieldType.LABEL,
+                                title: 'Mã PIN',
+                                titleWidth: 100,
+                                hintText: 'Bao gồm 6 số',
+                                controller: _passwordController,
+                                inputType: TextInputType.number,
+                                keyboardAction: TextInputAction.next,
+                                onChange: (vavlue) {
+                                  _isChangePass = true;
+                                },
+                              ),
+                              const Divider(
+                                height: 0.5,
+                                color: DefaultTheme.GREY_LIGHT,
+                              ),
+                              TextFieldWidget(
+                                width: width,
+                                isObscureText: true,
+                                textfieldType: TextfieldType.LABEL,
+                                title: 'Xác nhận lại',
+                                titleWidth: 100,
+                                hintText: 'Xác nhận lại mã PIN',
+                                controller: _confirmPassController,
+                                inputType: TextInputType.number,
+                                keyboardAction: TextInputAction.next,
+                                onChange: (vavlue) {
+                                  _isChangePass = true;
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        Visibility(
+                          visible: value.phoneErr,
+                          child: const Padding(
+                            padding:
+                                EdgeInsets.only(left: 10, top: 5, right: 30),
+                            child: Text(
+                              'Số điện thoại không đúng định dạng.',
+                              style: TextStyle(
+                                  color: DefaultTheme.RED_TEXT, fontSize: 13),
+                            ),
+                          ),
+                        ),
+                        Visibility(
+                          visible: value.passwordErr,
+                          child: const Padding(
+                            padding:
+                                EdgeInsets.only(left: 10, top: 5, right: 30),
+                            child: Text(
+                              'Mã PIN bao gồm 6 số.',
+                              style: TextStyle(
+                                  color: DefaultTheme.RED_TEXT, fontSize: 13),
+                            ),
+                          ),
+                        ),
+                        Visibility(
+                          visible: value.confirmPassErr,
+                          child: const Padding(
+                            padding:
+                                EdgeInsets.only(left: 10, top: 5, right: 30),
+                            child: Text(
+                              'Xác nhận mã PIN không trùng khớp.',
+                              style: TextStyle(
+                                  color: DefaultTheme.RED_TEXT, fontSize: 13),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    webChildren: [
+                      Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          width: 150,
+                          height: 150,
+                          child: Image.asset(
+                            'assets/images/ic-viet-qr.png',
+                          ),
+                        ),
+                      ),
+                      BorderLayout(
                         width: width,
-                        child: Column(
-                          children: [
-                            TextFieldWidget(
-                              width: width,
-                              isObscureText: false,
-                              textfieldType: TextfieldType.LABEL,
-                              title: 'Số điện thoại',
-                              titleWidth: 100,
-                              hintText: '090 123 4567',
-                              controller: _phoneNoController,
-                              inputType: TextInputType.number,
-                              keyboardAction: TextInputAction.next,
-                              onChange: (vavlue) {
-                                _isChangePhone = true;
-                              },
-                            ),
-                            const Divider(
-                              height: 0.5,
-                              color: DefaultTheme.GREY_LIGHT,
-                            ),
-                            TextFieldWidget(
-                              width: width,
-                              isObscureText: true,
-                              textfieldType: TextfieldType.LABEL,
-                              title: 'Mã PIN',
-                              titleWidth: 100,
-                              hintText: 'Bao gồm 6 số',
-                              controller: _passwordController,
-                              inputType: TextInputType.number,
-                              keyboardAction: TextInputAction.next,
-                              onChange: (vavlue) {
-                                _isChangePass = true;
-                              },
-                            ),
-                            const Divider(
-                              height: 0.5,
-                              color: DefaultTheme.GREY_LIGHT,
-                            ),
-                            TextFieldWidget(
-                              width: width,
-                              isObscureText: true,
-                              textfieldType: TextfieldType.LABEL,
-                              title: 'Xác nhận lại',
-                              titleWidth: 100,
-                              hintText: 'Xác nhận lại mã PIN',
-                              controller: _confirmPassController,
-                              inputType: TextInputType.number,
-                              keyboardAction: TextInputAction.next,
-                              onChange: (vavlue) {
-                                _isChangePass = true;
-                              },
-                            ),
-                          ],
+                        isError: value.phoneErr,
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: TextFieldWidget(
+                          width: width,
+                          isObscureText: false,
+                          textfieldType: TextfieldType.LABEL,
+                          title: 'Số điện thoại',
+                          titleWidth: 100,
+                          hintText: '090 123 4567',
+                          controller: _phoneNoController,
+                          inputType: TextInputType.number,
+                          keyboardAction: TextInputAction.next,
+                          onChange: (vavlue) {
+                            _isChangePhone = true;
+                          },
                         ),
                       ),
                       Visibility(
@@ -158,6 +240,26 @@ class RegisterView extends StatelessWidget {
                           ),
                         ),
                       ),
+                      const Padding(padding: EdgeInsets.only(top: 10)),
+                      BorderLayout(
+                        width: width,
+                        isError: value.passwordErr,
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: TextFieldWidget(
+                          width: width,
+                          isObscureText: true,
+                          textfieldType: TextfieldType.LABEL,
+                          title: 'Mã PIN',
+                          titleWidth: 100,
+                          hintText: 'Bao gồm 6 số',
+                          controller: _passwordController,
+                          inputType: TextInputType.number,
+                          keyboardAction: TextInputAction.next,
+                          onChange: (vavlue) {
+                            _isChangePass = true;
+                          },
+                        ),
+                      ),
                       Visibility(
                         visible: value.passwordErr,
                         child: const Padding(
@@ -167,6 +269,26 @@ class RegisterView extends StatelessWidget {
                             style: TextStyle(
                                 color: DefaultTheme.RED_TEXT, fontSize: 13),
                           ),
+                        ),
+                      ),
+                      const Padding(padding: EdgeInsets.only(top: 10)),
+                      BorderLayout(
+                        width: width,
+                        isError: value.confirmPassErr,
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: TextFieldWidget(
+                          width: width,
+                          isObscureText: true,
+                          textfieldType: TextfieldType.LABEL,
+                          title: 'Xác nhận lại',
+                          titleWidth: 100,
+                          hintText: 'Xác nhận lại mã PIN',
+                          controller: _confirmPassController,
+                          inputType: TextInputType.number,
+                          keyboardAction: TextInputAction.next,
+                          onChange: (vavlue) {
+                            _isChangePass = true;
+                          },
                         ),
                       ),
                       Visibility(
@@ -180,55 +302,64 @@ class RegisterView extends StatelessWidget {
                           ),
                         ),
                       ),
+                      const Padding(padding: EdgeInsets.only(top: 50)),
+                      _buildButtonSubmit(context, width),
                     ],
                   );
                 },
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 20, top: 10),
-            child: ButtonWidget(
-                width: width - 40,
-                text: 'Đăng ký tài khoản',
-                textColor: DefaultTheme.WHITE,
-                bgColor: DefaultTheme.GREEN,
-                function: () {
-                  Provider.of<RegisterProvider>(context, listen: false)
-                      .updateErrs(
-                    phoneErr: !StringUtils.instance
-                        .isNumeric(_phoneNoController.text),
-                    passErr: (!StringUtils.instance
-                            .isNumeric(_passwordController.text) ||
-                        (_passwordController.text.length != 6)),
-                    confirmPassErr: !StringUtils.instance.isValidConfirmText(
-                        _passwordController.text, _confirmPassController.text),
-                  );
-                  if (Provider.of<RegisterProvider>(context, listen: false)
-                      .isValidValidation()) {
-                    const Uuid uuid = Uuid();
-                    AccountRegisterDTO dto = AccountRegisterDTO(
-                      userId: uuid.v1(),
-                      firstName: 'Undefined',
-                      middleName: '',
-                      lastName: '',
-                      birthdate:
-                          Provider.of<RegisterProvider>(context, listen: false)
-                              .birthDate,
-                      gender:
-                          Provider.of<RegisterProvider>(context, listen: false)
-                              .gender,
-                      phoneNo: _phoneNoController.text,
-                      address: '',
-                      password: EncryptUtils.instance.encrypted(
-                          _phoneNoController.text, _passwordController.text),
-                    );
-                    _registerBloc.add(RegisterEventSubmit(dto: dto));
-                  }
-                }),
-          ),
+          (ScreenResolutionUtils.instance.checkResize(width))
+              ? const SizedBox()
+              : Padding(
+                  padding: const EdgeInsets.only(bottom: 20, top: 10),
+                  child: _buildButtonSubmit(context, width),
+                ),
         ],
       ),
     );
+  }
+
+  void backToPreviousPage(BuildContext context) {
+    _isChangePhone = false;
+    _isChangePass = false;
+    Provider.of<RegisterProvider>(context, listen: false).reset();
+    Navigator.pop(context);
+  }
+
+  Widget _buildButtonSubmit(BuildContext context, double width) {
+    return ButtonWidget(
+        width: width - 40,
+        text: 'Đăng ký tài khoản',
+        textColor: DefaultTheme.WHITE,
+        bgColor: DefaultTheme.GREEN,
+        function: () {
+          Provider.of<RegisterProvider>(context, listen: false).updateErrs(
+            phoneErr: !StringUtils.instance.isNumeric(_phoneNoController.text),
+            passErr:
+                (!StringUtils.instance.isNumeric(_passwordController.text) ||
+                    (_passwordController.text.length != 6)),
+            confirmPassErr: !StringUtils.instance.isValidConfirmText(
+                _passwordController.text, _confirmPassController.text),
+          );
+          if (Provider.of<RegisterProvider>(context, listen: false)
+              .isValidValidation()) {
+            const Uuid uuid = Uuid();
+            AccountRegisterDTO dto = AccountRegisterDTO(
+              userId: uuid.v1(),
+              firstName: 'Undefined',
+              middleName: '',
+              lastName: '',
+              birthdate: '01/01/1970',
+              gender: true,
+              phoneNo: _phoneNoController.text,
+              address: '',
+              password: EncryptUtils.instance
+                  .encrypted(_phoneNoController.text, _passwordController.text),
+            );
+            _registerBloc.add(RegisterEventSubmit(dto: dto));
+          }
+        });
   }
 }

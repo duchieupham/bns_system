@@ -52,9 +52,7 @@ class QRGenerated extends StatelessWidget {
                 ),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Theme.of(context)
-                        .scaffoldBackgroundColor
-                        .withOpacity(0.6),
+                    color: Theme.of(context).canvasColor.withOpacity(0.6),
                   ),
                   child: HeaderButtonWidget(
                     title: 'Mã VietQR Thanh toán',
