@@ -55,7 +55,8 @@ class BankManageView extends StatelessWidget {
             _bankAccounts.clear();
             _cardWebWidgets.clear();
             _cardWidgets.clear();
-            if (_bankAccounts.isEmpty) {
+
+            if (_bankAccounts.isEmpty && state.list.isNotEmpty) {
               _bankAccounts.addAll(state.list);
               for (BankAccountDTO bankAccountDTO in _bankAccounts) {
                 BankCardWidget cardWidget = BankCardWidget(
@@ -114,6 +115,13 @@ class BankManageView extends StatelessWidget {
           }
         }),
         builder: ((context, state) {
+          if (state is BankManageListSuccessState) {
+            if (state.list.isEmpty) {
+              _bankAccounts.clear();
+              _cardWebWidgets.clear();
+              _cardWidgets.clear();
+            }
+          }
           return BankManageFrame(
             width: width,
             mobileChilren: Column(
