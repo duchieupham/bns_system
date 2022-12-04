@@ -87,7 +87,7 @@ class DialogWidget {
                           width: 250,
                           height: 30,
                           text: 'Đóng',
-                          textColor: Theme.of(context).hintColor,
+                          textColor: DefaultTheme.WHITE,
                           bgColor: DefaultTheme.GREEN,
                           borderRadius: 5,
                           function: () {
@@ -494,7 +494,7 @@ class DialogWidget {
                             width: 250,
                             height: 30,
                             text: 'Đóng',
-                            textColor: Theme.of(context).hintColor,
+                            textColor: DefaultTheme.WHITE,
                             bgColor: DefaultTheme.GREEN,
                             borderRadius: 5,
                             function: () {
