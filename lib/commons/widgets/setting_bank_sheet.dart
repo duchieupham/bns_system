@@ -221,8 +221,11 @@ class SettingBankSheet {
                                       dto: dto));
                                 }
                               } else {
-                                DialogWidget.instance.openMsgDialog(context,
-                                    'Không thể thêm tài khoản. Vui lòng nhập đầy đủ và chính xác thông tin tài khoản ngân hàng.');
+                                DialogWidget.instance.openMsgDialog(
+                                    context: context,
+                                    title: 'Không thể thêm tài khoản',
+                                    msg:
+                                        'Không thể thêm tài khoản ngân hàng. Vui lòng nhập đầy đủ và chính xác thông tin tài khoản ngân hàng.');
                               }
                             },
                           ),

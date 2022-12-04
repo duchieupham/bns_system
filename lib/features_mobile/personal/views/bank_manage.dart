@@ -80,16 +80,25 @@ class BankManageView extends StatelessWidget {
             DialogWidget.instance.openLoadingDialog(context);
           }
           if (state is BankManageListFailedState) {
-            DialogWidget.instance.openMsgDialog(context,
-                'Không thể tải danh sách tài khoản ngân hàng. Vui lòng kiểm tra lại kết nối mạng');
+            DialogWidget.instance.openMsgDialog(
+                context: context,
+                title: 'Không thể tải danh sách',
+                msg:
+                    'Không thể tải danh sách tài khoản ngân hàng. Vui lòng kiểm tra lại kết nối mạng');
           }
           if (state is BankManageAddFailedState) {
-            DialogWidget.instance.openMsgDialog(context,
-                'Không thể thêm tài khoản ngân hàng. Vui lòng kiểm tra lại kết nối mạng');
+            DialogWidget.instance.openMsgDialog(
+                context: context,
+                title: 'Không thể tải danh sách',
+                msg:
+                    'Không thể thêm tài khoản ngân hàng. Vui lòng kiểm tra lại kết nối mạng');
           }
           if (state is BankManageRemoveFailedState) {
-            DialogWidget.instance.openMsgDialog(context,
-                'Không thể xoá tài khoản ngân hàng. Vui lòng kiểm tra lại kết nối mạng');
+            DialogWidget.instance.openMsgDialog(
+                context: context,
+                title: 'Không thể tải danh sách',
+                msg:
+                    'Không thể xoá tài khoản ngân hàng. Vui lòng kiểm tra lại kết nối mạng');
           }
           if (state is BankManageRemoveSuccessState ||
               state is BankManageAddSuccessState) {
@@ -276,7 +285,7 @@ class BankManageView extends StatelessWidget {
               const Padding(padding: EdgeInsets.only(top: 20)),
               const Text(
                 'Thêm tài khoản ngân hàng',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const Padding(padding: EdgeInsets.only(top: 15)),
               BorderLayout(
@@ -344,7 +353,7 @@ class BankManageView extends StatelessWidget {
               BorderLayout(
                 width: width,
                 padding:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 isError: value.bankAccountErr,
                 child: TextFieldWidget(
                     width: width,
@@ -370,7 +379,7 @@ class BankManageView extends StatelessWidget {
               BorderLayout(
                 width: width,
                 padding:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 isError: value.bankAccountNameErr,
                 child: TextFieldWidget(
                     width: width,
@@ -421,8 +430,11 @@ class BankManageView extends StatelessWidget {
                           dto: dto));
                     }
                   } else {
-                    DialogWidget.instance.openMsgDialog(context,
-                        'Không thể thêm tài khoản. Vui lòng nhập đầy đủ và chính xác thông tin tài khoản ngân hàng.');
+                    DialogWidget.instance.openMsgDialog(
+                        context: context,
+                        title: 'Không thể thêm tài khoản',
+                        msg:
+                            'Không thể thêm tài khoản ngân hàng. Vui lòng nhập đầy đủ và chính xác thông tin tài khoản ngân hàng.');
                   }
                 },
               ),

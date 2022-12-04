@@ -102,6 +102,7 @@ flutter:
       - assets/images/bg-qr.png
       - assets/images/bg-bank-card.png
       - assets/images/ic-card.png
+      - assets/images/ic-warning.png
        
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

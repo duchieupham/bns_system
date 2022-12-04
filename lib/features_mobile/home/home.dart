@@ -13,6 +13,7 @@ import 'package:vierqr/features_mobile/log_sms/sms_list.dart';
 import 'package:vierqr/features_mobile/personal/blocs/bank_manage_bloc.dart';
 import 'package:vierqr/features_mobile/personal/events/bank_manage_event.dart';
 import 'package:vierqr/features_mobile/personal/states/bank_manage_state.dart';
+import 'package:vierqr/features_mobile/personal/views/bank_manage.dart';
 import 'package:vierqr/features_mobile/personal/views/user_setting.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -245,7 +246,14 @@ class _HomeScreen extends State<HomeScreen> {
                                             bgColor: DefaultTheme.GREEN,
                                             textColor:
                                                 Theme.of(context).primaryColor,
-                                            function: () {},
+                                            function: () {
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const BankManageView(),
+                                                ),
+                                              );
+                                            },
                                           ),
                                         ],
                                       ),
@@ -369,8 +377,11 @@ class _HomeScreen extends State<HomeScreen> {
                               ),
                             );
                           } else {
-                            DialogWidget.instance.openMsgDialog(context,
-                                'Thêm tài khoản ngân hàng để sử dụng chức năng này.');
+                            DialogWidget.instance.openMsgDialog(
+                                context: context,
+                                title: 'Không thể tạo mã QR thanh toán',
+                                msg:
+                                    'Thêm tài khoản ngân hàng để sử dụng chức năng này.');
                           }
                         },
                         bgColor: DefaultTheme.GREEN,

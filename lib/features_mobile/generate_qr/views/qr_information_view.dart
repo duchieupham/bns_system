@@ -186,8 +186,11 @@ class QRInformationView extends StatelessWidget {
                       Provider.of<BankAccountProvider>(context, listen: false)
                           .indexSelected]);
                 } else {
-                  DialogWidget.instance.openMsgDialog(context,
-                      'Thêm tài khoản ngân hàng để sử dụng chức năng này.');
+                  DialogWidget.instance.openMsgDialog(
+                      context: context,
+                      title: 'Không thể tạo mã QR thanh toán',
+                      msg:
+                          'Thêm tài khoản ngân hàng để sử dụng chức năng này.');
                 }
               },
             ),
@@ -215,8 +218,11 @@ class QRInformationView extends StatelessWidget {
                     ),
                   );
                 } else {
-                  DialogWidget.instance.openMsgDialog(context,
-                      'Thêm tài khoản ngân hàng để sử dụng chức năng này.');
+                  DialogWidget.instance.openMsgDialog(
+                      context: context,
+                      title: 'Không thể tạo mã QR thanh toán',
+                      msg:
+                          'Thêm tài khoản ngân hàng để sử dụng chức năng này.');
                 }
               },
             ),

@@ -66,11 +66,9 @@ class PopupMenuWebWidget {
           value: 5,
           onTap: () async {
             await UserInformationHelper.instance.initialUserInformationHelper();
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => const Login(),
-              ),
-            );
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => const Login()),
+                (Route<dynamic> route) => false);
           },
           child: const Text(
             'Đăng xuất',
@@ -149,11 +147,9 @@ class PopupMenuWebWidget {
           value: 6,
           onTap: () async {
             await UserInformationHelper.instance.initialUserInformationHelper();
-            await Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => const Login(),
-              ),
-            );
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => const Login()),
+                (Route<dynamic> route) => false);
           },
           child: const Text(
             'Đăng xuất',

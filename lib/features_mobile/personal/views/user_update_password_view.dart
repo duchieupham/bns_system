@@ -63,7 +63,11 @@ class UserUpdatePassword extends StatelessWidget {
                     Navigator.pop(context);
                   }
                   //
-                  DialogWidget.instance.openMsgDialog(context, state.msg);
+                  DialogWidget.instance.openMsgDialog(
+                    context: context,
+                    title: 'Không thể cập nhật mã PIN',
+                    msg: state.msg,
+                  );
                 }
                 if (state is UserEditPasswordSuccessfulState) {
                   //pop loading dialog

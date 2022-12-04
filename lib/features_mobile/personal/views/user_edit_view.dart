@@ -73,8 +73,11 @@ class UserEditView extends StatelessWidget {
                   //pop loading dialog
                   Navigator.pop(context);
                   //
-                  DialogWidget.instance.openMsgDialog(context,
-                      'Cập nhật thông tin thất bại. Vui lòng kiểm tra lại kết nối mạng.');
+                  DialogWidget.instance.openMsgDialog(
+                      context: context,
+                      title: 'Không thể cập nhật thông tin',
+                      msg:
+                          'Cập nhật thông tin thất bại. Vui lòng kiểm tra lại kết nối mạng.');
                 }
                 if (state is UserEditSuccessfulState) {
                   //pop loading dialog

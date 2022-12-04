@@ -67,8 +67,10 @@ class Login extends StatelessWidget {
             }
             //show msg dialog
             DialogWidget.instance.openMsgDialog(
-              context,
-              'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin đăng nhập.',
+              context: context,
+              title: 'Đăng nhập không thành công',
+              msg:
+                  'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin đăng nhập.',
             );
           }
         }),
@@ -204,7 +206,9 @@ class Login extends StatelessWidget {
   void openPinDialog(BuildContext context) {
     if (phoneNoController.text.isEmpty) {
       DialogWidget.instance.openMsgDialog(
-          context, 'Vui lòng nhập thông tin số điện thoại để đăng nhập.');
+          context: context,
+          title: 'Đăng nhập không thành công',
+          msg: 'Vui lòng nhập số điện thoại để đăng nhập.');
     } else {
       DialogWidget.instance.openPINDialog(
           context: context,

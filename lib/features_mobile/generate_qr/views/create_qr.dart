@@ -142,7 +142,9 @@ class _CreateQR extends State<CreateQR> {
                                     .transactionAmount ==
                                 '')) {
                           DialogWidget.instance.openMsgDialog(
-                              context, 'Vui lòng nhập số tiền cần thanh toán.');
+                              context: context,
+                              title: 'Không thể tạo mã QR thanh toán',
+                              msg: 'Vui lòng nhập số tiền cần thanh toán.');
                         } else {
                           _animatedToPage(1);
                         }

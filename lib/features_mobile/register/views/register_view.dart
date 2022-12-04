@@ -88,8 +88,11 @@ class RegisterView extends StatelessWidget {
                   //pop loading dialog
                   Navigator.pop(context);
                   //
-                  DialogWidget.instance.openMsgDialog(context,
-                      'Đăng ký thất bại, vui lòng kiểm tra lại kết nối mạng.');
+                  DialogWidget.instance.openMsgDialog(
+                      context: context,
+                      title: 'Không thể đăng ký',
+                      msg:
+                          'Đăng ký thất bại, vui lòng kiểm tra lại kết nối mạng.');
                 }
                 if (state is RegisterSuccessState) {
                   //pop loading dialog
