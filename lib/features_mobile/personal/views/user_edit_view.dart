@@ -703,14 +703,18 @@ class UserEditView extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(
-              bottom: 20,
-              top: 10,
-            ),
-            child: (ScreenResolutionUtils.instance.isWeb())
-                ? const SizedBox()
-                : Consumer<UserEditProvider>(
+          (ScreenResolutionUtils.instance.isWeb())
+              ? const Padding(
+                  padding: EdgeInsets.only(
+                    bottom: 10,
+                  ),
+                )
+              : Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: 20,
+                    top: 10,
+                  ),
+                  child: Consumer<UserEditProvider>(
                     builder: (context, provider, child) {
                       return Visibility(
                         visible: provider.availableUpdate,
@@ -745,7 +749,7 @@ class UserEditView extends StatelessWidget {
                       );
                     },
                   ),
-          ),
+                ),
         ],
       ),
     );
