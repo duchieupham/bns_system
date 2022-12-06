@@ -160,7 +160,9 @@ class HeaderWebWidget extends StatelessWidget {
                           PopupMenuWebWidget.instance.showPopupMenu(context);
                         }
                       },
-                      onTap: () {},
+                      onTap: () {
+                        PopupMenuWebWidget.instance.showPopupMenu(context);
+                      },
                       child: Tooltip(
                         message: 'Tài khoản',
                         child: Container(

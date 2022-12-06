@@ -77,6 +77,7 @@ class DefaultThemeData {
     return ThemeData(
       brightness: Brightness.dark,
       scaffoldBackgroundColor: DefaultTheme.BLACK,
+      colorScheme: const ColorScheme.dark(primary: DefaultTheme.GREEN),
       canvasColor: DefaultTheme.GREY_HIGHLIGHT,
       buttonColor: DefaultTheme.BLACK_BUTTON,
       primaryColor: DefaultTheme.BLACK,
@@ -105,6 +106,7 @@ class DefaultThemeData {
     return ThemeData(
       brightness: Brightness.light,
       scaffoldBackgroundColor: DefaultTheme.GREY_BG,
+      colorScheme: const ColorScheme.light(primary: DefaultTheme.GREEN),
       canvasColor: DefaultTheme.GREY_BG,
       buttonColor: DefaultTheme.GREY_VIEW,
       primaryColor: DefaultTheme.WHITE,

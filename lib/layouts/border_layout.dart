@@ -6,6 +6,7 @@ class BorderLayout extends StatelessWidget {
   final bool isError;
   final Widget child;
   final EdgeInsets? padding;
+  final double? height;
 
   const BorderLayout({
     super.key,
@@ -13,12 +14,14 @@ class BorderLayout extends StatelessWidget {
     required this.isError,
     required this.child,
     this.padding,
+    this.height,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width,
+      height: height,
       padding: (padding != null) ? padding : null,
       decoration: BoxDecoration(
         border: Border.all(

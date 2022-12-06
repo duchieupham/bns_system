@@ -3,6 +3,7 @@ import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/features_mobile/home/home.dart';
 import 'package:vierqr/features_mobile/login/views/login.dart';
 import 'package:vierqr/features_mobile/personal/views/bank_manage.dart';
+import 'package:vierqr/features_mobile/personal/views/user_edit_view.dart';
 import 'package:vierqr/services/shared_references/user_information_helper.dart';
 
 class PopupMenuWebWidget {
@@ -21,6 +22,12 @@ class PopupMenuWebWidget {
       items: [
         PopupMenuItem<int>(
           value: 0,
+          onTap: () async {
+            await Future.delayed(const Duration(milliseconds: 200), () {});
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => UserEditView()),
+            );
+          },
           child: Row(children: [
             Image.asset(
               'assets/images/ic-avatar.png',
@@ -90,6 +97,12 @@ class PopupMenuWebWidget {
       items: [
         PopupMenuItem<int>(
           value: 0,
+          onTap: () async {
+            await Future.delayed(const Duration(milliseconds: 200), () {});
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => UserEditView()),
+            );
+          },
           child: Row(children: [
             Image.asset(
               'assets/images/ic-avatar.png',
@@ -111,7 +124,9 @@ class PopupMenuWebWidget {
           PopupMenuItem<int>(
             onTap: (functionHome != null)
                 ? functionHome
-                : () {
+                : () async {
+                    await Future.delayed(
+                        const Duration(milliseconds: 200), () {});
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                         builder: (context) => const HomeScreen(),

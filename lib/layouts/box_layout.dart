@@ -5,6 +5,7 @@ class BoxLayout extends StatelessWidget {
   final Widget child;
   final EdgeInsets? padding;
   final double? borderRadius;
+  final double? height;
 
   const BoxLayout({
     super.key,
@@ -12,12 +13,14 @@ class BoxLayout extends StatelessWidget {
     required this.child,
     this.padding,
     this.borderRadius,
+    this.height,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width,
+      height: height,
       padding: (padding != null)
           ? padding
           : const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
