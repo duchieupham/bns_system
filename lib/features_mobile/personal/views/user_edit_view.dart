@@ -814,12 +814,16 @@ class UserEditView extends StatelessWidget {
                       ),
                       Visibility(
                         visible: provider.oldPassErr,
-                        child: const Padding(
-                          padding: EdgeInsets.only(left: 10, top: 5, right: 30),
-                          child: Text(
-                            'Mã PIN cũ không đúng định dạng.',
-                            style: TextStyle(
-                                color: DefaultTheme.RED_TEXT, fontSize: 13),
+                        child: const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding:
+                                EdgeInsets.only(left: 10, top: 5, right: 30),
+                            child: Text(
+                              'Mã PIN cũ không đúng định dạng.',
+                              style: TextStyle(
+                                  color: DefaultTheme.RED_TEXT, fontSize: 13),
+                            ),
                           ),
                         ),
                       ),
@@ -842,12 +846,16 @@ class UserEditView extends StatelessWidget {
                       ),
                       Visibility(
                         visible: provider.newPassErr,
-                        child: const Padding(
-                          padding: EdgeInsets.only(left: 10, top: 5, right: 30),
-                          child: Text(
-                            'Mã PIN mới bao gồm 6 số.',
-                            style: TextStyle(
-                                color: DefaultTheme.RED_TEXT, fontSize: 13),
+                        child: const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding:
+                                EdgeInsets.only(left: 10, top: 5, right: 30),
+                            child: Text(
+                              'Mã PIN mới bao gồm 6 số.',
+                              style: TextStyle(
+                                  color: DefaultTheme.RED_TEXT, fontSize: 13),
+                            ),
                           ),
                         ),
                       ),
@@ -870,12 +878,16 @@ class UserEditView extends StatelessWidget {
                       ),
                       Visibility(
                         visible: provider.confirmPassErr,
-                        child: const Padding(
-                          padding: EdgeInsets.only(left: 10, top: 5, right: 30),
-                          child: Text(
-                            'Xác nhận mã PIN không trùng khớp.',
-                            style: TextStyle(
-                                color: DefaultTheme.RED_TEXT, fontSize: 13),
+                        child: const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding:
+                                EdgeInsets.only(left: 10, top: 5, right: 30),
+                            child: Text(
+                              'Xác nhận mã PIN không trùng khớp.',
+                              style: TextStyle(
+                                  color: DefaultTheme.RED_TEXT, fontSize: 13),
+                            ),
                           ),
                         ),
                       ),
