@@ -35,7 +35,7 @@ class QRGeneratedWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: (isExpanded != null && isExpanded!) ? 200 : 100,
+                  width: (isExpanded != null && isExpanded!) ? 100 : 75,
                   height: 50,
                   child: Image.asset('assets/images/ic-viet-qr.png'),
                 ),
@@ -53,7 +53,7 @@ class QRGeneratedWidget extends StatelessWidget {
                   child: QrImage(
                     data: vietQRCode,
                     version: QrVersions.auto,
-                    size: (isExpanded != null && isExpanded!) ? 300 : 150,
+                    size: (isExpanded != null && isExpanded!) ? 200 : 150,
                     embeddedImage:
                         const AssetImage('assets/images/ic-viet-qr-small.png'),
                     embeddedImageStyle: QrEmbeddedImageStyle(
@@ -64,6 +64,30 @@ class QRGeneratedWidget extends StatelessWidget {
                   ),
                 ),
                 const Padding(padding: EdgeInsets.only(top: 10)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 65,
+                      height: 30,
+                      child: Image.asset('assets/images/ic-napas247.png'),
+                    ),
+                    Container(
+                      width: 0.5,
+                      height: 30,
+                      color: DefaultTheme.GREY_TOP_TAB_BAR,
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                    ),
+                    SizedBox(
+                      width: 65,
+                      height: 30,
+                      child: Image.asset('assets/images/ic-napas247.png'),
+                    ),
+                  ],
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 5),
+                ),
                 Text(
                   'Tên chủ TK: ${bankAccountDTO.bankAccountName.toUpperCase()}',
                   style: const TextStyle(

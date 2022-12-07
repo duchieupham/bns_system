@@ -103,6 +103,8 @@ flutter:
       - assets/images/bg-bank-card.png
       - assets/images/ic-card.png
       - assets/images/ic-warning.png
+      - assets/images/ic-napas247.png
+      - assets/images/banks/logo-vietcombank.png
        
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

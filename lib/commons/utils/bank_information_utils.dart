@@ -161,6 +161,46 @@ class BankInformationUtil {
               .toString()
               .replaceAll('AVAILABLE_ADD_BANKNAME.', '')) {
         suffix = 'Ngân hàng TMCP Ngoại thương Việt Nam';
+      } else if (prefix ==
+          AVAILABLE_ADD_BANKNAME.VIETINBANK
+              .toString()
+              .replaceAll('AVAILABLE_ADD_BANKNAME.', '')) {
+        suffix = 'Ngân hàng TMCP Công thương Việt Nam';
+      } else if (prefix ==
+          AVAILABLE_ADD_BANKNAME.BIDV
+              .toString()
+              .replaceAll('AVAILABLE_ADD_BANKNAME.', '')) {
+        suffix = 'Ngân hàng TMCP Đầu tư và Phát triển Việt Nam';
+      } else if (prefix ==
+          AVAILABLE_ADD_BANKNAME.AGRIBANK
+              .toString()
+              .replaceAll('AVAILABLE_ADD_BANKNAME.', '')) {
+        suffix = 'Ngân hàng Nông nghiệp và Phát triển Nông thôn Việt Nam';
+      } else if (prefix ==
+          AVAILABLE_ADD_BANKNAME.OCB
+              .toString()
+              .replaceAll('AVAILABLE_ADD_BANKNAME.', '')) {
+        suffix = 'Ngân hàng TMCP Phương Đông';
+      } else if (prefix ==
+          AVAILABLE_ADD_BANKNAME.MBBANK
+              .toString()
+              .replaceAll('AVAILABLE_ADD_BANKNAME.', '')) {
+        suffix = 'Ngân hàng TMCP Quân đội';
+      } else if (prefix ==
+          AVAILABLE_ADD_BANKNAME.ACB
+              .toString()
+              .replaceAll('AVAILABLE_ADD_BANKNAME.', '')) {
+        suffix = 'Ngân hàng TMCP Á Châu';
+      } else if (prefix ==
+          AVAILABLE_ADD_BANKNAME.VPBANK
+              .toString()
+              .replaceAll('AVAILABLE_ADD_BANKNAME.', '')) {
+        suffix = 'Ngân hàng TMCP Việt Nam Thịnh Vượng';
+      } else if (prefix ==
+          AVAILABLE_ADD_BANKNAME.TPBANK
+              .toString()
+              .replaceAll('AVAILABLE_ADD_BANKNAME.', '')) {
+        suffix = 'Ngân hàng TMCP Tiên Phong';
       }
       String value = '$prefix - $suffix';
       result.add(value);

@@ -43,27 +43,7 @@ class QRInformationWidget extends StatelessWidget {
     );
     String vietQRCode = VietQRUtils.instance
         .generateVietQRWithoutTransactionAmount(vietQRGenerateDTO);
-    //print('viet QR code: $vietQRCode');
 
-    ///000201
-    ///010212
-    ///38610010A00000072701240006970436011090000067890208QRIBFTTA
-    ///5303704
-    ///5303704 (duplicate) (resolved)
-    ///Gia tien 0d: 54010
-    ///5802VN
-    ///62100806Vietqr
-    ///63047A12
-    ///
-    ///without transaction amount
-    ///000201
-    ///010211
-    ///38-61-0010A00000072701240006970436011090000067890208QRIBFTTA
-    ///5303704
-    ///5303704 (duplicate) (resolved)
-    ///5802VN
-    ///62100806Vietqr
-    ///6304AD30
     return Container(
       width: width,
       height: width,
