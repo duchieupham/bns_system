@@ -183,30 +183,57 @@ class VietQRUtils {
     String result = '';
     if (BankInformationUtil.instance.checkAvailableGenerateBank(bankName)) {
       String middleCAIValue = '';
+      String caiBank = '';
+      //
       if (BankInformationUtil.instance.getBankName(bankName) ==
           BANKNAME.TECHCOMBANK.toString()) {
-        middleCAIValue = CAIBank.PREFIX_CAI_VALUE +
-            CAIBank.MID_CAI_TECHCOMBANK +
-            VietQRValue.PAYLOAD_FORMAT_INDICATOR_VALUE +
-            VietQRUtils.instance.generateLengthOfValue(bankAccount) +
-            bankAccount;
+        caiBank = CAIBank.MID_CAI_TECHCOMBANK;
       }
       if (BankInformationUtil.instance.getBankName(bankName) ==
           BANKNAME.SHB.toString()) {
-        middleCAIValue = CAIBank.PREFIX_CAI_VALUE +
-            CAIBank.MID_CAI_SHB +
-            VietQRValue.PAYLOAD_FORMAT_INDICATOR_VALUE +
-            VietQRUtils.instance.generateLengthOfValue(bankAccount) +
-            bankAccount;
+        caiBank = CAIBank.MID_CAI_SHB;
       }
       if (BankInformationUtil.instance.getBankName(bankName) ==
           BANKNAME.VIETCOMBANK.toString()) {
-        middleCAIValue = CAIBank.PREFIX_CAI_VALUE +
-            CAIBank.MID_CAI_VIETCOMBANK +
-            VietQRValue.PAYLOAD_FORMAT_INDICATOR_VALUE +
-            VietQRUtils.instance.generateLengthOfValue(bankAccount) +
-            bankAccount;
+        caiBank = CAIBank.MID_CAI_VIETCOMBANK;
       }
+      if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.SHB.toString()) {
+        caiBank = CAIBank.MID_CAI_SHB;
+      }
+      if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.BIDV.toString()) {
+        caiBank = CAIBank.MID_CAI_BIDV;
+      }
+      if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.AGRIBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_AGRIBANK;
+      }
+      if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.OCB.toString()) {
+        caiBank = CAIBank.MID_CAI_OCB;
+      }
+      if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.MBBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_MBBANK;
+      }
+      if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.ACB.toString()) {
+        caiBank = CAIBank.MID_CAI_ACB;
+      }
+      if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.VPBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_VPBANK;
+      }
+      if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.TPBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_TPBANK;
+      }
+      middleCAIValue = CAIBank.PREFIX_CAI_VALUE +
+          caiBank +
+          VietQRValue.PAYLOAD_FORMAT_INDICATOR_VALUE +
+          VietQRUtils.instance.generateLengthOfValue(bankAccount) +
+          bankAccount;
       result = QRGuid.GUID +
           VietQRId.POINT_OF_INITIATION_METHOD_ID +
           VietQRUtils.instance.generateLengthOfValue(middleCAIValue) +

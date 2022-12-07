@@ -115,8 +115,8 @@ class HeaderWebWidget extends StatelessWidget {
                         : Tooltip(
                             message: 'Trang chủ',
                             child: Image.asset(
-                              'assets/images/logo.png',
-                              height: 60,
+                              'assets/images/ic-viet-qr.png',
+                              height: 30,
                             ),
                           ),
                     const Spacer(),

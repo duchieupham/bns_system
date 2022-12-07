@@ -19,7 +19,7 @@ class SmsInformationUtils {
         content: '',
         bankAccount: '');
     //Viettin Bank
-    if (bankName == BANKNAME.VIETTINBANK.toString()) {
+    if (bankName == BANKNAME.VIETINBANK.toString()) {
       List<String> data = body.split('|');
       String time =
           '${data[0].trim().split(':')[1]}:${data[0].trim().split(':')[2]}';

@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:uuid/uuid.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/utils/bank_information_utils.dart';
 import 'package:vierqr/commons/utils/string_utils.dart';
@@ -207,7 +208,9 @@ class SettingBankSheet {
                                   !value.bankAccountErr &&
                                   !value.bankAccountNameErr) {
                                 if (bankSelected != 'Chọn ngân hàng') {
+                                  const Uuid uuid = Uuid();
                                   BankAccountDTO dto = BankAccountDTO(
+                                    id: uuid.v1(),
                                     bankAccount: bankAccountController.text,
                                     bankAccountName:
                                         bankAccountNameController.text,

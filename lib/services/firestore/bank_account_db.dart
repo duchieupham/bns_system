@@ -9,30 +9,22 @@ class BankAccountDB {
   static final bankAccountDb =
       FirebaseFirestore.instance.collection('user-bank');
 
-  Future<bool> insertUserBank(Map<String, dynamic> data) async {
-    bool result = false;
-    try {
-      await bankAccountDb.add(data).then((value) => result = true);
-    } catch (e) {
-      print('Error at insertUserBank - BankAccountDB: $e');
-    }
-    return result;
-  }
-
   Future<List<BankAccountDTO>> getListBankAccount(String userId) async {
     List<BankAccountDTO> result = [];
     try {
       await bankAccountDb
-          .where('id', isEqualTo: userId)
+          .where('userId', isEqualTo: userId)
           .get()
           .then((QuerySnapshot querySnapshot) {
         if (querySnapshot.docs.isNotEmpty) {
           for (int i = 0; i < querySnapshot.docs.length; i++) {
+            String id = querySnapshot.docs[i]['id'];
             String bankAccount = querySnapshot.docs[i]['bankAccount'];
             String bankAccountName = querySnapshot.docs[i]['bankAccountName'];
             String bankCode = querySnapshot.docs[i]['bankCode'];
             String bankName = querySnapshot.docs[i]['bankName'];
             BankAccountDTO dto = BankAccountDTO(
+              id: id,
               bankAccount: bankAccount,
               bankAccountName: bankAccountName,
               bankName: bankName,
@@ -53,13 +45,14 @@ class BankAccountDB {
     try {
       //
       await bankAccountDb
-          .where('id', isEqualTo: userId)
+          .where('userId', isEqualTo: userId)
           .where('bankAccount', isEqualTo: dto.bankAccount)
           .get()
           .then((QuerySnapshot querySnapshot) async {
         if (querySnapshot.docs.isEmpty) {
           Map<String, dynamic> data = {
-            'id': userId,
+            'id': dto.id,
+            'userId': userId,
             'bankAccount': dto.bankAccount,
             'bankCode': dto.bankCode,
             'bankName': dto.bankName,
@@ -78,7 +71,7 @@ class BankAccountDB {
     bool result = false;
     try {
       await bankAccountDb
-          .where('id', isEqualTo: userId)
+          .where('userId', isEqualTo: userId)
           .where('bankAccount', isEqualTo: bankAccount)
           .get()
           .then((QuerySnapshot querySnapshot) async {
