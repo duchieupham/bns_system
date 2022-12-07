@@ -229,6 +229,10 @@ class VietQRUtils {
           BANKNAME.TPBANK.toString()) {
         caiBank = CAIBank.MID_CAI_TPBANK;
       }
+      if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.VIETINBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_VIETINBANK;
+      }
       middleCAIValue = CAIBank.PREFIX_CAI_VALUE +
           caiBank +
           VietQRValue.PAYLOAD_FORMAT_INDICATOR_VALUE +
