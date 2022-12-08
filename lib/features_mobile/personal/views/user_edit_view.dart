@@ -223,15 +223,66 @@ class UserEditView extends StatelessWidget {
                         const Padding(padding: EdgeInsets.only(top: 10)),
                         ButtonWidget(
                           width: width - 40,
-                          text: 'Cập nhật thông tin bằng chứng minh thư',
+                          text: 'Cập nhật thông tin bằng QR chứng minh thư',
                           textColor: DefaultTheme.GREEN,
                           bgColor: Theme.of(context).cardColor,
                           function: () {
-                            Navigator.of(context).push(
+                            Navigator.of(context)
+                                .push(
                               MaterialPageRoute(
                                 builder: (context) => QRScanner(),
                               ),
-                            );
+                            )
+                                .then((code) {
+                              if (code != '' &&
+                                  code.toString().split('|').length == 7) {
+                                List<String> informations =
+                                    code.toString().split('|');
+                                String fullName = informations[2];
+                                String firstName = fullName.split(' ').last;
+                                String lastName = fullName.split(' ').first;
+                                String middleName = '';
+                                for (int i = 0;
+                                    i < fullName.split(' ').length;
+                                    i++) {
+                                  if (i != 0 &&
+                                      i != fullName.split(' ').length - 1) {
+                                    middleName +=
+                                        ' ${fullName.split(' ')[i]}'.trim();
+                                  }
+                                }
+                                String birthdate = informations[3];
+                                String bdDay = birthdate.substring(0, 2);
+                                String bdMonth = birthdate.substring(2, 4);
+                                String bdYear = birthdate.substring(4, 8);
+                                bool gender = informations[4] == 'Nam';
+                                String address = informations[5];
+                                //
+                                _lastNameController.value = _lastNameController
+                                    .value
+                                    .copyWith(text: lastName);
+                                _middleNameController.value =
+                                    _middleNameController.value
+                                        .copyWith(text: middleName);
+                                _firstNameController.value =
+                                    _firstNameController.value
+                                        .copyWith(text: firstName);
+                                _birthDate = '$bdDay/$bdMonth/$bdYear';
+
+                                _addressController.value = _addressController
+                                    .value
+                                    .copyWith(text: address);
+                                provider.updateGender(gender);
+                                provider.setAvailableUpdate(true);
+                              } else {
+                                // DialogWidget.instance.openMsgDialog(
+                                //   context: context,
+                                //   title: 'Không thể cập nhật',
+                                //   msg:
+                                //       'Mã QR không đúng định dạng, vui lòng thử lại.',
+                                // );
+                              }
+                            });
                           },
                         ),
                         const Padding(padding: EdgeInsets.only(top: 30)),
@@ -502,15 +553,59 @@ class UserEditView extends StatelessWidget {
                             width: 200,
                             height: 30,
                             borderRadius: 5,
-                            text: 'Cập nhật thông tin bằng chứng minh thư',
+                            text: 'Cập nhật thông tin qua CCCD',
                             textColor: DefaultTheme.GREEN,
                             bgColor: Theme.of(context).cardColor,
                             function: () {
-                              Navigator.of(context).push(
+                              Navigator.of(context)
+                                  .push(
                                 MaterialPageRoute(
                                   builder: (context) => QRScanner(),
                                 ),
-                              );
+                              )
+                                  .then((code) {
+                                if (code != '' &&
+                                    code.toString().split('|').length == 7) {
+                                  List<String> informations =
+                                      code.toString().split('|');
+                                  String fullName = informations[2];
+                                  String firstName = fullName.split(' ').last;
+                                  String lastName = fullName.split(' ').first;
+                                  String middleName = '';
+                                  for (int i = 0;
+                                      i < fullName.split(' ').length;
+                                      i++) {
+                                    if (i != 0 &&
+                                        i != fullName.split(' ').length - 1) {
+                                      middleName +=
+                                          ' ${fullName.split(' ')[i]}'.trim();
+                                    }
+                                  }
+                                  String birthdate = informations[3];
+                                  String bdDay = birthdate.substring(0, 2);
+                                  String bdMonth = birthdate.substring(2, 4);
+                                  String bdYear = birthdate.substring(4, 8);
+                                  bool gender = informations[4] == 'Nam';
+                                  String address = informations[5];
+                                  //
+                                  _lastNameController.value =
+                                      _lastNameController.value
+                                          .copyWith(text: lastName);
+                                  _middleNameController.value =
+                                      _middleNameController.value
+                                          .copyWith(text: middleName);
+                                  _firstNameController.value =
+                                      _firstNameController.value
+                                          .copyWith(text: firstName);
+                                  _birthDate = '$bdDay/$bdMonth/$bdYear';
+
+                                  _addressController.value = _addressController
+                                      .value
+                                      .copyWith(text: address);
+                                  provider.updateGender(gender);
+                                  provider.setAvailableUpdate(true);
+                                }
+                              });
                             },
                           ),
                         ],

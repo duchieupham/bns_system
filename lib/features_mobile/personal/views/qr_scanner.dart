@@ -18,26 +18,12 @@ class QRScanner extends StatelessWidget {
           Expanded(
             child: MobileScanner(
                 controller: cameraController,
-                allowDuplicates: true,
+                allowDuplicates: false,
                 onDetect: (barcode, args) {
-                  print('---bar code: $barcode');
-                  print('-----args: $args');
-                  print('---qr code url: ${barcode.url}');
                   final String code = barcode.rawValue ?? '';
-                  final bytes = barcode.rawBytes ?? [];
-                  print('-----code: $code - $bytes');
-                  final SnackBar snackBar = SnackBar(
-                      content: Text(
-                    '$code - $bytes',
-                  ));
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  DialogWidget.instance.openContentDialog(
-                    context,
-                    () {},
-                    Text(
-                      '$code - $bytes',
-                    ),
-                  );
+                  if (code != '') {
+                    Navigator.of(context).pop(code);
+                  }
                 }),
           ),
         ],

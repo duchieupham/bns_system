@@ -182,14 +182,18 @@ class HeaderWebWidget extends StatelessWidget {
                                 height: 35,
                               ),
                               const Padding(padding: EdgeInsets.only(left: 5)),
-                              Text(
-                                UserInformationHelper.instance
-                                    .getUserInformation()
-                                    .firstName,
-                                style: const TextStyle(
-                                  fontSize: 15,
+                              Expanded(
+                                child: Text(
+                                  UserInformationHelper.instance
+                                      .getUserInformation()
+                                      .firstName,
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
