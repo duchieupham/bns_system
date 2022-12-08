@@ -4,7 +4,9 @@ import 'package:vierqr/commons/widgets/dialog_widget.dart';
 import 'package:vierqr/commons/widgets/sub_header_widget.dart';
 
 class QRScanner extends StatelessWidget {
-  const QRScanner({super.key});
+  final MobileScannerController cameraController = MobileScannerController();
+
+  QRScanner({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +17,14 @@ class QRScanner extends StatelessWidget {
           SubHeader(title: 'Quét mã QR'),
           Expanded(
             child: MobileScanner(
+                controller: cameraController,
                 allowDuplicates: true,
                 onDetect: (barcode, args) {
                   print('---bar code: $barcode');
                   print('-----args: $args');
                   print('---qr code url: ${barcode.url}');
-                  final String code = barcode.rawValue!;
-                  final bytes = barcode.rawBytes!;
+                  final String code = barcode.rawValue ?? '';
+                  final bytes = barcode.rawBytes ?? [];
                   print('-----code: $code - $bytes');
                   final SnackBar snackBar = SnackBar(
                       content: Text(

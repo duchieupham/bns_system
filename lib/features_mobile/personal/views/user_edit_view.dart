@@ -229,7 +229,7 @@ class UserEditView extends StatelessWidget {
                           function: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => const QRScanner(),
+                                builder: (context) => QRScanner(),
                               ),
                             );
                           },
@@ -508,7 +508,7 @@ class UserEditView extends StatelessWidget {
                             function: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => const QRScanner(),
+                                  builder: (context) => QRScanner(),
                                 ),
                               );
                             },
