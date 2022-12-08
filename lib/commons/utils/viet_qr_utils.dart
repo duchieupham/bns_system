@@ -188,52 +188,183 @@ class VietQRUtils {
       if (BankInformationUtil.instance.getBankName(bankName) ==
           BANKNAME.TECHCOMBANK.toString()) {
         caiBank = CAIBank.MID_CAI_TECHCOMBANK;
-      }
-      if (BankInformationUtil.instance.getBankName(bankName) ==
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
           BANKNAME.SHB.toString()) {
         caiBank = CAIBank.MID_CAI_SHB;
-      }
-      if (BankInformationUtil.instance.getBankName(bankName) ==
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
           BANKNAME.VIETCOMBANK.toString()) {
         caiBank = CAIBank.MID_CAI_VIETCOMBANK;
-      }
-      if (BankInformationUtil.instance.getBankName(bankName) ==
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
           BANKNAME.SHB.toString()) {
         caiBank = CAIBank.MID_CAI_SHB;
-      }
-      if (BankInformationUtil.instance.getBankName(bankName) ==
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
           BANKNAME.BIDV.toString()) {
         caiBank = CAIBank.MID_CAI_BIDV;
-      }
-      if (BankInformationUtil.instance.getBankName(bankName) ==
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
           BANKNAME.AGRIBANK.toString()) {
         caiBank = CAIBank.MID_CAI_AGRIBANK;
-      }
-      if (BankInformationUtil.instance.getBankName(bankName) ==
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
           BANKNAME.OCB.toString()) {
         caiBank = CAIBank.MID_CAI_OCB;
-      }
-      if (BankInformationUtil.instance.getBankName(bankName) ==
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
           BANKNAME.MBBANK.toString()) {
         caiBank = CAIBank.MID_CAI_MBBANK;
-      }
-      if (BankInformationUtil.instance.getBankName(bankName) ==
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
           BANKNAME.ACB.toString()) {
         caiBank = CAIBank.MID_CAI_ACB;
-      }
-      if (BankInformationUtil.instance.getBankName(bankName) ==
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
           BANKNAME.VPBANK.toString()) {
         caiBank = CAIBank.MID_CAI_VPBANK;
-      }
-      if (BankInformationUtil.instance.getBankName(bankName) ==
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
           BANKNAME.TPBANK.toString()) {
         caiBank = CAIBank.MID_CAI_TPBANK;
-      }
-      if (BankInformationUtil.instance.getBankName(bankName) ==
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
           BANKNAME.VIETINBANK.toString()) {
         caiBank = CAIBank.MID_CAI_VIETINBANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.SACOMBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_SACOMBANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.HDBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_HDBANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.VIETCAPITALBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_VIETCAPITALBANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.SCB.toString()) {
+        caiBank = CAIBank.MID_CAI_SCB;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.VIB.toString()) {
+        caiBank = CAIBank.MID_CAI_VIB;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.EXIMBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_EXIMBANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.MSB.toString()) {
+        caiBank = CAIBank.MID_CAI_MSB;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.CAKE.toString()) {
+        caiBank = CAIBank.MID_CAI_CAKE;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.UBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_UBANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.VIETTELMONEY.toString()) {
+        caiBank = CAIBank.MID_CAI_VIETTELMONEY;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.VNPTMONEY.toString()) {
+        caiBank = CAIBank.MID_CAI_VNPTMONEY;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.SAIGONBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_SAIGONBANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.BACABANK.toString()) {
+        caiBank = CAIBank.MID_CAI_BACABANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.PVCOMBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_PVCOMBANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.OCEANBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_OCEANBANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.NCB.toString()) {
+        caiBank = CAIBank.MID_CAI_NCB;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.SINHANBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_SINHANBANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.ABBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_ABBANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.VIETABANK.toString()) {
+        caiBank = CAIBank.MID_CAI_VIETABANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.NAMABANK.toString()) {
+        caiBank = CAIBank.MID_CAI_NAMABANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.PGBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_PGBANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.VIETBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_VIETBANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.BAOVIETBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_BAOVIETBANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.SEABANK.toString()) {
+        caiBank = CAIBank.MID_CAI_SEABANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.COOPBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_COOPBANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.LIENVIETPOSTBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_LIENVIETPOSTBANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.KIENLONGBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_KIENLONGBANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.KBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_KBANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.VRB.toString()) {
+        caiBank = CAIBank.MID_CAI_VRB;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.STANDARDCHARTERED.toString()) {
+        caiBank = CAIBank.MID_CAI_STANDARDCHARTERED;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.NONGHYUP.toString()) {
+        caiBank = CAIBank.MID_CAI_NONGHYUP;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.INDOVINABANK.toString()) {
+        caiBank = CAIBank.MID_CAI_INDOVINABANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.IBKHCM.toString()) {
+        caiBank = CAIBank.MID_CAI_IBKHCM;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.KOOKMINHCM.toString()) {
+        caiBank = CAIBank.MID_CAI_KOOKMINHCM;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.KOOKMINHN.toString()) {
+        caiBank = CAIBank.MID_CAI_KOOKMINHN;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.WOORI.toString()) {
+        caiBank = CAIBank.MID_CAI_WOORI;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.HSBC.toString()) {
+        caiBank = CAIBank.MID_CAI_HSBC;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.CBBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_CBBANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.IBKHN.toString()) {
+        caiBank = CAIBank.MID_CAI_IBKHN;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.CIMB.toString()) {
+        caiBank = CAIBank.MID_CAI_CIMB;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.IBKHN.toString()) {
+        caiBank = CAIBank.MID_CAI_IBKHN;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.DBSBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_DBSBANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.DONGABANK.toString()) {
+        caiBank = CAIBank.MID_CAI_DONGABANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.GPBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_GPBANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.PUBLICBANK.toString()) {
+        caiBank = CAIBank.MID_CAI_PUBLICBANK;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.UNITEDOVERSEAS.toString()) {
+        caiBank = CAIBank.MID_CAI_UNITEDOVERSEAS;
+      } else if (BankInformationUtil.instance.getBankName(bankName) ==
+          BANKNAME.HONGLEONG.toString()) {
+        caiBank = CAIBank.MID_CAI_HONGLEONG;
       }
-      middleCAIValue = CAIBank.PREFIX_CAI_VALUE +
+
+      middleCAIValue = '0006' +
           caiBank +
           VietQRValue.PAYLOAD_FORMAT_INDICATOR_VALUE +
           VietQRUtils.instance.generateLengthOfValue(bankAccount) +
