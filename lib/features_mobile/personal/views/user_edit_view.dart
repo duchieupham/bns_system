@@ -19,6 +19,7 @@ import 'package:vierqr/features_mobile/personal/blocs/user_edit_bloc.dart';
 import 'package:vierqr/features_mobile/personal/events/user_edit_event.dart';
 import 'package:vierqr/features_mobile/personal/frames/user_edit_frame.dart';
 import 'package:vierqr/features_mobile/personal/states/user_edit_state.dart';
+import 'package:vierqr/features_mobile/personal/views/qr_scanner.dart';
 import 'package:vierqr/features_mobile/personal/views/user_update_password_view.dart';
 import 'package:vierqr/layouts/border_layout.dart';
 import 'package:vierqr/layouts/box_layout.dart';
@@ -215,6 +216,20 @@ class UserEditView extends StatelessWidget {
                               MaterialPageRoute(
                                 builder: (context) =>
                                     const UserUpdatePassword(),
+                              ),
+                            );
+                          },
+                        ),
+                        const Padding(padding: EdgeInsets.only(top: 10)),
+                        ButtonWidget(
+                          width: width - 40,
+                          text: 'Cập nhật thông tin bằng chứng minh thư',
+                          textColor: DefaultTheme.GREEN,
+                          bgColor: Theme.of(context).cardColor,
+                          function: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const QRScanner(),
                               ),
                             );
                           },
@@ -480,6 +495,22 @@ class UserEditView extends StatelessWidget {
                             bgColor: Theme.of(context).cardColor,
                             function: () {
                               _openChangePIN(context);
+                            },
+                          ),
+                          const Padding(padding: EdgeInsets.only(top: 10)),
+                          ButtonWidget(
+                            width: 200,
+                            height: 30,
+                            borderRadius: 5,
+                            text: 'Cập nhật thông tin bằng chứng minh thư',
+                            textColor: DefaultTheme.GREEN,
+                            bgColor: Theme.of(context).cardColor,
+                            function: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const QRScanner(),
+                                ),
+                              );
                             },
                           ),
                         ],
