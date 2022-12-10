@@ -27,7 +27,7 @@ class LoginRepository {
     bool result = false;
     try {
       await UserInformationDB.instance
-          .getUserInformation(userId)
+          .getUserInformation(userId, null)
           .then((value) async {
         UserInformationDTO dto = value;
         if (value.userId != '') {

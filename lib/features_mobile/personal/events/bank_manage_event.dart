@@ -16,9 +16,14 @@ class BankManageEventGetList extends BankManageEvent {
 
 class BankManageEventAddDTO extends BankManageEvent {
   final String userId;
+  final String phoneNo;
   final BankAccountDTO dto;
 
-  const BankManageEventAddDTO({required this.userId, required this.dto});
+  const BankManageEventAddDTO({
+    required this.userId,
+    required this.phoneNo,
+    required this.dto,
+  });
 
   @override
   List<Object> get props => [dto];
@@ -27,12 +32,11 @@ class BankManageEventAddDTO extends BankManageEvent {
 class BankManageEventRemoveDTO extends BankManageEvent {
   final String userId;
   final String bankCode;
+  final String bankId;
 
-  const BankManageEventRemoveDTO({
-    required this.userId,
-    required this.bankCode,
-  });
+  const BankManageEventRemoveDTO(
+      {required this.userId, required this.bankCode, required this.bankId});
 
   @override
-  List<Object> get props => [userId, bankCode];
+  List<Object> get props => [userId, bankCode, bankId];
 }

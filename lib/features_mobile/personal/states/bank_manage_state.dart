@@ -19,10 +19,12 @@ class BankManageLoadingState extends BankManageState {
 
 class BankManageListSuccessState extends BankManageState {
   final List<BankAccountDTO> list;
-  const BankManageListSuccessState({required this.list});
+  final List<BankAccountDTO> listOther;
+  const BankManageListSuccessState(
+      {required this.list, required this.listOther});
 
   @override
-  List<Object?> get props => [list];
+  List<Object?> get props => [list, listOther];
 }
 
 class BankManageListFailedState extends BankManageState {}

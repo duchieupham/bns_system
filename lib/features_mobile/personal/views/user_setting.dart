@@ -1,9 +1,15 @@
+import 'package:provider/provider.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/widgets/button_text_widget.dart';
 import 'package:vierqr/features_mobile/home/theme_setting.dart';
 import 'package:vierqr/features_mobile/login/views/login.dart';
 import 'package:vierqr/features_mobile/personal/views/bank_manage.dart';
 import 'package:vierqr/features_mobile/personal/views/user_edit_view.dart';
+import 'package:vierqr/services/providers/bank_account_provider.dart';
+import 'package:vierqr/services/providers/create_qr_page_select_provider.dart';
+import 'package:vierqr/services/providers/create_qr_provider.dart';
+import 'package:vierqr/services/providers/register_provider.dart';
+import 'package:vierqr/services/providers/user_edit_provider.dart';
 import 'package:vierqr/services/shared_references/user_information_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -113,6 +119,7 @@ class _UserSetting extends State<UserSetting> {
                   text: 'Đăng xuất',
                   textColor: DefaultTheme.RED_TEXT,
                   function: () async {
+                    resetAll(context);
                     await UserInformationHelper.instance
                         .initialUserInformationHelper();
                     Navigator.of(context).pushReplacement(
@@ -128,5 +135,13 @@ class _UserSetting extends State<UserSetting> {
         ],
       ),
     );
+  }
+
+  void resetAll(BuildContext context) {
+    Provider.of<CreateQRProvider>(context, listen: false).reset();
+    Provider.of<CreateQRPageSelectProvider>(context, listen: false).reset();
+    Provider.of<BankAccountProvider>(context, listen: false).reset();
+    Provider.of<UserEditProvider>(context, listen: false).reset();
+    Provider.of<RegisterProvider>(context, listen: false).reset();
   }
 }

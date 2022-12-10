@@ -9,6 +9,47 @@ class BankAccountDB {
   static final bankAccountDb =
       FirebaseFirestore.instance.collection('user-bank');
 
+  Future<List<BankAccountDTO>> getListBankAccountByBankIds(
+      List<String> bankIds) async {
+    List<BankAccountDTO> result = [];
+    try {
+      for (String bankId in bankIds) {
+        BankAccountDTO dto = const BankAccountDTO(
+            id: '',
+            bankAccount: '',
+            bankAccountName: '',
+            bankName: '',
+            bankCode: '');
+        await bankAccountDb
+            .where('id', isEqualTo: bankId)
+            .get()
+            .then((QuerySnapshot querySnapshot) {
+          if (querySnapshot.docs.isNotEmpty) {
+            String id = querySnapshot.docs.first['id'] ?? '';
+            String bankAccount = querySnapshot.docs.first['bankAccount'] ?? '';
+            String bankAccountName =
+                querySnapshot.docs.first['bankAccountName'] ?? '';
+            String bankCode = querySnapshot.docs.first['bankCode'] ?? '';
+            String bankName = querySnapshot.docs.first['bankName'] ?? '';
+            dto = BankAccountDTO(
+              id: id,
+              bankAccount: bankAccount,
+              bankAccountName: bankAccountName,
+              bankName: bankName,
+              bankCode: bankCode,
+            );
+          }
+        });
+        if (dto.id != '') {
+          result.add(dto);
+        }
+      }
+    } catch (e) {
+      print('Error at getListBankAccountByBankIds - BankAccountDB: $e');
+    }
+    return result;
+  }
+
   Future<List<BankAccountDTO>> getListBankAccount(String userId) async {
     List<BankAccountDTO> result = [];
     try {

@@ -1,25 +1,29 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+import 'package:vierqr/commons/constants/configurations/stringify.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
-import 'package:vierqr/commons/widgets/dialog_widget.dart';
 import 'package:vierqr/commons/widgets/setting_bank_sheet.dart';
-import 'package:vierqr/features_mobile/personal/blocs/bank_manage_bloc.dart';
-import 'package:vierqr/features_mobile/personal/events/bank_manage_event.dart';
+import 'package:vierqr/commons/widgets/web_widgets/pop_up_menu_web_widget.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
+import 'package:vierqr/services/providers/memeber_manage_provider.dart';
 import 'package:vierqr/services/shared_references/user_information_helper.dart';
 import 'package:flutter/material.dart';
 
 class BankCardWidget extends StatelessWidget {
   final double width;
   final BankAccountDTO bankAccountDTO;
-  final bool? isRemove;
+  final String? roleInsert;
+  final bool? isMenuShow;
+  final bool? isDelete;
   final bool? margin;
 
   const BankCardWidget({
     Key? key,
     required this.width,
     required this.bankAccountDTO,
-    this.isRemove,
+    this.roleInsert,
+    this.isMenuShow,
+    this.isDelete,
     this.margin,
   }) : super(key: key);
 
@@ -49,7 +53,7 @@ class BankCardWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            (isRemove != null && isRemove!)
+            (isMenuShow != null && isMenuShow!)
                 ? SizedBox(
                     width: defaultRatio - 20,
                     child: Row(
@@ -66,34 +70,43 @@ class BankCardWidget extends StatelessWidget {
                         ),
                         const Spacer(),
                         InkWell(
-                          onTap: () {
+                          onTap: () async {
                             if (ScreenResolutionUtils.instance.isWeb()) {
-                              DialogWidget.instance.openBoxWebConfirm(
-                                context: context,
-                                title: 'Xoá tài khoản ngân hàng',
-                                confirmText: 'Xoá',
-                                imageAsset: 'assets/images/ic-card.png',
-                                description:
-                                    'Bạn có muốn xoá ${bankAccountDTO.bankAccount} ra khỏi danh sách không?',
-                                confirmFunction: () {
-                                  final BankManageBloc bankManageBloc =
-                                      BlocProvider.of(context);
-                                  bankManageBloc.add(
-                                    BankManageEventRemoveDTO(
-                                      userId: UserInformationHelper.instance
-                                          .getUserId(),
-                                      bankCode: bankAccountDTO.bankAccount,
-                                    ),
-                                  );
-                                },
-                                confirmColor: DefaultTheme.RED_TEXT,
-                              );
+                              await PopupMenuWebWidget.instance
+                                  .showPopUpBankCard(
+                                    context: context,
+                                    bankAccountDTO: bankAccountDTO,
+                                    isDelete: (isDelete != null && isDelete!)
+                                        ? isDelete!
+                                        : false,
+                                    role: (roleInsert == null)
+                                        ? Stringify.ROLE_CARD_MEMBER_ADMIN
+                                        : roleInsert!,
+                                  )
+                                  .then((value) =>
+                                      Provider.of<MemeberManageProvider>(
+                                              context,
+                                              listen: false)
+                                          .reset());
                             } else {
-                              SettingBankSheet.instance.openSettingCard(
-                                context,
-                                UserInformationHelper.instance.getUserId(),
-                                bankAccountDTO.bankAccount,
-                              );
+                              await SettingBankSheet.instance
+                                  .openSettingCard(
+                                    context: context,
+                                    userId: UserInformationHelper.instance
+                                        .getUserId(),
+                                    bankAccountDTO: bankAccountDTO,
+                                    isDelete: (isDelete != null && isDelete!)
+                                        ? isDelete!
+                                        : false,
+                                    role: (roleInsert == null)
+                                        ? Stringify.ROLE_CARD_MEMBER_ADMIN
+                                        : roleInsert!,
+                                  )
+                                  .then((value) =>
+                                      Provider.of<MemeberManageProvider>(
+                                              context,
+                                              listen: false)
+                                          .reset());
                             }
                           },
                           child: Container(

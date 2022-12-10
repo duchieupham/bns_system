@@ -12,12 +12,14 @@ import 'package:vierqr/features_mobile/home/home.dart';
 import 'package:vierqr/features_mobile/login/blocs/login_bloc.dart';
 import 'package:vierqr/features_mobile/login/views/login.dart';
 import 'package:vierqr/features_mobile/personal/blocs/bank_manage_bloc.dart';
+import 'package:vierqr/features_mobile/personal/blocs/member_manage_bloc.dart';
 import 'package:vierqr/features_mobile/personal/blocs/user_edit_bloc.dart';
 import 'package:vierqr/features_mobile/register/blocs/register_bloc.dart';
 import 'package:vierqr/services/providers/bank_account_provider.dart';
 import 'package:vierqr/services/providers/bank_select_provider.dart';
 import 'package:vierqr/services/providers/create_qr_page_select_provider.dart';
 import 'package:vierqr/services/providers/create_qr_provider.dart';
+import 'package:vierqr/services/providers/memeber_manage_provider.dart';
 import 'package:vierqr/services/providers/page_select_provider.dart';
 import 'package:vierqr/services/providers/pin_provider.dart';
 import 'package:vierqr/services/providers/register_provider.dart';
@@ -87,6 +89,9 @@ class BNSApp extends StatelessWidget {
           BlocProvider<UserEditBloc>(
             create: (BuildContext context) => UserEditBloc(),
           ),
+          BlocProvider<MemberManageBloc>(
+            create: (BuildContext context) => MemberManageBloc(),
+          ),
         ],
         child: MultiProvider(
           providers: [
@@ -100,6 +105,8 @@ class BNSApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => RegisterProvider()),
             ChangeNotifierProvider(create: (context) => PinProvider()),
             ChangeNotifierProvider(create: (context) => UserEditProvider()),
+            ChangeNotifierProvider(
+                create: (context) => MemeberManageProvider()),
           ],
           child: Consumer<ThemeProvider>(
             builder: (context, themeSelect, child) {

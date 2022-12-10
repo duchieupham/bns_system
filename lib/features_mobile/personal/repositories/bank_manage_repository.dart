@@ -1,8 +1,25 @@
+import 'package:vierqr/commons/constants/configurations/stringify.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
 import 'package:vierqr/services/firestore/bank_account_db.dart';
+import 'package:vierqr/services/firestore/bank_notification_db.dart';
 
 class BankManageRepository {
   const BankManageRepository();
+
+  Future<List<BankAccountDTO>> getListOtherBankAccount(String userId) async {
+    List<BankAccountDTO> result = [];
+    try {
+      List<String> bankIds =
+          await BankNotificationDB.instance.getListBankIdByUserId(userId);
+      if (bankIds.isNotEmpty) {
+        result =
+            await BankAccountDB.instance.getListBankAccountByBankIds(bankIds);
+      }
+    } catch (e) {
+      print('Error at getListOtherBankAccount - BankManageRepository: $e');
+    }
+    return result;
+  }
 
   Future<List<BankAccountDTO>> getListBankAccount(String userId) async {
     List<BankAccountDTO> result = [];
@@ -14,21 +31,35 @@ class BankManageRepository {
     return result;
   }
 
-  Future<bool> addBankAccount(String userId, BankAccountDTO dto) async {
+  Future<bool> addBankAccount(
+      String userId, BankAccountDTO dto, String phoneNo) async {
     bool result = false;
     try {
-      result = await BankAccountDB.instance.addBankAccount(userId, dto);
+      bool checkAddBank =
+          await BankAccountDB.instance.addBankAccount(userId, dto);
+      bool checkAddRelation = await BankNotificationDB.instance
+          .addUserToBankCard(
+              dto.id, userId, Stringify.ROLE_CARD_MEMBER_ADMIN, phoneNo);
+      if (checkAddBank && checkAddRelation) {
+        result = true;
+      }
     } catch (e) {
       print('Error at addBankAccount - BankManageRepository: $e');
     }
     return result;
   }
 
-  Future<bool> removeBankAccount(String userId, String bankAccount) async {
+  Future<bool> removeBankAccount(
+      String userId, String bankAccount, String bankId) async {
     bool result = false;
     try {
-      result =
+      bool checkRemoveBank =
           await BankAccountDB.instance.removeBankAccount(userId, bankAccount);
+      bool checkRemoveRelation =
+          await BankNotificationDB.instance.removeAllUsers(bankId);
+      if (checkRemoveBank && checkRemoveRelation) {
+        result = true;
+      }
     } catch (e) {
       print('Error at removeBankAccount - BankManageRepository: $e');
     }

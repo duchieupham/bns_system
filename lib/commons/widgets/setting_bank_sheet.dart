@@ -8,6 +8,7 @@ import 'package:vierqr/commons/widgets/dialog_widget.dart';
 import 'package:vierqr/commons/widgets/textfield_widget.dart';
 import 'package:vierqr/features_mobile/personal/blocs/bank_manage_bloc.dart';
 import 'package:vierqr/features_mobile/personal/events/bank_manage_event.dart';
+import 'package:vierqr/features_mobile/personal/widgets/add_members_card_widget.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
 import 'package:vierqr/services/providers/bank_select_provider.dart';
 import 'package:vierqr/services/shared_references/user_information_helper.dart';
@@ -218,10 +219,16 @@ class SettingBankSheet {
                                     bankName: BankInformationUtil.instance
                                         .getBankNameFromSelectBox(bankSelected),
                                   );
-                                  bankManageBloc.add(BankManageEventAddDTO(
+                                  bankManageBloc.add(
+                                    BankManageEventAddDTO(
                                       userId: UserInformationHelper.instance
                                           .getUserId(),
-                                      dto: dto));
+                                      dto: dto,
+                                      phoneNo: UserInformationHelper.instance
+                                          .getUserInformation()
+                                          .phoneNo,
+                                    ),
+                                  );
                                 }
                               } else {
                                 DialogWidget.instance.openMsgDialog(
@@ -244,8 +251,53 @@ class SettingBankSheet {
         });
   }
 
-  Future openSettingCard(
-      BuildContext context, String userId, String bankAccount) {
+  Future openAddMemberIntoBank(
+      {required BuildContext context,
+      required String bankId,
+      required String roleInsert}) {
+    final double width = MediaQuery.of(context).size.width;
+    return showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        backgroundColor: DefaultTheme.TRANSPARENT,
+        builder: (context) {
+          return BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+            child: ClipRRect(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 5, left: 5, right: 5),
+                child: Container(
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    right: 20,
+                    top: 10,
+                  ),
+                  width: MediaQuery.of(context).size.width - 10,
+                  height: MediaQuery.of(context).size.height * 0.9,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Theme.of(context).cardColor,
+                  ),
+                  child: AddMembersCardWidget(
+                    width: width,
+                    bankId: bankId,
+                    roleInsert: roleInsert,
+                    isModalBottom: true,
+                  ),
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
+  Future openSettingCard({
+    required BuildContext context,
+    required String userId,
+    required BankAccountDTO bankAccountDTO,
+    required bool isDelete,
+    required String role,
+  }) {
     final double width = MediaQuery.of(context).size.width;
     return showModalBottomSheet(
         isScrollControlled: false,
@@ -267,43 +319,51 @@ class SettingBankSheet {
                 children: [
                   Container(
                     width: width,
-                    height: 140,
+                    //  height: 140,
                     decoration: BoxDecoration(
                       color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Column(
                       children: [
-                        Container(
-                          width: width,
-                          height: 80,
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Bạn có muốn xoá tài khoản $bankAccount ra khỏi danh sách không?',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: DefaultTheme.GREY_TEXT,
-                                fontSize: 18),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        const Divider(
-                          color: DefaultTheme.GREY_LIGHT,
-                          height: 0.5,
-                        ),
                         ButtonWidget(
                           width: width,
-                          text: 'Xoá',
-                          textColor: DefaultTheme.RED_TEXT,
+                          text: 'Quản lý thành viên',
+                          textColor: DefaultTheme.BLUE_TEXT,
                           bgColor: DefaultTheme.TRANSPARENT,
                           function: () {
-                            final BankManageBloc bankManageBloc =
-                                BlocProvider.of(context);
-                            bankManageBloc.add(BankManageEventRemoveDTO(
-                                userId: userId, bankCode: bankAccount));
+                            Navigator.pop(context);
+                            openAddMemberIntoBank(
+                                bankId: bankAccountDTO.id,
+                                context: context,
+                                roleInsert: role);
                           },
                         ),
+                        (isDelete)
+                            ? const Divider(
+                                color: DefaultTheme.GREY_LIGHT,
+                                height: 0.5,
+                              )
+                            : const SizedBox(),
+                        (isDelete)
+                            ? ButtonWidget(
+                                width: width,
+                                text: 'Xoá',
+                                textColor: DefaultTheme.RED_TEXT,
+                                bgColor: DefaultTheme.TRANSPARENT,
+                                function: () {
+                                  final BankManageBloc bankManageBloc =
+                                      BlocProvider.of(context);
+                                  bankManageBloc.add(
+                                    BankManageEventRemoveDTO(
+                                      userId: userId,
+                                      bankCode: bankAccountDTO.bankAccount,
+                                      bankId: bankAccountDTO.id,
+                                    ),
+                                  );
+                                },
+                              )
+                            : const SizedBox(),
                       ],
                     ),
                   ),
