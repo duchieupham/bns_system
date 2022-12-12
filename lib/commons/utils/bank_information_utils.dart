@@ -8,13 +8,14 @@ class BankInformationUtil {
   static BankInformationUtil get instance => _instance;
 
   bool checkBankAddress(String bankName) {
+    print('----bankName: $bankName');
     bool result = false;
     //to fake data to check SMS
     if (bankName == '0909000999') {
       bankName = 'MB Bank';
     }
     if (bankName == '0900000000') {
-      bankName = 'Viettin Bank';
+      bankName = 'Vietin Bank';
     }
     if (bankName == '0909999999') {
       bankName = 'SHB';
@@ -30,6 +31,7 @@ class BankInformationUtil {
     }
     //
     bankName = 'BANKNAME.${bankName.trim().replaceAll(' ', '').toUpperCase()}';
+    print('---bankName after format: $bankName');
     if (BANKNAME.values.toString().contains(bankName)) {
       result = true;
     }
@@ -44,7 +46,7 @@ class BankInformationUtil {
       bankName = 'MB Bank';
     }
     if (bankName == '0900000000') {
-      bankName = 'Viettin Bank';
+      bankName = 'Vietin Bank';
     }
     if (bankName == '0909999999') {
       bankName = 'SHB';
@@ -74,7 +76,7 @@ class BankInformationUtil {
       bankName = 'MB Bank';
     }
     if (bankName == '0900000000') {
-      bankName = 'Viettin Bank';
+      bankName = 'Vietin Bank';
     }
     if (bankName == '0909999999') {
       bankName = 'SHB';
@@ -102,7 +104,7 @@ class BankInformationUtil {
       address = 'MB Bank';
     }
     if (address == '0900000000') {
-      address = 'Viettin Bank';
+      address = 'Vietin Bank';
     }
     if (address == '0909999999') {
       address = 'SHB';

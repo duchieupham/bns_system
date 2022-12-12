@@ -29,7 +29,7 @@ class AvatarTextWidget extends StatelessWidget {
         ),
       ),
       child: Text(
-        text.trim().characters.first.toUpperCase(),
+        (text == '') ? '' : text.trim().characters.first.toUpperCase(),
         textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: size * (1 / 2),

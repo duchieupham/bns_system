@@ -6,6 +6,16 @@ import 'package:vierqr/services/firestore/bank_notification_db.dart';
 class BankManageRepository {
   const BankManageRepository();
 
+  Future<List<String>> getBankIdsByUserId(String userId) async {
+    List<String> result = [];
+    try {
+      result = await BankNotificationDB.instance.getBankIdsByUserId(userId);
+    } catch (e) {
+      print('Error at getBankIdsByUserId - BankManageRepository: $e');
+    }
+    return result;
+  }
+
   Future<List<BankAccountDTO>> getListOtherBankAccount(String userId) async {
     List<BankAccountDTO> result = [];
     try {

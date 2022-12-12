@@ -46,17 +46,19 @@ class TimeUtils {
     DateFormat dateFormat = DateFormat('dd/MM/yyyy');
     String dateNow = DateTime.now().toString();
     bool isValidDate = DateTime.tryParse(date.toString()) != null;
-
-    if (dateFormat.format(DateTime.parse(dateNow)).toString() ==
-        dateFormat.format(DateTime.parse(date)).toString()) {
-      if (date != '' && isValidDate) {
-        formattedTime = format.format(DateTime.parse(date.toString()));
-      }
-    } else {
-      if (date != '' && isValidDate) {
-        formattedTime = dateFormat.format(DateTime.parse(date)).toString();
+    if (date != '' && DateTime.tryParse(date) != null) {
+      if (dateFormat.format(DateTime.parse(dateNow)).toString() ==
+          dateFormat.format(DateTime.parse(date)).toString()) {
+        if (date != '' && isValidDate) {
+          formattedTime = format.format(DateTime.parse(date.toString()));
+        }
+      } else {
+        if (date != '' && isValidDate) {
+          formattedTime = dateFormat.format(DateTime.parse(date)).toString();
+        }
       }
     }
+
     return formattedTime;
   }
 
@@ -67,20 +69,22 @@ class TimeUtils {
     DateFormat dateFormat = DateFormat('dd/MM/yyyy');
     String dateNow = DateTime.now().toString();
     bool isValidDate = DateTime.tryParse(date.toString()) != null;
-
-    if (dateFormat.format(DateTime.parse(dateNow)).toString() ==
-        dateFormat.format(DateTime.parse(date)).toString()) {
-      if (date != '' && isValidDate) {
-        formattedTime =
-            format.format(DateTime.parse(date.toString())) + ' Hôm nay';
-      }
-    } else {
-      if (date != '' && isValidDate) {
-        formattedTime = format.format(DateTime.parse(date.toString())) +
-            ' ' +
-            dateFormat.format(DateTime.parse(date)).toString();
+    if (date != '' && DateTime.tryParse(date) != null) {
+      if (dateFormat.format(DateTime.parse(dateNow)).toString() ==
+          dateFormat.format(DateTime.parse(date)).toString()) {
+        if (date != '' && isValidDate) {
+          formattedTime =
+              format.format(DateTime.parse(date.toString())) + ' Hôm nay';
+        }
+      } else {
+        if (date != '' && isValidDate) {
+          formattedTime = format.format(DateTime.parse(date.toString())) +
+              ' ' +
+              dateFormat.format(DateTime.parse(date)).toString();
+        }
       }
     }
+
     return formattedTime;
   }
 

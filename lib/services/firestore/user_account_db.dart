@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:vierqr/models/checking_dto.dart';
 
 class UserAccountDB {
   const UserAccountDB._privateConsrtructor();
@@ -8,11 +9,30 @@ class UserAccountDB {
   static final userAccountDb =
       FirebaseFirestore.instance.collection('user-account');
 
-  Future<bool> insertUserAccount(Map<String, dynamic> data) async {
-    bool result = false;
+  Future<CheckingDTO> insertUserAccount(Map<String, dynamic> data) async {
+    CheckingDTO result = const CheckingDTO(check: false, message: '');
     try {
-      await userAccountDb.add(data).then((value) => result = true);
+      //check phone no that is existed in system
+      //then insert
+      await userAccountDb
+          .where('phoneNo', isEqualTo: data['phoneNo'])
+          .get()
+          .then((QuerySnapshot querySnapshot) async {
+        if (querySnapshot.docs.isEmpty) {
+          await userAccountDb.add(data).then(
+                (value) => result = const CheckingDTO(check: true, message: ''),
+              );
+        } else {
+          result = const CheckingDTO(
+              check: false,
+              message:
+                  'Số điện thoại đã tồn tại trong hệ thống. Vui lòng sử dụng số điện thoại khác.');
+        }
+      });
     } catch (e) {
+      result = const CheckingDTO(
+          check: false,
+          message: 'Không thể đăng ký. Vui lòng kiểm tra lại kết nối.');
       print('Error at insertUserAccount - UserAccountDB: $e');
     }
     return result;

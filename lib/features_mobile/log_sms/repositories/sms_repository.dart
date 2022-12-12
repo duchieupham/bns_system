@@ -2,9 +2,12 @@ import 'package:vierqr/commons/utils/bank_information_utils.dart';
 import 'package:vierqr/models/message_dto.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_sms_listener/flutter_sms_listener.dart' as smslistener;
+import 'package:rxdart/rxdart.dart';
 
 class SmsRepository {
-  //
+  static final smsListenController = BehaviorSubject<dynamic>();
+
   SmsRepository();
 
   //
@@ -42,8 +45,14 @@ class SmsRepository {
         }
       }
     } catch (e) {
-      print('Error at getListMessage: $e');
+      print('Error at getListMessage - SmsRepository: $e');
     }
     return result;
+  }
+
+  Future<void> listenNewSMS() async {
+    try {} catch (e) {
+      print('Error at listenNewSMS - SmsRepository: $e');
+    }
   }
 }

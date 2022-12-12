@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uuid/uuid.dart';
 import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
 import 'package:vierqr/commons/widgets/button_icon_widget.dart';
 import 'package:vierqr/commons/widgets/dialog_widget.dart';
@@ -12,12 +13,17 @@ import 'package:vierqr/features_mobile/home/widgets/title_home_web_widget.dart';
 import 'package:vierqr/features_mobile/log_sms/sms_list.dart';
 import 'package:vierqr/features_mobile/personal/blocs/bank_manage_bloc.dart';
 import 'package:vierqr/features_mobile/personal/events/bank_manage_event.dart';
+import 'package:vierqr/features_mobile/personal/repositories/bank_manage_repository.dart';
 import 'package:vierqr/features_mobile/personal/states/bank_manage_state.dart';
 import 'package:vierqr/features_mobile/personal/views/bank_manage.dart';
 import 'package:vierqr/features_mobile/personal/views/user_setting.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
+import 'package:vierqr/models/transaction_dto.dart';
+import 'package:vierqr/models/transaction_notification_dto.dart';
+import 'package:vierqr/services/firestore/transaction_db.dart';
+import 'package:vierqr/services/firestore/transaction_notification_db.dart';
 import 'package:vierqr/services/providers/bank_account_provider.dart';
 import 'package:vierqr/services/providers/page_select_provider.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
@@ -73,6 +79,80 @@ class _HomeScreen extends State<HomeScreen> {
         key: PageStorageKey('USER_SETTING_PAGE'),
       ),
     ]);
+    if (ScreenResolutionUtils.instance.isWeb()) {
+      listenTransaction();
+      listenNotification();
+    }
+  }
+
+  listenNotification() {
+    // print(
+    //     '----user id in listen notification: ${UserInformationHelper.instance.getUserId()}');
+    TransactionNotificationDB.instance
+        .listenTransactionNotification(
+            UserInformationHelper.instance.getUserId())
+        .listen((data) async {
+      if (data.docs.isNotEmpty) {
+        for (int i = 0; i < data.docs.length; i++) {
+          await TransactionNotificationDB.instance
+              .updateTransactionNotification(data.docs[i]['id'])
+              .then((_) async {
+            print('----transactionId: ${data.docs[i]['transactionId']}');
+            TransactionDTO transactionDTO = await TransactionDB.instance
+                .getTransactionById(data.docs[i]['transactionId']);
+            if (transactionDTO.isFormatted) {
+              DialogWidget.instance.openTransactionFormattedDialog(
+                context,
+                transactionDTO.address,
+                transactionDTO.content,
+                transactionDTO.timeReceived,
+              );
+            } else {
+              DialogWidget.instance.openTransactionDialog(
+                context,
+                transactionDTO.address,
+                transactionDTO.content,
+              );
+            }
+            // DialogWidget.instance.openContentDialog(
+            //   context,
+            //   null,
+            //   Container(
+            //     child: Text(transactionDTO.content),
+            //   ),
+            // );
+          });
+        }
+      }
+    });
+  }
+
+  listenTransaction() async {
+    const BankManageRepository bankManageRepository = BankManageRepository();
+    List<String> bankIds = await bankManageRepository
+        .getBankIdsByUserId(UserInformationHelper.instance.getUserId());
+    // print('userId: ${UserInformationHelper.instance.getUserId()}');
+    // print('bankIds: $bankIds');
+
+    TransactionDB.instance.listenTransactionBy(bankIds).listen((data) async {
+      if (data.docs.isNotEmpty) {
+        // print('-----data docs length: ${data.docs.length}');
+        // print(
+        //     '------msg is comming\n${data.docs.first['id']}\n${data.docs.first['content']}');
+        const Uuid uuid = Uuid();
+        for (int i = 0; i < data.docs.length; i++) {
+          TransactionNotificationDTO transactionNotificationDTO =
+              TransactionNotificationDTO(
+                  id: uuid.v1(),
+                  transactionId: data.docs[i]['id'],
+                  userId: UserInformationHelper.instance.getUserId(),
+                  timeCreated: data.docs[i]['timeCreated'],
+                  isRead: false);
+          await TransactionNotificationDB.instance
+              .insertTransactionNotification(transactionNotificationDTO);
+        }
+      }
+    });
   }
 
   @override

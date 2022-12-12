@@ -1,17 +1,20 @@
 import 'package:vierqr/models/account_register_dto.dart';
+import 'package:vierqr/models/checking_dto.dart';
 import 'package:vierqr/services/firestore/user_account_db.dart';
 import 'package:vierqr/services/firestore/user_information_db.dart';
 
 class RegisterRepository {
   const RegisterRepository();
 
-  Future<bool> register(AccountRegisterDTO dto) async {
-    bool result = false;
+  Future<CheckingDTO> register(AccountRegisterDTO dto) async {
+    CheckingDTO result = const CheckingDTO(check: false, message: '');
     try {
-      await UserAccountDB.instance.insertUserAccount(dto.toUserAccountJson());
-      await UserInformationDB.instance
-          .insertUserInformation(dto.toUserInformationJson());
-      result = true;
+      result = await UserAccountDB.instance
+          .insertUserAccount(dto.toUserAccountJson());
+      if (result.check) {
+        await UserInformationDB.instance
+            .insertUserInformation(dto.toUserInformationJson());
+      }
     } catch (e) {
       print('Error at register - Register Repository: $e');
     }

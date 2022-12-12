@@ -121,9 +121,9 @@ class SmsInformationUtils {
       String bankAccount =
           body.split('TK VCB ')[1].split(' VND')[0].split(' ')[0];
       String transaction =
-          body.split('TK VCB ')[1].split(' VND')[0].split(' ')[1] + ' VND';
+          '${body.split('TK VCB ')[1].split(' VND')[0].split(' ')[1]} VND';
       String accountBalance =
-          body.split('. Số dư ')[1].split(' VND.')[0].trim() + ' VND';
+          '${body.split('. Số dư ')[1].split(' VND.')[0].trim()} VND';
       String content = body.split(' VND.')[1].trim();
       result = BankInformationDTO(
         address: bankName.replaceAll('BANKNAME.', ''),

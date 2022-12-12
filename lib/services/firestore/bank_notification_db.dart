@@ -12,6 +12,28 @@ class BankNotificationDB {
   static final bankNotificationDb =
       FirebaseFirestore.instance.collection('bank-notification');
 
+  Future<List<String>> getBankIdsByUserId(String userId) async {
+    List<String> result = [];
+    try {
+      await bankNotificationDb
+          .where('userId', isEqualTo: userId)
+          .get()
+          .then((QuerySnapshot querySnapshot) async {
+        if (querySnapshot.docs.isNotEmpty) {
+          for (var element in querySnapshot.docs) {
+            String bankId = element['bankId'] ?? '';
+            result.add(bankId);
+          }
+        }
+      });
+    } catch (e) {
+      print('Error at getBankIdsByUserId - BankNotificationDB: $e');
+    }
+
+    return result;
+  }
+
+  //to get list other bank
   Future<List<String>> getListBankIdByUserId(String userId) async {
     List<String> result = [];
     try {

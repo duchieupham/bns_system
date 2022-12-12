@@ -24,7 +24,7 @@ class UserInformationDTO {
 
   factory UserInformationDTO.fromJson(Map<String, dynamic> json) {
     return UserInformationDTO(
-      userId: json['userId'] ?? '',
+      userId: json['userId'] ?? json['id'] ?? '',
       firstName: json['firstName'] ?? '',
       middleName: json['middleName'] ?? '',
       lastName: json['lastName'] ?? '',
