@@ -25,7 +25,6 @@ import 'package:vierqr/services/providers/pin_provider.dart';
 import 'package:vierqr/services/providers/register_provider.dart';
 import 'package:vierqr/services/providers/theme_provider.dart';
 import 'package:vierqr/services/providers/user_edit_provider.dart';
-import 'package:vierqr/services/shared_references/bank_information_helper.dart';
 import 'package:vierqr/services/shared_references/create_qr_helper.dart';
 import 'package:vierqr/services/shared_references/theme_helper.dart';
 import 'package:vierqr/services/shared_references/user_information_helper.dart';
@@ -59,10 +58,6 @@ Future<void> _initialServiceHelper() async {
   if (!sharedPrefs.containsKey('USER_ID') ||
       sharedPrefs.getString('USER_ID') == null) {
     await UserInformationHelper.instance.initialUserInformationHelper();
-  }
-  if (!sharedPrefs.containsKey('BANK_IDS') ||
-      sharedPrefs.getString('BANK_IDS') == null) {
-    await BankInformationHelper.instance.initialBankInformationHelper();
   }
 }
 

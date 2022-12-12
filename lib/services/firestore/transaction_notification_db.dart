@@ -12,7 +12,8 @@ class TransactionNotificationDB {
 
   //listen new data
   Stream<QuerySnapshot> listenTransactionNotification(String userId) {
-    return transactionNotificationDB
+    return FirebaseFirestore.instance
+        .collection('transaction-notification')
         .where('userId', isEqualTo: userId)
         .where('isRead', isEqualTo: false)
         .snapshots();
@@ -26,7 +27,7 @@ class TransactionNotificationDB {
       await transactionNotificationDB
           .where('transactionId', isEqualTo: dto.transactionId)
           .where('userId', isEqualTo: dto.userId)
-          .where('timeCreated', isEqualTo: dto.timeCreated)
+          // .where('timeCreated', isEqualTo: dto.timeCreated)
           .get()
           .then((QuerySnapshot querySnapshot) async {
         if (querySnapshot.docs.isEmpty) {

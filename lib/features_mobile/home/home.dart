@@ -1,7 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
+import 'package:vierqr/commons/utils/bank_information_utils.dart';
 import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
+import 'package:vierqr/commons/utils/sms_information_utils.dart';
 import 'package:vierqr/commons/widgets/button_icon_widget.dart';
 import 'package:vierqr/commons/widgets/dialog_widget.dart';
 import 'package:vierqr/commons/widgets/qr_statistic_widget.dart';
@@ -20,6 +23,7 @@ import 'package:vierqr/features_mobile/personal/views/user_setting.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
+import 'package:vierqr/models/bank_information_dto.dart';
 import 'package:vierqr/models/transaction_dto.dart';
 import 'package:vierqr/models/transaction_notification_dto.dart';
 import 'package:vierqr/services/firestore/transaction_db.dart';
@@ -93,37 +97,96 @@ class _HomeScreen extends State<HomeScreen> {
             UserInformationHelper.instance.getUserId())
         .listen((data) async {
       if (data.docs.isNotEmpty) {
-        for (int i = 0; i < data.docs.length; i++) {
-          await TransactionNotificationDB.instance
-              .updateTransactionNotification(data.docs[i]['id'])
-              .then((_) async {
-            print('----transactionId: ${data.docs[i]['transactionId']}');
-            TransactionDTO transactionDTO = await TransactionDB.instance
-                .getTransactionById(data.docs[i]['transactionId']);
-            if (transactionDTO.isFormatted) {
-              DialogWidget.instance.openTransactionFormattedDialog(
-                context,
-                transactionDTO.address,
-                transactionDTO.content,
-                transactionDTO.timeReceived,
-              );
-            } else {
-              DialogWidget.instance.openTransactionDialog(
-                context,
-                transactionDTO.address,
-                transactionDTO.content,
-              );
-            }
-            // DialogWidget.instance.openContentDialog(
-            //   context,
-            //   null,
-            //   Container(
-            //     child: Text(transactionDTO.content),
-            //   ),
-            // );
-          });
-        }
+        Map<String, dynamic> element =
+            data.docs.first.data() as Map<String, dynamic>;
+        // await Future.forEach(data.docs, (QueryDocumentSnapshot element) async {
+        //   Map<String, dynamic> el = element.data() as Map<String, dynamic>;
+
+        print('-----transactionId: ${element['transactionId']}');
+        print('-----isFormatted: ${element['isFormatted']}');
+        await TransactionNotificationDB.instance
+            .updateTransactionNotification(element['id']);
+        DialogWidget.instance.openContentDialog(
+          context,
+          null,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              const Padding(padding: EdgeInsets.only(top: 30)),
+              const Text(
+                'Biến động số dư',
+                maxLines: 1,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const Padding(padding: EdgeInsets.only(top: 20)),
+              SizedBox(
+                width: 300,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      width: 80,
+                      child: Text(
+                        'Từ: ',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: DefaultTheme.GREY_TEXT,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        element['address'],
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Padding(padding: EdgeInsets.only(top: 10)),
+              SizedBox(
+                width: 300,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      width: 80,
+                      child: Text(
+                        'Nội dung: ',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: DefaultTheme.GREY_TEXT,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        element['content'],
+                        style: const TextStyle(fontSize: 15),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+
+        print('----update done');
+
+        //   });
+        //});
+
       }
+    }).onError((e) {
+      print('-----ERROR at listenTransactionNotification: $e ');
     });
   }
 
@@ -146,7 +209,10 @@ class _HomeScreen extends State<HomeScreen> {
                   id: uuid.v1(),
                   transactionId: data.docs[i]['id'],
                   userId: UserInformationHelper.instance.getUserId(),
-                  timeCreated: data.docs[i]['timeCreated'],
+                  //timeCreated: data.docs[i]['timeCreated'],
+                  address: data.docs[i]['address'],
+                  content: data.docs[i]['content'],
+                  isFormatted: data.docs[i]['isFormatted'],
                   isRead: false);
           await TransactionNotificationDB.instance
               .insertTransactionNotification(transactionNotificationDTO);

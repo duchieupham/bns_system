@@ -20,7 +20,10 @@ class TransactionDB {
   }
 
   Stream<QuerySnapshot> listenTransactionBy(List<String> bankIds) {
-    return transactionDb.where('bankId', whereIn: bankIds).snapshots();
+    return FirebaseFirestore.instance
+        .collection('transaction')
+        .where('bankId', whereIn: bankIds)
+        .snapshots();
   }
 
   Future<TransactionDTO> getTransactionById(String id) async {
@@ -33,7 +36,7 @@ class TransactionDB {
       content: '',
       isFormatted: false,
       status: '',
-      timeCreated: '',
+      timeInserted: null,
       timeReceived: '',
       transaction: '',
       type: '',
@@ -54,7 +57,8 @@ class TransactionDB {
           String content = querySnapshot.docs.first['content'] ?? '';
           bool isFormatted = querySnapshot.docs.first['isFormatted'] ?? false;
           String status = querySnapshot.docs.first['status'] ?? '';
-          dynamic timeCreated = querySnapshot.docs.first['timeCreated'] ?? null;
+          // dynamic timeInserted =
+          //     querySnapshot.docs.first['timeCreated'] ?? null;
           String timeReceived = querySnapshot.docs.first['timeReceived'] ?? '';
           String transaction = querySnapshot.docs.first['transaction'] ?? '';
           String type = querySnapshot.docs.first['type'] ?? '';
@@ -68,7 +72,7 @@ class TransactionDB {
             content: content,
             isFormatted: isFormatted,
             status: status,
-            timeCreated: timeCreated,
+            timeInserted: null,
             timeReceived: timeReceived,
             transaction: transaction,
             type: type,

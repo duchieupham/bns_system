@@ -7,7 +7,7 @@ class TransactionDTO {
   final String content;
   final bool isFormatted;
   final String status;
-  final dynamic timeCreated;
+  final dynamic timeInserted;
   final String timeReceived;
   final String transaction;
   final String type;
@@ -22,7 +22,7 @@ class TransactionDTO {
     required this.content,
     required this.isFormatted,
     required this.status,
-    required this.timeCreated,
+    required this.timeInserted,
     required this.timeReceived,
     required this.transaction,
     required this.type,
@@ -39,7 +39,7 @@ class TransactionDTO {
     data['content'] = content;
     data['isFormatted'] = isFormatted;
     data['status'] = status;
-    data['timeCreated'] = timeCreated;
+    data['timeCreated'] = timeInserted;
     data['timeReceived'] = timeReceived;
     data['transaction'] = transaction;
     data['type'] = type;
