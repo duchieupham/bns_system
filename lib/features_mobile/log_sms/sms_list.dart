@@ -239,7 +239,7 @@ class _SMSList extends State<SMSList> {
     //       'threadId': 1123,
     //       'address': '0909999999',
     //       'body':
-    //           'SDTK 1000006789 den 17:56:38 ngay 13/11/2022 la 8,668,033 VND. GD moi nhat: -2,500,000 VND: PHAM DUC TUAN  CHUYEN KHOAN Pham duc Trong quang 0936382222',
+    //           'SDTK 1000006789 den 17:56:38 ngay 13/11/2022 la 8,668,033 VND. GD moi nhat: +2,500,000 VND: PHAM DUC TUAN  CHUYEN KHOAN Pham duc Trong quang 0936382222',
     //       'read': false,
     //       'date': '21/01/2022 11:40',
     //       'dateSent': '21/01/2022 11:40',
