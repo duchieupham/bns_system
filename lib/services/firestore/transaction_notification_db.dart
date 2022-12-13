@@ -64,4 +64,26 @@ class TransactionNotificationDB {
     }
     return result;
   }
+
+  //get list transactionId by userId
+  Future<List<String>> getTransactionIdsByUserId(String userId) async {
+    List<String> result = [];
+    try {
+      await transactionNotificationDB
+          .where('userId', isEqualTo: userId)
+          .get()
+          .then((QuerySnapshot querySnapshot) async {
+        if (querySnapshot.docs.isNotEmpty) {
+          for (int i = 0; i < querySnapshot.docs.length; i++) {
+            String userId = querySnapshot.docs[i]['transactionId'];
+            result.add(userId);
+          }
+        }
+      });
+    } catch (e) {
+      print(
+          'Error at getTransactionIdsByUserId - TransactionNotificationDB: $e');
+    }
+    return result;
+  }
 }

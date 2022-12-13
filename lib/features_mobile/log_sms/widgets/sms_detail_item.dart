@@ -1,6 +1,5 @@
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/utils/bank_information_utils.dart';
-import 'package:vierqr/commons/utils/sms_information_utils.dart';
 import 'package:vierqr/models/bank_information_dto.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +21,7 @@ class SmsDetailItem extends StatelessWidget {
         children: [
           Text(
             bankInforDTO.time,
-            style: TextStyle(color: DefaultTheme.GREY_TEXT),
+            style: const TextStyle(color: DefaultTheme.GREY_TEXT),
           ),
           const Padding(padding: EdgeInsets.only(top: 5)),
           Container(

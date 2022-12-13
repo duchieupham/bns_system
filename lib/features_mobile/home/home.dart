@@ -14,6 +14,7 @@ import 'package:vierqr/features_mobile/home/frames/home_frame.dart';
 import 'package:vierqr/features_mobile/home/widgets/button_navigate_page_widget.dart';
 import 'package:vierqr/features_mobile/home/widgets/title_home_web_widget.dart';
 import 'package:vierqr/features_mobile/log_sms/sms_list.dart';
+import 'package:vierqr/features_mobile/log_sms/widgets/sms_list_item_web.dart';
 import 'package:vierqr/features_mobile/personal/blocs/bank_manage_bloc.dart';
 import 'package:vierqr/features_mobile/personal/events/bank_manage_event.dart';
 import 'package:vierqr/features_mobile/personal/repositories/bank_manage_repository.dart';
@@ -53,6 +54,8 @@ class _HomeScreen extends State<HomeScreen> {
   static final List<BankAccountDTO> _bankAccounts = [];
   static late BankManageBloc _bankManageBloc;
 
+  List<TransactionDTO> _transactions = [];
+
   //for web
 
   @override
@@ -85,9 +88,19 @@ class _HomeScreen extends State<HomeScreen> {
     );
 
     if (ScreenResolutionUtils.instance.isWeb()) {
+      getTransactions();
       listenTransaction();
       listenNotification();
     }
+  }
+
+  getTransactions() async {
+    String userId = UserInformationHelper.instance.getUserId();
+    List<String> transactionIds = await TransactionNotificationDB.instance
+        .getTransactionIdsByUserId(userId);
+    _transactions =
+        await TransactionDB.instance.getTransactionsByIds(transactionIds);
+    setState(() {});
   }
 
   listenNotification() {
@@ -406,7 +419,7 @@ class _HomeScreen extends State<HomeScreen> {
               Expanded(
                 child: Container(
                   width: width,
-                  color: Theme.of(context).cardColor,
+                  // color: Theme.of(context).cardColor,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   child: Column(
@@ -632,14 +645,17 @@ class _HomeScreen extends State<HomeScreen> {
               Expanded(
                 child: Container(
                   width: width,
-                  alignment: Alignment.center,
-                  color: Theme.of(context).cardColor,
-                  child: const Text(
-                    'Tính năng hiện đang trong giai đoạn phát triển.',
-                    style: TextStyle(
-                      color: DefaultTheme.GREY_TEXT,
-                    ),
-                  ),
+                  height: 570,
+                  child: (_transactions.isNotEmpty)
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: _transactions.length,
+                          itemBuilder: ((context, index) {
+                            return SMSListItemWeb(
+                                transactionDTO: _transactions[index]);
+                          }),
+                        )
+                      : const SizedBox(),
                 ),
               ),
             ],
