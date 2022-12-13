@@ -254,7 +254,7 @@ class _CreateQR extends State<CreateQR> {
                   controller: msgController,
                   autofocus: false,
                   maxLength: 99,
-                  maxLines: 2,
+                  // maxLines: 2,
                   decoration: const InputDecoration(
                     border: InputBorder.none,
                     hintText: 'Nội dung chứa tối đa 99 ký tự.',
@@ -263,6 +263,31 @@ class _CreateQR extends State<CreateQR> {
                       fontStyle: FontStyle.italic,
                     ),
                   ),
+                  textInputAction: TextInputAction.done,
+                  onSubmitted: (_) {
+                    if (amountController.text.isNotEmpty &&
+                        !Provider.of<CreateQRProvider>(context, listen: false)
+                            .amountErr) {
+                      String additionalDataFieldTemplateValue = '';
+                      if (msgController.text.isNotEmpty) {
+                        additionalDataFieldTemplateValue =
+                            AdditionalData.PURPOSE_OF_TRANSACTION_ID +
+                                VietQRUtils.instance
+                                    .generateLengthOfValue(msgController.text) +
+                                msgController.text;
+                      }
+                      _vietQRGenerateDTO = VietQRGenerateDTO(
+                        cAIValue: VietQRUtils.instance.generateCAIValue(
+                            widget.bankAccountDTO.bankCode,
+                            widget.bankAccountDTO.bankAccount),
+                        transactionAmountValue: amountController.text,
+                        additionalDataFieldTemplateValue:
+                            additionalDataFieldTemplateValue,
+                      );
+                      Provider.of<CreateQRProvider>(context, listen: false)
+                          .updateQrGenerated(true);
+                    }
+                  },
                 ),
               ),
               const Padding(padding: EdgeInsets.only(top: 50)),
@@ -300,7 +325,9 @@ class _CreateQR extends State<CreateQR> {
           ),
         ),
         widget2: BankCardWidget(
-            width: width - 80, bankAccountDTO: widget.bankAccountDTO),
+          width: width - 80,
+          bankAccountDTO: widget.bankAccountDTO,
+        ),
         widget3: Container(
           margin: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
@@ -352,6 +379,7 @@ class _CreateQR extends State<CreateQR> {
                                 Expanded(
                                   child: QRGeneratedWidget(
                                     isWeb: true,
+                                    isExpanded: true,
                                     width: width,
                                     bankAccountDTO: widget.bankAccountDTO,
                                     vietQRGenerateDTO: _vietQRGenerateDTO,

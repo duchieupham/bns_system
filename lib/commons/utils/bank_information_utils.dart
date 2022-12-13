@@ -131,16 +131,16 @@ class BankInformationUtil {
     return result;
   }
 
-  String hideBankAccount(String bankAccount) {
-    String result = '';
-    if (bankAccount.isNotEmpty) {
-      result = '${bankAccount.substring(0, 3)}*${bankAccount.substring(3 + 1)}';
-      result = '${result.substring(0, 4)}*${result.substring(4 + 1)}';
-      result = '${result.substring(0, 5)}*${result.substring(5 + 1)}';
-      result = '${result.substring(0, 6)}*${result.substring(6 + 1)}';
-    }
-    return result;
-  }
+  // String hideBankAccount(String bankAccount) {
+  //   String result = '';
+  //   if (bankAccount.isNotEmpty) {
+  //     result = '${bankAccount.substring(0, 3)}*${bankAccount.substring(3 + 1)}';
+  //     result = '${result.substring(0, 4)}*${result.substring(4 + 1)}';
+  //     result = '${result.substring(0, 5)}*${result.substring(5 + 1)}';
+  //     result = '${result.substring(0, 6)}*${result.substring(6 + 1)}';
+  //   }
+  //   return result;
+  // }
 
   List<String> getAvailableAddingBanks() {
     List<String> result = [];

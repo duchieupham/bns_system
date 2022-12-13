@@ -94,7 +94,25 @@ class SMSListItemWeb extends StatelessWidget {
                 ),
               ],
             )
-          : const SizedBox(),
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  transactionDTO.timeReceived,
+                  style: const TextStyle(color: DefaultTheme.GREY_TEXT),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 5),
+                ),
+                SizedBox(
+                  width: width,
+                  child: Text(
+                    'Nội dung:\n${transactionDTO.content}',
+                    style: const TextStyle(fontSize: 13),
+                  ),
+                ),
+              ],
+            ),
     );
   }
 }

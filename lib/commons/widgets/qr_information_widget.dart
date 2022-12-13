@@ -94,9 +94,10 @@ class QRInformationWidget extends StatelessWidget {
               ),
             ),
             //Số tài khoản
-            Text(
-              'Số TK: ${BankInformationUtil.instance.hideBankAccount(DefaultBankInformation.DEFAULT_BANK_ACCOUNT)}',
-              style: const TextStyle(
+            const Text(
+              //  'Số TK: ${BankInformationUtil.instance.hideBankAccount(DefaultBankInformation.DEFAULT_BANK_ACCOUNT)}',
+              'Số TK: ${DefaultBankInformation.DEFAULT_BANK_ACCOUNT}',
+              style: TextStyle(
                 fontWeight: FontWeight.w500,
                 color: DefaultTheme.BLUE_DARK,
                 fontSize: 12,

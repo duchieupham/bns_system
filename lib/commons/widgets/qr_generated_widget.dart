@@ -97,7 +97,8 @@ class QRGeneratedWidget extends StatelessWidget {
                 ),
                 //Số tài khoản
                 Text(
-                  'Số TK: ${BankInformationUtil.instance.hideBankAccount(bankAccountDTO.bankAccount)}',
+                  // 'Số TK: ${BankInformationUtil.instance.hideBankAccount(bankAccountDTO.bankAccount)}',
+                  'Số TK: ${bankAccountDTO.bankAccount}',
                   style: const TextStyle(
                     fontWeight: FontWeight.w500,
                     color: DefaultTheme.BLUE_TEXT,
@@ -169,7 +170,8 @@ class QRGeneratedWidget extends StatelessWidget {
                       ),
                       //Số tài khoản
                       Text(
-                        'Số TK: ${BankInformationUtil.instance.hideBankAccount(bankAccountDTO.bankAccount)}',
+                        // 'Số TK: ${BankInformationUtil.instance.hideBankAccount(bankAccountDTO.bankAccount)}',
+                        'Số TK: ${bankAccountDTO.bankAccount}',
                         style: const TextStyle(
                           fontWeight: FontWeight.w500,
                           color: DefaultTheme.BLUE_TEXT,
