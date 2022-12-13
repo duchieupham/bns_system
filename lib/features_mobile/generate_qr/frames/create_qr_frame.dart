@@ -53,10 +53,21 @@ class CreateQRFrame extends StatelessWidget {
                             ? Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  SizedBox(
-                                    width: 399,
-                                    height: 610,
-                                    child: widget1,
+                                  Column(
+                                    children: [
+                                      SizedBox(
+                                        width: 400,
+                                        height: 200,
+                                        child: widget2,
+                                      ),
+                                      const Padding(
+                                          padding: EdgeInsets.only(top: 20)),
+                                      SizedBox(
+                                        width: 399,
+                                        height: 410,
+                                        child: widget1,
+                                      ),
+                                    ],
                                   ),
                                   Container(
                                     width: 1,
@@ -64,24 +75,9 @@ class CreateQRFrame extends StatelessWidget {
                                     color: DefaultTheme.GREY_TOP_TAB_BAR,
                                   ),
                                   SizedBox(
-                                    width: 400,
+                                    width: 399,
                                     height: 610,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          width: 400,
-                                          height: 200,
-                                          child: widget2,
-                                        ),
-                                        const Padding(
-                                            padding: EdgeInsets.only(top: 20)),
-                                        Expanded(
-                                          child: widget3,
-                                        ),
-                                      ],
-                                    ),
+                                    child: widget3,
                                   ),
                                 ],
                               )
