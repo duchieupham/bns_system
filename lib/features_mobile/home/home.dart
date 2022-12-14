@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vierqr/commons/utils/bank_information_utils.dart';
@@ -122,6 +123,8 @@ class _HomeScreen extends State<HomeScreen> {
         WidgetsBinding.instance.addPostFrameCallback((_) async {
           TransactionDTO dto = await TransactionDB.instance
               .getTransactionById(element['transactionId']);
+          _transactions.insert(0, dto);
+          setState(() {});
           Color transactionColor =
               (BankInformationUtil.instance.isIncome(dto.transaction))
                   ? DefaultTheme.GREEN
@@ -600,6 +603,7 @@ class _HomeScreen extends State<HomeScreen> {
                       ButtonIconWidget(
                         width: 185,
                         icon: Icons.add_rounded,
+                        autoFocus: true,
                         title: 'Tạo mã QR thanh toán',
                         function: () {
                           if (_bankAccounts.isNotEmpty) {

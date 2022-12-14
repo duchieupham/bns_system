@@ -9,6 +9,7 @@ class ButtonWidget extends StatelessWidget {
   final VoidCallback function;
   final double? height;
   final double? borderRadius;
+  final bool? autoFocus;
 
   const ButtonWidget({
     Key? key,
@@ -19,12 +20,14 @@ class ButtonWidget extends StatelessWidget {
     required this.function,
     this.height,
     this.borderRadius,
+    this.autoFocus,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: function,
+      autofocus: (autoFocus != null) ? autoFocus! : false,
       child: Container(
         width: width,
         height: (height != null) ? height : 50,

@@ -101,6 +101,7 @@ class Login extends StatelessWidget {
                   TextFieldWidget(
                     width: width,
                     isObscureText: false,
+                    autoFocus: true,
                     hintText: 'Số điện thoại',
                     controller: phoneNoController,
                     inputType: TextInputType.number,
@@ -163,6 +164,7 @@ class Login extends StatelessWidget {
               child: TextFieldWidget(
                 width: width,
                 isObscureText: false,
+                autoFocus: true,
                 hintText: 'Số điện thoại',
                 controller: phoneNoController,
                 inputType: TextInputType.number,

@@ -8,6 +8,7 @@ class ButtonIconWidget extends StatelessWidget {
   final Color bgColor;
   final Color textColor;
   final double? textSize;
+  final bool? autoFocus;
 
   const ButtonIconWidget({
     super.key,
@@ -18,12 +19,14 @@ class ButtonIconWidget extends StatelessWidget {
     required this.bgColor,
     required this.textColor,
     this.textSize,
+    this.autoFocus,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: function,
+      autofocus: (autoFocus != null) ? autoFocus! : false,
       child: Container(
         width: width,
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),

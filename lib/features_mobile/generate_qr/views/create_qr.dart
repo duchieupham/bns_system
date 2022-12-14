@@ -1,5 +1,6 @@
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/constants/vietqr/additional_data.dart';
+import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
 import 'package:vierqr/commons/utils/string_utils.dart';
 import 'package:vierqr/commons/utils/viet_qr_utils.dart';
 import 'package:vierqr/commons/widgets/bank_card_widget.dart';
@@ -40,6 +41,8 @@ class _CreateQR extends State<CreateQR> {
 
   final TextEditingController amountController = TextEditingController();
   final TextEditingController msgController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+  final ScrollController _scrollController = ScrollController();
 
   VietQRGenerateDTO _vietQRGenerateDTO = const VietQRGenerateDTO(
       cAIValue: '',
@@ -71,6 +74,7 @@ class _CreateQR extends State<CreateQR> {
       body: CreateQRFrame(
         width: width,
         height: height,
+        scrollController: _scrollController,
         mobileChildren: [
           Consumer<CreateQRPageSelectProvider>(
             builder: (context, page, child) {
@@ -211,6 +215,8 @@ class _CreateQR extends State<CreateQR> {
                     isError: value.amountErr,
                     child: TextFieldWidget(
                       width: width,
+                      autoFocus: true,
+                      focusNode: _focusNode,
                       isObscureText: false,
                       hintText: '(vd: 50000)',
                       controller: amountController,
@@ -287,6 +293,16 @@ class _CreateQR extends State<CreateQR> {
                       Provider.of<CreateQRProvider>(context, listen: false)
                           .updateQrGenerated(true);
                     }
+                    if (ScreenResolutionUtils.instance
+                        .checkHomeResize(width, 800)) {
+                      _focusNode.requestFocus();
+                    } else {
+                      _scrollController.animateTo(
+                        _scrollController.position.maxScrollExtent,
+                        duration: const Duration(milliseconds: 800),
+                        curve: Curves.ease,
+                      );
+                    }
                   },
                 ),
               ),
@@ -318,6 +334,16 @@ class _CreateQR extends State<CreateQR> {
                     );
                     Provider.of<CreateQRProvider>(context, listen: false)
                         .updateQrGenerated(true);
+                  }
+                  if (ScreenResolutionUtils.instance
+                      .checkHomeResize(width, 800)) {
+                    _focusNode.requestFocus();
+                  } else {
+                    _scrollController.animateTo(
+                      _scrollController.position.maxScrollExtent,
+                      duration: const Duration(milliseconds: 800),
+                      curve: Curves.ease,
+                    );
                   }
                 },
               ),

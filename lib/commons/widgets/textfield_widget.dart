@@ -14,6 +14,8 @@ class TextFieldWidget extends StatelessWidget {
   final TextfieldType? textfieldType;
   final String? title;
   final double? titleWidth;
+  final bool? autoFocus;
+  final FocusNode? focusNode;
 
   const TextFieldWidget({
     Key? key,
@@ -28,6 +30,8 @@ class TextFieldWidget extends StatelessWidget {
     this.textfieldType,
     this.title,
     this.titleWidth,
+    this.autoFocus,
+    this.focusNode,
   }) : super(key: key);
 
   @override
@@ -53,6 +57,8 @@ class TextFieldWidget extends StatelessWidget {
                     obscureText: isObscureText,
                     controller: controller,
                     onChanged: onChange,
+                    autofocus: (autoFocus != null) ? autoFocus! : false,
+                    focusNode: focusNode,
                     keyboardType: inputType,
                     textInputAction: keyboardAction,
                     decoration: InputDecoration(
@@ -84,6 +90,8 @@ class TextFieldWidget extends StatelessWidget {
               onChanged: onChange,
               keyboardType: inputType,
               textInputAction: keyboardAction,
+              autofocus: (autoFocus != null) ? autoFocus! : false,
+              focusNode: focusNode,
               decoration: InputDecoration(
                 hintText: hintText,
                 border: InputBorder.none,

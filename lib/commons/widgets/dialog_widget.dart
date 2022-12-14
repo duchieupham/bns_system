@@ -493,6 +493,7 @@ class DialogWidget {
                           ButtonWidget(
                             width: 250,
                             height: 30,
+                            autoFocus: true,
                             text: 'Đóng',
                             textColor: DefaultTheme.WHITE,
                             bgColor: DefaultTheme.GREEN,

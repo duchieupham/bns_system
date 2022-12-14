@@ -14,6 +14,7 @@ class CreateQRFrame extends StatelessWidget {
   final Widget widget1;
   final Widget widget2;
   final Widget widget3;
+  final ScrollController scrollController;
 
   const CreateQRFrame({
     super.key,
@@ -23,6 +24,7 @@ class CreateQRFrame extends StatelessWidget {
     required this.widget1,
     required this.widget2,
     required this.widget3,
+    required this.scrollController,
   });
 
   @override
@@ -34,6 +36,7 @@ class CreateQRFrame extends StatelessWidget {
           ? Stack(
               children: [
                 ListView(
+                  controller: scrollController,
                   children: [
                     const Padding(padding: EdgeInsets.only(top: 100)),
                     UnconstrainedBox(
@@ -98,7 +101,7 @@ class CreateQRFrame extends StatelessWidget {
                                       padding: EdgeInsets.only(top: 20)),
                                   SizedBox(
                                     width: 400,
-                                    height: 390,
+                                    height: 500,
                                     child: widget3,
                                   ),
                                 ],

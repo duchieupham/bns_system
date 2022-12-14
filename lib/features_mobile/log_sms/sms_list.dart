@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vierqr/commons/utils/bank_information_utils.dart';
+import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
 import 'package:vierqr/commons/utils/sms_information_utils.dart';
 import 'package:vierqr/commons/utils/time_utils.dart';
 import 'package:vierqr/commons/widgets/avatar_text_widget.dart';
@@ -136,394 +137,394 @@ class _SMSList extends State<SMSList> {
 
     ///FOR TESTING
     ///
-    // if (!ScreenResolutionUtils.instance.isWeb()) {
-    //   //MSG 1
-    //   await Future.delayed(const Duration(seconds: 10), () async {
-    //     print('after 10 seconds');
-    //     Map<String, dynamic> data = {
-    //       'id': 1,
-    //       'threadId': 1,
-    //       'address': '0900000000',
-    //       'body':
-    //           'VietinBank:21/01/2022 11:35|TK:115000067275|GD:-4,400,000VND|SDC:352,694,458VND|ND:So GD: 124A2210XKCSDB6FBPO7426. 1 BPO8114.1 Bluecom thanh toan 100 hoa don 00000133 ~',
-    //       'read': false,
-    //       'date': '21/01/2022 11:37',
-    //       'dateSent': '21/01/2022 11:37',
-    //       'kind': SmsMessageKind.received,
-    //     };
-    //     if (BankInformationUtil.instance
-    //         .checkBankAddress(data['address'].toString())) {
-    //       if (BankInformationUtil.instance
-    //           .checkAvailableAddress(data['address'].toString())) {
-    //         DialogWidget.instance.openTransactionFormattedDialog(
-    //           context,
-    //           data['address'].toString(),
-    //           data['body'].toString(),
-    //           TimeUtils.instance.formatTime(data['date'].toString()),
-    //         );
+    if (!ScreenResolutionUtils.instance.isWeb()) {
+      //MSG 1
+      await Future.delayed(const Duration(seconds: 10), () async {
+        print('after 10 seconds');
+        Map<String, dynamic> data = {
+          'id': 1,
+          'threadId': 1,
+          'address': '0900000000',
+          'body':
+              'VietinBank:21/01/2022 11:35|TK:115000067275|GD:-4,400,000VND|SDC:352,694,458VND|ND:So GD: 124A2210XKCSDB6FBPO7426. 1 BPO8114.1 Bluecom thanh toan 100 hoa don 00000133 ~',
+          'read': false,
+          'date': '21/01/2022 11:37',
+          'dateSent': '21/01/2022 11:37',
+          'kind': SmsMessageKind.received,
+        };
+        if (BankInformationUtil.instance
+            .checkBankAddress(data['address'].toString())) {
+          if (BankInformationUtil.instance
+              .checkAvailableAddress(data['address'].toString())) {
+            DialogWidget.instance.openTransactionFormattedDialog(
+              context,
+              data['address'].toString(),
+              data['body'].toString(),
+              TimeUtils.instance.formatTime(data['date'].toString()),
+            );
 
-    //         final BankInformationDTO bankInformationDTO =
-    //             SmsInformationUtils.instance.transferSmsData(
-    //           BankInformationUtil.instance.getBankName(data['address']),
-    //           data['body'],
-    //           data['date'],
-    //         );
-    //         String bankId = await BankAccountDB.instance.getBankIdByAccount(
-    //             UserInformationHelper.instance.getUserId(),
-    //             bankInformationDTO.bankAccount);
-    //         print('--------BankID: $bankId');
-    //         const Uuid uuid = Uuid();
-    //         final TransactionDTO transactionDTO = TransactionDTO(
-    //           id: uuid.v1(),
-    //           accountBalance: bankInformationDTO.accountBalance,
-    //           address: bankInformationDTO.address,
-    //           bankAccount: bankInformationDTO.bankAccount,
-    //           bankId: bankId,
-    //           content: bankInformationDTO.content,
-    //           isFormatted: true,
-    //           status: 'PAID',
-    //           timeInserted: FieldValue.serverTimestamp(),
-    //           timeReceived: bankInformationDTO.time,
-    //           transaction: bankInformationDTO.transaction,
-    //           type: 'SMS',
-    //           userId: UserInformationHelper.instance.getUserId(),
-    //         );
-    //         await TransactionDB.instance.insertTransaction(transactionDTO);
-    //       } else {
-    //         DialogWidget.instance.openTransactionDialog(
-    //           context,
-    //           data['address'].toString(),
-    //           data['body'].toString(),
-    //         );
-    //         const Uuid uuid = Uuid();
-    //         final TransactionDTO transactionDTO = TransactionDTO(
-    //           id: uuid.v1(),
-    //           accountBalance: '',
-    //           address: data['address'],
-    //           bankAccount: '',
-    //           bankId: '',
-    //           content: data['body'],
-    //           isFormatted: false,
-    //           status: 'PAID',
-    //           timeInserted: FieldValue.serverTimestamp(),
-    //           timeReceived: '',
-    //           transaction: '',
-    //           type: 'SMS',
-    //           userId: UserInformationHelper.instance.getUserId(),
-    //         );
-    //         await TransactionDB.instance.insertTransaction(transactionDTO);
-    //       }
-    //     }
-    //     MessageDTO dto = MessageDTO(
-    //         id: data['id'] ?? 0,
-    //         threadId: data['threadId'] ?? 0,
-    //         address: data['address'] ?? '',
-    //         body: data['body'] ?? '',
-    //         date: data['date'].toString(),
-    //         dateSent: data['dateSent'].toString(),
-    //         read: data['read'] ?? false);
-    //     if (messagesByAddr.containsKey(data['address'])) {
-    //       messagesByAddr[data['address']]!.insert(0, dto);
-    //     } else {
-    //       messagesByAddr[data['address'] ?? ''] = [];
-    //       messagesByAddr[data['address']]!.insert(0, dto);
-    //     }
-    //     setState(() {});
-    //   });
-    //   //MSG 2
-    //   await Future.delayed(const Duration(seconds: 10), () async {
-    //     print('after 20 seconds');
-    //     Map<String, dynamic> data = {
-    //       'id': 234,
-    //       'threadId': 1123,
-    //       'address': '0909999999',
-    //       'body':
-    //           'SDTK 1000006789 den 17:56:38 ngay 13/11/2022 la 8,668,033 VND. GD moi nhat: +2,500,000 VND: PHAM DUC TUAN  CHUYEN KHOAN Pham duc Trong quang 0936382222',
-    //       'read': false,
-    //       'date': '21/01/2022 11:40',
-    //       'dateSent': '21/01/2022 11:40',
-    //       'kind': SmsMessageKind.received,
-    //     };
-    //     if (BankInformationUtil.instance
-    //         .checkBankAddress(data['address'].toString())) {
-    //       if (BankInformationUtil.instance
-    //           .checkAvailableAddress(data['address'].toString())) {
-    //         DialogWidget.instance.openTransactionFormattedDialog(
-    //           context,
-    //           data['address'].toString(),
-    //           data['body'].toString(),
-    //           TimeUtils.instance.formatTime(data['date'].toString()),
-    //         );
+            final BankInformationDTO bankInformationDTO =
+                SmsInformationUtils.instance.transferSmsData(
+              BankInformationUtil.instance.getBankName(data['address']),
+              data['body'],
+              data['date'],
+            );
+            String bankId = await BankAccountDB.instance.getBankIdByAccount(
+                UserInformationHelper.instance.getUserId(),
+                bankInformationDTO.bankAccount);
+            print('--------BankID: $bankId');
+            const Uuid uuid = Uuid();
+            final TransactionDTO transactionDTO = TransactionDTO(
+              id: uuid.v1(),
+              accountBalance: bankInformationDTO.accountBalance,
+              address: bankInformationDTO.address,
+              bankAccount: bankInformationDTO.bankAccount,
+              bankId: bankId,
+              content: bankInformationDTO.content,
+              isFormatted: true,
+              status: 'PAID',
+              timeInserted: FieldValue.serverTimestamp(),
+              timeReceived: bankInformationDTO.time,
+              transaction: bankInformationDTO.transaction,
+              type: 'SMS',
+              userId: UserInformationHelper.instance.getUserId(),
+            );
+            await TransactionDB.instance.insertTransaction(transactionDTO);
+          } else {
+            DialogWidget.instance.openTransactionDialog(
+              context,
+              data['address'].toString(),
+              data['body'].toString(),
+            );
+            const Uuid uuid = Uuid();
+            final TransactionDTO transactionDTO = TransactionDTO(
+              id: uuid.v1(),
+              accountBalance: '',
+              address: data['address'],
+              bankAccount: '',
+              bankId: '',
+              content: data['body'],
+              isFormatted: false,
+              status: 'PAID',
+              timeInserted: FieldValue.serverTimestamp(),
+              timeReceived: '',
+              transaction: '',
+              type: 'SMS',
+              userId: UserInformationHelper.instance.getUserId(),
+            );
+            await TransactionDB.instance.insertTransaction(transactionDTO);
+          }
+        }
+        MessageDTO dto = MessageDTO(
+            id: data['id'] ?? 0,
+            threadId: data['threadId'] ?? 0,
+            address: data['address'] ?? '',
+            body: data['body'] ?? '',
+            date: data['date'].toString(),
+            dateSent: data['dateSent'].toString(),
+            read: data['read'] ?? false);
+        if (messagesByAddr.containsKey(data['address'])) {
+          messagesByAddr[data['address']]!.insert(0, dto);
+        } else {
+          messagesByAddr[data['address'] ?? ''] = [];
+          messagesByAddr[data['address']]!.insert(0, dto);
+        }
+        setState(() {});
+      });
+      //MSG 2
+      await Future.delayed(const Duration(seconds: 10), () async {
+        print('after 20 seconds');
+        Map<String, dynamic> data = {
+          'id': 234,
+          'threadId': 1123,
+          'address': '0909999999',
+          'body':
+              'SDTK 1000006789 den 17:56:38 ngay 13/11/2022 la 8,668,033 VND. GD moi nhat: +2,500,000 VND: PHAM DUC TUAN  CHUYEN KHOAN Pham duc Trong quang 0936382222',
+          'read': false,
+          'date': '21/01/2022 11:40',
+          'dateSent': '21/01/2022 11:40',
+          'kind': SmsMessageKind.received,
+        };
+        if (BankInformationUtil.instance
+            .checkBankAddress(data['address'].toString())) {
+          if (BankInformationUtil.instance
+              .checkAvailableAddress(data['address'].toString())) {
+            DialogWidget.instance.openTransactionFormattedDialog(
+              context,
+              data['address'].toString(),
+              data['body'].toString(),
+              TimeUtils.instance.formatTime(data['date'].toString()),
+            );
 
-    //         final BankInformationDTO bankInformationDTO =
-    //             SmsInformationUtils.instance.transferSmsData(
-    //           BankInformationUtil.instance.getBankName(data['address']),
-    //           data['body'],
-    //           data['date'],
-    //         );
-    //         String bankId = await BankAccountDB.instance.getBankIdByAccount(
-    //             UserInformationHelper.instance.getUserId(),
-    //             bankInformationDTO.bankAccount);
-    //         print('--------BankID: $bankId');
-    //         const Uuid uuid = Uuid();
-    //         final TransactionDTO transactionDTO = TransactionDTO(
-    //           id: uuid.v1(),
-    //           accountBalance: bankInformationDTO.accountBalance,
-    //           address: bankInformationDTO.address,
-    //           bankAccount: bankInformationDTO.bankAccount,
-    //           bankId: bankId,
-    //           content: bankInformationDTO.content,
-    //           isFormatted: true,
-    //           status: 'PAID',
-    //           timeInserted: FieldValue.serverTimestamp(),
-    //           timeReceived: bankInformationDTO.time,
-    //           transaction: bankInformationDTO.transaction,
-    //           type: 'SMS',
-    //           userId: UserInformationHelper.instance.getUserId(),
-    //         );
-    //         await TransactionDB.instance.insertTransaction(transactionDTO);
-    //         if (bankId.isNotEmpty) {
-    //           //
-    //         } else {
-    //           //
-    //         }
-    //       } else {
-    //         DialogWidget.instance.openTransactionDialog(
-    //           context,
-    //           data['address'].toString(),
-    //           data['body'].toString(),
-    //         );
-    //         const Uuid uuid = Uuid();
-    //         final TransactionDTO transactionDTO = TransactionDTO(
-    //           id: uuid.v1(),
-    //           accountBalance: '',
-    //           address: data['address'],
-    //           bankAccount: '',
-    //           bankId: '',
-    //           content: data['body'],
-    //           isFormatted: false,
-    //           status: 'PAID',
-    //           timeInserted: FieldValue.serverTimestamp(),
-    //           timeReceived: '',
-    //           transaction: '',
-    //           type: 'SMS',
-    //           userId: UserInformationHelper.instance.getUserId(),
-    //         );
-    //         await TransactionDB.instance.insertTransaction(transactionDTO);
-    //       }
-    //     }
-    //     MessageDTO dto = MessageDTO(
-    //         id: data['id'] ?? 0,
-    //         threadId: data['threadId'] ?? 0,
-    //         address: data['address'] ?? '',
-    //         body: data['body'] ?? '',
-    //         date: data['date'].toString(),
-    //         dateSent: data['dateSent'].toString(),
-    //         read: data['read'] ?? false);
-    //     if (messagesByAddr.containsKey(data['address'])) {
-    //       messagesByAddr[data['address']]!.insert(0, dto);
-    //     } else {
-    //       messagesByAddr[data['address'] ?? ''] = [];
-    //       messagesByAddr[data['address']]!.insert(0, dto);
-    //     }
-    //     setState(() {});
-    //   });
-    //   //MSG 3
-    //   await Future.delayed(const Duration(seconds: 10), () async {
-    //     print('after 30 seconds');
-    //     Map<String, dynamic> data = {
-    //       'id': 234,
-    //       'threadId': 1123,
-    //       'address': '0909090901',
-    //       'body':
-    //           'TK 49182391234 NGAY 23/09/22 13:59 SD DAU 46,554,832 TANG 46,500,000 SD CUOI 54,832 VND (CHUYEN KHOAN TU TAI KHOAN 49182391234)',
-    //       'read': false,
-    //       'date': '21/01/2022 11:40',
-    //       'dateSent': '21/01/2022 11:40',
-    //       'kind': SmsMessageKind.received,
-    //     };
-    //     if (BankInformationUtil.instance
-    //         .checkBankAddress(data['address'].toString())) {
-    //       if (BankInformationUtil.instance
-    //           .checkAvailableAddress(data['address'].toString())) {
-    //         DialogWidget.instance.openTransactionFormattedDialog(
-    //           context,
-    //           data['address'].toString(),
-    //           data['body'].toString(),
-    //           TimeUtils.instance.formatTime(data['date'].toString()),
-    //         );
+            final BankInformationDTO bankInformationDTO =
+                SmsInformationUtils.instance.transferSmsData(
+              BankInformationUtil.instance.getBankName(data['address']),
+              data['body'],
+              data['date'],
+            );
+            String bankId = await BankAccountDB.instance.getBankIdByAccount(
+                UserInformationHelper.instance.getUserId(),
+                bankInformationDTO.bankAccount);
+            print('--------BankID: $bankId');
+            const Uuid uuid = Uuid();
+            final TransactionDTO transactionDTO = TransactionDTO(
+              id: uuid.v1(),
+              accountBalance: bankInformationDTO.accountBalance,
+              address: bankInformationDTO.address,
+              bankAccount: bankInformationDTO.bankAccount,
+              bankId: bankId,
+              content: bankInformationDTO.content,
+              isFormatted: true,
+              status: 'PAID',
+              timeInserted: FieldValue.serverTimestamp(),
+              timeReceived: bankInformationDTO.time,
+              transaction: bankInformationDTO.transaction,
+              type: 'SMS',
+              userId: UserInformationHelper.instance.getUserId(),
+            );
+            await TransactionDB.instance.insertTransaction(transactionDTO);
+            if (bankId.isNotEmpty) {
+              //
+            } else {
+              //
+            }
+          } else {
+            DialogWidget.instance.openTransactionDialog(
+              context,
+              data['address'].toString(),
+              data['body'].toString(),
+            );
+            const Uuid uuid = Uuid();
+            final TransactionDTO transactionDTO = TransactionDTO(
+              id: uuid.v1(),
+              accountBalance: '',
+              address: data['address'],
+              bankAccount: '',
+              bankId: '',
+              content: data['body'],
+              isFormatted: false,
+              status: 'PAID',
+              timeInserted: FieldValue.serverTimestamp(),
+              timeReceived: '',
+              transaction: '',
+              type: 'SMS',
+              userId: UserInformationHelper.instance.getUserId(),
+            );
+            await TransactionDB.instance.insertTransaction(transactionDTO);
+          }
+        }
+        MessageDTO dto = MessageDTO(
+            id: data['id'] ?? 0,
+            threadId: data['threadId'] ?? 0,
+            address: data['address'] ?? '',
+            body: data['body'] ?? '',
+            date: data['date'].toString(),
+            dateSent: data['dateSent'].toString(),
+            read: data['read'] ?? false);
+        if (messagesByAddr.containsKey(data['address'])) {
+          messagesByAddr[data['address']]!.insert(0, dto);
+        } else {
+          messagesByAddr[data['address'] ?? ''] = [];
+          messagesByAddr[data['address']]!.insert(0, dto);
+        }
+        setState(() {});
+      });
+      //MSG 3
+      await Future.delayed(const Duration(seconds: 10), () async {
+        print('after 30 seconds');
+        Map<String, dynamic> data = {
+          'id': 234,
+          'threadId': 1123,
+          'address': '0909090901',
+          'body':
+              'TK 49182391234 NGAY 23/09/22 13:59 SD DAU 46,554,832 TANG 46,500,000 SD CUOI 54,832 VND (CHUYEN KHOAN TU TAI KHOAN 49182391234)',
+          'read': false,
+          'date': '21/01/2022 11:40',
+          'dateSent': '21/01/2022 11:40',
+          'kind': SmsMessageKind.received,
+        };
+        if (BankInformationUtil.instance
+            .checkBankAddress(data['address'].toString())) {
+          if (BankInformationUtil.instance
+              .checkAvailableAddress(data['address'].toString())) {
+            DialogWidget.instance.openTransactionFormattedDialog(
+              context,
+              data['address'].toString(),
+              data['body'].toString(),
+              TimeUtils.instance.formatTime(data['date'].toString()),
+            );
 
-    //         final BankInformationDTO bankInformationDTO =
-    //             SmsInformationUtils.instance.transferSmsData(
-    //           BankInformationUtil.instance.getBankName(data['address']),
-    //           data['body'],
-    //           data['date'],
-    //         );
-    //         String bankId = await BankAccountDB.instance.getBankIdByAccount(
-    //             UserInformationHelper.instance.getUserId(),
-    //             bankInformationDTO.bankAccount);
-    //         print('--------BankID: $bankId');
-    //         const Uuid uuid = Uuid();
-    //         final TransactionDTO transactionDTO = TransactionDTO(
-    //           id: uuid.v1(),
-    //           accountBalance: bankInformationDTO.accountBalance,
-    //           address: bankInformationDTO.address,
-    //           bankAccount: bankInformationDTO.bankAccount,
-    //           bankId: bankId,
-    //           content: bankInformationDTO.content,
-    //           isFormatted: true,
-    //           status: 'PAID',
-    //           timeInserted: FieldValue.serverTimestamp(),
-    //           timeReceived: bankInformationDTO.time,
-    //           transaction: bankInformationDTO.transaction,
-    //           type: 'SMS',
-    //           userId: UserInformationHelper.instance.getUserId(),
-    //         );
-    //         await TransactionDB.instance.insertTransaction(transactionDTO);
-    //         if (bankId.isNotEmpty) {
-    //           //
-    //         } else {
-    //           //
-    //         }
-    //       } else {
-    //         DialogWidget.instance.openTransactionDialog(
-    //           context,
-    //           data['address'].toString(),
-    //           data['body'].toString(),
-    //         );
-    //         const Uuid uuid = Uuid();
-    //         final TransactionDTO transactionDTO = TransactionDTO(
-    //           id: uuid.v1(),
-    //           accountBalance: '',
-    //           address: data['address'],
-    //           bankAccount: '',
-    //           bankId: '',
-    //           content: data['body'],
-    //           isFormatted: false,
-    //           status: 'PAID',
-    //           timeInserted: FieldValue.serverTimestamp(),
-    //           timeReceived: '',
-    //           transaction: '',
-    //           type: 'SMS',
-    //           userId: UserInformationHelper.instance.getUserId(),
-    //         );
-    //         await TransactionDB.instance.insertTransaction(transactionDTO);
-    //       }
-    //     }
-    //     MessageDTO dto = MessageDTO(
-    //         id: data['id'] ?? 0,
-    //         threadId: data['threadId'] ?? 0,
-    //         address: data['address'] ?? '',
-    //         body: data['body'] ?? '',
-    //         date: data['date'].toString(),
-    //         dateSent: data['dateSent'].toString(),
-    //         read: data['read'] ?? false);
-    //     if (messagesByAddr.containsKey(data['address'])) {
-    //       messagesByAddr[data['address']]!.insert(0, dto);
-    //     } else {
-    //       messagesByAddr[data['address'] ?? ''] = [];
-    //       messagesByAddr[data['address']]!.insert(0, dto);
-    //     }
-    //     setState(() {});
-    //   });
-    //   //MSG4
-    //   await Future.delayed(const Duration(seconds: 10), () async {
-    //     print('after 30 seconds');
-    //     Map<String, dynamic> data = {
-    //       'id': 234,
-    //       'threadId': 1123,
-    //       'address': 'TPBANK',
-    //       'body': 'Example unformatted content.',
-    //       'read': false,
-    //       'date': '',
-    //       'dateSent': '',
-    //       'kind': SmsMessageKind.received,
-    //     };
-    //     if (BankInformationUtil.instance
-    //         .checkBankAddress(data['address'].toString())) {
-    //       if (BankInformationUtil.instance
-    //           .checkAvailableAddress(data['address'].toString())) {
-    //         DialogWidget.instance.openTransactionFormattedDialog(
-    //           context,
-    //           data['address'].toString(),
-    //           data['body'].toString(),
-    //           TimeUtils.instance.formatTime(data['date'].toString()),
-    //         );
+            final BankInformationDTO bankInformationDTO =
+                SmsInformationUtils.instance.transferSmsData(
+              BankInformationUtil.instance.getBankName(data['address']),
+              data['body'],
+              data['date'],
+            );
+            String bankId = await BankAccountDB.instance.getBankIdByAccount(
+                UserInformationHelper.instance.getUserId(),
+                bankInformationDTO.bankAccount);
+            print('--------BankID: $bankId');
+            const Uuid uuid = Uuid();
+            final TransactionDTO transactionDTO = TransactionDTO(
+              id: uuid.v1(),
+              accountBalance: bankInformationDTO.accountBalance,
+              address: bankInformationDTO.address,
+              bankAccount: bankInformationDTO.bankAccount,
+              bankId: bankId,
+              content: bankInformationDTO.content,
+              isFormatted: true,
+              status: 'PAID',
+              timeInserted: FieldValue.serverTimestamp(),
+              timeReceived: bankInformationDTO.time,
+              transaction: bankInformationDTO.transaction,
+              type: 'SMS',
+              userId: UserInformationHelper.instance.getUserId(),
+            );
+            await TransactionDB.instance.insertTransaction(transactionDTO);
+            if (bankId.isNotEmpty) {
+              //
+            } else {
+              //
+            }
+          } else {
+            DialogWidget.instance.openTransactionDialog(
+              context,
+              data['address'].toString(),
+              data['body'].toString(),
+            );
+            const Uuid uuid = Uuid();
+            final TransactionDTO transactionDTO = TransactionDTO(
+              id: uuid.v1(),
+              accountBalance: '',
+              address: data['address'],
+              bankAccount: '',
+              bankId: '',
+              content: data['body'],
+              isFormatted: false,
+              status: 'PAID',
+              timeInserted: FieldValue.serverTimestamp(),
+              timeReceived: '',
+              transaction: '',
+              type: 'SMS',
+              userId: UserInformationHelper.instance.getUserId(),
+            );
+            await TransactionDB.instance.insertTransaction(transactionDTO);
+          }
+        }
+        MessageDTO dto = MessageDTO(
+            id: data['id'] ?? 0,
+            threadId: data['threadId'] ?? 0,
+            address: data['address'] ?? '',
+            body: data['body'] ?? '',
+            date: data['date'].toString(),
+            dateSent: data['dateSent'].toString(),
+            read: data['read'] ?? false);
+        if (messagesByAddr.containsKey(data['address'])) {
+          messagesByAddr[data['address']]!.insert(0, dto);
+        } else {
+          messagesByAddr[data['address'] ?? ''] = [];
+          messagesByAddr[data['address']]!.insert(0, dto);
+        }
+        setState(() {});
+      });
+      //MSG4
+      await Future.delayed(const Duration(seconds: 10), () async {
+        print('after 30 seconds');
+        Map<String, dynamic> data = {
+          'id': 234,
+          'threadId': 1123,
+          'address': 'TPBANK',
+          'body': 'Example unformatted content.',
+          'read': false,
+          'date': '',
+          'dateSent': '',
+          'kind': SmsMessageKind.received,
+        };
+        if (BankInformationUtil.instance
+            .checkBankAddress(data['address'].toString())) {
+          if (BankInformationUtil.instance
+              .checkAvailableAddress(data['address'].toString())) {
+            DialogWidget.instance.openTransactionFormattedDialog(
+              context,
+              data['address'].toString(),
+              data['body'].toString(),
+              TimeUtils.instance.formatTime(data['date'].toString()),
+            );
 
-    //         final BankInformationDTO bankInformationDTO =
-    //             SmsInformationUtils.instance.transferSmsData(
-    //           BankInformationUtil.instance.getBankName(data['address']),
-    //           data['body'],
-    //           data['date'],
-    //         );
-    //         String bankId = await BankAccountDB.instance.getBankIdByAccount(
-    //             UserInformationHelper.instance.getUserId(),
-    //             bankInformationDTO.bankAccount);
-    //         print('--------BankID: $bankId');
-    //         const Uuid uuid = Uuid();
-    //         final TransactionDTO transactionDTO = TransactionDTO(
-    //           id: uuid.v1(),
-    //           accountBalance: bankInformationDTO.accountBalance,
-    //           address: bankInformationDTO.address,
-    //           bankAccount: bankInformationDTO.bankAccount,
-    //           bankId: bankId,
-    //           content: bankInformationDTO.content,
-    //           isFormatted: true,
-    //           status: 'PAID',
-    //           timeInserted: FieldValue.serverTimestamp(),
-    //           timeReceived: bankInformationDTO.time,
-    //           transaction: bankInformationDTO.transaction,
-    //           type: 'SMS',
-    //           userId: UserInformationHelper.instance.getUserId(),
-    //         );
-    //         await TransactionDB.instance.insertTransaction(transactionDTO);
-    //         if (bankId.isNotEmpty) {
-    //           //
-    //         } else {
-    //           //
-    //         }
-    //       } else {
-    //         DialogWidget.instance.openTransactionDialog(
-    //           context,
-    //           data['address'].toString(),
-    //           data['body'].toString(),
-    //         );
-    //         const Uuid uuid = Uuid();
-    //         final TransactionDTO transactionDTO = TransactionDTO(
-    //           id: uuid.v1(),
-    //           accountBalance: '',
-    //           address: data['address'],
-    //           bankAccount: '',
-    //           bankId: '',
-    //           content: data['body'],
-    //           isFormatted: false,
-    //           status: 'PAID',
-    //           timeInserted: FieldValue.serverTimestamp(),
-    //           timeReceived: '',
-    //           transaction: '',
-    //           type: 'SMS',
-    //           userId: UserInformationHelper.instance.getUserId(),
-    //         );
-    //         await TransactionDB.instance.insertTransaction(transactionDTO);
-    //       }
-    //     }
-    //     MessageDTO dto = MessageDTO(
-    //         id: data['id'] ?? 0,
-    //         threadId: data['threadId'] ?? 0,
-    //         address: data['address'] ?? '',
-    //         body: data['body'] ?? '',
-    //         date: data['date'].toString(),
-    //         dateSent: data['dateSent'].toString(),
-    //         read: data['read'] ?? false);
-    //     if (messagesByAddr.containsKey(data['address'])) {
-    //       messagesByAddr[data['address']]!.insert(0, dto);
-    //     } else {
-    //       messagesByAddr[data['address'] ?? ''] = [];
-    //       messagesByAddr[data['address']]!.insert(0, dto);
-    //     }
-    //     setState(() {});
-    //   });
-    // }
+            final BankInformationDTO bankInformationDTO =
+                SmsInformationUtils.instance.transferSmsData(
+              BankInformationUtil.instance.getBankName(data['address']),
+              data['body'],
+              data['date'],
+            );
+            String bankId = await BankAccountDB.instance.getBankIdByAccount(
+                UserInformationHelper.instance.getUserId(),
+                bankInformationDTO.bankAccount);
+            print('--------BankID: $bankId');
+            const Uuid uuid = Uuid();
+            final TransactionDTO transactionDTO = TransactionDTO(
+              id: uuid.v1(),
+              accountBalance: bankInformationDTO.accountBalance,
+              address: bankInformationDTO.address,
+              bankAccount: bankInformationDTO.bankAccount,
+              bankId: bankId,
+              content: bankInformationDTO.content,
+              isFormatted: true,
+              status: 'PAID',
+              timeInserted: FieldValue.serverTimestamp(),
+              timeReceived: bankInformationDTO.time,
+              transaction: bankInformationDTO.transaction,
+              type: 'SMS',
+              userId: UserInformationHelper.instance.getUserId(),
+            );
+            await TransactionDB.instance.insertTransaction(transactionDTO);
+            if (bankId.isNotEmpty) {
+              //
+            } else {
+              //
+            }
+          } else {
+            DialogWidget.instance.openTransactionDialog(
+              context,
+              data['address'].toString(),
+              data['body'].toString(),
+            );
+            const Uuid uuid = Uuid();
+            final TransactionDTO transactionDTO = TransactionDTO(
+              id: uuid.v1(),
+              accountBalance: '',
+              address: data['address'],
+              bankAccount: '',
+              bankId: '',
+              content: data['body'],
+              isFormatted: false,
+              status: 'PAID',
+              timeInserted: FieldValue.serverTimestamp(),
+              timeReceived: '',
+              transaction: '',
+              type: 'SMS',
+              userId: UserInformationHelper.instance.getUserId(),
+            );
+            await TransactionDB.instance.insertTransaction(transactionDTO);
+          }
+        }
+        MessageDTO dto = MessageDTO(
+            id: data['id'] ?? 0,
+            threadId: data['threadId'] ?? 0,
+            address: data['address'] ?? '',
+            body: data['body'] ?? '',
+            date: data['date'].toString(),
+            dateSent: data['dateSent'].toString(),
+            read: data['read'] ?? false);
+        if (messagesByAddr.containsKey(data['address'])) {
+          messagesByAddr[data['address']]!.insert(0, dto);
+        } else {
+          messagesByAddr[data['address'] ?? ''] = [];
+          messagesByAddr[data['address']]!.insert(0, dto);
+        }
+        setState(() {});
+      });
+    }
   }
 
   @override
