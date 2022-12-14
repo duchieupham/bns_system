@@ -1,11 +1,10 @@
-import 'package:intl/intl.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/constants/vietqr/additional_data.dart';
 import 'package:vierqr/commons/utils/currency_utils.dart';
 import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
 import 'package:vierqr/commons/utils/string_utils.dart';
 import 'package:vierqr/commons/utils/viet_qr_utils.dart';
-import 'package:vierqr/commons/widgets/bank_card_widget.dart';
+import 'package:vierqr/commons/widgets/bank_information_widget.dart';
 import 'package:vierqr/commons/widgets/button_widget.dart';
 import 'package:vierqr/commons/widgets/dialog_widget.dart';
 import 'package:vierqr/commons/widgets/qr_generated_widget.dart';
@@ -81,7 +80,7 @@ class _CreateQR extends State<CreateQR> {
           Consumer<CreateQRPageSelectProvider>(
             builder: (context, page, child) {
               return SubHeader(
-                title: 'Tạo mã VietQR',
+                title: 'Tạo QR theo giao dịch',
                 function: () {
                   if (page.indexSelected == 0) {
                     Provider.of<CreateQRProvider>(context, listen: false)
@@ -205,10 +204,10 @@ class _CreateQR extends State<CreateQR> {
         widget1: Container(
           margin: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildTitle('Số tiền cần thanh toán'),
+              _buildTitle('Số tiền'),
               const Padding(padding: EdgeInsets.only(top: 5)),
               Consumer<CreateQRProvider>(
                 builder: (context, value, child) {
@@ -223,7 +222,7 @@ class _CreateQR extends State<CreateQR> {
                             autoFocus: true,
                             focusNode: _focusNode,
                             isObscureText: false,
-                            hintText: 'Nhập số tiền',
+                            hintText: '0',
                             controller: amountController,
                             inputType: TextInputType.number,
                             keyboardAction: TextInputAction.next,
@@ -252,7 +251,7 @@ class _CreateQR extends State<CreateQR> {
                           'VND',
                           style: TextStyle(fontSize: 15),
                         ),
-                        const Padding(padding: EdgeInsets.only(right: 5)),
+                        const Padding(padding: EdgeInsets.only(right: 10)),
                       ],
                     ),
                   );
@@ -273,7 +272,7 @@ class _CreateQR extends State<CreateQR> {
                 );
               }),
               const Padding(padding: EdgeInsets.only(top: 20)),
-              _buildTitle('Nội dung chuyển khoản'),
+              _buildTitle('Nội dung'),
               const Padding(padding: EdgeInsets.only(top: 5)),
               Container(
                 width: width,
@@ -336,7 +335,9 @@ class _CreateQR extends State<CreateQR> {
                   },
                 ),
               ),
-              const Padding(padding: EdgeInsets.only(top: 50)),
+              (ScreenResolutionUtils.instance.checkHomeResize(width, 800))
+                  ? const Spacer()
+                  : const Padding(padding: EdgeInsets.only(top: 50)),
               ButtonWidget(
                 width: width,
                 text: 'Tạo mã QR',
@@ -382,9 +383,13 @@ class _CreateQR extends State<CreateQR> {
             ],
           ),
         ),
-        widget2: BankCardWidget(
-          width: width - 80,
-          bankAccountDTO: widget.bankAccountDTO,
+        widget2: UnconstrainedBox(
+          alignment: Alignment.topCenter,
+          child: BankInformationWidget(
+            width: 400 - 40,
+            height: 80,
+            bankAccountDTO: widget.bankAccountDTO,
+          ),
         ),
         widget3: Container(
           margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -392,7 +397,7 @@ class _CreateQR extends State<CreateQR> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildTitle('Mã VietQR thanh toán'),
+              _buildTitle('QR giao dịch'),
               const Padding(padding: EdgeInsets.only(top: 10)),
               Expanded(
                 child: Consumer<CreateQRProvider>(
@@ -455,7 +460,7 @@ class _CreateQR extends State<CreateQR> {
                               borderRadius: BorderRadius.circular(5),
                             ),
                             child: const Text(
-                              'Mã VietQR chưa được tạo.',
+                              'QR chưa được tạo.',
                               style: TextStyle(
                                 color: DefaultTheme.GREY_TEXT,
                               ),

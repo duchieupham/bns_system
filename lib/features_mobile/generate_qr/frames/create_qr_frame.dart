@@ -56,21 +56,25 @@ class CreateQRFrame extends StatelessWidget {
                             ? Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Column(
-                                    children: [
-                                      SizedBox(
-                                        width: 400,
-                                        height: 200,
-                                        child: widget2,
-                                      ),
-                                      const Padding(
-                                          padding: EdgeInsets.only(top: 20)),
-                                      SizedBox(
-                                        width: 399,
-                                        height: 410,
-                                        child: widget1,
-                                      ),
-                                    ],
+                                  SizedBox(
+                                    width: 400,
+                                    height: 610,
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          width: 400,
+                                          height: 80,
+                                          child: widget2,
+                                        ),
+                                        const Padding(
+                                            padding: EdgeInsets.only(top: 20)),
+                                        SizedBox(
+                                          width: 399,
+                                          height: 510,
+                                          child: widget1,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   Container(
                                     width: 1,
@@ -88,7 +92,7 @@ class CreateQRFrame extends StatelessWidget {
                                 children: [
                                   SizedBox(
                                     width: 400,
-                                    height: 200,
+                                    height: 80,
                                     child: widget2,
                                   ),
                                   const Padding(
@@ -113,7 +117,7 @@ class CreateQRFrame extends StatelessWidget {
                 ),
                 (ScreenResolutionUtils.instance.checkHomeResize(width, 800))
                     ? HeaderWebWidget(
-                        title: 'Tạo mã VietQR',
+                        title: 'Tạo QR theo giao dịch',
                         isSubHeader: true,
                         functionBack: () {
                           Provider.of<CreateQRProvider>(context, listen: false)
@@ -131,7 +135,7 @@ class CreateQRFrame extends StatelessWidget {
                         },
                       )
                     : HeaderMwebWidget(
-                        title: 'Tạo mã VietQR',
+                        title: 'Tạo QR theo giao dịch',
                         isSubHeader: true,
                         functionBack: () {
                           Provider.of<CreateQRProvider>(context, listen: false)

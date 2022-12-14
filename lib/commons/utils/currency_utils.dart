@@ -7,12 +7,9 @@ class CurrencyUtils {
   static const CurrencyUtils _instance = CurrencyUtils._privateConsrtructor();
   static CurrencyUtils get instance => _instance;
 
-  static final NumberFormat _numberFormat = NumberFormat("##,#0", "en_US");
   static const _locale = 'en';
   String _formatNumber(String s) =>
       NumberFormat.decimalPattern(_locale).format(int.tryParse(s) ?? '0');
-  String get _currency =>
-      NumberFormat.compactSimpleCurrency(locale: _locale).currencySymbol;
 
   String getCurrencyFormatted(String value) {
     String result = '';

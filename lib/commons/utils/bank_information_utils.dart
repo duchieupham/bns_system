@@ -445,9 +445,9 @@ class BankInformationUtil {
     List<String> bankNameChars = bankSelected.split('-');
     for (int i = 0; i < bankNameChars.length; i++) {
       if (i != 0) {
-        result += bankNameChars[i];
+        result += '${bankNameChars[i]}';
       }
     }
-    return result.trim();
+    return result;
   }
 }

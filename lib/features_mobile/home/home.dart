@@ -418,8 +418,8 @@ class _HomeScreen extends State<HomeScreen> {
               TitleHomeWebWidget(
                 width: width,
                 iconAsset: 'assets/images/ic-qr.png',
-                title: 'Mã QR tĩnh',
-                description: 'Mã QR không chứa thông tin thanh toán',
+                title: 'QR theo tài khoản',
+                description: 'QR không chứa số tiền và nội dung',
               ),
               Expanded(
                 child: Container(
@@ -474,7 +474,7 @@ class _HomeScreen extends State<HomeScreen> {
                                             MainAxisAlignment.center,
                                         children: [
                                           const Text(
-                                            'Mã QR thanh toán chưa được tạo.',
+                                            'QR chưa được tạo.',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: DefaultTheme.GREY_TEXT,
@@ -607,7 +607,7 @@ class _HomeScreen extends State<HomeScreen> {
                         icon: Icons.add_rounded,
                         autoFocus: true,
                         focusNode: focusNode,
-                        title: 'Tạo mã QR thanh toán',
+                        title: 'Tạo QR theo giao dịch',
                         function: () {
                           if (_bankAccounts.isNotEmpty) {
                             Navigator.of(context).push(

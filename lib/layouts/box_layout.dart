@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vierqr/commons/constants/configurations/theme.dart';
 
 class BoxLayout extends StatelessWidget {
   final double width;
@@ -6,6 +7,8 @@ class BoxLayout extends StatelessWidget {
   final EdgeInsets? padding;
   final double? borderRadius;
   final double? height;
+  final Color? bgColor;
+  final bool? enableShadow;
 
   const BoxLayout({
     super.key,
@@ -14,6 +17,8 @@ class BoxLayout extends StatelessWidget {
     this.padding,
     this.borderRadius,
     this.height,
+    this.bgColor,
+    this.enableShadow,
   });
 
   @override
@@ -25,9 +30,19 @@ class BoxLayout extends StatelessWidget {
           ? padding
           : const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
+        color: (bgColor != null) ? bgColor! : Theme.of(context).cardColor,
         borderRadius:
             BorderRadius.circular((borderRadius != null) ? borderRadius! : 15),
+        boxShadow: (enableShadow != null && enableShadow!)
+            ? [
+                BoxShadow(
+                  color: DefaultTheme.GREY_TOP_TAB_BAR.withOpacity(0.3),
+                  spreadRadius: 5,
+                  blurRadius: 5,
+                  offset: Offset(3, 2),
+                ),
+              ]
+            : null,
       ),
       child: child,
     );

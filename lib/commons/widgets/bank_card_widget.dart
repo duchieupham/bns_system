@@ -16,6 +16,7 @@ class BankCardWidget extends StatelessWidget {
   final bool? isMenuShow;
   final bool? isDelete;
   final bool? margin;
+  final bool? isReduceSpace;
 
   const BankCardWidget({
     Key? key,
@@ -25,6 +26,7 @@ class BankCardWidget extends StatelessWidget {
     this.isMenuShow,
     this.isDelete,
     this.margin,
+    this.isReduceSpace,
   }) : super(key: key);
 
   @override
@@ -33,7 +35,11 @@ class BankCardWidget extends StatelessWidget {
     return UnconstrainedBox(
       child: Container(
         width: (width < 380) ? width - 45 : 340,
-        height: (width < 380) ? (width - 45) / 1.7 : 200,
+        height: (isReduceSpace != null && isReduceSpace!)
+            ? null
+            : (width < 380)
+                ? (width - 45) / 1.7
+                : 200,
         margin: (margin != null && !margin!)
             ? null
             : const EdgeInsets.symmetric(horizontal: 20),
@@ -146,7 +152,9 @@ class BankCardWidget extends StatelessWidget {
                 fontFamily: 'TimesNewRoman',
               ),
             ),
-            const Spacer(),
+            (isReduceSpace != null && isReduceSpace!)
+                ? const Padding(padding: EdgeInsets.only(top: 20))
+                : const Spacer(),
             Text(
               bankAccountDTO.bankAccount,
               style: TextStyle(
