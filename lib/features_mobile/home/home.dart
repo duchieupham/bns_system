@@ -56,6 +56,7 @@ class _HomeScreen extends State<HomeScreen> {
   static late BankManageBloc _bankManageBloc;
 
   List<TransactionDTO> _transactions = [];
+  final FocusNode focusNode = FocusNode();
 
   //for web
 
@@ -321,6 +322,7 @@ class _HomeScreen extends State<HomeScreen> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    focusNode.requestFocus();
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
@@ -604,6 +606,7 @@ class _HomeScreen extends State<HomeScreen> {
                         width: 185,
                         icon: Icons.add_rounded,
                         autoFocus: true,
+                        focusNode: focusNode,
                         title: 'Tạo mã QR thanh toán',
                         function: () {
                           if (_bankAccounts.isNotEmpty) {

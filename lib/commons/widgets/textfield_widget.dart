@@ -16,6 +16,7 @@ class TextFieldWidget extends StatelessWidget {
   final double? titleWidth;
   final bool? autoFocus;
   final FocusNode? focusNode;
+  final int? maxLines;
 
   const TextFieldWidget({
     Key? key,
@@ -32,6 +33,7 @@ class TextFieldWidget extends StatelessWidget {
     this.titleWidth,
     this.autoFocus,
     this.focusNode,
+    this.maxLines,
   }) : super(key: key);
 
   @override
@@ -60,6 +62,7 @@ class TextFieldWidget extends StatelessWidget {
                     autofocus: (autoFocus != null) ? autoFocus! : false,
                     focusNode: focusNode,
                     keyboardType: inputType,
+                    maxLines: maxLines,
                     textInputAction: keyboardAction,
                     decoration: InputDecoration(
                       hintText: hintText,
@@ -89,6 +92,7 @@ class TextFieldWidget extends StatelessWidget {
               controller: controller,
               onChanged: onChange,
               keyboardType: inputType,
+              maxLines: 1,
               textInputAction: keyboardAction,
               autofocus: (autoFocus != null) ? autoFocus! : false,
               focusNode: focusNode,

@@ -1,5 +1,7 @@
+import 'package:intl/intl.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/constants/vietqr/additional_data.dart';
+import 'package:vierqr/commons/utils/currency_utils.dart';
 import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
 import 'package:vierqr/commons/utils/string_utils.dart';
 import 'package:vierqr/commons/utils/viet_qr_utils.dart';
@@ -213,19 +215,45 @@ class _CreateQR extends State<CreateQR> {
                   return BorderLayout(
                     width: width,
                     isError: value.amountErr,
-                    child: TextFieldWidget(
-                      width: width,
-                      autoFocus: true,
-                      focusNode: _focusNode,
-                      isObscureText: false,
-                      hintText: '(vd: 50000)',
-                      controller: amountController,
-                      inputType: TextInputType.number,
-                      keyboardAction: TextInputAction.next,
-                      onChange: (text) {
-                        value.updateErr(!StringUtils.instance
-                            .isNumeric(amountController.text));
-                      },
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextFieldWidget(
+                            width: width,
+                            autoFocus: true,
+                            focusNode: _focusNode,
+                            isObscureText: false,
+                            hintText: 'Nhập số tiền',
+                            controller: amountController,
+                            inputType: TextInputType.number,
+                            keyboardAction: TextInputAction.next,
+                            onChange: (text) {
+                              if (amountController.text.isEmpty) {
+                                amountController.value =
+                                    amountController.value.copyWith(text: '0');
+                                amountController.selection =
+                                    TextSelection.collapsed(
+                                        offset: amountController.text.length);
+                              }
+                              CurrencyUtils.instance
+                                  .formatCurrencyTextController(
+                                      amountController);
+                              value.updateErr(
+                                !StringUtils.instance.isNumeric(
+                                  amountController.text
+                                      .trim()
+                                      .replaceAll(',', ''),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        const Text(
+                          'VND',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        const Padding(padding: EdgeInsets.only(right: 5)),
+                      ],
                     ),
                   );
                 },
@@ -236,7 +264,7 @@ class _CreateQR extends State<CreateQR> {
                   child: const Padding(
                     padding: EdgeInsets.only(top: 10),
                     child: Text(
-                      'Số tiền không đúng định dạng, vui lòng nhập lại,',
+                      'Số tiền không đúng định dạng, vui lòng nhập lại.',
                       style: TextStyle(
                         color: DefaultTheme.RED_TEXT,
                       ),
@@ -286,7 +314,8 @@ class _CreateQR extends State<CreateQR> {
                         cAIValue: VietQRUtils.instance.generateCAIValue(
                             widget.bankAccountDTO.bankCode,
                             widget.bankAccountDTO.bankAccount),
-                        transactionAmountValue: amountController.text,
+                        transactionAmountValue:
+                            amountController.text.replaceAll(',', '').trim(),
                         additionalDataFieldTemplateValue:
                             additionalDataFieldTemplateValue,
                       );
@@ -296,6 +325,7 @@ class _CreateQR extends State<CreateQR> {
                     if (ScreenResolutionUtils.instance
                         .checkHomeResize(width, 800)) {
                       _focusNode.requestFocus();
+                      amountController.clear();
                     } else {
                       _scrollController.animateTo(
                         _scrollController.position.maxScrollExtent,
@@ -328,7 +358,8 @@ class _CreateQR extends State<CreateQR> {
                       cAIValue: VietQRUtils.instance.generateCAIValue(
                           widget.bankAccountDTO.bankCode,
                           widget.bankAccountDTO.bankAccount),
-                      transactionAmountValue: amountController.text,
+                      transactionAmountValue:
+                          amountController.text.replaceAll(',', '').trim(),
                       additionalDataFieldTemplateValue:
                           additionalDataFieldTemplateValue,
                     );
@@ -338,6 +369,7 @@ class _CreateQR extends State<CreateQR> {
                   if (ScreenResolutionUtils.instance
                       .checkHomeResize(width, 800)) {
                     _focusNode.requestFocus();
+                    amountController.clear();
                   } else {
                     _scrollController.animateTo(
                       _scrollController.position.maxScrollExtent,
