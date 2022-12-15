@@ -43,7 +43,8 @@ class _CreateQR extends State<CreateQR> {
 
   final TextEditingController amountController = TextEditingController();
   final TextEditingController msgController = TextEditingController();
-  final FocusNode _focusNode = FocusNode();
+  final FocusNode _amountFocusNode = FocusNode();
+  final FocusNode _msgFocusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
 
   VietQRGenerateDTO _vietQRGenerateDTO = const VietQRGenerateDTO(
@@ -65,6 +66,14 @@ class _CreateQR extends State<CreateQR> {
         msgController: msgController,
       ),
     ]);
+    _msgFocusNode.addListener(() {
+      if (_msgFocusNode.hasFocus) {
+        if (msgController.text.isNotEmpty) {
+          msgController.selection = TextSelection(
+              baseOffset: 0, extentOffset: msgController.value.text.length);
+        }
+      }
+    });
   }
 
   @override
@@ -221,7 +230,7 @@ class _CreateQR extends State<CreateQR> {
                           child: TextFieldWidget(
                             width: width,
                             autoFocus: true,
-                            focusNode: _focusNode,
+                            focusNode: _amountFocusNode,
                             isObscureText: false,
                             hintText: '0',
                             controller: amountController,
@@ -287,6 +296,7 @@ class _CreateQR extends State<CreateQR> {
                 child: TextField(
                   controller: msgController,
                   autofocus: false,
+                  focusNode: _msgFocusNode,
                   maxLength: 99,
                   decoration: const InputDecoration(
                     border: InputBorder.none,
@@ -323,7 +333,7 @@ class _CreateQR extends State<CreateQR> {
                     }
                     if (ScreenResolutionUtils.instance
                         .checkHomeResize(width, 800)) {
-                      _focusNode.requestFocus();
+                      _amountFocusNode.requestFocus();
                       amountController.clear();
                     } else {
                       _scrollController.animateTo(
@@ -370,7 +380,7 @@ class _CreateQR extends State<CreateQR> {
                   }
                   if (ScreenResolutionUtils.instance
                       .checkHomeResize(width, 800)) {
-                    _focusNode.requestFocus();
+                    _amountFocusNode.requestFocus();
                     amountController.clear();
                   } else {
                     _scrollController.animateTo(
