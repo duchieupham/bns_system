@@ -666,7 +666,10 @@ class _HomeScreen extends State<HomeScreen> {
                         width: 310,
                         icon: Icons.add_rounded,
                         autoFocus: true,
-                        focusNode: focusNode,
+                        focusNode: (ScreenResolutionUtils.instance
+                                .checkHomeResize(width, 870))
+                            ? focusNode
+                            : null,
                         title: 'Tạo QR theo giao dịch',
                         function: () {
                           if (_bankAccounts.isNotEmpty) {

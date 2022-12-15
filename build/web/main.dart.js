@@ -87285,7 +87285,10 @@ p=A.ay(153,p>>>16&255,p>>>8&255,p&255)
 o=t.p
 l=A.a([r,A.aM(A.ni(B.aX,A.pl(A.a9(m,A.bn(A.a([A.dF(new A.aul(n),t._h),B.ap],o),B.m,B.n,B.i),B.f,m,m,new A.aN(p,m,m,m,m,m,B.t),m,m,m,B.bf,m,m,m),q),B.bN),65,l.a.a)],o)
 q=A.a9(m,A.b1(A.a([A.aB("Xin ch\xe0o, "+B.a0.el().b+"!",m,m,m,B.aaN,m,m),A.aB(B.cd.HZ()+", "+B.cd.HX(),1,B.N,m,m,m,m)],o),B.a7,B.aa,B.i),B.f,m,m,m,m,m,m,B.aY,m,m,k)
-i=A.a9(m,A.b1(A.a([new A.ET(k,"assets/images/ic-qr.png","QR theo t\xe0i kho\u1ea3n","QR kh\xf4ng ch\u1ee9a s\u1ed1 ti\u1ec1n v\xe0 n\u1ed9i dung",m),A.cl(A.a9(m,A.b1(A.a([A.cl(A.aM(A.aBt(new A.aum(n,k),new A.aun(),t._x,t.GW),m,k),1),B.b6,A.aM(A.bn(A.a([A.tU(B.w,m,A.T(a).ax,m,new A.auo(),B.ri,B.B,"L\u01b0u",150),B.aI,A.tU(B.w,m,A.T(a).ax,m,new A.aup(),B.rj,B.B,"In",150)],o),B.m,B.n,B.i),m,310),B.E,A.tU(m,!0,B.B,i,new A.auq(a),B.kp,A.T(a).fy,"T\u1ea1o QR theo giao d\u1ecbch",310)],o),B.a7,B.n,B.i),B.f,m,m,m,m,m,m,B.ci,m,m,k),1)],o),B.m,B.n,B.i),B.f,m,m,m,m,m,m,B.eN,m,m,k)
+p=A.cl(A.aM(A.aBt(new A.aum(n,k),new A.aun(),t._x,t.GW),m,k),1)
+r=A.aM(A.bn(A.a([A.tU(B.w,m,A.T(a).ax,m,new A.auo(),B.ri,B.B,"L\u01b0u",150),B.aI,A.tU(B.w,m,A.T(a).ax,m,new A.aup(),B.rj,B.B,"In",150)],o),B.m,B.n,B.i),m,310)
+i=k>=870&&!0?i:m
+i=A.a9(m,A.b1(A.a([new A.ET(k,"assets/images/ic-qr.png","QR theo t\xe0i kho\u1ea3n","QR kh\xf4ng ch\u1ee9a s\u1ed1 ti\u1ec1n v\xe0 n\u1ed9i dung",m),A.cl(A.a9(m,A.b1(A.a([p,B.b6,r,B.E,A.tU(m,!0,B.B,i,new A.auq(a),B.kp,A.T(a).fy,"T\u1ea1o QR theo giao d\u1ecbch",310)],o),B.a7,B.n,B.i),B.f,m,m,m,m,m,m,B.ci,m,m,k),1)],o),B.m,B.n,B.i),B.f,m,m,m,m,m,m,B.eN,m,m,k)
 r=A.a9(m,A.b1(A.a([new A.ET(k,"assets/images/ic-dashboard.png","Giao d\u1ecbch","Danh s\xe1ch c\xe1c giao d\u1ecbch g\u1ea7n \u0111\xe2y",m),A.cl(A.a9(m,J.jX(n.f)?A.OF(new A.aur(n),J.bD(n.f),m,m,B.as,!0):B.a4,B.f,m,m,m,m,570,m,m,m,m,k),1)],o),B.m,B.n,B.i),B.f,m,m,m,m,m,m,B.eN,m,m,k)
 return A.os(s,new A.Oa(k,j.a.b,l,q,i,r,"assets/images/bg-qr.png",m),m,m,m)}}
 A.aus.prototype={
