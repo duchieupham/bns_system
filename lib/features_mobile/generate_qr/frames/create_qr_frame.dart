@@ -37,6 +37,7 @@ class CreateQRFrame extends StatelessWidget {
               children: [
                 ListView(
                   controller: scrollController,
+                  padding: const EdgeInsets.all(0),
                   children: [
                     const Padding(padding: EdgeInsets.only(top: 100)),
                     UnconstrainedBox(
@@ -44,7 +45,7 @@ class CreateQRFrame extends StatelessWidget {
                         width: ScreenResolutionUtils.instance.getDynamicWidth(
                           screenWidth: width,
                           defaultWidth: 800,
-                          minWidth: width * 0.8,
+                          minWidth: width * 0.9,
                         ),
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         decoration: BoxDecoration(
@@ -91,20 +92,20 @@ class CreateQRFrame extends StatelessWidget {
                             : Column(
                                 children: [
                                   SizedBox(
-                                    width: 400,
+                                    width: width * 0.8,
                                     height: 80,
                                     child: widget2,
                                   ),
                                   const Padding(
                                       padding: EdgeInsets.only(top: 20)),
                                   SizedBox(
-                                    width: 400,
+                                    width: width * 0.8,
                                     child: widget1,
                                   ),
                                   const Padding(
                                       padding: EdgeInsets.only(top: 20)),
                                   SizedBox(
-                                    width: 400,
+                                    width: width * 0.8,
                                     height: 500,
                                     child: widget3,
                                   ),

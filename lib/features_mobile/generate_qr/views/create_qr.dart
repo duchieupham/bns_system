@@ -82,7 +82,7 @@ class _CreateQR extends State<CreateQR> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: false,
       appBar: AppBar(toolbarHeight: 0),
       body: CreateQRFrame(
         width: width,
@@ -469,7 +469,7 @@ class _CreateQR extends State<CreateQR> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     ButtonIconWidget(
-                                      width: 150,
+                                      width: 120,
                                       icon: Icons.download_rounded,
                                       alignment: Alignment.center,
                                       title: 'Lưu',
@@ -480,7 +480,7 @@ class _CreateQR extends State<CreateQR> {
                                     const Padding(
                                         padding: EdgeInsets.only(left: 10)),
                                     ButtonIconWidget(
-                                      width: 150,
+                                      width: 120,
                                       icon: Icons.print_rounded,
                                       alignment: Alignment.center,
                                       title: 'In',
@@ -493,7 +493,7 @@ class _CreateQR extends State<CreateQR> {
                                 const Padding(
                                     padding: EdgeInsets.only(top: 10)),
                                 ButtonIconWidget(
-                                  width: 310,
+                                  width: 250,
                                   icon: Icons.refresh_rounded,
                                   alignment: Alignment.center,
                                   title: 'Tạo lại mã QR',
