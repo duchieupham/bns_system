@@ -517,21 +517,24 @@ class _HomeScreen extends State<HomeScreen> {
                                   : Stack(
                                       fit: StackFit.expand,
                                       children: [
-                                        CarouselSlider(
-                                          carouselController:
-                                              _carouselController,
-                                          options: CarouselOptions(
-                                            enlargeCenterPage: true,
-                                            onPageChanged: ((index, reason) {
-                                              Provider.of<BankAccountProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .updateIndex(index);
-                                            }),
+                                        Expanded(
+                                          child: CarouselSlider(
+                                            carouselController:
+                                                _carouselController,
+                                            options: CarouselOptions(
+                                              height: 400,
+                                              enlargeCenterPage: true,
+                                              onPageChanged: ((index, reason) {
+                                                Provider.of<BankAccountProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .updateIndex(index);
+                                              }),
+                                            ),
+                                            items: _cardWidgets.map((i) {
+                                              return i;
+                                            }).toList(),
                                           ),
-                                          items: _cardWidgets.map((i) {
-                                            return i;
-                                          }).toList(),
                                         ),
                                         Positioned(
                                           top: 0,

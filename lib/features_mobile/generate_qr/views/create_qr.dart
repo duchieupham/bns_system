@@ -397,7 +397,9 @@ class _CreateQR extends State<CreateQR> {
         widget2: UnconstrainedBox(
           alignment: Alignment.topCenter,
           child: BankInformationWidget(
-            width: 400 - 40,
+            width: (ScreenResolutionUtils.instance.checkHomeResize(width, 800))
+                ? 400 - 40
+                : width * 0.7,
             height: 80,
             bankAccountDTO: widget.bankAccountDTO,
           ),
