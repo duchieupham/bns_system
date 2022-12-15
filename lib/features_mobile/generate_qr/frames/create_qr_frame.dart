@@ -69,7 +69,7 @@ class CreateQRFrame extends StatelessWidget {
                                         const Padding(
                                             padding: EdgeInsets.only(top: 20)),
                                         SizedBox(
-                                          width: 399,
+                                          width: 400,
                                           height: 510,
                                           child: widget1,
                                         ),
@@ -112,7 +112,7 @@ class CreateQRFrame extends StatelessWidget {
                               ),
                       ),
                     ),
-                    const Padding(padding: EdgeInsets.only(top: 100)),
+                    const Padding(padding: EdgeInsets.only(top: 10)),
                   ],
                 ),
                 (ScreenResolutionUtils.instance.checkHomeResize(width, 800))

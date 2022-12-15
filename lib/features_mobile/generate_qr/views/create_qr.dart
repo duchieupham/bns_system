@@ -82,6 +82,7 @@ class _CreateQR extends State<CreateQR> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(toolbarHeight: 0),
       body: CreateQRFrame(
         width: width,
@@ -230,7 +231,7 @@ class _CreateQR extends State<CreateQR> {
                         Expanded(
                           child: TextFieldWidget(
                             width: width,
-                            // autoFocus: true,
+                            autoFocus: false,
                             focusNode: _amountFocusNode,
                             isObscureText: false,
                             hintText: '0',
@@ -296,7 +297,7 @@ class _CreateQR extends State<CreateQR> {
                 ),
                 child: TextField(
                   controller: msgController,
-                  // autofocus: false,
+                  autofocus: false,
                   focusNode: _msgFocusNode,
                   maxLength: 99,
                   decoration: const InputDecoration(
@@ -395,12 +396,10 @@ class _CreateQR extends State<CreateQR> {
             ],
           ),
         ),
-        widget2: UnconstrainedBox(
-          alignment: Alignment.topCenter,
+        widget2: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20),
           child: BankInformationWidget(
-            width: (ScreenResolutionUtils.instance.checkHomeResize(width, 800))
-                ? 400 - 40
-                : width * 0.7,
+            width: width,
             height: 80,
             bankAccountDTO: widget.bankAccountDTO,
           ),
