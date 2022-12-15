@@ -66,6 +66,7 @@ class _CreateQR extends State<CreateQR> {
         msgController: msgController,
       ),
     ]);
+    _amountFocusNode.requestFocus();
     _msgFocusNode.addListener(() {
       if (_msgFocusNode.hasFocus) {
         if (msgController.text.isNotEmpty) {
@@ -229,7 +230,7 @@ class _CreateQR extends State<CreateQR> {
                         Expanded(
                           child: TextFieldWidget(
                             width: width,
-                            autoFocus: true,
+                            // autoFocus: true,
                             focusNode: _amountFocusNode,
                             isObscureText: false,
                             hintText: '0',
@@ -295,7 +296,7 @@ class _CreateQR extends State<CreateQR> {
                 ),
                 child: TextField(
                   controller: msgController,
-                  autofocus: false,
+                  // autofocus: false,
                   focusNode: _msgFocusNode,
                   maxLength: 99,
                   decoration: const InputDecoration(
