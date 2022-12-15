@@ -6,9 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vierqr/commons/utils/bank_information_utils.dart';
 import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
+import 'package:vierqr/commons/utils/viet_qr_utils.dart';
 import 'package:vierqr/commons/widgets/button_icon_widget.dart';
 import 'package:vierqr/commons/widgets/dialog_widget.dart';
 import 'package:vierqr/commons/widgets/qr_statistic_widget.dart';
+import 'package:vierqr/commons/widgets/viet_qr_widget.dart';
 import 'package:vierqr/features_mobile/generate_qr/views/create_qr.dart';
 import 'package:vierqr/features_mobile/generate_qr/views/qr_information_view.dart';
 import 'package:vierqr/features_mobile/home/frames/home_frame.dart';
@@ -27,6 +29,7 @@ import 'package:provider/provider.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
 import 'package:vierqr/models/transaction_dto.dart';
 import 'package:vierqr/models/transaction_notification_dto.dart';
+import 'package:vierqr/models/viet_qr_generate_dto.dart';
 import 'package:vierqr/services/firestore/transaction_db.dart';
 import 'package:vierqr/services/firestore/transaction_notification_db.dart';
 import 'package:vierqr/services/providers/bank_account_provider.dart';
@@ -380,20 +383,20 @@ class _HomeScreen extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: 65,
-                height: 65,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(65),
-                ),
-                child: Image.asset(
-                  'assets/images/ic-avatar.png',
-                  width: 65,
-                  height: 65,
-                ),
-              ),
-              const Padding(padding: EdgeInsets.only(top: 5)),
+              // Container(
+              //   width: 65,
+              //   height: 65,
+              //   alignment: Alignment.center,
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(65),
+              //   ),
+              //   child: Image.asset(
+              //     'assets/images/ic-avatar.png',
+              //     width: 65,
+              //     height: 65,
+              //   ),
+              // ),
+              // const Padding(padding: EdgeInsets.only(top: 5)),
               Text(
                 'Xin chào, ${UserInformationHelper.instance.getUserInformation().firstName}!',
                 style: const TextStyle(
@@ -443,10 +446,19 @@ class _HomeScreen extends State<HomeScreen> {
                                   _bankAccounts.addAll(state.list);
                                   for (BankAccountDTO bankAccountDTO
                                       in _bankAccounts) {
-                                    QRStatisticWidget qrWidget =
-                                        QRStatisticWidget(
+                                    VietQRGenerateDTO dto = VietQRGenerateDTO(
+                                      cAIValue: VietQRUtils.instance
+                                          .generateCAIValue(
+                                              bankAccountDTO.bankCode,
+                                              bankAccountDTO.bankAccount),
+                                      transactionAmountValue: '',
+                                      additionalDataFieldTemplateValue: '',
+                                    );
+                                    final VietQRWidget qrWidget = VietQRWidget(
+                                      width: 300,
                                       bankAccountDTO: bankAccountDTO,
-                                      isWeb: true,
+                                      vietQRGenerateDTO: dto,
+                                      content: '',
                                     );
                                     _cardWidgets.add(qrWidget);
                                   }
@@ -528,15 +540,35 @@ class _HomeScreen extends State<HomeScreen> {
                                             message: 'Phóng to mã QR',
                                             child: InkWell(
                                               onTap: () {
-                                                QRStatisticWidget qrWidget =
-                                                    QRStatisticWidget(
-                                                  isWeb: true,
-                                                  isExpanded: true,
+                                                VietQRGenerateDTO dto =
+                                                    VietQRGenerateDTO(
+                                                  cAIValue: VietQRUtils.instance.generateCAIValue(
+                                                      _bankAccounts[Provider.of<
+                                                                      BankAccountProvider>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .indexSelected]
+                                                          .bankCode,
+                                                      _bankAccounts[Provider.of<
+                                                                      BankAccountProvider>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .indexSelected]
+                                                          .bankAccount),
+                                                  transactionAmountValue: '',
+                                                  additionalDataFieldTemplateValue:
+                                                      '',
+                                                );
+                                                final VietQRWidget qrWidget =
+                                                    VietQRWidget(
+                                                  width: 300,
                                                   bankAccountDTO: _bankAccounts[
                                                       Provider.of<BankAccountProvider>(
                                                               context,
                                                               listen: false)
                                                           .indexSelected],
+                                                  vietQRGenerateDTO: dto,
+                                                  content: '',
                                                 );
                                                 DialogWidget.instance
                                                     .openContentDialog(
@@ -602,8 +634,35 @@ class _HomeScreen extends State<HomeScreen> {
                         ),
                       ),
                       const Padding(padding: EdgeInsets.only(top: 5)),
+                      SizedBox(
+                        width: 310,
+                        child: Row(
+                          children: [
+                            ButtonIconWidget(
+                              width: 150,
+                              icon: Icons.download_rounded,
+                              alignment: Alignment.center,
+                              title: 'Lưu',
+                              function: () {},
+                              bgColor: Theme.of(context).cardColor,
+                              textColor: DefaultTheme.GREEN,
+                            ),
+                            const Padding(padding: EdgeInsets.only(left: 10)),
+                            ButtonIconWidget(
+                              width: 150,
+                              icon: Icons.print_rounded,
+                              alignment: Alignment.center,
+                              title: 'In',
+                              function: () {},
+                              bgColor: Theme.of(context).cardColor,
+                              textColor: DefaultTheme.GREEN,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Padding(padding: EdgeInsets.only(top: 10)),
                       ButtonIconWidget(
-                        width: 185,
+                        width: 310,
                         icon: Icons.add_rounded,
                         autoFocus: true,
                         focusNode: focusNode,

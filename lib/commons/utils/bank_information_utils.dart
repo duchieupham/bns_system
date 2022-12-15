@@ -10,6 +10,7 @@ class BankInformationUtil {
   bool checkBankAddress(String bankName) {
     print('----bankName: $bankName');
     bool result = false;
+    //
     //to fake data to check SMS
     if (bankName == '0909000999') {
       bankName = 'MB Bank';

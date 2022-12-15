@@ -1,7 +1,4 @@
-import 'dart:ui';
-
 import 'package:vierqr/commons/constants/configurations/theme.dart';
-import 'package:vierqr/commons/utils/bank_information_utils.dart';
 import 'package:vierqr/commons/utils/viet_qr_utils.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
 import 'package:vierqr/models/viet_qr_generate_dto.dart';

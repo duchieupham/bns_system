@@ -10,19 +10,20 @@ class ButtonIconWidget extends StatelessWidget {
   final double? textSize;
   final bool? autoFocus;
   final FocusNode? focusNode;
+  final Alignment? alignment;
 
-  const ButtonIconWidget({
-    super.key,
-    required this.width,
-    required this.icon,
-    required this.title,
-    required this.function,
-    required this.bgColor,
-    required this.textColor,
-    this.textSize,
-    this.autoFocus,
-    this.focusNode,
-  });
+  const ButtonIconWidget(
+      {super.key,
+      required this.width,
+      required this.icon,
+      required this.title,
+      required this.function,
+      required this.bgColor,
+      required this.textColor,
+      this.textSize,
+      this.autoFocus,
+      this.focusNode,
+      this.alignment});
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +34,13 @@ class ButtonIconWidget extends StatelessWidget {
       child: Container(
         width: width,
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+        alignment: alignment,
         decoration: BoxDecoration(
           color: bgColor,
           borderRadius: BorderRadius.circular(5),
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               icon,

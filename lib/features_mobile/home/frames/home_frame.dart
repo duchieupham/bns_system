@@ -51,13 +51,13 @@ class HomeFrame extends StatelessWidget {
                             children: [
                               BlurLayout(
                                 width: 350,
-                                height: 150,
+                                height: 100,
                                 child: widget1,
                               ),
                               const Padding(padding: EdgeInsets.only(top: 20)),
                               BlurLayout(
                                 width: 350,
-                                height: 450,
+                                height: 500,
                                 child: widget2,
                               ),
                             ],
@@ -104,7 +104,7 @@ class HomeFrame extends StatelessWidget {
                                 defaultWidth: 350,
                                 minWidth: width * 0.8,
                               ),
-                              height: 150,
+                              height: 100,
                               child: widget1),
                           const Padding(padding: EdgeInsets.only(top: 20)),
                           BlurLayout(
@@ -114,7 +114,7 @@ class HomeFrame extends StatelessWidget {
                               defaultWidth: 350,
                               minWidth: width * 0.8,
                             ),
-                            height: 450,
+                            height: 500,
                             child: widget2,
                           ),
                           const Padding(padding: EdgeInsets.only(top: 20)),

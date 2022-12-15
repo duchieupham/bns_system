@@ -9,6 +9,7 @@ class BoxLayout extends StatelessWidget {
   final double? height;
   final Color? bgColor;
   final bool? enableShadow;
+  final Alignment? alignment;
 
   const BoxLayout({
     super.key,
@@ -19,6 +20,7 @@ class BoxLayout extends StatelessWidget {
     this.height,
     this.bgColor,
     this.enableShadow,
+    this.alignment,
   });
 
   @override
@@ -26,6 +28,7 @@ class BoxLayout extends StatelessWidget {
     return Container(
       width: width,
       height: height,
+      alignment: alignment,
       padding: (padding != null)
           ? padding
           : const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -39,7 +42,7 @@ class BoxLayout extends StatelessWidget {
                   color: DefaultTheme.GREY_TOP_TAB_BAR.withOpacity(0.3),
                   spreadRadius: 5,
                   blurRadius: 5,
-                  offset: Offset(3, 2),
+                  offset: const Offset(1, 2),
                 ),
               ]
             : null,

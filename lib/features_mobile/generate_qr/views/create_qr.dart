@@ -5,11 +5,12 @@ import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
 import 'package:vierqr/commons/utils/string_utils.dart';
 import 'package:vierqr/commons/utils/viet_qr_utils.dart';
 import 'package:vierqr/commons/widgets/bank_information_widget.dart';
+import 'package:vierqr/commons/widgets/button_icon_widget.dart';
 import 'package:vierqr/commons/widgets/button_widget.dart';
 import 'package:vierqr/commons/widgets/dialog_widget.dart';
-import 'package:vierqr/commons/widgets/qr_generated_widget.dart';
 import 'package:vierqr/commons/widgets/sub_header_widget.dart';
 import 'package:vierqr/commons/widgets/textfield_widget.dart';
+import 'package:vierqr/commons/widgets/viet_qr_widget.dart';
 import 'package:vierqr/features_mobile/generate_qr/frames/create_qr_frame.dart';
 import 'package:vierqr/features_mobile/generate_qr/views/qr_generated.dart';
 import 'package:vierqr/features_mobile/generate_qr/widgets/input_content_widget.dart';
@@ -287,7 +288,6 @@ class _CreateQR extends State<CreateQR> {
                   controller: msgController,
                   autofocus: false,
                   maxLength: 99,
-                  // maxLines: 2,
                   decoration: const InputDecoration(
                     border: InputBorder.none,
                     hintText: 'Nội dung chứa tối đa 99 ký tự.',
@@ -341,6 +341,7 @@ class _CreateQR extends State<CreateQR> {
               ButtonWidget(
                 width: width,
                 text: 'Tạo mã QR',
+                borderRadius: 5,
                 textColor: DefaultTheme.WHITE,
                 bgColor: DefaultTheme.GREEN,
                 function: () {
@@ -415,12 +416,11 @@ class _CreateQR extends State<CreateQR> {
                                       DialogWidget.instance.openContentDialog(
                                         context,
                                         null,
-                                        QRGeneratedWidget(
-                                          isWeb: true,
-                                          isExpanded: true,
+                                        VietQRWidget(
                                           width: width,
                                           bankAccountDTO: widget.bankAccountDTO,
                                           vietQRGenerateDTO: _vietQRGenerateDTO,
+                                          content: msgController.text,
                                         ),
                                       );
                                     },
@@ -440,13 +440,48 @@ class _CreateQR extends State<CreateQR> {
                                   ),
                                 ),
                                 Expanded(
-                                  child: QRGeneratedWidget(
-                                    isWeb: true,
-                                    isExpanded: true,
+                                  child: VietQRWidget(
                                     width: width,
                                     bankAccountDTO: widget.bankAccountDTO,
                                     vietQRGenerateDTO: _vietQRGenerateDTO,
+                                    content: msgController.text,
                                   ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ButtonIconWidget(
+                                      width: 150,
+                                      icon: Icons.download_rounded,
+                                      alignment: Alignment.center,
+                                      title: 'Lưu',
+                                      function: () {},
+                                      bgColor: DefaultTheme.GREEN,
+                                      textColor: DefaultTheme.WHITE,
+                                    ),
+                                    const Padding(
+                                        padding: EdgeInsets.only(left: 10)),
+                                    ButtonIconWidget(
+                                      width: 150,
+                                      icon: Icons.print_rounded,
+                                      alignment: Alignment.center,
+                                      title: 'In',
+                                      function: () {},
+                                      bgColor: DefaultTheme.GREEN,
+                                      textColor: DefaultTheme.WHITE,
+                                    ),
+                                  ],
+                                ),
+                                const Padding(
+                                    padding: EdgeInsets.only(top: 10)),
+                                ButtonIconWidget(
+                                  width: 310,
+                                  icon: Icons.refresh_rounded,
+                                  alignment: Alignment.center,
+                                  title: 'Tạo lại mã QR',
+                                  function: () {},
+                                  bgColor: Theme.of(context).canvasColor,
+                                  textColor: DefaultTheme.GREEN,
                                 ),
                               ],
                             ),
