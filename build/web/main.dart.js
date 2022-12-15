@@ -86916,22 +86916,24 @@ s.bm()
 B.b.U(s.y,A.a([B.NN,new A.Oi(s.e,B.a4e)],t.p))
 s.f.f4()
 s.r.Y(0,new A.arR(s))},
-E(a){var s,r,q,p,o,n,m,l,k,j,i=this,h=null,g=t.l,f=a.K(g).f.a.a
-g=a.K(g).f
+E(a){var s,r,q,p,o,n,m,l,k,j,i,h,g=this,f=null,e=t.l,d=a.K(e).f.a.a
+e=a.K(e).f
 s=A.n9(0)
 r=t.xX
 q=t.p
-r=A.a([A.dF(new A.arI(i),r),A.cl(A.af5(!0,i.y,$.aB9(),B.a4g,new A.arJ(a),B.fj),1),new A.bs(B.qR,A.dF(new A.arK(i),r),h),new A.bs(B.bf,A.dF(new A.arL(i,f),r),h),B.e7],q)
-p=A.aB("S\u1ed1 ti\u1ec1n",h,h,h,B.dz,h,h)
+r=A.a([A.dF(new A.arI(g),r),A.cl(A.af5(!0,g.y,$.aB9(),B.a4g,new A.arJ(a),B.fj),1),new A.bs(B.qR,A.dF(new A.arK(g),r),f),new A.bs(B.bf,A.dF(new A.arL(g,d),r),f),B.e7],q)
+p=A.aB("S\u1ed1 ti\u1ec1n",f,f,f,B.dz,f,f)
 o=t.Q
-n=A.dF(new A.arM(i,f),o)
+n=A.dF(new A.arM(g,d),o)
 m=A.dF(new A.arN(),o)
-l=A.aB("N\u1ed9i dung",h,h,h,B.dz,h,h)
+l=A.aB("N\u1ed9i dung",f,f,f,B.dz,f,f)
 k=A.pv(B.cg,0.5)
 j=A.by(5)
-j=A.a9(h,A.rF(!0,B.bn,!1,h,i.e,h,h,h,2,B.ro,!0,h,!0,h,!1,i.r,h,h,h,99,h,1,h,h,!1,"\u2022",h,h,new A.arO(i,a,f),h,!1,h,h,B.aY,h,h,h,h,h,h,h,B.aV,h,B.d3,h,B.d4,h),B.f,h,h,new A.aN(h,h,k,j,h,h,B.t),h,h,h,B.k3,h,h,f)
-k=f>=800&&!0?B.ap:B.ll
-return A.os(s,new A.KG(f,g.a.b,r,A.a9(h,A.b1(A.a([p,B.b6,n,m,B.bq,l,B.b6,j,k,A.cO(h,B.B,5,new A.arP(i,a,f),h,"T\u1ea1o m\xe3 QR",B.k,f)],q),B.a7,B.n,B.i),B.f,h,h,h,h,h,B.bf,h,h,h,h),A.a9(h,new A.JT(f,80,i.a.c,h),B.f,h,h,h,h,h,B.bf,h,h,h,h),A.a9(h,A.b1(A.a([A.aB("QR giao d\u1ecbch",h,h,h,B.dz,h,h),B.E,A.cl(A.dF(new A.arQ(i,f),o),1)],q),B.a7,B.n,B.i),B.f,h,h,h,h,h,B.bf,h,h,h,h),i.w,h),h,h,!1)},
+i=d>=800
+h=i&&!0?g.r:f
+j=A.a9(f,A.rF(!0,B.bn,!1,f,g.e,f,f,f,2,B.ro,!0,f,!0,f,!1,h,f,f,f,99,f,1,f,f,!1,"\u2022",f,f,new A.arO(g,a,d),f,!1,f,f,B.aY,f,f,f,f,f,f,f,B.aV,f,B.d3,f,B.d4,f),B.f,f,f,new A.aN(f,f,k,j,f,f,B.t),f,f,f,B.k3,f,f,d)
+k=i&&!0?B.ap:B.ll
+return A.os(s,new A.KG(d,e.a.b,r,A.a9(f,A.b1(A.a([p,B.b6,n,m,B.bq,l,B.b6,j,k,A.cO(f,B.B,5,new A.arP(g,a,d),f,"T\u1ea1o m\xe3 QR",B.k,d)],q),B.a7,B.n,B.i),B.f,f,f,f,f,f,B.bf,f,f,f,f),A.a9(f,new A.JT(d,80,g.a.c,f),B.f,f,f,f,f,f,B.bf,f,f,f,f),A.a9(f,A.b1(A.a([A.aB("QR giao d\u1ecbch",f,f,f,B.dz,f,f),B.E,A.cl(A.dF(new A.arQ(g,d),o),1)],q),B.a7,B.n,B.i),B.f,f,f,f,f,f,B.bf,f,f,f,f),g.w,f),f,f,!1)},
 L2(a,b){var s=null,r=A.by(5)
 return A.a9(s,s,B.f,s,s,new A.aN(a===b?B.k:A.ay(153,190,193,201),s,s,r,s,s,B.t),s,5,s,s,s,s,25)}}
 A.arR.prototype={
@@ -86995,8 +86997,8 @@ A.arz.prototype={
 $1(a){return new A.vV(this.b,this.a.a.c,null)},
 $S:514}
 A.arM.prototype={
-$3(a,b,c){var s=null,r=this.b,q=this.a
-return new A.dE(r,b.d,A.bn(A.a([A.cl(A.d9(!1,q.d,q.f,"0",B.aK,!1,B.ab,new A.arE(q,b),s,s,s,r),1),B.abA,B.a48],t.p),B.m,B.n,B.i),s,s,s)},
+$3(a,b,c){var s=null,r=this.b,q=b.d,p=r>=800&&!0?this.a.f:s,o=this.a
+return new A.dE(r,q,A.bn(A.a([A.cl(A.d9(!0,o.d,p,"0",B.aK,!1,B.ab,new A.arE(o,b),s,s,s,r),1),B.abA,B.a48],t.p),B.m,B.n,B.i),s,s,s)},
 $C:"$3",
 $R:3,
 $S:515}

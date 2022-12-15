@@ -231,8 +231,11 @@ class _CreateQR extends State<CreateQR> {
                         Expanded(
                           child: TextFieldWidget(
                             width: width,
-                            autoFocus: false,
-                            focusNode: _amountFocusNode,
+                            autoFocus: true,
+                            focusNode: (ScreenResolutionUtils.instance
+                                    .checkHomeResize(width, 800))
+                                ? _amountFocusNode
+                                : null,
                             isObscureText: false,
                             hintText: '0',
                             controller: amountController,
@@ -298,7 +301,10 @@ class _CreateQR extends State<CreateQR> {
                 child: TextField(
                   controller: msgController,
                   autofocus: false,
-                  focusNode: _msgFocusNode,
+                  focusNode: (ScreenResolutionUtils.instance
+                          .checkHomeResize(width, 800))
+                      ? _msgFocusNode
+                      : null,
                   maxLength: 99,
                   decoration: const InputDecoration(
                     border: InputBorder.none,
