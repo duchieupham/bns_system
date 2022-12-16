@@ -1,4 +1,6 @@
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/layouts/box_layout.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
@@ -67,7 +69,33 @@ class BankInformationWidget extends StatelessWidget {
                 ),
               ],
             ),
-          )
+          ),
+          InkWell(
+            onTap: () async {
+              String bankInformationString =
+                  '${bankAccountDTO.bankName}\n${bankAccountDTO.bankAccountName.toUpperCase()}\n${bankAccountDTO.bankAccount}';
+
+              await FlutterClipboard.copy(bankInformationString).then(
+                (value) => Fluttertoast.showToast(
+                  msg: 'Đã sao chép',
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor:
+                      Theme.of(context).primaryColor.withOpacity(0.6),
+                  textColor: Theme.of(context).hintColor,
+                  fontSize: 15,
+                  webBgColor: 'rgba(255, 255, 255, 0.5)',
+                  webPosition: 'center',
+                ),
+              );
+            },
+            child: const Icon(
+              Icons.copy_outlined,
+              color: DefaultTheme.GREY_TOP_TAB_BAR,
+              size: 20,
+            ),
+          ),
         ],
       ),
     );
