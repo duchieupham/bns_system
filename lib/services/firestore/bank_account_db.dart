@@ -11,8 +11,6 @@ class BankAccountDB {
 
   Future<String> getBankIdByAccount(String userId, String bankAccount) async {
     String result = '';
-    print('---userId: $userId');
-    print('---bankAccount: $bankAccount');
     try {
       await bankAccountDb
           .where('userId', isEqualTo: userId)
@@ -20,7 +18,6 @@ class BankAccountDB {
           .get()
           .then((QuerySnapshot querySnapshot) {
         if (querySnapshot.docs.isNotEmpty) {
-          print('query is not empty');
           result = querySnapshot.docs.first['id'] ?? '';
         }
       });

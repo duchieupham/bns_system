@@ -8,7 +8,6 @@ class BankInformationUtil {
   static BankInformationUtil get instance => _instance;
 
   bool checkBankAddress(String bankName) {
-    print('----bankName: $bankName');
     bool result = false;
     //
     //to fake data to check SMS
@@ -32,7 +31,6 @@ class BankInformationUtil {
     }
     //
     bankName = 'BANKNAME.${bankName.trim().replaceAll(' ', '').toUpperCase()}';
-    print('---bankName after format: $bankName');
     if (BANKNAME.values.toString().contains(bankName)) {
       result = true;
     }
@@ -446,7 +444,7 @@ class BankInformationUtil {
     List<String> bankNameChars = bankSelected.split('-');
     for (int i = 0; i < bankNameChars.length; i++) {
       if (i != 0) {
-        result += '${bankNameChars[i]}';
+        result += bankNameChars[i];
       }
     }
     return result;

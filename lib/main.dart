@@ -9,6 +9,9 @@ import 'package:vierqr/commons/constants/configurations/firebase_config.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 
 import 'package:vierqr/features_mobile/home/home.dart';
+import 'package:vierqr/features_mobile/log_sms/blocs/sms_bloc.dart';
+import 'package:vierqr/features_mobile/log_sms/blocs/transaction_bloc.dart';
+import 'package:vierqr/features_mobile/notification/blocs/notification_bloc.dart';
 import 'package:vierqr/features_mobile/login/blocs/login_bloc.dart';
 import 'package:vierqr/features_mobile/login/views/login.dart';
 import 'package:vierqr/features_mobile/personal/blocs/bank_manage_bloc.dart';
@@ -91,6 +94,15 @@ class BNSApp extends StatelessWidget {
           ),
           BlocProvider<MemberManageBloc>(
             create: (BuildContext context) => MemberManageBloc(),
+          ),
+          BlocProvider<SMSBloc>(
+            create: (BuildContext context) => SMSBloc(),
+          ),
+          BlocProvider<TransactionBloc>(
+            create: (BuildContext context) => TransactionBloc(),
+          ),
+          BlocProvider<NotificationBloc>(
+            create: (BuildContext context) => NotificationBloc(),
           ),
         ],
         child: MultiProvider(

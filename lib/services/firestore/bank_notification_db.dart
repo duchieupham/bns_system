@@ -1,21 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vierqr/commons/constants/configurations/stringify.dart';
-import 'package:vierqr/models/bank_notification_dto.dart';
+import 'package:vierqr/models/bank_member_dto.dart';
 
-class BankNotificationDB {
-  const BankNotificationDB._privateConsrtructor();
+class BankMemberDB {
+  const BankMemberDB._privateConsrtructor();
 
-  static const BankNotificationDB _instance =
-      BankNotificationDB._privateConsrtructor();
-  static BankNotificationDB get instance => _instance;
-  static final bankNotificationDb =
-      FirebaseFirestore.instance.collection('bank-notification');
+  static const BankMemberDB _instance = BankMemberDB._privateConsrtructor();
+  static BankMemberDB get instance => _instance;
+  static final bankMemberDb =
+      FirebaseFirestore.instance.collection('bank-member');
 
   Future<List<String>> getBankIdsByUserId(String userId) async {
     List<String> result = [];
     try {
-      await bankNotificationDb
+      await bankMemberDb
           .where('userId', isEqualTo: userId)
           .get()
           .then((QuerySnapshot querySnapshot) async {
@@ -27,7 +26,7 @@ class BankNotificationDB {
         }
       });
     } catch (e) {
-      print('Error at getBankIdsByUserId - BankNotificationDB: $e');
+      print('Error at getBankIdsByUserId - BankMemberDB: $e');
     }
 
     return result;
@@ -37,7 +36,7 @@ class BankNotificationDB {
   Future<List<String>> getListBankIdByUserId(String userId) async {
     List<String> result = [];
     try {
-      await bankNotificationDb
+      await bankMemberDb
           .where('userId', isEqualTo: userId)
           .where('role', isNotEqualTo: Stringify.ROLE_CARD_MEMBER_ADMIN)
           .get()
@@ -50,24 +49,47 @@ class BankNotificationDB {
         }
       });
     } catch (e) {
-      print('Error at getListBankIdByUserId - BankNotificationDB: $e');
+      print('Error at getListBankIdByUserId - BankMemberDB: $e');
     }
 
     return result;
   }
 
-  Future<List<BankNotificationDTO>> getListBankNotification(
-      String bankId) async {
-    List<BankNotificationDTO> result = [];
+  //to get list userIds by specific bankId
+  Future<List<String>> getUserIdsByBankId(String bankId) async {
+    List<String> result = [];
     try {
-      await bankNotificationDb
+      await bankMemberDb
+          .where('bankId', isEqualTo: bankId)
+          .get()
+          .then((QuerySnapshot querySnapshot) async {
+        if (querySnapshot.docs.isNotEmpty) {
+          for (var element in querySnapshot.docs) {
+            String userId = element['userId'] ?? '';
+            if (userId.isNotEmpty) {
+              result.add(userId);
+            }
+          }
+        }
+      });
+    } catch (e) {
+      print('Error at getUserIdsByBankId - BankMemberDB: $e');
+    }
+
+    return result;
+  }
+
+  Future<List<BankMemberDTO>> getListBankNotification(String bankId) async {
+    List<BankMemberDTO> result = [];
+    try {
+      await bankMemberDb
           .where('bankId', isEqualTo: bankId)
           .orderBy('time')
           .get()
           .then((QuerySnapshot querySnapshot) async {
         if (querySnapshot.docs.isNotEmpty) {
           for (var element in querySnapshot.docs) {
-            BankNotificationDTO dto = BankNotificationDTO(
+            BankMemberDTO dto = BankMemberDTO(
               id: element['id'] ?? '',
               bankId: element['bankId'] ?? '',
               userId: element['userId'] ?? '',
@@ -80,7 +102,7 @@ class BankNotificationDB {
         }
       });
     } catch (e) {
-      print('Error at getListBankNotification - BankNotificationDB: $e');
+      print('Error at getListBankNotification - BankMemberDB: $e');
     }
     return result;
   }
@@ -90,14 +112,14 @@ class BankNotificationDB {
     bool result = false;
     try {
       if (userId != '') {
-        await bankNotificationDb
+        await bankMemberDb
             .where('bankId', isEqualTo: bankId)
             .where('userId', isEqualTo: userId)
             .get()
             .then((QuerySnapshot querySnapshot) async {
           if (querySnapshot.docs.isEmpty) {
             const Uuid uuid = Uuid();
-            BankNotificationDTO dto = BankNotificationDTO(
+            BankMemberDTO dto = BankMemberDTO(
               id: uuid.v1(),
               bankId: bankId,
               userId: userId,
@@ -105,14 +127,12 @@ class BankNotificationDB {
               phoneNo: phoneNo,
               time: FieldValue.serverTimestamp(),
             );
-            await bankNotificationDb
-                .add(dto.toJson())
-                .then((value) => result = true);
+            await bankMemberDb.add(dto.toJson()).then((value) => result = true);
           }
         });
       } else {
         const Uuid uuid = Uuid();
-        BankNotificationDTO dto = BankNotificationDTO(
+        BankMemberDTO dto = BankMemberDTO(
           id: uuid.v1(),
           bankId: bankId,
           userId: userId,
@@ -120,12 +140,10 @@ class BankNotificationDB {
           phoneNo: phoneNo,
           time: FieldValue.serverTimestamp(),
         );
-        await bankNotificationDb
-            .add(dto.toJson())
-            .then((value) => result = true);
+        await bankMemberDb.add(dto.toJson()).then((value) => result = true);
       }
     } catch (e) {
-      print('Error at addParentUser - BankNotificationDB: $e');
+      print('Error at addParentUser - BankMemberDB: $e');
     }
     return result;
   }
@@ -133,7 +151,7 @@ class BankNotificationDB {
   Future<bool> removeUserFromBank(String bankId, String userId) async {
     bool result = false;
     try {
-      await bankNotificationDb
+      await bankMemberDb
           .where('bankId', isEqualTo: bankId)
           .where('userId', isEqualTo: userId)
           .get()
@@ -145,7 +163,7 @@ class BankNotificationDB {
         }
       });
     } catch (e) {
-      print('Error at removeUserFromBank - BankNotificationDB: $e');
+      print('Error at removeUserFromBank - BankMemberDB: $e');
     }
     return result;
   }
@@ -153,7 +171,7 @@ class BankNotificationDB {
   Future<bool> removeAllUsers(String bankId) async {
     bool result = false;
     try {
-      await bankNotificationDb
+      await bankMemberDb
           .where('bankId', isEqualTo: bankId)
           .get()
           .then((QuerySnapshot querySnapshot) async {
@@ -166,7 +184,7 @@ class BankNotificationDB {
         }
       });
     } catch (e) {
-      print('Error at removeAllUsers - BankNotificationDB: $e');
+      print('Error at removeAllUsers - BankMemberDB: $e');
     }
     return result;
   }
@@ -174,7 +192,7 @@ class BankNotificationDB {
   // Future<bool> addUsers(String bankId, List<String> userIds) async {
   //   bool result = false;
   //   try {
-  //     await bankNotificationDb
+  //     await bankMemberDb
   //         .where('bankId', isEqualTo: bankId)
   //         .get()
   //         .then((QuerySnapshot querySnapshot) async {
@@ -184,14 +202,14 @@ class BankNotificationDB {
   //           for (var element in querySnapshot.docs) {
   //             if (userId != element['userId']) {
   //               const Uuid uuid = Uuid();
-  //               BankNotificationDTO dto = BankNotificationDTO(
+  //               BankMemberDTO dto = BankMemberDTO(
   //                 id: uuid.v1(),
   //                 bankId: bankId,
   //                 userId: userId,
   //                 role: 'child',
   //                 time: FieldValue.serverTimestamp(),
   //               );
-  //               await bankNotificationDb
+  //               await bankMemberDb
   //                   .add(dto.toJson())
   //                   .then((value) => result = true);
   //             }
@@ -200,21 +218,21 @@ class BankNotificationDB {
   //       } else {
   //         for (String userId in userIds) {
   //           const Uuid uuid = Uuid();
-  //           BankNotificationDTO dto = BankNotificationDTO(
+  //           BankMemberDTO dto = BankMemberDTO(
   //             id: uuid.v1(),
   //             bankId: bankId,
   //             userId: userId,
   //             role: 'child',
   //             time: FieldValue.serverTimestamp(),
   //           );
-  //           await bankNotificationDb
+  //           await bankMemberDb
   //               .add(dto.toJson())
   //               .then((value) => result = true);
   //         }
   //       }
   //     });
   //   } catch (e) {
-  //     print('Error at addUsers - BankNotificationDB: $e');
+  //     print('Error at addUsers - BankMemberDB: $e');
   //   }
   //   return result;
   // }

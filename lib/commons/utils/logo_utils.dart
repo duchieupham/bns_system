@@ -4,6 +4,7 @@ class LogoUtils {
   const LogoUtils._privateConsrtructor();
 
   static const LogoUtils _instance = LogoUtils._privateConsrtructor();
+  static LogoUtils get instance => _instance;
 
   String getAssetImageBank(AVAILABLE_ADD_BANKNAME bankName) {
     String result = '';

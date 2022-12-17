@@ -81,8 +81,7 @@ class BankInformationWidget extends StatelessWidget {
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.CENTER,
                   timeInSecForIosWeb: 1,
-                  backgroundColor:
-                      Theme.of(context).primaryColor.withOpacity(0.6),
+                  backgroundColor: Theme.of(context).primaryColor,
                   textColor: Theme.of(context).hintColor,
                   fontSize: 15,
                   webBgColor: 'rgba(255, 255, 255, 0.5)',

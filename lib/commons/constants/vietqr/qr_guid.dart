@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:vierqr/commons/constants/vietqr/aid.dart';
 import 'package:vierqr/commons/constants/vietqr/viet_qr_id.dart';
 import 'package:vierqr/commons/utils/viet_qr_utils.dart';

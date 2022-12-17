@@ -1,5 +1,5 @@
 import 'package:vierqr/commons/utils/user_information_utils.dart';
-import 'package:vierqr/models/bank_notification_dto.dart';
+import 'package:vierqr/models/bank_member_dto.dart';
 import 'package:vierqr/models/user_bank_dto.dart';
 import 'package:vierqr/models/user_information_dto.dart';
 import 'package:vierqr/models/user_phone_dto.dart';
@@ -15,7 +15,7 @@ class MemberManageRepository {
     try {
       UserPhoneDTO userPhoneDTO =
           await UserInformationDB.instance.findUserIdByphone(phoneNo.trim());
-      await BankNotificationDB.instance
+      await BankMemberDB.instance
           .addUserToBankCard(
               bankId, userPhoneDTO.userId, role, userPhoneDTO.phoneNo)
           .then((value) => result = value);
@@ -28,7 +28,7 @@ class MemberManageRepository {
   Future<bool> removeMemberFromBank(String bankId, String userId) async {
     bool result = false;
     try {
-      await BankNotificationDB.instance
+      await BankMemberDB.instance
           .removeUserFromBank(bankId, userId)
           .then((value) => result = value);
     } catch (e) {
@@ -40,10 +40,10 @@ class MemberManageRepository {
   Future<List<UserBankDTO>> getUsersIntoBank(String bankId) async {
     List<UserBankDTO> result = [];
     try {
-      List<BankNotificationDTO> bankNotifications =
-          await BankNotificationDB.instance.getListBankNotification(bankId);
+      List<BankMemberDTO> bankNotifications =
+          await BankMemberDB.instance.getListBankNotification(bankId);
       if (bankNotifications.isNotEmpty) {
-        for (BankNotificationDTO element in bankNotifications) {
+        for (BankMemberDTO element in bankNotifications) {
           UserInformationDTO userInformationDTO = await UserInformationDB
               .instance
               .getUserInformation(element.userId, element.phoneNo);
@@ -63,6 +63,17 @@ class MemberManageRepository {
       }
     } catch (e) {
       print('Error at getUsersIntoBank - MemberManageRepository: $e');
+    }
+    return result;
+  }
+
+  //step 3
+  Future<List<String>> getUserIdsByBankId(String bankId) async {
+    List<String> result = [];
+    try {
+      result = await BankMemberDB.instance.getUserIdsByBankId(bankId);
+    } catch (e) {
+      print('Error at getUserIdsByBankId - MemberManageRepository: $e');
     }
     return result;
   }

@@ -9,7 +9,7 @@ class BankManageRepository {
   Future<List<String>> getBankIdsByUserId(String userId) async {
     List<String> result = [];
     try {
-      result = await BankNotificationDB.instance.getBankIdsByUserId(userId);
+      result = await BankMemberDB.instance.getBankIdsByUserId(userId);
     } catch (e) {
       print('Error at getBankIdsByUserId - BankManageRepository: $e');
     }
@@ -20,7 +20,7 @@ class BankManageRepository {
     List<BankAccountDTO> result = [];
     try {
       List<String> bankIds =
-          await BankNotificationDB.instance.getListBankIdByUserId(userId);
+          await BankMemberDB.instance.getListBankIdByUserId(userId);
       if (bankIds.isNotEmpty) {
         result =
             await BankAccountDB.instance.getListBankAccountByBankIds(bankIds);
@@ -41,15 +41,26 @@ class BankManageRepository {
     return result;
   }
 
+  Future<String> getBankIdByBankAccount(
+      String userId, String bankAccount) async {
+    String result = '';
+    try {
+      result =
+          await BankAccountDB.instance.getBankIdByAccount(userId, bankAccount);
+    } catch (e) {
+      print('Error at getBankIdByBankAccount - BankManageRepository: $e');
+    }
+    return result;
+  }
+
   Future<bool> addBankAccount(
       String userId, BankAccountDTO dto, String phoneNo) async {
     bool result = false;
     try {
       bool checkAddBank =
           await BankAccountDB.instance.addBankAccount(userId, dto);
-      bool checkAddRelation = await BankNotificationDB.instance
-          .addUserToBankCard(
-              dto.id, userId, Stringify.ROLE_CARD_MEMBER_ADMIN, phoneNo);
+      bool checkAddRelation = await BankMemberDB.instance.addUserToBankCard(
+          dto.id, userId, Stringify.ROLE_CARD_MEMBER_ADMIN, phoneNo);
       if (checkAddBank && checkAddRelation) {
         result = true;
       }
@@ -66,7 +77,7 @@ class BankManageRepository {
       bool checkRemoveBank =
           await BankAccountDB.instance.removeBankAccount(userId, bankAccount);
       bool checkRemoveRelation =
-          await BankNotificationDB.instance.removeAllUsers(bankId);
+          await BankMemberDB.instance.removeAllUsers(bankId);
       if (checkRemoveBank && checkRemoveRelation) {
         result = true;
       }

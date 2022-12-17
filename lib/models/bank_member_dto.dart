@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class BankNotificationDTO {
+class BankMemberDTO {
   final String id;
   final String bankId;
   final String userId;
@@ -9,7 +9,7 @@ class BankNotificationDTO {
   final String phoneNo;
   final dynamic time;
 
-  const BankNotificationDTO({
+  const BankMemberDTO({
     required this.id,
     required this.bankId,
     required this.userId,
@@ -18,8 +18,8 @@ class BankNotificationDTO {
     required this.time,
   });
 
-  factory BankNotificationDTO.fromJson(Map<String, dynamic> json) {
-    return BankNotificationDTO(
+  factory BankMemberDTO.fromJson(Map<String, dynamic> json) {
+    return BankMemberDTO(
       id: json['id'] ?? '',
       bankId: json['bankId'] ?? '',
       userId: json['userId'] ?? '',

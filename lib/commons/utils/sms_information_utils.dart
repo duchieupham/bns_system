@@ -44,8 +44,8 @@ class SmsInformationUtils {
       String time = body.split('den')[1].split('la')[0];
       String bankAccount = body.split('SDTK ')[1].split(' den')[0];
       String transaction =
-          body.split('GD moi nhat: ')[1].split('VND:')[0] + 'VND';
-      String accountBalance = body.split('la ')[1].split('VND.')[0] + 'VND';
+          '${body.split('GD moi nhat: ')[1].split('VND:')[0]}VND';
+      String accountBalance = '${body.split('la ')[1].split('VND.')[0]}VND';
       String content = body.split('VND:')[1].trim();
       result = BankInformationDTO(
         address: bankName.replaceAll('BANKNAME.', ''),

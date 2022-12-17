@@ -46,6 +46,7 @@ class _CreateQR extends State<CreateQR> {
   final FocusNode _amountFocusNode = FocusNode();
   final FocusNode _msgFocusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
+  final GlobalKey key = GlobalKey();
 
   VietQRGenerateDTO _vietQRGenerateDTO = const VietQRGenerateDTO(
       cAIValue: '',
@@ -204,6 +205,7 @@ class _CreateQR extends State<CreateQR> {
                             builder: (context) => QRGenerated(
                               vietQRGenerateDTO: dto,
                               bankAccountDTO: widget.bankAccountDTO,
+                              content: msgController.text,
                             ),
                           ),
                         );
@@ -438,6 +440,7 @@ class _CreateQR extends State<CreateQR> {
                                           width: width,
                                           bankAccountDTO: widget.bankAccountDTO,
                                           vietQRGenerateDTO: _vietQRGenerateDTO,
+                                          globalKey: key,
                                           content: msgController.text,
                                         ),
                                       );
@@ -462,6 +465,7 @@ class _CreateQR extends State<CreateQR> {
                                     width: width,
                                     bankAccountDTO: widget.bankAccountDTO,
                                     vietQRGenerateDTO: _vietQRGenerateDTO,
+                                    globalKey: key,
                                     content: msgController.text,
                                   ),
                                 ),

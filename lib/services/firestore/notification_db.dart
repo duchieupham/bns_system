@@ -1,55 +1,51 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:vierqr/models/transaction_notification_dto.dart';
+import 'package:vierqr/models/notification_dto.dart';
 
-class TransactionNotificationDB {
-  const TransactionNotificationDB._privateConsrtructor();
+class NotificationDB {
+  const NotificationDB._privateConsrtructor();
 
-  static const TransactionNotificationDB _instance =
-      TransactionNotificationDB._privateConsrtructor();
-  static TransactionNotificationDB get instance => _instance;
-  static final transactionNotificationDB =
-      FirebaseFirestore.instance.collection('transaction-notification');
+  static const NotificationDB _instance = NotificationDB._privateConsrtructor();
+  static NotificationDB get instance => _instance;
+  static final notificationDB =
+      FirebaseFirestore.instance.collection('notification');
 
   //listen new data
-  Stream<QuerySnapshot> listenTransactionNotification(String userId) {
+  Stream<QuerySnapshot> listenNotification(String userId) {
     return FirebaseFirestore.instance
-        .collection('transaction-notification')
+        .collection('notification')
         .where('userId', isEqualTo: userId)
         .where('isRead', isEqualTo: false)
+        .orderBy('timeCreated')
         .snapshots();
   }
 
   //insert
-  Future<bool> insertTransactionNotification(
-      TransactionNotificationDTO dto) async {
+  Future<bool> insertNotification(NotificationDTO dto) async {
     bool result = false;
     try {
-      await transactionNotificationDB
+      await notificationDB
           .where('transactionId', isEqualTo: dto.transactionId)
           .where('userId', isEqualTo: dto.userId)
           // .where('timeCreated', isEqualTo: dto.timeCreated)
           .get()
           .then((QuerySnapshot querySnapshot) async {
         if (querySnapshot.docs.isEmpty) {
-          await transactionNotificationDB
-              .add(dto.toJson())
-              .then((value) => result = true);
+          await notificationDB.add(dto.toJson()).then((value) => result = true);
         } else {
           result = true;
         }
       });
     } catch (e) {
-      print(
-          'Error at insertTransactionNotification - TransactionNotificationDB: $e');
+      print('Error at insertNotification - NotificationDB: $e');
     }
     return result;
   }
 
   //update status
-  Future<bool> updateTransactionNotification(String id) async {
+  Future<bool> updateNotification(String id) async {
     bool result = false;
     try {
-      await transactionNotificationDB
+      await notificationDB
           .where('id', isEqualTo: id)
           .get()
           .then((QuerySnapshot querySnapshot) async {
@@ -59,8 +55,7 @@ class TransactionNotificationDB {
         result = true;
       });
     } catch (e) {
-      print(
-          'Error at updateTransactionNotification - TransactionNotificationDB: $e');
+      print('Error at updateNotification - NotificationDB: $e');
     }
     return result;
   }
@@ -69,7 +64,7 @@ class TransactionNotificationDB {
   Future<List<String>> getTransactionIdsByUserId(String userId) async {
     List<String> result = [];
     try {
-      await transactionNotificationDB
+      await notificationDB
           .where('userId', isEqualTo: userId)
           .get()
           .then((QuerySnapshot querySnapshot) async {
@@ -81,8 +76,7 @@ class TransactionNotificationDB {
         }
       });
     } catch (e) {
-      print(
-          'Error at getTransactionIdsByUserId - TransactionNotificationDB: $e');
+      print('Error at getTransactionIdsByUserId - NotificationDB: $e');
     }
     return result;
   }

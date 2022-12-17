@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 class TransactionCurrency {
   //Yên Japan
   static const String JPY = '392';

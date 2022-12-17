@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
@@ -74,13 +75,12 @@ class TimeUtils {
           dateFormat.format(DateTime.parse(date)).toString()) {
         if (date != '' && isValidDate) {
           formattedTime =
-              format.format(DateTime.parse(date.toString())) + ' Hôm nay';
+              '${format.format(DateTime.parse(date.toString()))} Hôm nay';
         }
       } else {
         if (date != '' && isValidDate) {
-          formattedTime = format.format(DateTime.parse(date.toString())) +
-              ' ' +
-              dateFormat.format(DateTime.parse(date)).toString();
+          formattedTime =
+              '${format.format(DateTime.parse(date.toString()))} ${dateFormat.format(DateTime.parse(date))}';
         }
       }
     }
@@ -91,10 +91,10 @@ class TimeUtils {
   //get date in week to display dashboard
   String getCurrentDateInWeek() {
     String result = '';
-    DateTime _now = DateTime.now();
-    DateFormat _format = DateFormat('yyyy-MM-dd-EEEE');
-    String _formatted = _format.format(_now);
-    result = formatDateOfWeek(_formatted.split('-')[3]);
+    DateTime now = DateTime.now();
+    DateFormat format = DateFormat('yyyy-MM-dd-EEEE');
+    String formatted = format.format(now);
+    result = formatDateOfWeek(formatted.split('-')[3]);
     return result;
   }
 
@@ -162,6 +162,22 @@ class TimeUtils {
       result = 'Thứ bảy';
     } else if (value == 'Sunday') {
       result = 'Chủ nhật';
+    }
+    return result;
+  }
+
+  //check valid if in range of time
+  bool checkValidTimeRange(Timestamp timeCheck, int secondRange) {
+    bool result = false;
+    try {
+      DateTime timeInserted =
+          DateTime.fromMicrosecondsSinceEpoch(timeCheck.microsecondsSinceEpoch);
+      if (timeInserted
+          .isAfter(DateTime.now().subtract(Duration(seconds: secondRange)))) {
+        result = true;
+      }
+    } catch (e) {
+      print('Error at checkValidTimeRange: $e');
     }
     return result;
   }

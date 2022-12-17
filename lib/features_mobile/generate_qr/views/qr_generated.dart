@@ -1,11 +1,10 @@
 import 'dart:ui';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
-import 'package:vierqr/commons/utils/currency_utils.dart';
 import 'package:vierqr/commons/utils/share_utils.dart';
 import 'package:vierqr/commons/widgets/button_widget.dart';
 import 'package:vierqr/commons/widgets/header_button_widet.dart';
-import 'package:vierqr/commons/widgets/qr_generated_widget.dart';
 import 'package:vierqr/commons/widgets/repaint_boundary_widget.dart';
+import 'package:vierqr/commons/widgets/viet_qr_widget.dart';
 import 'package:vierqr/features_mobile/generate_qr/views/create_qr.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
 import 'package:vierqr/models/viet_qr_generate_dto.dart';
@@ -17,11 +16,13 @@ import 'package:provider/provider.dart';
 class QRGenerated extends StatelessWidget {
   final VietQRGenerateDTO vietQRGenerateDTO;
   final BankAccountDTO bankAccountDTO;
+  final String content;
 
   const QRGenerated({
     Key? key,
     required this.bankAccountDTO,
     required this.vietQRGenerateDTO,
+    required this.content,
   }) : super(key: key);
 
   @override
@@ -95,67 +96,19 @@ class QRGenerated extends StatelessWidget {
               ),
             ),
           ),
-          const Padding(padding: EdgeInsets.only(top: 30)),
-          RepaintBoundaryWidget(
-            globalKey: key,
-            builder: (key) {
-              return QRGeneratedWidget(
-                width: width * 0.9,
-                vietQRGenerateDTO: vietQRGenerateDTO,
-                bankAccountDTO: bankAccountDTO,
-              );
-            },
-          ),
-          // Text('${dto.transactionAmountValue}'),
-          // Text('${dto.additionalDataFieldTemplateValue}'),
-          const Spacer(),
-          ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(15)),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
-              child: Container(
-                width: width,
-                margin: const EdgeInsets.symmetric(horizontal: 30),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor.withOpacity(0.8),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Column(children: [
-                  _buildInformationText(width * 0.9 - 42.5, 'Số tiền:',
-                      '${CurrencyUtils.instance.getCurrencyFormatted(vietQRGenerateDTO.transactionAmountValue)} VND'),
-                  const Padding(padding: EdgeInsets.only(top: 10)),
-                  SizedBox(
-                    width: width * 0.9,
-                    child: const Text(
-                      'Nội dung:',
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                  const Padding(padding: EdgeInsets.only(top: 5)),
-                  SizedBox(
-                    width: width * 0.9,
-                    child: Text(
-                      (vietQRGenerateDTO
-                              .additionalDataFieldTemplateValue.isEmpty)
-                          ? ''
-                          : vietQRGenerateDTO.additionalDataFieldTemplateValue
-                              .substring(4),
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ]),
-              ),
+          const Padding(padding: EdgeInsets.only(top: 50)),
+          Expanded(
+            child: VietQRWidget(
+              width: width - 50,
+              bankAccountDTO: bankAccountDTO,
+              vietQRGenerateDTO: vietQRGenerateDTO,
+              globalKey: key,
+              content: content,
+              isCopy: true,
+              isStatistic: true,
             ),
           ),
-          const Padding(padding: EdgeInsets.only(bottom: 20)),
+          const Padding(padding: EdgeInsets.only(bottom: 50)),
           SizedBox(
             width: width * 0.9,
             child: Row(
@@ -190,32 +143,6 @@ class QRGenerated extends StatelessWidget {
           const Padding(padding: EdgeInsets.only(bottom: 20)),
         ]),
       ),
-    );
-  }
-
-  Widget _buildInformationText(double width, String title, String value) {
-    return SizedBox(
-      width: width,
-      child: Row(children: [
-        SizedBox(
-          width: width * 0.3,
-          child: Text(
-            title,
-            style: const TextStyle(
-              fontSize: 16,
-            ),
-          ),
-        ),
-        SizedBox(
-          width: width * 0.7,
-          child: Text(
-            value,
-            style: const TextStyle(
-              fontSize: 16,
-            ),
-          ),
-        ),
-      ]),
     );
   }
 }

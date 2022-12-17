@@ -1,15 +1,17 @@
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/utils/share_utils.dart';
+import 'package:vierqr/commons/utils/viet_qr_utils.dart';
 import 'package:vierqr/commons/widgets/button_widget.dart';
 import 'package:vierqr/commons/widgets/dialog_widget.dart';
-import 'package:vierqr/commons/widgets/qr_statistic_widget.dart';
 import 'package:vierqr/commons/widgets/repaint_boundary_widget.dart';
+import 'package:vierqr/commons/widgets/viet_qr_widget.dart';
 import 'package:vierqr/features_mobile/generate_qr/views/create_qr.dart';
 import 'package:vierqr/features_mobile/personal/blocs/bank_manage_bloc.dart';
 import 'package:vierqr/features_mobile/personal/events/bank_manage_event.dart';
 import 'package:vierqr/features_mobile/personal/states/bank_manage_state.dart';
 import 'package:vierqr/features_mobile/personal/views/bank_manage.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
+import 'package:vierqr/models/viet_qr_generate_dto.dart';
 import 'package:vierqr/services/providers/bank_account_provider.dart';
 import 'package:vierqr/services/shared_references/user_information_helper.dart';
 import 'package:flutter/material.dart';
@@ -66,20 +68,33 @@ class QRInformationView extends StatelessWidget {
                     for (BankAccountDTO bankAccountDTO in _bankAccounts) {
                       GlobalKey key = GlobalKey();
                       _keys.add(key);
-                      QRStatisticWidget qrWidget = QRStatisticWidget(
-                        bankAccountDTO: bankAccountDTO,
+                      // QRStatisticWidget qrWidget = QRStatisticWidget(
+                      //   bankAccountDTO: bankAccountDTO,
+                      // );
+                      VietQRGenerateDTO dto = VietQRGenerateDTO(
+                        cAIValue: VietQRUtils.instance.generateCAIValue(
+                            bankAccountDTO.bankCode,
+                            bankAccountDTO.bankAccount),
+                        transactionAmountValue: '',
+                        additionalDataFieldTemplateValue: '',
                       );
-                      RepaintBoundaryWidget repaintBoundaryWidget =
-                          RepaintBoundaryWidget(
-                              globalKey: key,
-                              builder: (key) {
-                                return SizedBox(
-                                  width: 350,
-                                  height: 300,
-                                  child: qrWidget,
-                                );
-                              });
-                      _cardWidgets.add(repaintBoundaryWidget);
+                      final VietQRWidget qrWidget = VietQRWidget(
+                        width: 300,
+                        bankAccountDTO: bankAccountDTO,
+                        vietQRGenerateDTO: dto,
+                        globalKey: key,
+                        content: '',
+                        isCopy: true,
+                        isStatistic: true,
+                      );
+                      Widget widgetUnconstrained = UnconstrainedBox(
+                        child: SizedBox(
+                          width: width - 50,
+                          height: 400,
+                          child: qrWidget,
+                        ),
+                      );
+                      _cardWidgets.add(widgetUnconstrained);
                     }
                   }
                 }

@@ -1,15 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:uuid/uuid.dart';
 import 'package:vierqr/commons/utils/bank_information_utils.dart';
 import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
 import 'package:vierqr/commons/utils/viet_qr_utils.dart';
 import 'package:vierqr/commons/widgets/button_icon_widget.dart';
 import 'package:vierqr/commons/widgets/dialog_widget.dart';
-import 'package:vierqr/commons/widgets/qr_statistic_widget.dart';
 import 'package:vierqr/commons/widgets/viet_qr_widget.dart';
 import 'package:vierqr/features_mobile/generate_qr/views/create_qr.dart';
 import 'package:vierqr/features_mobile/generate_qr/views/qr_information_view.dart';
@@ -17,10 +14,11 @@ import 'package:vierqr/features_mobile/home/frames/home_frame.dart';
 import 'package:vierqr/features_mobile/home/widgets/button_navigate_page_widget.dart';
 import 'package:vierqr/features_mobile/home/widgets/title_home_web_widget.dart';
 import 'package:vierqr/features_mobile/log_sms/sms_list.dart';
-import 'package:vierqr/features_mobile/log_sms/widgets/sms_list_item_web.dart';
+import 'package:vierqr/features_mobile/notification/blocs/notification_bloc.dart';
+import 'package:vierqr/features_mobile/notification/events/notification_event.dart';
+import 'package:vierqr/features_mobile/notification/states/notification_state.dart';
 import 'package:vierqr/features_mobile/personal/blocs/bank_manage_bloc.dart';
 import 'package:vierqr/features_mobile/personal/events/bank_manage_event.dart';
-import 'package:vierqr/features_mobile/personal/repositories/bank_manage_repository.dart';
 import 'package:vierqr/features_mobile/personal/states/bank_manage_state.dart';
 import 'package:vierqr/features_mobile/personal/views/bank_manage.dart';
 import 'package:vierqr/features_mobile/personal/views/user_setting.dart';
@@ -28,10 +26,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
 import 'package:vierqr/models/transaction_dto.dart';
-import 'package:vierqr/models/transaction_notification_dto.dart';
 import 'package:vierqr/models/viet_qr_generate_dto.dart';
-import 'package:vierqr/services/firestore/transaction_db.dart';
-import 'package:vierqr/services/firestore/transaction_notification_db.dart';
 import 'package:vierqr/services/providers/bank_account_provider.dart';
 import 'package:vierqr/services/providers/page_select_provider.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
@@ -50,28 +45,34 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreen extends State<HomeScreen> {
   //page controller
   static late PageController _pageController;
+  final CarouselController _carouselController = CarouselController();
 
   //list page
   final List<Widget> _homeScreens = [];
-  final CarouselController _carouselController = CarouselController();
   static final List<Widget> _cardWidgets = [];
   static final List<BankAccountDTO> _bankAccounts = [];
-  static late BankManageBloc _bankManageBloc;
+  static final List<TransactionDTO> _transactions = [];
 
-  List<TransactionDTO> _transactions = [];
+  //focus node
   final FocusNode focusNode = FocusNode();
 
-  //for web
+  //blocs
+  static late BankManageBloc _bankManageBloc;
+  static late NotificationBloc _notificationBloc;
 
   @override
   void initState() {
     super.initState();
     if (ScreenResolutionUtils.instance.isWeb()) {
-      _cardWidgets.clear();
-      _bankAccounts.clear();
+      // _cardWidgets.clear();
+      // _bankAccounts.clear();
       _bankManageBloc = BlocProvider.of(context);
-      _bankManageBloc.add(BankManageEventGetList(
-          userId: UserInformationHelper.instance.getUserId()));
+      _notificationBloc = BlocProvider.of(context);
+      //
+      String userId = UserInformationHelper.instance.getUserId();
+      _bankManageBloc.add(BankManageEventGetList(userId: userId));
+      _notificationBloc.add(NotificationEventListen(
+          userId: userId, notificationBloc: _notificationBloc));
     } else {
       _homeScreens.addAll([
         const QRInformationView(
@@ -92,233 +93,11 @@ class _HomeScreen extends State<HomeScreen> {
       keepPage: true,
     );
 
-    if (ScreenResolutionUtils.instance.isWeb()) {
-      getTransactions();
-      listenTransaction();
-      listenNotification();
-    }
-  }
-
-  getTransactions() async {
-    String userId = UserInformationHelper.instance.getUserId();
-    List<String> transactionIds = await TransactionNotificationDB.instance
-        .getTransactionIdsByUserId(userId);
-    _transactions =
-        await TransactionDB.instance.getTransactionsByIds(transactionIds);
-    setState(() {});
-  }
-
-  listenNotification() {
-    // print(
-    //     '----user id in listen notification: ${UserInformationHelper.instance.getUserId()}');
-    TransactionNotificationDB.instance
-        .listenTransactionNotification(
-            UserInformationHelper.instance.getUserId())
-        .listen((data) async {
-      if (data.docs.isNotEmpty) {
-        Map<String, dynamic> element =
-            data.docs.first.data() as Map<String, dynamic>;
-        // await Future.forEach(data.docs, (QueryDocumentSnapshot element) async {
-        //   Map<String, dynamic> el = element.data() as Map<String, dynamic>;
-
-        await TransactionNotificationDB.instance
-            .updateTransactionNotification(element['id']);
-        //
-        WidgetsBinding.instance.addPostFrameCallback((_) async {
-          TransactionDTO dto = await TransactionDB.instance
-              .getTransactionById(element['transactionId']);
-          _transactions.insert(0, dto);
-          setState(() {});
-          Color transactionColor =
-              (BankInformationUtil.instance.isIncome(dto.transaction))
-                  ? DefaultTheme.GREEN
-                  : DefaultTheme.RED_TEXT;
-          DialogWidget.instance.openContentDialog(
-            context,
-            null,
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                const Padding(padding: EdgeInsets.only(top: 30)),
-                const Text(
-                  'Biến động số dư',
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const Padding(padding: EdgeInsets.only(top: 5)),
-                Text(
-                  dto.transaction,
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontSize: 25,
-                    color: transactionColor,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const Padding(padding: EdgeInsets.only(top: 20)),
-                SizedBox(
-                  width: 300,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        width: 80,
-                        child: Text(
-                          'Từ: ',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: DefaultTheme.GREY_TEXT,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          element['address'],
-                          //        dto.address,
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const Padding(padding: EdgeInsets.only(top: 10)),
-                SizedBox(
-                  width: 300,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        width: 80,
-                        child: Text(
-                          'Tài khoản: ',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: DefaultTheme.GREY_TEXT,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 220,
-                        child: Text(
-                          dto.bankAccount,
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const Padding(padding: EdgeInsets.only(top: 10)),
-                SizedBox(
-                  width: 300,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        width: 80,
-                        child: Text(
-                          'Số dư: ',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: DefaultTheme.GREY_TEXT,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 220,
-                        child: Text(
-                          dto.accountBalance,
-                          style: TextStyle(
-                            color: transactionColor,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const Padding(padding: EdgeInsets.only(top: 10)),
-                SizedBox(
-                  width: 300,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        width: 80,
-                        child: Text(
-                          'Nội dung: ',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: DefaultTheme.GREY_TEXT,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          element['content'],
-                          //   dto.content,
-                          style: const TextStyle(fontSize: 15),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          );
-        });
-
-        print('----update done');
-
-        //   });
-        //});
-
-      }
-    }).onError((e) {
-      print('-----ERROR at listenTransactionNotification: $e ');
-    });
-  }
-
-  listenTransaction() async {
-    const BankManageRepository bankManageRepository = BankManageRepository();
-    String userId = UserInformationHelper.instance.getUserId();
-    List<String> bankIds =
-        await bankManageRepository.getBankIdsByUserId(userId);
-    // print('userId: ${UserInformationHelper.instance.getUserId()}');
-    // print('bankIds: $bankIds');
-
-    TransactionDB.instance.listenTransactionBy(bankIds).listen((data) async {
-      if (data.docs.isNotEmpty) {
-        // print('-----data docs length: ${data.docs.length}');
-        // print(
-        //     '------msg is comming\n${data.docs.first['id']}\n${data.docs.first['content']}');
-        Uuid uuid = Uuid();
-        for (int i = 0; i < data.docs.length; i++) {
-          TransactionNotificationDTO transactionNotificationDTO =
-              TransactionNotificationDTO(
-                  id: uuid.v1(),
-                  transactionId: data.docs[i]['id'],
-                  userId: userId,
-                  //timeCreated: data.docs[i]['timeCreated'],
-                  address: data.docs[i]['address'],
-                  content: data.docs[i]['content'],
-                  isFormatted: data.docs[i]['isFormatted'],
-                  isRead: false);
-          await TransactionNotificationDB.instance
-              .insertTransactionNotification(transactionNotificationDTO);
-        }
-      }
-    });
+    // if (ScreenResolutionUtils.instance.isWeb()) {
+    //   getTransactions();
+    //   listenTransaction();
+    //   listenNotification();
+    // }
   }
 
   @override
@@ -383,20 +162,6 @@ class _HomeScreen extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Container(
-              //   width: 65,
-              //   height: 65,
-              //   alignment: Alignment.center,
-              //   decoration: BoxDecoration(
-              //     borderRadius: BorderRadius.circular(65),
-              //   ),
-              //   child: Image.asset(
-              //     'assets/images/ic-avatar.png',
-              //     width: 65,
-              //     height: 65,
-              //   ),
-              // ),
-              // const Padding(padding: EdgeInsets.only(top: 5)),
               Text(
                 'Xin chào, ${UserInformationHelper.instance.getUserInformation().firstName}!',
                 style: const TextStyle(
@@ -427,7 +192,6 @@ class _HomeScreen extends State<HomeScreen> {
               Expanded(
                 child: Container(
                   width: width,
-                  // color: Theme.of(context).cardColor,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   child: Column(
@@ -454,10 +218,14 @@ class _HomeScreen extends State<HomeScreen> {
                                       transactionAmountValue: '',
                                       additionalDataFieldTemplateValue: '',
                                     );
+
+                                    //global key
+                                    final GlobalKey key = GlobalKey();
                                     final VietQRWidget qrWidget = VietQRWidget(
                                       width: 300,
                                       bankAccountDTO: bankAccountDTO,
                                       vietQRGenerateDTO: dto,
+                                      globalKey: key,
                                       content: '',
                                     );
                                     _cardWidgets.add(qrWidget);
@@ -523,6 +291,7 @@ class _HomeScreen extends State<HomeScreen> {
                                           options: CarouselOptions(
                                             height: 400,
                                             enlargeCenterPage: true,
+                                            enableInfiniteScroll: false,
                                             onPageChanged: ((index, reason) {
                                               Provider.of<BankAccountProvider>(
                                                       context,
@@ -560,6 +329,9 @@ class _HomeScreen extends State<HomeScreen> {
                                                   additionalDataFieldTemplateValue:
                                                       '',
                                                 );
+                                                //global key
+                                                final GlobalKey key =
+                                                    GlobalKey();
                                                 final VietQRWidget qrWidget =
                                                     VietQRWidget(
                                                   width: 300,
@@ -569,6 +341,7 @@ class _HomeScreen extends State<HomeScreen> {
                                                               listen: false)
                                                           .indexSelected],
                                                   vietQRGenerateDTO: dto,
+                                                  globalKey: key,
                                                   content: '',
                                                 );
                                                 DialogWidget.instance
@@ -712,20 +485,38 @@ class _HomeScreen extends State<HomeScreen> {
                 title: 'Giao dịch',
                 description: 'Danh sách các giao dịch gần đây',
               ),
+              // Expanded(
+              //   child: SizedBox(
+              //     width: width,
+              //     height: 570,
+              //     child: (_transactions.isNotEmpty)
+              //         ? ListView.builder(
+              //             shrinkWrap: true,
+              //             itemCount: _transactions.length,
+              //             itemBuilder: ((context, index) {
+              //               return SMSListItemWeb(
+              //                   transactionDTO: _transactions[index]);
+              //             }),
+              //           )
+              //         : const SizedBox(),
+              //   ),
+              // ),
               Expanded(
-                child: Container(
-                  width: width,
-                  height: 570,
-                  child: (_transactions.isNotEmpty)
-                      ? ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: _transactions.length,
-                          itemBuilder: ((context, index) {
-                            return SMSListItemWeb(
-                                transactionDTO: _transactions[index]);
-                          }),
-                        )
-                      : const SizedBox(),
+                child: BlocConsumer<NotificationBloc, NotificationState>(
+                  listener: (context, state) {
+                    if (state is NotificationReceivedSuccessState) {
+                      DialogWidget.instance.openContentDialog(
+                        context,
+                        null,
+                        _buildTransactionWidget(state.transactionDTO),
+                      );
+                      _notificationBloc.add(NotificationEventUpdateStatus(
+                          notificationId: state.notificationId));
+                    }
+                  },
+                  builder: (context, state) {
+                    return Container();
+                  },
                 ),
               ),
             ],
@@ -865,10 +656,10 @@ class _HomeScreen extends State<HomeScreen> {
           ),
           children: const [
             TextSpan(
-              text: 'Mã QR tĩnh\n',
+              text: 'QR theo tài khoản\n',
             ),
             TextSpan(
-              text: 'Đây là mã QR không chứa thông tin thanh toán.',
+              text: 'QR không chứa số tiền và nội dung.',
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.normal,
@@ -920,4 +711,122 @@ class _HomeScreen extends State<HomeScreen> {
     }
     return titleWidget;
   }
+}
+
+Widget _buildTransactionWidget(
+  TransactionDTO dto,
+) {
+  Color transactionColor =
+      (BankInformationUtil.instance.isIncome(dto.transaction))
+          ? DefaultTheme.GREEN
+          : DefaultTheme.RED_TEXT;
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.start,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: <Widget>[
+      const Padding(padding: EdgeInsets.only(top: 30)),
+      const Text(
+        'Biến động số dư',
+        maxLines: 1,
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      const Padding(padding: EdgeInsets.only(top: 5)),
+      Text(
+        dto.transaction,
+        maxLines: 1,
+        style: TextStyle(
+          fontSize: 25,
+          color: transactionColor,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      const Padding(padding: EdgeInsets.only(top: 20)),
+      SizedBox(
+        width: 300,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              width: 80,
+              child: Text(
+                'Từ: ',
+                style: TextStyle(
+                  fontSize: 15,
+                  color: DefaultTheme.GREY_TEXT,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Text(
+                dto.address,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      const Padding(padding: EdgeInsets.only(top: 10)),
+      SizedBox(
+        width: 300,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              width: 80,
+              child: Text(
+                'Số dư: ',
+                style: TextStyle(
+                  fontSize: 15,
+                  color: DefaultTheme.GREY_TEXT,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 220,
+              child: Text(
+                dto.accountBalance,
+                style: TextStyle(
+                  color: transactionColor,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      const Padding(padding: EdgeInsets.only(top: 10)),
+      SizedBox(
+        width: 300,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              width: 80,
+              child: Text(
+                'Nội dung: ',
+                style: TextStyle(
+                  fontSize: 15,
+                  color: DefaultTheme.GREY_TEXT,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Text(
+                dto.content,
+                //   dto.content,
+                style: const TextStyle(fontSize: 15),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ],
+  );
 }
