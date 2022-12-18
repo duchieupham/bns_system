@@ -73,3 +73,12 @@ class NotificationEventUpdateAllStatus extends NotificationEvent {
   @override
   List<Object?> get props => [notificationIds];
 }
+
+class NotificationEventGetList extends NotificationEvent {
+  final String userId;
+
+  const NotificationEventGetList({required this.userId});
+
+  @override
+  List<Object?> get props => [userId];
+}

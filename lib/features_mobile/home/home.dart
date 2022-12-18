@@ -227,6 +227,7 @@ class _HomeScreen extends State<HomeScreen> {
                                       vietQRGenerateDTO: dto,
                                       globalKey: key,
                                       content: '',
+                                      isCopy: true,
                                     );
                                     _cardWidgets.add(qrWidget);
                                   }
@@ -512,6 +513,12 @@ class _HomeScreen extends State<HomeScreen> {
                       );
                       _notificationBloc.add(NotificationEventUpdateStatus(
                           notificationId: state.notificationId));
+                    }
+                    if (state is NotificationUpdateSuccessState) {
+                      String userId =
+                          UserInformationHelper.instance.getUserId();
+                      _notificationBloc
+                          .add(NotificationEventGetList(userId: userId));
                     }
                   },
                   builder: (context, state) {

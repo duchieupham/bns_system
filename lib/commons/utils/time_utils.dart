@@ -181,4 +181,17 @@ class TimeUtils {
     }
     return result;
   }
+
+  String formatDateFromTimeStamp(Timestamp timestamp) {
+    String result = '';
+    try {
+      DateTime time =
+          DateTime.fromMicrosecondsSinceEpoch(timestamp.microsecondsSinceEpoch);
+      DateFormat format = DateFormat('dd/MM/yyyy\nHH:mm');
+      result = format.format(time).toString();
+    } catch (e) {
+      print('Error at formatDateFromTimeStamp: $e');
+    }
+    return result;
+  }
 }

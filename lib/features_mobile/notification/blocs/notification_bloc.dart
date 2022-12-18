@@ -16,6 +16,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     on<NotificationEventReceived>(_receivedNewNotification);
     on<NotificationEventUpdateStatus>(_updateStatusNotification);
     on<NotificationEventUpdateAllStatus>(_updateStatusNotifications);
+    on<NotificationEventGetList>(_getNotifications);
   }
 }
 
@@ -103,10 +104,23 @@ void _updateStatusNotifications(NotificationEvent event, Emitter emit) async {
     if (event is NotificationEventUpdateAllStatus) {
       await notificationRepository
           .updateStatusNotifications(event.notificationIds);
-      emit(const NotificationUpdateSuccessState());
+      emit(const NotificationsUpdateSuccessState());
     }
   } catch (e) {
     print('Error at _updateStatusNotifications - NotificationBloc: $e');
-    emit(const NotificationUpdateFailedState());
+    emit(const NotificationsUpdateFailedState());
+  }
+}
+
+void _getNotifications(NotificationEvent event, Emitter emit) async {
+  try {
+    if (event is NotificationEventGetList) {
+      List<NotificationDTO> list =
+          await notificationRepository.getNotifications(event.userId);
+      emit(NotificationListSuccessfulState(list: list));
+    }
+  } catch (e) {
+    print('Error at _getNotifications - NotificationBloc: $e');
+    emit(const NotificationListFailedState());
   }
 }

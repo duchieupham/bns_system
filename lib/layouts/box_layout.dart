@@ -10,6 +10,7 @@ class BoxLayout extends StatelessWidget {
   final Color? bgColor;
   final bool? enableShadow;
   final Alignment? alignment;
+  final EdgeInsets? margin;
 
   const BoxLayout({
     super.key,
@@ -21,6 +22,7 @@ class BoxLayout extends StatelessWidget {
     this.bgColor,
     this.enableShadow,
     this.alignment,
+    this.margin,
   });
 
   @override
@@ -29,6 +31,7 @@ class BoxLayout extends StatelessWidget {
       width: width,
       height: height,
       alignment: alignment,
+      margin: margin,
       padding: (padding != null)
           ? padding
           : const EdgeInsets.symmetric(horizontal: 20, vertical: 10),

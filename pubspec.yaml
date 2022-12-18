@@ -108,6 +108,8 @@ flutter:
       - assets/images/ic-card.png
       - assets/images/ic-warning.png
       - assets/images/ic-napas247.png
+      - assets/images/ic-member.png
+      - assets/images/ic-transaction-success.png
        
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

@@ -67,7 +67,7 @@ class NotificationDB {
       await notificationDB
           .where('userId', isEqualTo: userId)
           .get()
-          .then((QuerySnapshot querySnapshot) async {
+          .then((QuerySnapshot querySnapshot) {
         if (querySnapshot.docs.isNotEmpty) {
           for (int i = 0; i < querySnapshot.docs.length; i++) {
             String userId = querySnapshot.docs[i]['transactionId'];
@@ -77,6 +77,36 @@ class NotificationDB {
       });
     } catch (e) {
       print('Error at getTransactionIdsByUserId - NotificationDB: $e');
+    }
+    return result;
+  }
+
+  Future<List<NotificationDTO>> getNotificationByUserId(String userId) async {
+    List<NotificationDTO> result = [];
+    try {
+      await notificationDB
+          .where('userId', isEqualTo: userId)
+          .orderBy('timeCreated')
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        if (querySnapshot.docs.isNotEmpty) {
+          for (var doc in querySnapshot.docs) {
+            Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+            NotificationDTO notificationDTO = NotificationDTO(
+              id: data['id'],
+              transactionId: data['transactionId'],
+              userId: data['userId'],
+              type: data['type'],
+              message: data['message'],
+              timeInserted: data['timeCreated'],
+              isRead: data['isRead'],
+            );
+            result.add(notificationDTO);
+          }
+        }
+      });
+    } catch (e) {
+      print('Error at getNotificationByUserId - NotificationDB: $e');
     }
     return result;
   }

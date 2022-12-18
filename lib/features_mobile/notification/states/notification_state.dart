@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:vierqr/models/notification_dto.dart';
 import 'package:vierqr/models/transaction_dto.dart';
 
 class NotificationState extends Equatable {
@@ -84,6 +85,23 @@ class NotificationsUpdateSuccessState extends NotificationState {
 
 class NotificationsUpdateFailedState extends NotificationState {
   const NotificationsUpdateFailedState();
+
+  @override
+  List<Object?> get props => [];
+}
+
+//for event get list
+class NotificationListSuccessfulState extends NotificationState {
+  final List<NotificationDTO> list;
+
+  const NotificationListSuccessfulState({required this.list});
+
+  @override
+  List<Object?> get props => [list];
+}
+
+class NotificationListFailedState extends NotificationState {
+  const NotificationListFailedState();
 
   @override
   List<Object?> get props => [];

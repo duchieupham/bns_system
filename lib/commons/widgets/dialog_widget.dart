@@ -8,6 +8,7 @@ import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
 import 'package:vierqr/commons/utils/sms_information_utils.dart';
 import 'package:vierqr/commons/widgets/button_widget.dart';
 import 'package:vierqr/commons/widgets/pin_widget.dart';
+import 'package:vierqr/layouts/box_layout.dart';
 import 'package:vierqr/models/bank_information_dto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -162,6 +163,48 @@ class DialogWidget {
         );
       },
     );
+  }
+
+  openNotificationDialog(
+      {required BuildContext context,
+      required Widget child,
+      required double height}) {
+    return showDialog(
+        context: context,
+        barrierColor: DefaultTheme.TRANSPARENT,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return Align(
+            alignment: Alignment.topRight,
+            child: UnconstrainedBox(
+              child: BoxLayout(
+                width: 300,
+                height: height * 0.7,
+                borderRadius: 5,
+                enableShadow: true,
+                margin: const EdgeInsets.only(
+                  right: 120,
+                  top: 60,
+                ),
+                padding: const EdgeInsets.all(0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+                      child: Text(
+                        'Thông báo',
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Expanded(child: child),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
   }
 
   openBoxWebConfirm({

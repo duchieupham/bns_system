@@ -63,4 +63,15 @@ class NotificationRepository {
       print('Error at updateStatusNotifications - NotificationRepository: $e');
     }
   }
+
+  //step 5
+  Future<List<NotificationDTO>> getNotifications(String userId) async {
+    List<NotificationDTO> result = [];
+    try {
+      result = await NotificationDB.instance.getNotificationByUserId(userId);
+    } catch (e) {
+      print('Error at getNotifications - NotificationRepository: $e');
+    }
+    return result;
+  }
 }

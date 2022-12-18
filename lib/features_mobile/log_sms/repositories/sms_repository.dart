@@ -50,7 +50,8 @@ class SmsRepository {
   }
 
   //step 1
-  Future<void> listenNewSMS() async {
+  // Future<void> listenNewSMS() async {
+  void listenNewSMS() {
     try {
       smslistener.FlutterSmsListener smsListener =
           smslistener.FlutterSmsListener();
@@ -71,106 +72,106 @@ class SmsRepository {
       });
 
       //TEST
-      if (!ScreenResolutionUtils.instance.isWeb()) {
-        //MSG 1
-        await Future.delayed(const Duration(seconds: 10), () async {
-          print('msg 1 after 10 seconds');
-          Map<String, dynamic> data = {
-            'id': 1,
-            'threadId': 1,
-            'address': '0900000000',
-            'body':
-                'VietinBank:21/01/2022 11:35|TK:115000067275|GD:-4,400,000VND|SDC:352,694,458VND|ND:So GD: 124A2210XKCSDB6FBPO7426. 1 BPO8114.1 Bluecom thanh toan 100 hoa don 00000133 ~',
-            'read': false,
-            'date': '21/01/2022 11:37',
-            'dateSent': '21/01/2022 11:37',
-            'kind': SmsMessageKind.received,
-          };
-          MessageDTO dto = MessageDTO(
-              id: data['id'] ?? 0,
-              threadId: data['threadId'] ?? 0,
-              address: data['address'] ?? '',
-              body: data['body'] ?? '',
-              date: data['date'].toString(),
-              dateSent: data['dateSent'].toString(),
-              read: data['read'] ?? false);
-          smsListenController.sink.add(dto);
-        });
-        //MSG 2
-        await Future.delayed(const Duration(seconds: 10), () async {
-          print('msg 2 after 20 seconds');
-          Map<String, dynamic> data = {
-            'id': 234,
-            'threadId': 1123,
-            'address': '0909999999',
-            'body':
-                'SDTK 1000006789 den 17:56:38 ngay 13/11/2022 la 8,668,033 VND. GD moi nhat: +2,500,000 VND: PHAM DUC TUAN  CHUYEN KHOAN Pham duc Trong quang 0936382222',
-            'read': false,
-            'date': '21/01/2022 11:40',
-            'dateSent': '21/01/2022 11:40',
-            'kind': SmsMessageKind.received,
-          };
+      // if (!ScreenResolutionUtils.instance.isWeb()) {
+      //   //MSG 1
+      //   await Future.delayed(const Duration(seconds: 10), () async {
+      //     print('msg 1 after 10 seconds');
+      //     Map<String, dynamic> data = {
+      //       'id': 1,
+      //       'threadId': 1,
+      //       'address': '0900000000',
+      //       'body':
+      //           'VietinBank:21/01/2022 11:35|TK:115000067275|GD:-4,400,000VND|SDC:352,694,458VND|ND:So GD: 124A2210XKCSDB6FBPO7426. 1 BPO8114.1 Bluecom thanh toan 100 hoa don 00000133 ~',
+      //       'read': false,
+      //       'date': '21/01/2022 11:37',
+      //       'dateSent': '21/01/2022 11:37',
+      //       'kind': SmsMessageKind.received,
+      //     };
+      //     MessageDTO dto = MessageDTO(
+      //         id: data['id'] ?? 0,
+      //         threadId: data['threadId'] ?? 0,
+      //         address: data['address'] ?? '',
+      //         body: data['body'] ?? '',
+      //         date: data['date'].toString(),
+      //         dateSent: data['dateSent'].toString(),
+      //         read: data['read'] ?? false);
+      //     smsListenController.sink.add(dto);
+      //   });
+      //   //MSG 2
+      //   await Future.delayed(const Duration(seconds: 10), () async {
+      //     print('msg 2 after 20 seconds');
+      //     Map<String, dynamic> data = {
+      //       'id': 234,
+      //       'threadId': 1123,
+      //       'address': '0909999999',
+      //       'body':
+      //           'SDTK 1000006789 den 17:56:38 ngay 13/11/2022 la 8,668,033 VND. GD moi nhat: +2,500,000 VND: PHAM DUC TUAN  CHUYEN KHOAN Pham duc Trong quang 0936382222',
+      //       'read': false,
+      //       'date': '21/01/2022 11:40',
+      //       'dateSent': '21/01/2022 11:40',
+      //       'kind': SmsMessageKind.received,
+      //     };
 
-          MessageDTO dto = MessageDTO(
-              id: data['id'] ?? 0,
-              threadId: data['threadId'] ?? 0,
-              address: data['address'] ?? '',
-              body: data['body'] ?? '',
-              date: data['date'].toString(),
-              dateSent: data['dateSent'].toString(),
-              read: data['read'] ?? false);
-          smsListenController.sink.add(dto);
-        });
-        //MSG 3
-        await Future.delayed(const Duration(seconds: 10), () async {
-          print('msg 3 after 30 seconds');
-          Map<String, dynamic> data = {
-            'id': 234,
-            'threadId': 1123,
-            'address': '0909090901',
-            'body':
-                'TK 49182391234 NGAY 23/09/22 13:59 SD DAU 46,554,832 TANG 46,500,000 SD CUOI 54,832 VND (CHUYEN KHOAN TU TAI KHOAN 49182391234)',
-            'read': false,
-            'date': '21/01/2022 11:40',
-            'dateSent': '21/01/2022 11:40',
-            'kind': SmsMessageKind.received,
-          };
+      //     MessageDTO dto = MessageDTO(
+      //         id: data['id'] ?? 0,
+      //         threadId: data['threadId'] ?? 0,
+      //         address: data['address'] ?? '',
+      //         body: data['body'] ?? '',
+      //         date: data['date'].toString(),
+      //         dateSent: data['dateSent'].toString(),
+      //         read: data['read'] ?? false);
+      //     smsListenController.sink.add(dto);
+      //   });
+      //   //MSG 3
+      //   await Future.delayed(const Duration(seconds: 10), () async {
+      //     print('msg 3 after 30 seconds');
+      //     Map<String, dynamic> data = {
+      //       'id': 234,
+      //       'threadId': 1123,
+      //       'address': '0909090901',
+      //       'body':
+      //           'TK 49182391234 NGAY 23/09/22 13:59 SD DAU 46,554,832 TANG 46,500,000 SD CUOI 54,832 VND (CHUYEN KHOAN TU TAI KHOAN 49182391234)',
+      //       'read': false,
+      //       'date': '21/01/2022 11:40',
+      //       'dateSent': '21/01/2022 11:40',
+      //       'kind': SmsMessageKind.received,
+      //     };
 
-          MessageDTO dto = MessageDTO(
-              id: data['id'] ?? 0,
-              threadId: data['threadId'] ?? 0,
-              address: data['address'] ?? '',
-              body: data['body'] ?? '',
-              date: data['date'].toString(),
-              dateSent: data['dateSent'].toString(),
-              read: data['read'] ?? false);
-          smsListenController.sink.add(dto);
-        });
-        //MSG4
-        await Future.delayed(const Duration(seconds: 10), () async {
-          print('msg 4 after 30 seconds');
-          Map<String, dynamic> data = {
-            'id': 234,
-            'threadId': 1123,
-            'address': 'TPBANK',
-            'body': 'Example unformatted content.',
-            'read': false,
-            'date': '',
-            'dateSent': '',
-            'kind': SmsMessageKind.received,
-          };
+      //     MessageDTO dto = MessageDTO(
+      //         id: data['id'] ?? 0,
+      //         threadId: data['threadId'] ?? 0,
+      //         address: data['address'] ?? '',
+      //         body: data['body'] ?? '',
+      //         date: data['date'].toString(),
+      //         dateSent: data['dateSent'].toString(),
+      //         read: data['read'] ?? false);
+      //     smsListenController.sink.add(dto);
+      //   });
+      //   //MSG4
+      //   await Future.delayed(const Duration(seconds: 10), () async {
+      //     print('msg 4 after 30 seconds');
+      //     Map<String, dynamic> data = {
+      //       'id': 234,
+      //       'threadId': 1123,
+      //       'address': 'TPBANK',
+      //       'body': 'Example unformatted content.',
+      //       'read': false,
+      //       'date': '',
+      //       'dateSent': '',
+      //       'kind': SmsMessageKind.received,
+      //     };
 
-          MessageDTO dto = MessageDTO(
-              id: data['id'] ?? 0,
-              threadId: data['threadId'] ?? 0,
-              address: data['address'] ?? '',
-              body: data['body'] ?? '',
-              date: data['date'].toString(),
-              dateSent: data['dateSent'].toString(),
-              read: data['read'] ?? false);
-          smsListenController.sink.add(dto);
-        });
-      }
+      //     MessageDTO dto = MessageDTO(
+      //         id: data['id'] ?? 0,
+      //         threadId: data['threadId'] ?? 0,
+      //         address: data['address'] ?? '',
+      //         body: data['body'] ?? '',
+      //         date: data['date'].toString(),
+      //         dateSent: data['dateSent'].toString(),
+      //         read: data['read'] ?? false);
+      //     smsListenController.sink.add(dto);
+      //   });
+      // }
     } catch (e) {
       print('Error at listenNewSMS - SmsRepository: $e');
     }

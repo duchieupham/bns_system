@@ -63,7 +63,7 @@ class VietQRWidget extends StatelessWidget {
                           backgroundColor: Theme.of(context).primaryColor,
                           textColor: Theme.of(context).hintColor,
                           fontSize: 15,
-                          webBgColor: 'rgba(255, 255, 255, 0.5)',
+                          webBgColor: 'rgba(255, 255, 255)',
                           webPosition: 'center',
                         ),
                       );
