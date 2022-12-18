@@ -20,21 +20,28 @@ class NotificationRepository {
   //step 4
   void listenNewNotification(String userId) {
     try {
-      NotificationDB.instance.listenNotification(userId).listen((data) {
-        if (data.docs.isNotEmpty) {
-          if (TimeUtils.instance
-              .checkValidTimeRange(data.docs.first['timeCreated'], 30)) {
-            if (!data.docs.first['isRead']) {
-              NotificationDTO notificationDTO = NotificationDTO(
-                id: data.docs.first['id'],
-                transactionId: data.docs.first['transactionId'],
-                userId: data.docs.first['userId'],
-                message: data.docs.first['message'],
-                type: data.docs.first['type'],
-                timeInserted: data.docs.first['timeCreated'],
-                isRead: data.docs.first['isRead'],
-              );
-              notificationController.sink.add(notificationDTO);
+      NotificationDB.instance
+          .listenNotification(userId)
+          .listen((querySnapshot) {
+        if (querySnapshot.docs.isNotEmpty) {
+          for (var doc in querySnapshot.docs) {
+            Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+            if (data['userId'] == userId) {
+              if (!data['isRead']) {
+                if (TimeUtils.instance
+                    .checkValidTimeRange(data['timeCreated'], 30)) {
+                  NotificationDTO notificationDTO = NotificationDTO(
+                    id: data['id'],
+                    transactionId: data['transactionId'],
+                    userId: data['userId'],
+                    message: data['message'],
+                    type: data['type'],
+                    timeInserted: data['timeCreated'],
+                    isRead: data['isRead'],
+                  );
+                  notificationController.sink.add(notificationDTO);
+                }
+              }
             }
           }
         }

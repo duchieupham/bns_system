@@ -15,7 +15,7 @@ class NotificationDB {
         .collection('notification')
         .where('userId', isEqualTo: userId)
         .where('isRead', isEqualTo: false)
-        .orderBy('timeCreated')
+        .orderBy('timeCreated', descending: true)
         .snapshots();
   }
 

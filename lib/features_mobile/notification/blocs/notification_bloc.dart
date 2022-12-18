@@ -17,11 +17,26 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     on<NotificationEventUpdateStatus>(_updateStatusNotification);
     on<NotificationEventUpdateAllStatus>(_updateStatusNotifications);
     on<NotificationEventGetList>(_getNotifications);
+    on<NotificationInitialEvent>(_initial);
   }
 }
 
 const MemberManageRepository memberManageRepository = MemberManageRepository();
 const NotificationRepository notificationRepository = NotificationRepository();
+
+void _initial(NotificationEvent event, Emitter emit) {
+  const NotificationDTO notificationDTO = NotificationDTO(
+    id: '',
+    transactionId: '',
+    userId: '',
+    type: '',
+    message: '',
+    timeInserted: null,
+    isRead: false,
+  );
+  NotificationRepository.notificationController.sink.add(notificationDTO);
+  emit(const NotificationInitialState());
+}
 
 void _insertNotifications(NotificationEvent event, Emitter emit) async {
   try {
@@ -56,9 +71,11 @@ void _listenNewNotification(NotificationEvent event, Emitter emit) {
     if (event is NotificationEventListen) {
       notificationRepository.listenNewNotification(event.userId);
       NotificationRepository.notificationController.listen((notificationDTO) {
-        if (notificationDTO.type == Stringify.NOTIFICATION_TYPE_TRANSACTION) {
-          event.notificationBloc
-              .add(NotificationEventReceived(notificationDTO: notificationDTO));
+        if (notificationDTO.id != '') {
+          if (notificationDTO.type == Stringify.NOTIFICATION_TYPE_TRANSACTION) {
+            event.notificationBloc.add(
+                NotificationEventReceived(notificationDTO: notificationDTO));
+          }
         }
       });
     }

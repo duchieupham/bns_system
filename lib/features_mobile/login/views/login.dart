@@ -51,10 +51,11 @@ class Login extends StatelessWidget {
             Provider.of<PageSelectProvider>(context, listen: false)
                 .updateIndex(0);
             //navigate to home screen
-            Navigator.of(context).pushReplacement(
+            Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
                 builder: (context) => const HomeScreen(),
               ),
+              (Route<dynamic> route) => true,
             );
           }
           if (state is LoginFailedState) {

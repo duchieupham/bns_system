@@ -50,8 +50,8 @@ class SmsRepository {
   }
 
   //step 1
-  Future<void> listenNewSMS() async {
-    // void listenNewSMS() {
+  // Future<void> listenNewSMS() async {
+  void listenNewSMS() {
     try {
       smslistener.FlutterSmsListener smsListener =
           smslistener.FlutterSmsListener();

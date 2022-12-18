@@ -84,7 +84,7 @@ class BankMemberDB {
     try {
       await bankMemberDb
           .where('bankId', isEqualTo: bankId)
-          .orderBy('time')
+          .orderBy('time', descending: true)
           .get()
           .then((QuerySnapshot querySnapshot) async {
         if (querySnapshot.docs.isNotEmpty) {

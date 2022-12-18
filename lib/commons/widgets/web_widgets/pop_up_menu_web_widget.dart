@@ -225,7 +225,7 @@ class PopupMenuWebWidget {
             await UserInformationHelper.instance.initialUserInformationHelper();
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => const Login()),
-                (Route<dynamic> route) => false);
+                (Route<dynamic> route) => true);
           },
           child: const Text(
             'Đăng xuất',
@@ -315,7 +315,7 @@ class PopupMenuWebWidget {
             await UserInformationHelper.instance.initialUserInformationHelper();
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => const Login()),
-                (Route<dynamic> route) => false);
+                (Route<dynamic> route) => true);
           },
           child: const Text(
             'Đăng xuất',

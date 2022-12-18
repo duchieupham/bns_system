@@ -20,6 +20,7 @@ import 'package:vierqr/features_mobile/log_sms/states/transaction_state.dart';
 import 'package:vierqr/features_mobile/log_sms/widgets/sms_list_item_web.dart';
 import 'package:vierqr/features_mobile/notification/blocs/notification_bloc.dart';
 import 'package:vierqr/features_mobile/notification/events/notification_event.dart';
+import 'package:vierqr/features_mobile/notification/repositories/notification_repository.dart';
 import 'package:vierqr/features_mobile/notification/states/notification_state.dart';
 import 'package:vierqr/features_mobile/personal/blocs/bank_manage_bloc.dart';
 import 'package:vierqr/features_mobile/personal/events/bank_manage_event.dart';
@@ -105,6 +106,15 @@ class _HomeScreen extends State<HomeScreen> {
     //   listenTransaction();
     //   listenNotification();
     // }
+  }
+
+  @override
+  void dispose() {
+    _notificationBloc.close();
+    NotificationRepository.notificationController.close();
+    _bankManageBloc.close();
+    _transactionBloc.close();
+    super.dispose();
   }
 
   @override
@@ -526,6 +536,9 @@ class _HomeScreen extends State<HomeScreen> {
                           UserInformationHelper.instance.getUserId();
                       _notificationBloc
                           .add(NotificationEventGetList(userId: userId));
+                    }
+                    if (state is NotificationListSuccessfulState) {
+                      _notificationBloc.add(const NotificationInitialEvent());
                     }
                   },
                   builder: (context, state) {

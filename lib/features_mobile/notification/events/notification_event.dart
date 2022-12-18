@@ -82,3 +82,10 @@ class NotificationEventGetList extends NotificationEvent {
   @override
   List<Object?> get props => [userId];
 }
+
+class NotificationInitialEvent extends NotificationEvent {
+  const NotificationInitialEvent();
+
+  @override
+  List<Object?> get props => [];
+}
