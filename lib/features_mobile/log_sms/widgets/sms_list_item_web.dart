@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/utils/bank_information_utils.dart';
+import 'package:vierqr/commons/utils/time_utils.dart';
 import 'package:vierqr/models/transaction_dto.dart';
 
 class SMSListItemWeb extends StatelessWidget {
@@ -19,7 +20,10 @@ class SMSListItemWeb extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  transactionDTO.timeReceived,
+                  TimeUtils.instance.formatDateFromTimeStamp(
+                    transactionDTO.timeInserted,
+                    false,
+                  ),
                   style: const TextStyle(color: DefaultTheme.GREY_TEXT),
                 ),
                 const Padding(padding: EdgeInsets.only(top: 5)),

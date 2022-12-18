@@ -181,6 +181,7 @@ class HeaderWebWidget extends StatelessWidget {
                         _notifications.clear();
                         if (_notifications.isEmpty && state.list.isNotEmpty) {
                           _notifications.addAll(state.list);
+                          _notificationCount = 0;
                           for (NotificationDTO dto in _notifications) {
                             if (!dto.isRead) {
                               _notificationCount += 1;
@@ -366,8 +367,8 @@ class HeaderWebWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      TimeUtils.instance
-                          .formatDateFromTimeStamp(list[index].timeInserted),
+                      TimeUtils.instance.formatDateFromTimeStamp(
+                          list[index].timeInserted, true),
                       textAlign: TextAlign.right,
                       style: const TextStyle(
                         fontSize: 12,

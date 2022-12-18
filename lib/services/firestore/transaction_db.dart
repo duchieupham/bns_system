@@ -114,8 +114,7 @@ class TransactionDB {
           String content = querySnapshot.docs.first['content'] ?? '';
           bool isFormatted = querySnapshot.docs.first['isFormatted'] ?? false;
           String status = querySnapshot.docs.first['status'] ?? '';
-          // dynamic timeInserted =
-          //     querySnapshot.docs.first['timeCreated'] ?? null;
+          dynamic timeInserted = querySnapshot.docs.first['timeCreated'];
           String timeReceived = querySnapshot.docs.first['timeReceived'] ?? '';
           String transaction = querySnapshot.docs.first['transaction'] ?? '';
           String type = querySnapshot.docs.first['type'] ?? '';
@@ -129,7 +128,7 @@ class TransactionDB {
             content: content,
             isFormatted: isFormatted,
             status: status,
-            timeInserted: null,
+            timeInserted: timeInserted,
             timeReceived: timeReceived,
             transaction: transaction,
             type: type,

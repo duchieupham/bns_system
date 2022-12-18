@@ -3,7 +3,7 @@ import 'package:vierqr/models/bank_member_dto.dart';
 import 'package:vierqr/models/user_bank_dto.dart';
 import 'package:vierqr/models/user_information_dto.dart';
 import 'package:vierqr/models/user_phone_dto.dart';
-import 'package:vierqr/services/firestore/bank_notification_db.dart';
+import 'package:vierqr/services/firestore/bank_member_db.dart';
 import 'package:vierqr/services/firestore/user_information_db.dart';
 
 class MemberManageRepository {
@@ -77,4 +77,15 @@ class MemberManageRepository {
     }
     return result;
   }
+
+  //step 5
+  // Future<List<String>> getBankIdsByUserId(String userId) async {
+  //   List<String> result = [];
+  //   try {
+  //     result = await BankMemberDB.instance.getBankIdsByUserId(userId);
+  //   } catch (e) {
+  //     print('Error at getBankIdsByUserId - MemberManageRepository: $e');
+  //   }
+  //   return result;
+  // }
 }

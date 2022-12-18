@@ -86,7 +86,7 @@ class NotificationDB {
     try {
       await notificationDB
           .where('userId', isEqualTo: userId)
-          .orderBy('timeCreated')
+          .orderBy('timeCreated', descending: true)
           .get()
           .then((QuerySnapshot querySnapshot) {
         if (querySnapshot.docs.isNotEmpty) {

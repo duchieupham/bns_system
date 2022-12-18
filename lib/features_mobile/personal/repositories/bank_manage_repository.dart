@@ -1,7 +1,7 @@
 import 'package:vierqr/commons/constants/configurations/stringify.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
 import 'package:vierqr/services/firestore/bank_account_db.dart';
-import 'package:vierqr/services/firestore/bank_notification_db.dart';
+import 'package:vierqr/services/firestore/bank_member_db.dart';
 
 class BankManageRepository {
   const BankManageRepository();

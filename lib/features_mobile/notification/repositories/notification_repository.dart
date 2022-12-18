@@ -22,20 +22,20 @@ class NotificationRepository {
     try {
       NotificationDB.instance.listenNotification(userId).listen((data) {
         if (data.docs.isNotEmpty) {
-          //check time range here, before sink add
-          //do not need to using for loop, because list is sorted by time.
           if (TimeUtils.instance
               .checkValidTimeRange(data.docs.first['timeCreated'], 30)) {
-            NotificationDTO notificationDTO = NotificationDTO(
-              id: data.docs.first['id'],
-              transactionId: data.docs.first['transactionId'],
-              userId: data.docs.first['userId'],
-              message: data.docs.first['message'],
-              type: data.docs.first['type'],
-              timeInserted: data.docs.first['timeCreated'],
-              isRead: data.docs.first['isRead'],
-            );
-            notificationController.sink.add(notificationDTO);
+            if (!data.docs.first['isRead']) {
+              NotificationDTO notificationDTO = NotificationDTO(
+                id: data.docs.first['id'],
+                transactionId: data.docs.first['transactionId'],
+                userId: data.docs.first['userId'],
+                message: data.docs.first['message'],
+                type: data.docs.first['type'],
+                timeInserted: data.docs.first['timeCreated'],
+                isRead: data.docs.first['isRead'],
+              );
+              notificationController.sink.add(notificationDTO);
+            }
           }
         }
       });
@@ -64,13 +64,24 @@ class NotificationRepository {
     }
   }
 
-  //step 5
+  //step 4
   Future<List<NotificationDTO>> getNotifications(String userId) async {
     List<NotificationDTO> result = [];
     try {
       result = await NotificationDB.instance.getNotificationByUserId(userId);
     } catch (e) {
       print('Error at getNotifications - NotificationRepository: $e');
+    }
+    return result;
+  }
+
+  //step 5
+  Future<List<String>> getTransactionIdsByUserId(String userId) async {
+    List<String> result = [];
+    try {
+      result = await NotificationDB.instance.getTransactionIdsByUserId(userId);
+    } catch (e) {
+      print('Error at getTransactionIdsByUserId - NotificationRepository: $e');
     }
     return result;
   }

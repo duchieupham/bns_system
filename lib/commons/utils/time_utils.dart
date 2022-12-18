@@ -182,12 +182,14 @@ class TimeUtils {
     return result;
   }
 
-  String formatDateFromTimeStamp(Timestamp timestamp) {
+  String formatDateFromTimeStamp(Timestamp timestamp, bool isMultipleRow) {
     String result = '';
     try {
       DateTime time =
           DateTime.fromMicrosecondsSinceEpoch(timestamp.microsecondsSinceEpoch);
-      DateFormat format = DateFormat('dd/MM/yyyy\nHH:mm');
+      DateFormat format = (isMultipleRow)
+          ? DateFormat('dd/MM/yyyy\nHH:mm')
+          : DateFormat('dd/MM/yyyy HH:mm');
       result = format.format(time).toString();
     } catch (e) {
       print('Error at formatDateFromTimeStamp: $e');

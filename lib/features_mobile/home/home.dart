@@ -13,7 +13,11 @@ import 'package:vierqr/features_mobile/generate_qr/views/qr_information_view.dar
 import 'package:vierqr/features_mobile/home/frames/home_frame.dart';
 import 'package:vierqr/features_mobile/home/widgets/button_navigate_page_widget.dart';
 import 'package:vierqr/features_mobile/home/widgets/title_home_web_widget.dart';
+import 'package:vierqr/features_mobile/log_sms/blocs/transaction_bloc.dart';
+import 'package:vierqr/features_mobile/log_sms/events/transaction_event.dart';
 import 'package:vierqr/features_mobile/log_sms/sms_list.dart';
+import 'package:vierqr/features_mobile/log_sms/states/transaction_state.dart';
+import 'package:vierqr/features_mobile/log_sms/widgets/sms_list_item_web.dart';
 import 'package:vierqr/features_mobile/notification/blocs/notification_bloc.dart';
 import 'package:vierqr/features_mobile/notification/events/notification_event.dart';
 import 'package:vierqr/features_mobile/notification/states/notification_state.dart';
@@ -59,6 +63,7 @@ class _HomeScreen extends State<HomeScreen> {
   //blocs
   static late BankManageBloc _bankManageBloc;
   static late NotificationBloc _notificationBloc;
+  static late TransactionBloc _transactionBloc;
 
   @override
   void initState() {
@@ -68,11 +73,13 @@ class _HomeScreen extends State<HomeScreen> {
       // _bankAccounts.clear();
       _bankManageBloc = BlocProvider.of(context);
       _notificationBloc = BlocProvider.of(context);
+      _transactionBloc = BlocProvider.of(context);
       //
       String userId = UserInformationHelper.instance.getUserId();
       _bankManageBloc.add(BankManageEventGetList(userId: userId));
       _notificationBloc.add(NotificationEventListen(
           userId: userId, notificationBloc: _notificationBloc));
+      _transactionBloc.add(TransactionEventGetList(userId: userId));
     } else {
       _homeScreens.addAll([
         const QRInformationView(
@@ -522,7 +529,40 @@ class _HomeScreen extends State<HomeScreen> {
                     }
                   },
                   builder: (context, state) {
-                    return Container();
+                    if (state is NotificationReceivedSuccessState) {
+                      _transactions.insert(0, state.transactionDTO);
+                    }
+                    return BlocConsumer<TransactionBloc, TransactionState>(
+                      listener: (context, state) {
+                        if (state is TransactionSuccessfulListState) {
+                          _transactions.clear();
+                          if (_transactions.isEmpty && state.list.isNotEmpty) {
+                            _transactions.addAll(state.list);
+                          }
+                        }
+                      },
+                      builder: (context, state) {
+                        if (state is TransactionSuccessfulListState) {
+                          if (state.list.isEmpty) {
+                            _transactions.clear();
+                          }
+                        }
+                        return SizedBox(
+                          width: width,
+                          height: 570,
+                          child: (_transactions.isNotEmpty)
+                              ? ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: _transactions.length,
+                                  itemBuilder: ((context, index) {
+                                    return SMSListItemWeb(
+                                        transactionDTO: _transactions[index]);
+                                  }),
+                                )
+                              : const SizedBox(),
+                        );
+                      },
+                    );
                   },
                 ),
               ),

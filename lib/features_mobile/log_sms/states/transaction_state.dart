@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:vierqr/models/transaction_dto.dart';
 
 class TransactionState extends Equatable {
   const TransactionState();
@@ -41,6 +42,30 @@ class TransactionInsertSuccessState extends TransactionState {
 
 class TransactionInsertFailedState extends TransactionState {
   const TransactionInsertFailedState();
+
+  @override
+  List<Object?> get props => [];
+}
+
+//for event get list
+class TransactionLoadingListState extends TransactionState {
+  const TransactionLoadingListState();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class TransactionSuccessfulListState extends TransactionState {
+  final List<TransactionDTO> list;
+
+  const TransactionSuccessfulListState({required this.list});
+
+  @override
+  List<Object?> get props => [list];
+}
+
+class TransactionFailedListState extends TransactionState {
+  const TransactionFailedListState();
 
   @override
   List<Object?> get props => [];

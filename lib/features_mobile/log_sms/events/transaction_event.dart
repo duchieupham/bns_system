@@ -18,3 +18,12 @@ class TransactionEventInsert extends TransactionEvent {
   @override
   List<Object?> get props => [transactionDTO];
 }
+
+class TransactionEventGetList extends TransactionEvent {
+  final String userId;
+
+  const TransactionEventGetList({required this.userId});
+
+  @override
+  List<Object?> get props => [userId];
+}
