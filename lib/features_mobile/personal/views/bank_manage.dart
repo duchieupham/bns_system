@@ -364,7 +364,7 @@ class BankManageView extends StatelessWidget {
                       itemCount: _bankAccounts.length + 1,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: (ScreenResolutionUtils.instance
-                                .checkHomeResize(width, 1250))
+                                .resizeWhen(width, 1250))
                             ? 3
                             : 2,
                         childAspectRatio: 1.7,
@@ -437,7 +437,7 @@ class BankManageView extends StatelessWidget {
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: (ScreenResolutionUtils.instance
-                                        .checkHomeResize(width, 1250))
+                                        .resizeWhen(width, 1250))
                                     ? 3
                                     : 2,
                                 childAspectRatio: 1.7,

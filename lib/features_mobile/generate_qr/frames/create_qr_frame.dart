@@ -53,7 +53,7 @@ class CreateQRFrame extends StatelessWidget {
                           color: Theme.of(context).cardColor,
                         ),
                         child: (ScreenResolutionUtils.instance
-                                .checkHomeResize(width, 800))
+                                .resizeWhen(width, 800))
                             ? Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -116,7 +116,7 @@ class CreateQRFrame extends StatelessWidget {
                     const Padding(padding: EdgeInsets.only(top: 10)),
                   ],
                 ),
-                (ScreenResolutionUtils.instance.checkHomeResize(width, 800))
+                (ScreenResolutionUtils.instance.resizeWhen(width, 800))
                     ? HeaderWebWidget(
                         title: 'Tạo QR theo giao dịch',
                         isSubHeader: true,

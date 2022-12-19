@@ -114,6 +114,7 @@ class RegisterView extends StatelessWidget {
                               TextFieldWidget(
                                 width: width,
                                 isObscureText: false,
+                                maxLines: 1,
                                 textfieldType: TextfieldType.LABEL,
                                 title: 'Số điện thoại',
                                 titleWidth: 100,
@@ -132,6 +133,7 @@ class RegisterView extends StatelessWidget {
                               TextFieldWidget(
                                 width: width,
                                 isObscureText: true,
+                                maxLines: 1,
                                 textfieldType: TextfieldType.LABEL,
                                 title: 'Mã PIN',
                                 titleWidth: 100,
@@ -150,6 +152,7 @@ class RegisterView extends StatelessWidget {
                               TextFieldWidget(
                                 width: width,
                                 isObscureText: true,
+                                maxLines: 1,
                                 textfieldType: TextfieldType.LABEL,
                                 title: 'Xác nhận lại',
                                 titleWidth: 100,
@@ -220,6 +223,7 @@ class RegisterView extends StatelessWidget {
                         child: TextFieldWidget(
                           width: width,
                           isObscureText: false,
+                          maxLines: 1,
                           textfieldType: TextfieldType.LABEL,
                           title: 'Số điện thoại',
                           titleWidth: 100,
@@ -251,6 +255,7 @@ class RegisterView extends StatelessWidget {
                         child: TextFieldWidget(
                           width: width,
                           isObscureText: true,
+                          maxLines: 1,
                           textfieldType: TextfieldType.LABEL,
                           title: 'Mã PIN',
                           titleWidth: 100,
@@ -282,6 +287,7 @@ class RegisterView extends StatelessWidget {
                         child: TextFieldWidget(
                           width: width,
                           isObscureText: true,
+                          maxLines: 1,
                           textfieldType: TextfieldType.LABEL,
                           title: 'Xác nhận lại',
                           titleWidth: 100,

@@ -458,7 +458,7 @@ class _HomeScreen extends State<HomeScreen> {
                         icon: Icons.add_rounded,
                         autoFocus: true,
                         focusNode: (ScreenResolutionUtils.instance
-                                .checkHomeResize(width, 870))
+                                .resizeWhen(width, 870))
                             ? focusNode
                             : null,
                         title: 'Tạo QR theo giao dịch',

@@ -64,7 +64,7 @@ class UserEditView extends StatelessWidget {
       appBar: AppBar(toolbarHeight: 0),
       body: Column(
         children: [
-          (ScreenResolutionUtils.instance.checkHomeResize(width, 800))
+          (ScreenResolutionUtils.instance.resizeWhen(width, 800))
               ? HeaderWebWidget(
                   title: 'Thông tin cá nhân',
                   isSubHeader: true,

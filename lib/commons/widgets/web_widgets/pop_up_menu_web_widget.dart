@@ -4,10 +4,13 @@ import 'package:provider/provider.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/widgets/dialog_widget.dart';
 import 'package:vierqr/features_mobile/home/home.dart';
+import 'package:vierqr/features_mobile/login/blocs/login_bloc.dart';
+import 'package:vierqr/features_mobile/login/events/login_event.dart';
 import 'package:vierqr/features_mobile/login/views/login.dart';
 import 'package:vierqr/features_mobile/personal/blocs/bank_manage_bloc.dart';
 import 'package:vierqr/features_mobile/personal/events/bank_manage_event.dart';
 import 'package:vierqr/features_mobile/personal/views/bank_manage.dart';
+import 'package:vierqr/features_mobile/personal/views/qr_scanner.dart';
 import 'package:vierqr/features_mobile/personal/views/user_edit_view.dart';
 import 'package:vierqr/features_mobile/personal/widgets/add_members_card_widget.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
@@ -241,6 +244,7 @@ class PopupMenuWebWidget {
   Future<void> showPopupMMenu(BuildContext context, bool? isSubHeader,
       VoidCallback? functionHome) async {
     final RelativeRect position = _buttonMenuPosition(context);
+    LoginBloc loginBloc = BlocProvider.of(context);
     await showMenu(
       context: context,
       position: position,
@@ -308,8 +312,33 @@ class PopupMenuWebWidget {
           value: 5,
           child: Text('Thay đổi giao diện'),
         ),
+        //FOR TEST
         PopupMenuItem<int>(
           value: 6,
+          onTap: () {
+            Navigator.of(context)
+                .push(
+              MaterialPageRoute(
+                builder: (context) => QRScanner(),
+              ),
+            )
+                .then((code) {
+              if (code.toString().isNotEmpty) {
+                loginBloc.add(
+                  LoginEventUpdateCode(
+                    code: code,
+                    userId: UserInformationHelper.instance.getUserId(),
+                  ),
+                );
+              }
+            });
+          },
+          child: const Text(
+            'Đăng nhập bằng mã QR',
+          ),
+        ),
+        PopupMenuItem<int>(
+          value: 7,
           onTap: () async {
             resetAll(context);
             await UserInformationHelper.instance.initialUserInformationHelper();

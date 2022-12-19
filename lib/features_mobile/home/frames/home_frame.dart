@@ -27,7 +27,7 @@ class HomeFrame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: (ScreenResolutionUtils.instance.checkHomeResize(width, 870))
+      children: (ScreenResolutionUtils.instance.resizeWhen(width, 870))
           ? [
               Container(
                 width: width,

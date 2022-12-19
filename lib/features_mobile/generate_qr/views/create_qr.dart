@@ -235,7 +235,7 @@ class _CreateQR extends State<CreateQR> {
                             width: width,
                             autoFocus: true,
                             focusNode: (ScreenResolutionUtils.instance
-                                    .checkHomeResize(width, 800))
+                                    .resizeWhen(width, 800))
                                 ? _amountFocusNode
                                 : null,
                             isObscureText: false,
@@ -303,10 +303,10 @@ class _CreateQR extends State<CreateQR> {
                 child: TextField(
                   controller: msgController,
                   autofocus: false,
-                  focusNode: (ScreenResolutionUtils.instance
-                          .checkHomeResize(width, 800))
-                      ? _msgFocusNode
-                      : null,
+                  focusNode:
+                      (ScreenResolutionUtils.instance.resizeWhen(width, 800))
+                          ? _msgFocusNode
+                          : null,
                   maxLength: 99,
                   decoration: const InputDecoration(
                     border: InputBorder.none,
@@ -341,8 +341,7 @@ class _CreateQR extends State<CreateQR> {
                       Provider.of<CreateQRProvider>(context, listen: false)
                           .updateQrGenerated(true);
                     }
-                    if (ScreenResolutionUtils.instance
-                        .checkHomeResize(width, 800)) {
+                    if (ScreenResolutionUtils.instance.resizeWhen(width, 800)) {
                       _amountFocusNode.requestFocus();
                       amountController.clear();
                     } else {
@@ -355,7 +354,7 @@ class _CreateQR extends State<CreateQR> {
                   },
                 ),
               ),
-              (ScreenResolutionUtils.instance.checkHomeResize(width, 800))
+              (ScreenResolutionUtils.instance.resizeWhen(width, 800))
                   ? const Spacer()
                   : const Padding(padding: EdgeInsets.only(top: 50)),
               ButtonWidget(
@@ -388,8 +387,7 @@ class _CreateQR extends State<CreateQR> {
                     Provider.of<CreateQRProvider>(context, listen: false)
                         .updateQrGenerated(true);
                   }
-                  if (ScreenResolutionUtils.instance
-                      .checkHomeResize(width, 800)) {
+                  if (ScreenResolutionUtils.instance.resizeWhen(width, 800)) {
                     _amountFocusNode.requestFocus();
                     amountController.clear();
                   } else {

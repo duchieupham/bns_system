@@ -110,6 +110,7 @@ flutter:
       - assets/images/ic-napas247.png
       - assets/images/ic-member.png
       - assets/images/ic-transaction-success.png
+      - assets/images/ic-viet-qr-login.png
        
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

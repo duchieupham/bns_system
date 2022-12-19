@@ -23,7 +23,7 @@ class BankManageFrame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    return (ScreenResolutionUtils.instance.checkHomeResize(width, 900))
+    return (ScreenResolutionUtils.instance.resizeWhen(width, 900))
         ? Stack(
             children: [
               Image.asset(

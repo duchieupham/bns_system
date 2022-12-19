@@ -1,9 +1,13 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/widgets/button_text_widget.dart';
 import 'package:vierqr/features_mobile/home/theme_setting.dart';
+import 'package:vierqr/features_mobile/login/blocs/login_bloc.dart';
+import 'package:vierqr/features_mobile/login/events/login_event.dart';
 import 'package:vierqr/features_mobile/login/views/login.dart';
 import 'package:vierqr/features_mobile/personal/views/bank_manage.dart';
+import 'package:vierqr/features_mobile/personal/views/qr_scanner.dart';
 import 'package:vierqr/features_mobile/personal/views/user_edit_view.dart';
 import 'package:vierqr/services/providers/bank_account_provider.dart';
 import 'package:vierqr/services/providers/create_qr_page_select_provider.dart';
@@ -21,6 +25,14 @@ class UserSetting extends StatefulWidget {
 }
 
 class _UserSetting extends State<UserSetting> {
+  static late LoginBloc _loginBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _loginBloc = BlocProvider.of(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -82,6 +94,34 @@ class _UserSetting extends State<UserSetting> {
                         builder: (context) => const BankManageView(),
                       ),
                     );
+                  },
+                ),
+                const Divider(
+                  color: DefaultTheme.GREY_LIGHT,
+                  height: 1,
+                ),
+                ButtonTextWidget(
+                  width: width,
+                  alignment: buttonTextAlignment,
+                  text: 'Đăng nhập bằng mã QR',
+                  textColor: DefaultTheme.GREEN,
+                  function: () {
+                    Navigator.of(context)
+                        .push(
+                      MaterialPageRoute(
+                        builder: (context) => QRScanner(),
+                      ),
+                    )
+                        .then((code) {
+                      if (code.toString().isNotEmpty) {
+                        _loginBloc.add(
+                          LoginEventUpdateCode(
+                            code: code,
+                            userId: UserInformationHelper.instance.getUserId(),
+                          ),
+                        );
+                      }
+                    });
                   },
                 ),
                 const Divider(
