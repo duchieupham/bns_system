@@ -38,7 +38,7 @@ class Login extends StatelessWidget {
   void initialServices(BuildContext context) {
     code = uuid.v1();
     _loginBloc = BlocProvider.of(context);
-    // _loginBloc.add(LoginEventInsertCode(code: code));
+    _loginBloc.add(LoginEventInsertCode(code: code, loginBloc: _loginBloc));
     isInitial = true;
   }
 

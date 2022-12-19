@@ -315,7 +315,8 @@ class PopupMenuWebWidget {
         //FOR TEST
         PopupMenuItem<int>(
           value: 6,
-          onTap: () {
+          onTap: () async {
+            await Future.delayed(const Duration(milliseconds: 200), () {});
             Navigator.of(context)
                 .push(
               MaterialPageRoute(
