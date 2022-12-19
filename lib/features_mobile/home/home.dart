@@ -237,7 +237,7 @@ class _HomeScreen extends State<HomeScreen> {
                                     );
 
                                     //global key
-                                    final GlobalKey key = GlobalKey();
+                                    GlobalKey key = GlobalKey();
                                     final VietQRWidget qrWidget = VietQRWidget(
                                       width: 300,
                                       bankAccountDTO: bankAccountDTO,

@@ -3,6 +3,7 @@ import 'package:vierqr/features_mobile/login/repositories/login_repository.dart'
 import 'package:vierqr/features_mobile/login/states/login_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vierqr/models/code_login_dto.dart';
+import 'package:vierqr/services/shared_references/user_information_helper.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super(LoginInitialState()) {
@@ -39,6 +40,9 @@ void _getUserInformation(LoginEvent event, Emitter emit) async {
     if (event is LoginEventGetUserInformation) {
       bool isSuccess = await loginRepository.getUserInformation(event.userId);
       if (isSuccess) {
+        LoginRepository.codeLoginController.sink
+            .add(const CodeLoginDTO(code: '', isScanned: false, userId: ''));
+
         emit(LoginGetUserInformationSuccessfulState());
       } else {
         emit(LoginFailedState());
@@ -66,10 +70,12 @@ void _listenCodeLogin(LoginEvent event, Emitter emit) {
   }
 }
 
-void _receivedCodeLogin(LoginEvent event, Emitter emit) {
+void _receivedCodeLogin(LoginEvent event, Emitter emit) async {
   try {
     if (event is LoginEventReceived) {
       if (event.dto.userId.isNotEmpty) {
+        await UserInformationHelper.instance.setUserId(event.dto.userId);
+        await loginRepository.deleteCodeLogin(event.dto.code);
         emit(LoginSuccessfulState(userId: event.dto.userId));
       }
     }

@@ -21,34 +21,39 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
+  const Login({Key? key}) : super(key: key);
+  @override
+  State<StatefulWidget> createState() => _Login();
+}
+
+class _Login extends State<Login> {
   static final TextEditingController phoneNoController =
       TextEditingController();
-  static final TextEditingController passwordController =
-      TextEditingController();
-
-  static bool isInitial = false;
 
   static late LoginBloc _loginBloc;
   static String code = '';
   static const Uuid uuid = Uuid();
 
-  const Login({Key? key}) : super(key: key);
-
-  void initialServices(BuildContext context) {
+  @override
+  void initState() {
+    super.initState();
     code = uuid.v1();
     _loginBloc = BlocProvider.of(context);
     _loginBloc.add(LoginEventInsertCode(code: code, loginBloc: _loginBloc));
-    isInitial = true;
+  }
+
+  @override
+  void dispose() {
+    // LoginRepository.codeLoginController.close();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    if (!isInitial) {
-      initialServices(context);
-    }
+
     return Scaffold(
       appBar: AppBar(toolbarHeight: 0),
       body: BlocListener<LoginBloc, LoginState>(
@@ -62,11 +67,14 @@ class Login extends StatelessWidget {
           if (state is LoginGetUserInformationSuccessfulState) {
             //pop loading dialog
             Navigator.pop(context);
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            }
             //update index 0 of dashboard
             Provider.of<PageSelectProvider>(context, listen: false)
                 .updateIndex(0);
             //navigate to home screen
-            LoginRepository.codeLoginController.close();
+
             Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
                 builder: (context) => const HomeScreen(),
@@ -99,47 +107,7 @@ class Login extends StatelessWidget {
             width: width,
             isResized: ScreenResolutionUtils.instance.resizeWhen(width, 750),
           ),
-          widget2: SizedBox(
-            width: 300,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                BoxLayout(
-                  width: 200,
-                  height: 200,
-                  borderRadius: 5,
-                  enableShadow: true,
-                  alignment: Alignment.center,
-                  bgColor: DefaultTheme.WHITE,
-                  padding: const EdgeInsets.all(0),
-                  child: QrImage(
-                    data: code,
-                    size: 200,
-                    embeddedImage:
-                        const AssetImage('assets/images/ic-viet-qr-login.png'),
-                    embeddedImageStyle: QrEmbeddedImageStyle(
-                      size: const Size(30, 30),
-                    ),
-                  ),
-                ),
-                const Padding(padding: EdgeInsets.only(top: 30)),
-                const Text(
-                  'Đăng nhập bằng QR Code',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                ),
-                const Padding(padding: EdgeInsets.only(top: 10)),
-                const SizedBox(
-                  width: 250,
-                  child: Text(
-                    'Sử dụng ứng dụng VietQR trên điện thoại để quét mã đăng nhập.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 15),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          widget2: _buildWidget2(context: context),
         ),
       ),
     );
@@ -233,7 +201,8 @@ class Login extends StatelessWidget {
                 textColor: Theme.of(context).hintColor,
                 bgColor: Theme.of(context).canvasColor,
                 function: () {
-                  openPinDialog(context);
+                  DialogWidget.instance.openContentDialog(
+                      context, null, _buildWidget2(context: context));
                 },
               )
             : const SizedBox(),
@@ -268,6 +237,50 @@ class Login extends StatelessWidget {
           ],
         ),
       ],
+    );
+  }
+
+  Widget _buildWidget2({required BuildContext context}) {
+    return SizedBox(
+      width: 300,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          BoxLayout(
+            width: 200,
+            height: 200,
+            borderRadius: 5,
+            enableShadow: true,
+            alignment: Alignment.center,
+            bgColor: DefaultTheme.WHITE,
+            padding: const EdgeInsets.all(0),
+            child: QrImage(
+              data: code,
+              size: 200,
+              embeddedImage:
+                  const AssetImage('assets/images/ic-viet-qr-login.png'),
+              embeddedImageStyle: QrEmbeddedImageStyle(
+                size: const Size(30, 30),
+              ),
+            ),
+          ),
+          const Padding(padding: EdgeInsets.only(top: 30)),
+          const Text(
+            'Đăng nhập bằng QR Code',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+          const Padding(padding: EdgeInsets.only(top: 10)),
+          const SizedBox(
+            width: 250,
+            child: Text(
+              'Sử dụng ứng dụng VietQR trên điện thoại để quét mã đăng nhập.',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 15),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
