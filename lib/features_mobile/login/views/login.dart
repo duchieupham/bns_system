@@ -114,7 +114,7 @@ class Login extends StatelessWidget {
                   bgColor: DefaultTheme.WHITE,
                   padding: const EdgeInsets.all(0),
                   child: QrImage(
-                    data: '1',
+                    data: code,
                     size: 200,
                     embeddedImage:
                         const AssetImage('assets/images/ic-viet-qr-login.png'),
