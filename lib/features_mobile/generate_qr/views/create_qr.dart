@@ -67,15 +67,17 @@ class _CreateQR extends State<CreateQR> {
         msgController: msgController,
       ),
     ]);
-    _amountFocusNode.requestFocus();
-    _msgFocusNode.addListener(() {
-      if (_msgFocusNode.hasFocus) {
-        if (msgController.text.isNotEmpty) {
-          msgController.selection = TextSelection(
-              baseOffset: 0, extentOffset: msgController.value.text.length);
+    if (!PlatformUtils.instance.isMobileFlatform(context)) {
+      _amountFocusNode.requestFocus();
+      _msgFocusNode.addListener(() {
+        if (_msgFocusNode.hasFocus) {
+          if (msgController.text.isNotEmpty) {
+            msgController.selection = TextSelection(
+                baseOffset: 0, extentOffset: msgController.value.text.length);
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   @override
@@ -234,10 +236,7 @@ class _CreateQR extends State<CreateQR> {
                           child: TextFieldWidget(
                             width: width,
                             autoFocus: true,
-                            focusNode:
-                                (PlatformUtils.instance.resizeWhen(width, 800))
-                                    ? _amountFocusNode
-                                    : null,
+                            focusNode: _amountFocusNode,
                             isObscureText: false,
                             hintText: '0',
                             controller: amountController,
@@ -303,9 +302,7 @@ class _CreateQR extends State<CreateQR> {
                 child: TextField(
                   controller: msgController,
                   autofocus: false,
-                  focusNode: (PlatformUtils.instance.resizeWhen(width, 800))
-                      ? _msgFocusNode
-                      : null,
+                  focusNode: _msgFocusNode,
                   maxLength: 99,
                   decoration: const InputDecoration(
                     border: InputBorder.none,

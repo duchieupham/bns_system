@@ -121,7 +121,10 @@ class _HomeScreen extends State<HomeScreen> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    focusNode.requestFocus();
+    if (!PlatformUtils.instance.isMobileFlatform(context)) {
+      focusNode.requestFocus();
+    }
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
@@ -457,10 +460,7 @@ class _HomeScreen extends State<HomeScreen> {
                         width: 310,
                         icon: Icons.add_rounded,
                         autoFocus: true,
-                        focusNode:
-                            (PlatformUtils.instance.resizeWhen(width, 870))
-                                ? focusNode
-                                : null,
+                        focusNode: focusNode,
                         title: 'Tạo QR theo giao dịch',
                         function: () {
                           if (_bankAccounts.isNotEmpty) {
