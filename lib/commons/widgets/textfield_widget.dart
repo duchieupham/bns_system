@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/enums/textfield_type.dart';
+import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
 
 class TextFieldWidget extends StatelessWidget {
   final double width;
@@ -60,9 +61,12 @@ class TextFieldWidget extends StatelessWidget {
                     controller: controller,
                     onChanged: onChange,
                     autofocus: (autoFocus != null) ? autoFocus! : false,
-                    focusNode: focusNode,
+                    focusNode:
+                        (PlatformUtils.instance.isMobileFlatform(context))
+                            ? null
+                            : focusNode,
                     keyboardType: inputType,
-                    maxLines: maxLines,
+                    maxLines: (maxLines == null) ? 1 : maxLines,
                     textInputAction: keyboardAction,
                     decoration: InputDecoration(
                       hintText: hintText,

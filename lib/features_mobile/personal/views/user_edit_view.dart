@@ -64,7 +64,7 @@ class UserEditView extends StatelessWidget {
       appBar: AppBar(toolbarHeight: 0),
       body: Column(
         children: [
-          (ScreenResolutionUtils.instance.resizeWhen(width, 800))
+          (PlatformUtils.instance.resizeWhen(width, 800))
               ? HeaderWebWidget(
                   title: 'Thông tin cá nhân',
                   isSubHeader: true,
@@ -75,7 +75,7 @@ class UserEditView extends StatelessWidget {
                     backToHome(context);
                   },
                 )
-              : (ScreenResolutionUtils.instance.isWeb())
+              : (PlatformUtils.instance.isWeb())
                   ? HeaderMwebWidget(
                       title: 'Thông tin cá nhân',
                       isSubHeader: true,
@@ -118,7 +118,7 @@ class UserEditView extends StatelessWidget {
                       (Route<dynamic> route) => false);
                 }
                 if (state is UserEditPasswordFailedState) {
-                  if (ScreenResolutionUtils.instance.isWeb()) {
+                  if (PlatformUtils.instance.isWeb()) {
                     //pop loading dialog
                     Navigator.pop(context);
                     if (Navigator.canPop(context)) {
@@ -134,7 +134,7 @@ class UserEditView extends StatelessWidget {
                   }
                 }
                 if (state is UserEditPasswordSuccessfulState) {
-                  if (ScreenResolutionUtils.instance.isWeb()) {
+                  if (PlatformUtils.instance.isWeb()) {
                     //pop loading dialog
                     Navigator.pop(context);
                     //
@@ -829,7 +829,7 @@ class UserEditView extends StatelessWidget {
               ),
             ),
           ),
-          (ScreenResolutionUtils.instance.isWeb())
+          (PlatformUtils.instance.isWeb())
               ? const Padding(
                   padding: EdgeInsets.only(
                     bottom: 10,

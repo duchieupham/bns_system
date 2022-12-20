@@ -32,7 +32,7 @@ class CreateQRFrame extends StatelessWidget {
     return SizedBox(
       width: width,
       height: height,
-      child: (ScreenResolutionUtils.instance.isWeb())
+      child: (PlatformUtils.instance.isWeb())
           ? Stack(
               children: [
                 ListView(
@@ -42,7 +42,7 @@ class CreateQRFrame extends StatelessWidget {
                     const Padding(padding: EdgeInsets.only(top: 100)),
                     UnconstrainedBox(
                       child: Container(
-                        width: ScreenResolutionUtils.instance.getDynamicWidth(
+                        width: PlatformUtils.instance.getDynamicWidth(
                           screenWidth: width,
                           defaultWidth: 800,
                           minWidth: width * 0.9,
@@ -52,8 +52,7 @@ class CreateQRFrame extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                           color: Theme.of(context).cardColor,
                         ),
-                        child: (ScreenResolutionUtils.instance
-                                .resizeWhen(width, 800))
+                        child: (PlatformUtils.instance.resizeWhen(width, 800))
                             ? Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -116,7 +115,7 @@ class CreateQRFrame extends StatelessWidget {
                     const Padding(padding: EdgeInsets.only(top: 10)),
                   ],
                 ),
-                (ScreenResolutionUtils.instance.resizeWhen(width, 800))
+                (PlatformUtils.instance.resizeWhen(width, 800))
                     ? HeaderWebWidget(
                         title: 'Tạo QR theo giao dịch',
                         isSubHeader: true,

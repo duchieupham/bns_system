@@ -27,7 +27,7 @@ class HomeFrame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: (ScreenResolutionUtils.instance.resizeWhen(width, 870))
+      children: (PlatformUtils.instance.resizeWhen(width, 870))
           ? [
               Container(
                 width: width,
@@ -80,7 +80,7 @@ class HomeFrame extends StatelessWidget {
                 title: '',
               ),
             ]
-          : (ScreenResolutionUtils.instance.isWeb())
+          : (PlatformUtils.instance.isWeb())
               ? [
                   Container(
                     width: width,
@@ -98,8 +98,7 @@ class HomeFrame extends StatelessWidget {
                         children: [
                           const Padding(padding: EdgeInsets.only(top: 100)),
                           BlurLayout(
-                              width: ScreenResolutionUtils.instance
-                                  .getDynamicWidth(
+                              width: PlatformUtils.instance.getDynamicWidth(
                                 screenWidth: width,
                                 defaultWidth: 350,
                                 minWidth: width * 0.8,
@@ -108,8 +107,7 @@ class HomeFrame extends StatelessWidget {
                               child: widget1),
                           const Padding(padding: EdgeInsets.only(top: 20)),
                           BlurLayout(
-                            width:
-                                ScreenResolutionUtils.instance.getDynamicWidth(
+                            width: PlatformUtils.instance.getDynamicWidth(
                               screenWidth: width,
                               defaultWidth: 350,
                               minWidth: width * 0.8,
@@ -119,8 +117,7 @@ class HomeFrame extends StatelessWidget {
                           ),
                           const Padding(padding: EdgeInsets.only(top: 20)),
                           BlurLayout(
-                            width:
-                                ScreenResolutionUtils.instance.getDynamicWidth(
+                            width: PlatformUtils.instance.getDynamicWidth(
                               screenWidth: width,
                               defaultWidth: 350,
                               minWidth: width * 0.8,

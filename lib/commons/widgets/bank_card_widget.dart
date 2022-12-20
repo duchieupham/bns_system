@@ -77,7 +77,7 @@ class BankCardWidget extends StatelessWidget {
                         const Spacer(),
                         InkWell(
                           onTap: () async {
-                            if (ScreenResolutionUtils.instance.isWeb()) {
+                            if (PlatformUtils.instance.isWeb()) {
                               await PopupMenuWebWidget.instance
                                   .showPopUpBankCard(
                                     context: context,

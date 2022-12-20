@@ -105,7 +105,7 @@ class _Login extends State<Login> {
           widget1: _buildWidget1(
             context: context,
             width: width,
-            isResized: ScreenResolutionUtils.instance.resizeWhen(width, 750),
+            isResized: PlatformUtils.instance.resizeWhen(width, 750),
           ),
           widget2: _buildWidget2(context: context),
         ),

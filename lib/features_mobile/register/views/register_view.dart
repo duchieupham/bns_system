@@ -62,7 +62,7 @@ class RegisterView extends StatelessWidget {
       appBar: AppBar(toolbarHeight: 0),
       body: Column(
         children: [
-          (ScreenResolutionUtils.instance.isWeb())
+          (PlatformUtils.instance.isWeb())
               ? HeaderWebWidget(
                   title: 'Đăng ký',
                   isAuthenticate: false,
@@ -75,7 +75,7 @@ class RegisterView extends StatelessWidget {
                   function: () {
                     backToPreviousPage(context);
                   }),
-          (ScreenResolutionUtils.instance.isWeb())
+          (PlatformUtils.instance.isWeb())
               ? const Padding(padding: EdgeInsets.only(top: 10))
               : const SizedBox(),
           Expanded(
@@ -114,7 +114,6 @@ class RegisterView extends StatelessWidget {
                               TextFieldWidget(
                                 width: width,
                                 isObscureText: false,
-                                maxLines: 1,
                                 textfieldType: TextfieldType.LABEL,
                                 title: 'Số điện thoại',
                                 titleWidth: 100,
@@ -133,7 +132,6 @@ class RegisterView extends StatelessWidget {
                               TextFieldWidget(
                                 width: width,
                                 isObscureText: true,
-                                maxLines: 1,
                                 textfieldType: TextfieldType.LABEL,
                                 title: 'Mã PIN',
                                 titleWidth: 100,
@@ -152,7 +150,6 @@ class RegisterView extends StatelessWidget {
                               TextFieldWidget(
                                 width: width,
                                 isObscureText: true,
-                                maxLines: 1,
                                 textfieldType: TextfieldType.LABEL,
                                 title: 'Xác nhận lại',
                                 titleWidth: 100,
@@ -319,7 +316,7 @@ class RegisterView extends StatelessWidget {
               ),
             ),
           ),
-          (ScreenResolutionUtils.instance.checkResize(width))
+          (PlatformUtils.instance.checkResize(width))
               ? const SizedBox()
               : Padding(
                   padding: const EdgeInsets.only(bottom: 20, top: 10),

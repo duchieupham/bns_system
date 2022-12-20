@@ -88,7 +88,6 @@ class UserUpdatePassword extends StatelessWidget {
                             TextFieldWidget(
                               width: width,
                               isObscureText: true,
-                              maxLines: 1,
                               textfieldType: TextfieldType.LABEL,
                               title: 'Mã PIN cũ',
                               titleWidth: 120,
@@ -105,7 +104,6 @@ class UserUpdatePassword extends StatelessWidget {
                             TextFieldWidget(
                               width: width,
                               isObscureText: true,
-                              maxLines: 1,
                               textfieldType: TextfieldType.LABEL,
                               title: 'Mã PIN mới',
                               titleWidth: 120,
@@ -122,7 +120,6 @@ class UserUpdatePassword extends StatelessWidget {
                             TextFieldWidget(
                               width: width,
                               isObscureText: true,
-                              maxLines: 1,
                               textfieldType: TextfieldType.LABEL,
                               title: 'Xác nhận lại',
                               titleWidth: 120,

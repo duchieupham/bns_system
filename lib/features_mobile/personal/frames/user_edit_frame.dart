@@ -24,7 +24,7 @@ class UserEditFrame extends StatelessWidget {
       width: width,
       height: height,
       padding: const EdgeInsets.only(top: 10),
-      child: (ScreenResolutionUtils.instance.resizeWhen(width, 800))
+      child: (PlatformUtils.instance.resizeWhen(width, 800))
           ? Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -40,7 +40,7 @@ class UserEditFrame extends StatelessWidget {
                 ),
               ],
             )
-          : (ScreenResolutionUtils.instance.isWeb())
+          : (PlatformUtils.instance.isWeb())
               ? BoxLayout(
                   width: width,
                   height: height,

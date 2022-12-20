@@ -363,10 +363,10 @@ class BankManageView extends StatelessWidget {
                       key: const Key('LIST_BANK'),
                       itemCount: _bankAccounts.length + 1,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: (ScreenResolutionUtils.instance
-                                .resizeWhen(width, 1250))
-                            ? 3
-                            : 2,
+                        crossAxisCount:
+                            (PlatformUtils.instance.resizeWhen(width, 1250))
+                                ? 3
+                                : 2,
                         childAspectRatio: 1.7,
                         mainAxisSpacing: 10,
                         crossAxisSpacing: 0,
@@ -436,7 +436,7 @@ class BankManageView extends StatelessWidget {
                               itemCount: _bankOtherAccounts.length,
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: (ScreenResolutionUtils.instance
+                                crossAxisCount: (PlatformUtils.instance
                                         .resizeWhen(width, 1250))
                                     ? 3
                                     : 2,

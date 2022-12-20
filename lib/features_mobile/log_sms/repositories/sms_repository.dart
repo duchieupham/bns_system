@@ -72,7 +72,7 @@ class SmsRepository {
       });
 
       //TEST
-      // if (!ScreenResolutionUtils.instance.isWeb()) {
+      // if (!PlatformUtils.instance.isWeb()) {
       //   //MSG 1
       //   await Future.delayed(const Duration(seconds: 10), () async {
       //     print('msg 1 after 10 seconds');

@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/material.dart';
 
-class ScreenResolutionUtils {
-  const ScreenResolutionUtils._privateConsrtructor();
+class PlatformUtils {
+  const PlatformUtils._privateConsrtructor();
 
-  static const ScreenResolutionUtils _instance =
-      ScreenResolutionUtils._privateConsrtructor();
-  static ScreenResolutionUtils get instance => _instance;
+  static const PlatformUtils _instance = PlatformUtils._privateConsrtructor();
+  static PlatformUtils get instance => _instance;
 
   bool checkResize(double width) {
     bool check = false;
@@ -35,5 +35,12 @@ class ScreenResolutionUtils {
 
   bool isWeb() {
     return kIsWeb;
+  }
+
+  //Mobile flatform contains Android app, iOS app and web mobile app
+  bool isMobileFlatform(BuildContext context) {
+    final platform = Theme.of(context).platform;
+    return (platform == TargetPlatform.android ||
+        platform == TargetPlatform.iOS);
   }
 }

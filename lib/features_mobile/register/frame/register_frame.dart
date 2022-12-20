@@ -15,7 +15,7 @@ class RegisterFrame extends StatelessWidget {
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
-    return (ScreenResolutionUtils.instance.checkResize(width))
+    return (PlatformUtils.instance.checkResize(width))
         ? Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

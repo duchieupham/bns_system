@@ -33,7 +33,7 @@ class DialogWidget {
         return Material(
           color: DefaultTheme.TRANSPARENT,
           child: Center(
-            child: (ScreenResolutionUtils.instance.isWeb())
+            child: (PlatformUtils.instance.isWeb())
                 ? Container(
                     width: 300,
                     height: 300,
@@ -431,7 +431,7 @@ class DialogWidget {
           return Material(
             color: DefaultTheme.TRANSPARENT,
             child: Center(
-              child: (ScreenResolutionUtils.instance.isWeb())
+              child: (PlatformUtils.instance.isWeb())
                   ? Container(
                       width: 200,
                       height: 200,
@@ -489,7 +489,7 @@ class DialogWidget {
           return Material(
             color: DefaultTheme.TRANSPARENT,
             child: Center(
-              child: (ScreenResolutionUtils.instance.isWeb())
+              child: (PlatformUtils.instance.isWeb())
                   ? Container(
                       width: 300,
                       height: 300,

@@ -29,7 +29,7 @@ class LoginFrame extends StatelessWidget {
         ),
       ),
       child: SingleChildScrollView(
-        child: (ScreenResolutionUtils.instance.resizeWhen(width, 750))
+        child: (PlatformUtils.instance.resizeWhen(width, 750))
             ? BoxLayout(
                 width: 700,
                 height: 400,

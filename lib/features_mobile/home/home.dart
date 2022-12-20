@@ -69,7 +69,7 @@ class _HomeScreen extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    if (ScreenResolutionUtils.instance.isWeb()) {
+    if (PlatformUtils.instance.isWeb()) {
       // _cardWidgets.clear();
       // _bankAccounts.clear();
       _bankManageBloc = BlocProvider.of(context);
@@ -86,7 +86,7 @@ class _HomeScreen extends State<HomeScreen> {
         const QRInformationView(
           key: PageStorageKey('QR_GENERATOR_PAGE'),
         ),
-        if (!ScreenResolutionUtils.instance.isWeb())
+        if (!PlatformUtils.instance.isWeb())
           const SMSList(
             key: PageStorageKey('SMS_LIST_PAGE'),
           ),
@@ -101,7 +101,7 @@ class _HomeScreen extends State<HomeScreen> {
       keepPage: true,
     );
 
-    // if (ScreenResolutionUtils.instance.isWeb()) {
+    // if (PlatformUtils.instance.isWeb()) {
     //   getTransactions();
     //   listenTransaction();
     //   listenNotification();
@@ -457,10 +457,10 @@ class _HomeScreen extends State<HomeScreen> {
                         width: 310,
                         icon: Icons.add_rounded,
                         autoFocus: true,
-                        focusNode: (ScreenResolutionUtils.instance
-                                .resizeWhen(width, 870))
-                            ? focusNode
-                            : null,
+                        focusNode:
+                            (PlatformUtils.instance.resizeWhen(width, 870))
+                                ? focusNode
+                                : null,
                         title: 'Tạo QR theo giao dịch',
                         function: () {
                           if (_bankAccounts.isNotEmpty) {
@@ -584,10 +584,10 @@ class _HomeScreen extends State<HomeScreen> {
         ),
         backgroundAsset: 'assets/images/bg-qr.png',
       ),
-      floatingActionButtonLocation: (ScreenResolutionUtils.instance.isWeb())
+      floatingActionButtonLocation: (PlatformUtils.instance.isWeb())
           ? null
           : FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: (ScreenResolutionUtils.instance.isWeb())
+      floatingActionButton: (PlatformUtils.instance.isWeb())
           ? null
           : Container(
               margin: const EdgeInsets.only(bottom: 5),
