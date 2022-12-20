@@ -105,7 +105,7 @@ class CreateQRFrame extends StatelessWidget {
                                       padding: EdgeInsets.only(top: 20)),
                                   SizedBox(
                                     width: width * 0.8,
-                                    height: 500,
+                                    height: 650,
                                     child: widget3,
                                   ),
                                 ],

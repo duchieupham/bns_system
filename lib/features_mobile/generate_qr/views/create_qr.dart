@@ -45,8 +45,11 @@ class _CreateQR extends State<CreateQR> {
   final TextEditingController msgController = TextEditingController();
   final FocusNode _amountFocusNode = FocusNode();
   final FocusNode _msgFocusNode = FocusNode();
+  final FocusNode _createQRAgainFocusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
   final GlobalKey key = GlobalKey();
+
+  bool isCreatedQRAgain = false;
 
   VietQRGenerateDTO _vietQRGenerateDTO = const VietQRGenerateDTO(
       cAIValue: '',
@@ -67,17 +70,6 @@ class _CreateQR extends State<CreateQR> {
         msgController: msgController,
       ),
     ]);
-    if (!PlatformUtils.instance.isMobileFlatform(context)) {
-      _amountFocusNode.requestFocus();
-      _msgFocusNode.addListener(() {
-        if (_msgFocusNode.hasFocus) {
-          if (msgController.text.isNotEmpty) {
-            msgController.selection = TextSelection(
-                baseOffset: 0, extentOffset: msgController.value.text.length);
-          }
-        }
-      });
-    }
   }
 
   @override
@@ -242,6 +234,14 @@ class _CreateQR extends State<CreateQR> {
                             controller: amountController,
                             inputType: TextInputType.number,
                             keyboardAction: TextInputAction.next,
+                            onSubmitted: (_) {
+                              if (msgController.text.isNotEmpty) {
+                                msgController.selection = TextSelection(
+                                    baseOffset: 0,
+                                    extentOffset:
+                                        msgController.value.text.length);
+                              }
+                            },
                             onChange: (text) {
                               if (amountController.text.isEmpty) {
                                 amountController.value =
@@ -314,39 +314,7 @@ class _CreateQR extends State<CreateQR> {
                   ),
                   textInputAction: TextInputAction.done,
                   onSubmitted: (_) {
-                    if (amountController.text.isNotEmpty &&
-                        !Provider.of<CreateQRProvider>(context, listen: false)
-                            .amountErr) {
-                      String additionalDataFieldTemplateValue = '';
-                      if (msgController.text.isNotEmpty) {
-                        additionalDataFieldTemplateValue =
-                            AdditionalData.PURPOSE_OF_TRANSACTION_ID +
-                                VietQRUtils.instance
-                                    .generateLengthOfValue(msgController.text) +
-                                msgController.text;
-                      }
-                      _vietQRGenerateDTO = VietQRGenerateDTO(
-                        cAIValue: VietQRUtils.instance.generateCAIValue(
-                            widget.bankAccountDTO.bankCode,
-                            widget.bankAccountDTO.bankAccount),
-                        transactionAmountValue:
-                            amountController.text.replaceAll(',', '').trim(),
-                        additionalDataFieldTemplateValue:
-                            additionalDataFieldTemplateValue,
-                      );
-                      Provider.of<CreateQRProvider>(context, listen: false)
-                          .updateQrGenerated(true);
-                    }
-                    if (PlatformUtils.instance.resizeWhen(width, 800)) {
-                      _amountFocusNode.requestFocus();
-                      amountController.clear();
-                    } else {
-                      _scrollController.animateTo(
-                        _scrollController.position.maxScrollExtent,
-                        duration: const Duration(milliseconds: 800),
-                        curve: Curves.ease,
-                      );
-                    }
+                    onSubmitted(width);
                   },
                 ),
               ),
@@ -360,39 +328,7 @@ class _CreateQR extends State<CreateQR> {
                 textColor: DefaultTheme.WHITE,
                 bgColor: DefaultTheme.GREEN,
                 function: () {
-                  if (amountController.text.isNotEmpty &&
-                      !Provider.of<CreateQRProvider>(context, listen: false)
-                          .amountErr) {
-                    String additionalDataFieldTemplateValue = '';
-                    if (msgController.text.isNotEmpty) {
-                      additionalDataFieldTemplateValue =
-                          AdditionalData.PURPOSE_OF_TRANSACTION_ID +
-                              VietQRUtils.instance
-                                  .generateLengthOfValue(msgController.text) +
-                              msgController.text;
-                    }
-                    _vietQRGenerateDTO = VietQRGenerateDTO(
-                      cAIValue: VietQRUtils.instance.generateCAIValue(
-                          widget.bankAccountDTO.bankCode,
-                          widget.bankAccountDTO.bankAccount),
-                      transactionAmountValue:
-                          amountController.text.replaceAll(',', '').trim(),
-                      additionalDataFieldTemplateValue:
-                          additionalDataFieldTemplateValue,
-                    );
-                    Provider.of<CreateQRProvider>(context, listen: false)
-                        .updateQrGenerated(true);
-                  }
-                  if (PlatformUtils.instance.resizeWhen(width, 800)) {
-                    _amountFocusNode.requestFocus();
-                    amountController.clear();
-                  } else {
-                    _scrollController.animateTo(
-                      _scrollController.position.maxScrollExtent,
-                      duration: const Duration(milliseconds: 800),
-                      curve: Curves.ease,
-                    );
-                  }
+                  onSubmitted(width);
                 },
               ),
             ],
@@ -495,7 +431,16 @@ class _CreateQR extends State<CreateQR> {
                                   icon: Icons.refresh_rounded,
                                   alignment: Alignment.center,
                                   title: 'Tạo lại mã QR',
-                                  function: () {},
+                                  function: () async {
+                                    await _scrollController.animateTo(
+                                      0.0,
+                                      duration:
+                                          const Duration(milliseconds: 800),
+                                      curve: Curves.ease,
+                                    );
+                                    amountController.clear();
+                                    _amountFocusNode.requestFocus();
+                                  },
                                   bgColor: Theme.of(context).canvasColor,
                                   textColor: DefaultTheme.GREEN,
                                 ),
@@ -557,5 +502,37 @@ class _CreateQR extends State<CreateQR> {
             : DefaultTheme.GREY_TOP_TAB_BAR.withOpacity(0.6),
       ),
     );
+  }
+
+  void onSubmitted(double width) {
+    if (amountController.text.isNotEmpty &&
+        !Provider.of<CreateQRProvider>(context, listen: false).amountErr) {
+      String additionalDataFieldTemplateValue = '';
+      if (msgController.text.isNotEmpty) {
+        additionalDataFieldTemplateValue =
+            AdditionalData.PURPOSE_OF_TRANSACTION_ID +
+                VietQRUtils.instance.generateLengthOfValue(msgController.text) +
+                msgController.text;
+      }
+      _vietQRGenerateDTO = VietQRGenerateDTO(
+        cAIValue: VietQRUtils.instance.generateCAIValue(
+            widget.bankAccountDTO.bankCode, widget.bankAccountDTO.bankAccount),
+        transactionAmountValue:
+            amountController.text.replaceAll(',', '').trim(),
+        additionalDataFieldTemplateValue: additionalDataFieldTemplateValue,
+      );
+      Provider.of<CreateQRProvider>(context, listen: false)
+          .updateQrGenerated(true);
+    }
+    if (PlatformUtils.instance.resizeWhen(width, 800)) {
+      _amountFocusNode.requestFocus();
+      amountController.clear();
+    } else {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 800),
+        curve: Curves.ease,
+      );
+    }
   }
 }

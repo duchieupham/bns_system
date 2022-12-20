@@ -8,6 +8,8 @@ class TextFieldWidget extends StatelessWidget {
   final String hintText;
   final TextEditingController controller;
   final ValueChanged<Object>? onChange;
+  final VoidCallback? onEdittingComplete;
+  final ValueChanged<Object>? onSubmitted;
   final TextInputAction? keyboardAction;
   final TextInputType inputType;
   final bool isObscureText;
@@ -35,6 +37,8 @@ class TextFieldWidget extends StatelessWidget {
     this.autoFocus,
     this.focusNode,
     this.maxLines,
+    this.onEdittingComplete,
+    this.onSubmitted,
   }) : super(key: key);
 
   @override
@@ -60,6 +64,8 @@ class TextFieldWidget extends StatelessWidget {
                     obscureText: isObscureText,
                     controller: controller,
                     onChanged: onChange,
+                    onEditingComplete: onEdittingComplete,
+                    onSubmitted: onSubmitted,
                     autofocus: (autoFocus != null) ? autoFocus! : false,
                     focusNode:
                         (PlatformUtils.instance.isMobileFlatform(context))
@@ -95,11 +101,15 @@ class TextFieldWidget extends StatelessWidget {
               obscureText: isObscureText,
               controller: controller,
               onChanged: onChange,
+              onSubmitted: onSubmitted,
+              onEditingComplete: onEdittingComplete,
               keyboardType: inputType,
               maxLines: 1,
               textInputAction: keyboardAction,
               autofocus: (autoFocus != null) ? autoFocus! : false,
-              focusNode: focusNode,
+              focusNode: (PlatformUtils.instance.isMobileFlatform(context))
+                  ? null
+                  : focusNode,
               decoration: InputDecoration(
                 hintText: hintText,
                 border: InputBorder.none,
