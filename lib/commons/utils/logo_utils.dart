@@ -6,15 +6,21 @@ class LogoUtils {
   static const LogoUtils _instance = LogoUtils._privateConsrtructor();
   static LogoUtils get instance => _instance;
 
-  String getAssetImageBank(AVAILABLE_ADD_BANKNAME bankName) {
+  String getAssetImageBank(String bankName) {
     String result = '';
-    if (bankName == AVAILABLE_ADD_BANKNAME.SHB) {
-      result = 'assets/images/banks/log-shb.png';
-    } else if (bankName == AVAILABLE_ADD_BANKNAME.TECHCOMBANK) {
-      result = 'assets/images/banks/logo-techcombank.png';
-    } else if (bankName == AVAILABLE_ADD_BANKNAME.VIETCOMBANK) {
-      result = 'assets/images/banks/logo-vietcombank.png';
+    bankName = 'AVAILABLE_ADD_BANKNAME.$bankName';
+    if (bankName == AVAILABLE_ADD_BANKNAME.SHB.toString()) {
+      result = 'assets/images/banks/ic-shb.png';
+    } else if (bankName == AVAILABLE_ADD_BANKNAME.MBBANK.toString()) {
+      result = 'assets/images/banks/ic-mb.png';
+    } else {
+      result = 'assets/images/ic-viet-qr-small.png';
     }
+    // } else if (bankName == AVAILABLE_ADD_BANKNAME.TECHCOMBANK) {
+    //   result = 'assets/images/banks/logo-techcombank.png';
+    // } else if (bankName == AVAILABLE_ADD_BANKNAME.VIETCOMBANK) {
+    //   result = 'assets/images/banks/logo-vietcombank.png';
+    // }
     return result;
   }
 }

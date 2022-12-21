@@ -7,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:vierqr/commons/constants/configurations/firebase_config.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
-
 import 'package:vierqr/features_mobile/home/home.dart';
 import 'package:vierqr/features_mobile/log_sms/blocs/sms_bloc.dart';
 import 'package:vierqr/features_mobile/log_sms/blocs/transaction_bloc.dart';
@@ -22,6 +21,7 @@ import 'package:vierqr/services/providers/bank_account_provider.dart';
 import 'package:vierqr/services/providers/bank_select_provider.dart';
 import 'package:vierqr/services/providers/create_qr_page_select_provider.dart';
 import 'package:vierqr/services/providers/create_qr_provider.dart';
+import 'package:vierqr/services/providers/home_tab_provider.dart';
 import 'package:vierqr/services/providers/memeber_manage_provider.dart';
 import 'package:vierqr/services/providers/page_select_provider.dart';
 import 'package:vierqr/services/providers/pin_provider.dart';
@@ -117,6 +117,7 @@ class BNSApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => RegisterProvider()),
             ChangeNotifierProvider(create: (context) => PinProvider()),
             ChangeNotifierProvider(create: (context) => UserEditProvider()),
+            ChangeNotifierProvider(create: (context) => HomeTabProvider()),
             ChangeNotifierProvider(
                 create: (context) => MemeberManageProvider()),
           ],

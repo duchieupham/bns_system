@@ -449,4 +449,14 @@ class BankInformationUtil {
     }
     return result;
   }
+
+  String formatTransactionStatus(String status) {
+    String result = '';
+    if (status == 'PAID') {
+      result = 'Đã thanh toán';
+    } else {
+      result = 'Chưa thanh toán';
+    }
+    return result;
+  }
 }

@@ -7,7 +7,7 @@ import 'package:vierqr/commons/widgets/button_widget.dart';
 import 'package:vierqr/commons/widgets/dialog_widget.dart';
 import 'package:vierqr/commons/widgets/sub_header_widget.dart';
 import 'package:vierqr/commons/widgets/textfield_widget.dart';
-import 'package:vierqr/commons/widgets/web_widgets/header_web_widget.dart';
+import 'package:vierqr/commons/widgets/web_widgets/header_web_widget_old.dart';
 import 'package:vierqr/features_mobile/register/blocs/register_bloc.dart';
 import 'package:vierqr/features_mobile/register/events/register_event.dart';
 import 'package:vierqr/features_mobile/register/frame/register_frame.dart';
@@ -63,7 +63,7 @@ class RegisterView extends StatelessWidget {
       body: Column(
         children: [
           (PlatformUtils.instance.isWeb())
-              ? HeaderWebWidget(
+              ? HeaderWebWidgetOld(
                   title: 'Đăng ký',
                   isAuthenticate: false,
                   functionBack: () {

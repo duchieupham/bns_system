@@ -89,9 +89,9 @@ class TimeUtils {
   }
 
   //get date in week to display dashboard
-  String getCurrentDateInWeek() {
+  String getCurrentDateInWeek(DateTime? now) {
     String result = '';
-    DateTime now = DateTime.now();
+    now ??= DateTime.now();
     DateFormat format = DateFormat('yyyy-MM-dd-EEEE');
     String formatted = format.format(now);
     result = formatDateOfWeek(formatted.split('-')[3]);
@@ -99,14 +99,20 @@ class TimeUtils {
   }
 
   //get current date to display today_view
-  String getCurentDate() {
+  String getCurentDate(DateTime? now) {
     String result = '';
-    DateTime _now = DateTime.now();
-    String _day = DateFormat.d(Locale('en').countryCode).format(_now);
-    String _month = formatMonthCalendar(
-        DateFormat.M(Locale('en').countryCode).format(_now));
-    result = _day + ' ' + _month;
+    now ??= DateTime.now();
+    String day = DateFormat.d(const Locale('en').countryCode).format(now);
+    String month = formatMonthCalendar(
+        DateFormat.M(const Locale('en').countryCode).format(now));
+    result = '$day $month';
     return result;
+  }
+
+  String getRealTime() {
+    DateTime now = DateTime.now();
+    DateFormat format = DateFormat('HH:mm:ss');
+    return format.format(now);
   }
 
   //format month in header of calendar
@@ -190,6 +196,21 @@ class TimeUtils {
       DateFormat format = (isMultipleRow)
           ? DateFormat('dd/MM/yyyy\nHH:mm')
           : DateFormat('dd/MM/yyyy HH:mm');
+      result = format.format(time).toString();
+    } catch (e) {
+      print('Error at formatDateFromTimeStamp: $e');
+    }
+    return result;
+  }
+
+  String formatDateFromTimeStamp2(Timestamp timestamp, bool isMultipleRow) {
+    String result = '';
+    try {
+      DateTime time =
+          DateTime.fromMicrosecondsSinceEpoch(timestamp.microsecondsSinceEpoch);
+      DateFormat format = (isMultipleRow)
+          ? DateFormat('dd/MM/yyyy\nHH:mm')
+          : DateFormat('HH:mm:ss\ndd/MM/yyyy');
       result = format.format(time).toString();
     } catch (e) {
       print('Error at formatDateFromTimeStamp: $e');

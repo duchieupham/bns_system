@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
-import 'package:vierqr/commons/widgets/web_widgets/header_web_widget.dart';
+import 'package:vierqr/commons/widgets/web_widgets/header_web_widget_old.dart';
 import 'package:vierqr/layouts/blur_layout.dart';
 import 'package:vierqr/layouts/box_layout.dart';
 import 'package:vierqr/services/providers/bank_account_provider.dart';
@@ -40,7 +40,7 @@ class BankManageFrame extends StatelessWidget {
                 opacity: 0.9,
                 child: Column(
                   children: [
-                    HeaderWebWidget(
+                    HeaderWebWidgetOld(
                       title: 'Tài khoản ngân hàng',
                       isSubHeader: true,
                       functionBack: () {

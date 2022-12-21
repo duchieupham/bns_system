@@ -19,6 +19,7 @@ class VietQRWidget extends StatelessWidget {
   final String content;
   final bool? isStatistic;
   final bool? isCopy;
+  final double? qrSize;
 
   const VietQRWidget({
     super.key,
@@ -30,6 +31,7 @@ class VietQRWidget extends StatelessWidget {
     this.height,
     this.isStatistic,
     this.isCopy,
+    this.qrSize,
   });
 
   @override
@@ -118,7 +120,7 @@ class VietQRWidget extends StatelessWidget {
               ),
               const Padding(padding: EdgeInsets.only(top: 30)),
               BoxLayout(
-                width: 210,
+                width: (qrSize != null) ? (qrSize! + 10) : 210,
                 borderRadius: 5,
                 padding: const EdgeInsets.all(0),
                 alignment: Alignment.center,
@@ -129,11 +131,13 @@ class VietQRWidget extends StatelessWidget {
                     QrImage(
                       data: vietQRCode,
                       version: QrVersions.auto,
-                      size: 200,
+                      size: (qrSize != null) ? qrSize : 200,
                       embeddedImage: const AssetImage(
                           'assets/images/ic-viet-qr-small.png'),
                       embeddedImageStyle: QrEmbeddedImageStyle(
-                        size: const Size(20, 20),
+                        size: (qrSize != null)
+                            ? Size(qrSize! / 8, qrSize! / 8)
+                            : const Size(20, 20),
                       ),
                     ),
                     SizedBox(
@@ -143,11 +147,14 @@ class VietQRWidget extends StatelessWidget {
                         children: [
                           Image.asset(
                             'assets/images/ic-viet-qr.png',
-                            width: 75,
+                            width: (qrSize != null) ? (qrSize! / 3 - 5) : 75,
                           ),
-                          Image.asset(
-                            'assets/images/ic-napas247.png',
-                            width: 75,
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5),
+                            child: Image.asset(
+                              'assets/images/ic-napas247.png',
+                              width: (qrSize != null) ? (qrSize! / 3 - 5) : 75,
+                            ),
                           ),
                         ],
                       ),

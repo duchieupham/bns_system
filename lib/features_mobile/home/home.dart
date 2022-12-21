@@ -2,6 +2,7 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vierqr/commons/enums/table_type.dart';
 import 'package:vierqr/commons/utils/bank_information_utils.dart';
 import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
 import 'package:vierqr/commons/utils/viet_qr_utils.dart';
@@ -11,6 +12,8 @@ import 'package:vierqr/commons/widgets/viet_qr_widget.dart';
 import 'package:vierqr/features_mobile/generate_qr/views/create_qr.dart';
 import 'package:vierqr/features_mobile/generate_qr/views/qr_information_view.dart';
 import 'package:vierqr/features_mobile/home/frames/home_frame.dart';
+import 'package:vierqr/features_mobile/home/frames/home_frame_old.dart';
+import 'package:vierqr/features_mobile/home/widgets/bank_item_widget.dart';
 import 'package:vierqr/features_mobile/home/widgets/button_navigate_page_widget.dart';
 import 'package:vierqr/features_mobile/home/widgets/title_home_web_widget.dart';
 import 'package:vierqr/features_mobile/log_sms/blocs/transaction_bloc.dart';
@@ -33,6 +36,8 @@ import 'package:vierqr/models/bank_account_dto.dart';
 import 'package:vierqr/models/transaction_dto.dart';
 import 'package:vierqr/models/viet_qr_generate_dto.dart';
 import 'package:vierqr/services/providers/bank_account_provider.dart';
+import 'package:vierqr/services/providers/clock_provider.dart';
+import 'package:vierqr/services/providers/home_tab_provider.dart';
 import 'package:vierqr/services/providers/page_select_provider.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/utils/time_utils.dart';
@@ -56,6 +61,7 @@ class _HomeScreen extends State<HomeScreen> {
   final List<Widget> _homeScreens = [];
   static final List<Widget> _cardWidgets = [];
   static final List<BankAccountDTO> _bankAccounts = [];
+  static final Map<String, List<TransactionDTO>> _transactionsByAddr = {};
   static final List<TransactionDTO> _transactions = [];
 
   //focus node
@@ -100,12 +106,6 @@ class _HomeScreen extends State<HomeScreen> {
           Provider.of<PageSelectProvider>(context, listen: false).indexSelected,
       keepPage: true,
     );
-
-    // if (PlatformUtils.instance.isWeb()) {
-    //   getTransactions();
-    //   listenTransaction();
-    //   listenNotification();
-    // }
   }
 
   @override
@@ -132,458 +132,880 @@ class _HomeScreen extends State<HomeScreen> {
       body: HomeFrame(
         width: width,
         height: height,
-        mobileChildren: [
-          PageView(
-            key: const PageStorageKey('PAGE_VIEW'),
-            allowImplicitScrolling: true,
-            physics: const NeverScrollableScrollPhysics(),
-            controller: _pageController,
-            onPageChanged: (index) {
-              Provider.of<PageSelectProvider>(context, listen: false)
-                  .updateIndex(index);
+        widget1: BlocConsumer<BankManageBloc, BankManageState>(
+            listener: (context, state) {
+          if (state is BankManageListSuccessState) {
+            Provider.of<BankAccountProvider>(context, listen: false)
+                .updateIndex(0);
+            if (_bankAccounts.isEmpty) {
+              _bankAccounts.addAll(state.list);
+              for (BankAccountDTO bankAccountDTO in _bankAccounts) {
+                VietQRGenerateDTO dto = VietQRGenerateDTO(
+                  cAIValue: VietQRUtils.instance.generateCAIValue(
+                      bankAccountDTO.bankCode, bankAccountDTO.bankAccount),
+                  transactionAmountValue: '',
+                  additionalDataFieldTemplateValue: '',
+                );
+                //global key
+                GlobalKey key = GlobalKey();
+                final VietQRWidget qrWidget = VietQRWidget(
+                  width: 400,
+                  qrSize: 300,
+                  bankAccountDTO: bankAccountDTO,
+                  vietQRGenerateDTO: dto,
+                  globalKey: key,
+                  content: '',
+                  isCopy: true,
+                );
+                _cardWidgets.add(qrWidget);
+              }
+            }
+          }
+          if (state is BankManageRemoveSuccessState ||
+              state is BankManageAddSuccessState) {
+            _bankAccounts.clear();
+            _cardWidgets.clear();
+            _bankManageBloc.add(BankManageEventGetList(
+                userId: UserInformationHelper.instance.getUserId()));
+          }
+        }, builder: (context, state) {
+          return Consumer<HomeTabProvider>(
+            builder: (context, provider, child) {
+              return (_bankAccounts.isNotEmpty)
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: (provider.isExpanded)
+                              ? const EdgeInsets.only(top: 20)
+                              : const EdgeInsets.only(top: 15),
+                        ),
+                        (provider.isExpanded)
+                            ? Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 10, bottom: 10),
+                                child: _buildTitle(
+                                  'Tài khoản của bạn',
+                                  DefaultTheme.RED_TEXT,
+                                ),
+                              )
+                            : const SizedBox(),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: _bankAccounts.length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  provider.updateTabSelect(index);
+                                },
+                                child: BankItemWidget(
+                                  width: 300,
+                                  isSelected: provider.tabSelect == index,
+                                  isExpanded: provider.isExpanded,
+                                  bankAccountDTO: _bankAccounts[index],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    )
+                  : const SizedBox();
             },
-            children: _homeScreens,
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: 65,
-            child: ClipRRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(
-                  sigmaX: 25,
-                  sigmaY: 25,
-                ),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context)
-                        .scaffoldBackgroundColor
-                        .withOpacity(0.6),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Consumer<PageSelectProvider>(
-                          builder: (context, page, child) {
-                        return _getTitlePaqe(context, page.indexSelected);
-                      }),
-                      const Spacer(),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-        widget1: Container(
-          width: width,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Xin chào, ${UserInformationHelper.instance.getUserInformation().firstName}!',
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
-              Text(
-                '${TimeUtils.instance.getCurrentDateInWeek()}, ${TimeUtils.instance.getCurentDate()}',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
-        ),
-        widget2: Container(
-          width: width,
-          padding: const EdgeInsets.only(top: 10),
-          child: Column(
-            children: [
-              TitleHomeWebWidget(
-                width: width,
-                iconAsset: 'assets/images/ic-qr.png',
-                title: 'QR theo tài khoản',
-                description: 'QR không chứa số tiền và nội dung',
-              ),
-              Expanded(
-                child: Container(
-                  width: width,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: SizedBox(
-                          width: width,
-                          child: BlocConsumer<BankManageBloc, BankManageState>(
-                            listener: ((context, state) {
-                              if (state is BankManageListSuccessState) {
-                                Provider.of<BankAccountProvider>(context,
-                                        listen: false)
-                                    .updateIndex(0);
-                                if (_bankAccounts.isEmpty) {
-                                  _bankAccounts.addAll(state.list);
-                                  for (BankAccountDTO bankAccountDTO
-                                      in _bankAccounts) {
-                                    VietQRGenerateDTO dto = VietQRGenerateDTO(
-                                      cAIValue: VietQRUtils.instance
-                                          .generateCAIValue(
-                                              bankAccountDTO.bankCode,
-                                              bankAccountDTO.bankAccount),
-                                      transactionAmountValue: '',
-                                      additionalDataFieldTemplateValue: '',
-                                    );
-
-                                    //global key
-                                    GlobalKey key = GlobalKey();
-                                    final VietQRWidget qrWidget = VietQRWidget(
-                                      width: 300,
-                                      bankAccountDTO: bankAccountDTO,
-                                      vietQRGenerateDTO: dto,
-                                      globalKey: key,
-                                      content: '',
-                                      isCopy: true,
-                                    );
-                                    _cardWidgets.add(qrWidget);
-                                  }
+          );
+        }),
+        widget2: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildTitle('Danh sách giao dịch', Theme.of(context).hintColor),
+            Expanded(
+              child: BlocConsumer<NotificationBloc, NotificationState>(
+                listener: (context, state) {
+                  if (state is NotificationReceivedSuccessState) {
+                    DialogWidget.instance.openContentDialog(
+                      context,
+                      null,
+                      _buildTransactionWidget(state.transactionDTO),
+                    );
+                    _notificationBloc.add(NotificationEventUpdateStatus(
+                        notificationId: state.notificationId));
+                  }
+                  if (state is NotificationUpdateSuccessState) {
+                    String userId = UserInformationHelper.instance.getUserId();
+                    _notificationBloc
+                        .add(NotificationEventGetList(userId: userId));
+                  }
+                  if (state is NotificationListSuccessfulState) {
+                    _notificationBloc.add(const NotificationInitialEvent());
+                  }
+                },
+                builder: (context, state) {
+                  if (state is NotificationReceivedSuccessState) {
+                    _transactions.insert(0, state.transactionDTO);
+                  }
+                  return BlocConsumer<TransactionBloc, TransactionState>(
+                    listener: (context, state) {
+                      if (state is TransactionSuccessfulListState) {
+                        _transactions.clear();
+                        if (_transactions.isEmpty && state.list.isNotEmpty) {
+                          _transactions.addAll(state.list);
+                          for (TransactionDTO transactionDTO in _transactions) {
+                            if (_transactionsByAddr
+                                .containsKey(transactionDTO.address)) {
+                              _transactionsByAddr[transactionDTO.address]!.add(
+                                transactionDTO,
+                              );
+                            } else {
+                              _transactionsByAddr[transactionDTO.address] = [];
+                              _transactionsByAddr[transactionDTO.address]!.add(
+                                transactionDTO,
+                              );
+                            }
+                          }
+                        }
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is TransactionSuccessfulListState) {
+                        if (state.list.isEmpty) {
+                          _transactions.clear();
+                        }
+                      }
+                      return Consumer<HomeTabProvider>(
+                        builder: (context, provider, child) {
+                          List<TransactionDTO> transactionsByadd = [];
+                          if (_bankAccounts.isNotEmpty) {
+                            if (_transactionsByAddr.containsKey(
+                                _bankAccounts[provider.tabSelect].bankCode)) {
+                              for (TransactionDTO transactionDTO
+                                  in _transactions) {
+                                if (transactionDTO.address ==
+                                    _bankAccounts[provider.tabSelect]
+                                        .bankCode) {
+                                  transactionsByadd.add(transactionDTO);
                                 }
                               }
-                              if (state is BankManageRemoveSuccessState ||
-                                  state is BankManageAddSuccessState) {
-                                _bankAccounts.clear();
-                                _cardWidgets.clear();
-                                _bankManageBloc.add(BankManageEventGetList(
-                                    userId: UserInformationHelper.instance
-                                        .getUserId()));
-                              }
-                            }),
-                            builder: ((context, state) {
-                              return (_bankAccounts.isEmpty)
-                                  ? Container(
-                                      width: width - 60,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                            }
+                            print('---tab select: ${provider.tabSelect}');
+                            // print(
+                            //     ' _transactionsByAddr[provider.tabSelect] length: ${_transactionsByAddr[provider.tabSelect]!.length ?? 0}');
+                            print(
+                                '---transactionsByadd length:${transactionsByadd.length}');
+                            print(
+                                '----? ${_transactionsByAddr.containsKey(_bankAccounts[provider.tabSelect].bankCode)}');
+                            print('----rebuild list');
+                          }
+
+                          return (transactionsByadd.isNotEmpty)
+                              ? Column(
+                                  children: [
+                                    SizedBox(
+                                      width: width,
+                                      child: Row(
                                         children: [
-                                          const Text(
-                                            'QR chưa được tạo.',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              color: DefaultTheme.GREY_TEXT,
-                                            ),
+                                          TableRowWidget(
+                                            context: context,
+                                            tableType: TableType.NO,
+                                            alignment: Alignment.center,
+                                            isHeader: true,
+                                            value: 'No.',
                                           ),
-                                          const Padding(
-                                              padding:
-                                                  EdgeInsets.only(top: 10)),
-                                          ButtonIconWidget(
-                                            width: 220,
-                                            icon: Icons.add_rounded,
-                                            title: 'Thêm tài khoản ngân hàng',
-                                            bgColor: DefaultTheme.GREEN,
-                                            textColor:
-                                                Theme.of(context).primaryColor,
-                                            function: () {
-                                              Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const BankManageView(),
-                                                ),
-                                              );
-                                            },
+                                          TableRowWidget(
+                                            context: context,
+                                            tableType: TableType.TRANSACTION,
+                                            alignment: Alignment.center,
+                                            isHeader: true,
+                                            value: 'Giao dịch',
+                                          ),
+                                          TableRowWidget(
+                                            context: context,
+                                            tableType: TableType.TIME,
+                                            alignment: Alignment.center,
+                                            isHeader: true,
+                                            value: 'Thời gian',
+                                          ),
+                                          TableRowWidget(
+                                            context: context,
+                                            tableType: TableType.STATUS,
+                                            alignment: Alignment.center,
+                                            isHeader: true,
+                                            value: 'Trạng thái',
+                                          ),
+                                          Expanded(
+                                            child: TableRowWidget(
+                                              context: context,
+                                              tableType: TableType.CONTENT,
+                                              alignment: Alignment.center,
+                                              isHeader: true,
+                                              width: width,
+                                              value: 'Nội dung',
+                                            ),
                                           ),
                                         ],
                                       ),
-                                    )
-                                  : Stack(
-                                      fit: StackFit.expand,
-                                      children: [
-                                        CarouselSlider(
-                                          carouselController:
-                                              _carouselController,
-                                          options: CarouselOptions(
-                                            height: 400,
-                                            enlargeCenterPage: true,
-                                            enableInfiniteScroll: false,
-                                            onPageChanged: ((index, reason) {
-                                              Provider.of<BankAccountProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .updateIndex(index);
-                                            }),
-                                          ),
-                                          items: _cardWidgets.map((i) {
-                                            return i;
-                                          }).toList(),
-                                        ),
-                                        Positioned(
-                                          top: 0,
-                                          right: 0,
-                                          child: Tooltip(
-                                            message: 'Phóng to mã QR',
-                                            child: InkWell(
-                                              onTap: () {
-                                                VietQRGenerateDTO dto =
-                                                    VietQRGenerateDTO(
-                                                  cAIValue: VietQRUtils.instance.generateCAIValue(
-                                                      _bankAccounts[Provider.of<
-                                                                      BankAccountProvider>(
-                                                                  context,
-                                                                  listen: false)
-                                                              .indexSelected]
-                                                          .bankCode,
-                                                      _bankAccounts[Provider.of<
-                                                                      BankAccountProvider>(
-                                                                  context,
-                                                                  listen: false)
-                                                              .indexSelected]
-                                                          .bankAccount),
-                                                  transactionAmountValue: '',
-                                                  additionalDataFieldTemplateValue:
-                                                      '',
-                                                );
-                                                //global key
-                                                final GlobalKey key =
-                                                    GlobalKey();
-                                                final VietQRWidget qrWidget =
-                                                    VietQRWidget(
-                                                  width: 300,
-                                                  bankAccountDTO: _bankAccounts[
-                                                      Provider.of<BankAccountProvider>(
-                                                              context,
-                                                              listen: false)
-                                                          .indexSelected],
-                                                  vietQRGenerateDTO: dto,
-                                                  globalKey: key,
-                                                  content: '',
-                                                );
-                                                DialogWidget.instance
-                                                    .openContentDialog(
-                                                  context,
-                                                  null,
-                                                  qrWidget,
-                                                );
-                                              },
-                                              child: Container(
-                                                width: 30,
-                                                height: 30,
-                                                decoration: BoxDecoration(
-                                                  color: Theme.of(context)
-                                                      .canvasColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(30),
-                                                ),
-                                                child: const Icon(
-                                                  Icons.zoom_out_map_rounded,
-                                                  color: DefaultTheme.GREY_TEXT,
-                                                  size: 15,
-                                                ),
+                                    ),
+                                    Expanded(
+                                      child: ListView.separated(
+                                          itemCount: transactionsByadd.length,
+                                          separatorBuilder: (context, index) {
+                                            return Container(
+                                              width: width,
+                                              height: 0.5,
+                                              decoration: const BoxDecoration(
+                                                color: DefaultTheme
+                                                    .GREY_TOP_TAB_BAR,
                                               ),
-                                            ),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          top: 130,
-                                          left: 0,
-                                          child: ButtonNavigatePageWidget(
-                                              width: 20,
-                                              height: 50,
-                                              function: () {
-                                                _carouselController.animateToPage(
-                                                    Provider.of<BankAccountProvider>(
-                                                                context,
-                                                                listen: false)
-                                                            .indexSelected -
-                                                        1);
-                                              },
-                                              isPrevious: true),
-                                        ),
-                                        Positioned(
-                                          top: 130,
-                                          right: 0,
-                                          child: ButtonNavigatePageWidget(
-                                              width: 20,
-                                              height: 50,
-                                              function: () {
-                                                _carouselController.animateToPage(
-                                                    Provider.of<BankAccountProvider>(
-                                                                context,
-                                                                listen: false)
-                                                            .indexSelected +
-                                                        1);
-                                              },
-                                              isPrevious: false),
-                                        ),
-                                      ],
-                                    );
-                            }),
-                          ),
-                        ),
-                      ),
-                      const Padding(padding: EdgeInsets.only(top: 5)),
-                      SizedBox(
-                        width: 310,
-                        child: Row(
-                          children: [
-                            ButtonIconWidget(
-                              width: 150,
-                              icon: Icons.download_rounded,
-                              alignment: Alignment.center,
-                              title: 'Lưu',
-                              function: () {},
-                              bgColor: Theme.of(context).cardColor,
-                              textColor: DefaultTheme.GREEN,
-                            ),
-                            const Padding(padding: EdgeInsets.only(left: 10)),
-                            ButtonIconWidget(
-                              width: 150,
-                              icon: Icons.print_rounded,
-                              alignment: Alignment.center,
-                              title: 'In',
-                              function: () {},
-                              bgColor: Theme.of(context).cardColor,
-                              textColor: DefaultTheme.GREEN,
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Padding(padding: EdgeInsets.only(top: 10)),
-                      ButtonIconWidget(
-                        width: 310,
-                        icon: Icons.add_rounded,
-                        autoFocus: true,
-                        focusNode: focusNode,
-                        title: 'Tạo QR theo giao dịch',
-                        function: () {
-                          if (_bankAccounts.isNotEmpty) {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => CreateQR(
-                                  bankAccountDTO: _bankAccounts[
-                                      Provider.of<BankAccountProvider>(context,
-                                              listen: false)
-                                          .indexSelected],
-                                ),
-                              ),
-                            );
-                          } else {
-                            DialogWidget.instance.openMsgDialog(
-                                context: context,
-                                title: 'Không thể tạo mã QR thanh toán',
-                                msg:
-                                    'Thêm tài khoản ngân hàng để sử dụng chức năng này.');
-                          }
-                        },
-                        bgColor: DefaultTheme.GREEN,
-                        textColor: Theme.of(context).primaryColor,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        widget3: Container(
-          width: width,
-          padding: const EdgeInsets.only(top: 10),
-          child: Column(
-            children: [
-              TitleHomeWebWidget(
-                width: width,
-                iconAsset: 'assets/images/ic-dashboard.png',
-                title: 'Giao dịch',
-                description: 'Danh sách các giao dịch gần đây',
-              ),
-              // Expanded(
-              //   child: SizedBox(
-              //     width: width,
-              //     height: 570,
-              //     child: (_transactions.isNotEmpty)
-              //         ? ListView.builder(
-              //             shrinkWrap: true,
-              //             itemCount: _transactions.length,
-              //             itemBuilder: ((context, index) {
-              //               return SMSListItemWeb(
-              //                   transactionDTO: _transactions[index]);
-              //             }),
-              //           )
-              //         : const SizedBox(),
-              //   ),
-              // ),
-              Expanded(
-                child: BlocConsumer<NotificationBloc, NotificationState>(
-                  listener: (context, state) {
-                    if (state is NotificationReceivedSuccessState) {
-                      DialogWidget.instance.openContentDialog(
-                        context,
-                        null,
-                        _buildTransactionWidget(state.transactionDTO),
-                      );
-                      _notificationBloc.add(NotificationEventUpdateStatus(
-                          notificationId: state.notificationId));
-                    }
-                    if (state is NotificationUpdateSuccessState) {
-                      String userId =
-                          UserInformationHelper.instance.getUserId();
-                      _notificationBloc
-                          .add(NotificationEventGetList(userId: userId));
-                    }
-                    if (state is NotificationListSuccessfulState) {
-                      _notificationBloc.add(const NotificationInitialEvent());
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state is NotificationReceivedSuccessState) {
-                      _transactions.insert(0, state.transactionDTO);
-                    }
-                    return BlocConsumer<TransactionBloc, TransactionState>(
-                      listener: (context, state) {
-                        if (state is TransactionSuccessfulListState) {
-                          _transactions.clear();
-                          if (_transactions.isEmpty && state.list.isNotEmpty) {
-                            _transactions.addAll(state.list);
-                          }
-                        }
-                      },
-                      builder: (context, state) {
-                        if (state is TransactionSuccessfulListState) {
-                          if (state.list.isEmpty) {
-                            _transactions.clear();
-                          }
-                        }
-                        return SizedBox(
-                          width: width,
-                          height: 570,
-                          child: (_transactions.isNotEmpty)
-                              ? ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: _transactions.length,
-                                  itemBuilder: ((context, index) {
-                                    return SMSListItemWeb(
-                                        transactionDTO: _transactions[index]);
-                                  }),
+                                            );
+                                          },
+                                          itemBuilder: (context, index) {
+                                            return Row(
+                                              children: [
+                                                TableRowWidget(
+                                                  context: context,
+                                                  tableType: TableType.NO,
+                                                  alignment: Alignment.center,
+                                                  value: (index + 1).toString(),
+                                                ),
+                                                TableRowWidget(
+                                                  context: context,
+                                                  tableType:
+                                                      TableType.TRANSACTION,
+                                                  alignment: Alignment.center,
+                                                  textColor: BankInformationUtil
+                                                          .instance
+                                                          .isIncome(
+                                                              (transactionsByadd[
+                                                                      index]
+                                                                  .transaction))
+                                                      ? DefaultTheme.GREEN
+                                                      : DefaultTheme.RED_TEXT,
+                                                  textSize: 18,
+                                                  value:
+                                                      transactionsByadd[index]
+                                                          .transaction,
+                                                ),
+                                                TableRowWidget(
+                                                  context: context,
+                                                  tableType: TableType.TIME,
+                                                  alignment: Alignment.center,
+                                                  textAlign: TextAlign.center,
+                                                  value: TimeUtils.instance
+                                                      .formatDateFromTimeStamp2(
+                                                    transactionsByadd[index]
+                                                        .timeInserted,
+                                                    false,
+                                                  ),
+                                                ),
+                                                TableRowWidget(
+                                                  context: context,
+                                                  tableType: TableType.STATUS,
+                                                  alignment: Alignment.center,
+                                                  value: BankInformationUtil
+                                                      .instance
+                                                      .formatTransactionStatus(
+                                                          transactionsByadd[
+                                                                  index]
+                                                              .status),
+                                                ),
+                                                Expanded(
+                                                  child: TableRowWidget(
+                                                    context: context,
+                                                    tableType:
+                                                        TableType.CONTENT,
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    width: width,
+                                                    value:
+                                                        transactionsByadd[index]
+                                                            .content,
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          }),
+                                    ),
+                                  ],
                                 )
-                              : const SizedBox(),
-                        );
-                      },
-                    );
-                  },
-                ),
+                              : const Center(
+                                  child: Text(
+                                    'Không có giao dịch nào',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: DefaultTheme.GREY_TEXT,
+                                    ),
+                                  ),
+                                );
+                        },
+                      );
+                    },
+                  );
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-        backgroundAsset: 'assets/images/bg-qr.png',
+        widget3: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child:
+                  _buildTitle('QR theo tài khoản', Theme.of(context).hintColor),
+            ),
+            Expanded(
+              child: BlocBuilder<BankManageBloc, BankManageState>(
+                builder: (context, state) {
+                  return Consumer<HomeTabProvider>(
+                    builder: (context, provider, child) {
+                      return (_cardWidgets.isNotEmpty &&
+                              _cardWidgets.length > provider.tabSelect)
+                          ? _cardWidgets[provider.tabSelect]
+                          : const SizedBox();
+                    },
+                  );
+                },
+              ),
+            ),
+            ButtonIconWidget(
+              width: 300,
+              icon: Icons.add_rounded,
+              autoFocus: true,
+              focusNode: focusNode,
+              title: 'Tạo QR theo giao dịch',
+              function: () {
+                if (_bankAccounts.isNotEmpty) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => CreateQR(
+                        bankAccountDTO: _bankAccounts[
+                            Provider.of<HomeTabProvider>(context, listen: false)
+                                .tabSelect],
+                      ),
+                    ),
+                  );
+                } else {
+                  DialogWidget.instance.openMsgDialog(
+                      context: context,
+                      title: 'Không thể tạo mã QR thanh toán',
+                      msg:
+                          'Thêm tài khoản ngân hàng để sử dụng chức năng này.');
+                }
+              },
+              bgColor: DefaultTheme.GREEN,
+              textColor: Theme.of(context).primaryColor,
+            ),
+            const Padding(padding: EdgeInsets.only(top: 10)),
+            ButtonIconWidget(
+              width: 300,
+              icon: Icons.people_rounded,
+              autoFocus: true,
+              focusNode: focusNode,
+              title: 'Quản lý thành viên',
+              function: () {},
+              bgColor: DefaultTheme.GREEN,
+              textColor: Theme.of(context).primaryColor,
+            ),
+            const Padding(padding: EdgeInsets.only(top: 10)),
+            SizedBox(
+              width: 300,
+              child: Row(
+                children: [
+                  ButtonIconWidget(
+                    width: 145,
+                    icon: Icons.download_rounded,
+                    autoFocus: true,
+                    focusNode: focusNode,
+                    title: 'Lưu',
+                    function: () {},
+                    bgColor: Theme.of(context).canvasColor,
+                    textColor: DefaultTheme.GREEN,
+                  ),
+                  const Padding(padding: EdgeInsets.only(left: 10)),
+                  ButtonIconWidget(
+                    width: 145,
+                    icon: Icons.print_rounded,
+                    autoFocus: true,
+                    focusNode: focusNode,
+                    title: 'In',
+                    function: () {},
+                    bgColor: Theme.of(context).canvasColor,
+                    textColor: DefaultTheme.GREEN,
+                  ),
+                ],
+              ),
+            ),
+            const Padding(padding: EdgeInsets.only(top: 10)),
+          ],
+        ),
       ),
+      // HomeFrame2(
+      //   width: width,
+      //   height: height,
+      //   mobileChildren: [
+      //     PageView(
+      //       key: const PageStorageKey('PAGE_VIEW'),
+      //       allowImplicitScrolling: true,
+      //       physics: const NeverScrollableScrollPhysics(),
+      //       controller: _pageController,
+      //       onPageChanged: (index) {
+      //         Provider.of<PageSelectProvider>(context, listen: false)
+      //             .updateIndex(index);
+      //       },
+      //       children: _homeScreens,
+      //     ),
+      //     SizedBox(
+      //       width: MediaQuery.of(context).size.width,
+      //       height: 65,
+      //       child: ClipRRect(
+      //         child: BackdropFilter(
+      //           filter: ImageFilter.blur(
+      //             sigmaX: 25,
+      //             sigmaY: 25,
+      //           ),
+      //           child: Container(
+      //             padding: const EdgeInsets.symmetric(horizontal: 20),
+      //             decoration: BoxDecoration(
+      //               color: Theme.of(context)
+      //                   .scaffoldBackgroundColor
+      //                   .withOpacity(0.6),
+      //             ),
+      //             child: Row(
+      //               mainAxisAlignment: MainAxisAlignment.start,
+      //               children: [
+      //                 Consumer<PageSelectProvider>(
+      //                     builder: (context, page, child) {
+      //                   return _getTitlePaqe(context, page.indexSelected);
+      //                 }),
+      //                 const Spacer(),
+      //               ],
+      //             ),
+      //           ),
+      //         ),
+      //       ),
+      //     ),
+      //   ],
+      //   widget1: Container(
+      //     width: width,
+      //     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      //     child: Column(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       crossAxisAlignment: CrossAxisAlignment.start,
+      //       children: [
+      //         Text(
+      //           'Xin chào, ${UserInformationHelper.instance.getUserInformation().firstName}!',
+      //           style: const TextStyle(
+      //             fontSize: 20,
+      //             fontWeight: FontWeight.w500,
+      //             fontStyle: FontStyle.italic,
+      //           ),
+      //         ),
+      //         ValueListenableBuilder(
+      //           builder: (_, clock, child) {
+      //             return Center(
+      //               child: Text(
+      //                 clock.toString(),
+      //               ),
+      //             );
+      //           },
+      //           valueListenable: clockProvider,
+      //         ),
+      //         // Text(
+      //         //   '${TimeUtils.instance.getCurrentDateInWeek()}, ${TimeUtils.instance.getCurentDate()}',
+      //         //   maxLines: 1,
+      //         //   overflow: TextOverflow.ellipsis,
+      //         // ),
+      //       ],
+      //     ),
+      //   ),
+      //   widget2: Container(
+      //     width: width,
+      //     padding: const EdgeInsets.only(top: 10),
+      //     child: Column(
+      //       children: [
+      //         TitleHomeWebWidget(
+      //           width: width,
+      //           iconAsset: 'assets/images/ic-qr.png',
+      //           title: 'QR theo tài khoản',
+      //           description: 'QR không chứa số tiền và nội dung',
+      //         ),
+      //         Expanded(
+      //           child: Container(
+      //             width: width,
+      //             padding:
+      //                 const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      //             child: Column(
+      //               crossAxisAlignment: CrossAxisAlignment.start,
+      //               children: [
+      //                 Expanded(
+      //                   child: SizedBox(
+      //                     width: width,
+      //                     child: BlocConsumer<BankManageBloc, BankManageState>(
+      //                       listener: ((context, state) {
+      //                         if (state is BankManageListSuccessState) {
+      //                           Provider.of<BankAccountProvider>(context,
+      //                                   listen: false)
+      //                               .updateIndex(0);
+      //                           if (_bankAccounts.isEmpty) {
+      //                             _bankAccounts.addAll(state.list);
+      //                             for (BankAccountDTO bankAccountDTO
+      //                                 in _bankAccounts) {
+      //                               VietQRGenerateDTO dto = VietQRGenerateDTO(
+      //                                 cAIValue: VietQRUtils.instance
+      //                                     .generateCAIValue(
+      //                                         bankAccountDTO.bankCode,
+      //                                         bankAccountDTO.bankAccount),
+      //                                 transactionAmountValue: '',
+      //                                 additionalDataFieldTemplateValue: '',
+      //                               );
+
+      //                               //global key
+      //                               GlobalKey key = GlobalKey();
+      //                               final VietQRWidget qrWidget = VietQRWidget(
+      //                                 width: 300,
+      //                                 bankAccountDTO: bankAccountDTO,
+      //                                 vietQRGenerateDTO: dto,
+      //                                 globalKey: key,
+      //                                 content: '',
+      //                                 isCopy: true,
+      //                               );
+      //                               _cardWidgets.add(qrWidget);
+      //                             }
+      //                           }
+      //                         }
+      //                         if (state is BankManageRemoveSuccessState ||
+      //                             state is BankManageAddSuccessState) {
+      //                           _bankAccounts.clear();
+      //                           _cardWidgets.clear();
+      //                           _bankManageBloc.add(BankManageEventGetList(
+      //                               userId: UserInformationHelper.instance
+      //                                   .getUserId()));
+      //                         }
+      //                       }),
+      //                       builder: ((context, state) {
+      //                         return (_bankAccounts.isEmpty)
+      //                             ? Container(
+      //                                 width: width - 60,
+      //                                 decoration: BoxDecoration(
+      //                                   borderRadius: BorderRadius.circular(15),
+      //                                 ),
+      //                                 alignment: Alignment.center,
+      //                                 child: Column(
+      //                                   mainAxisAlignment:
+      //                                       MainAxisAlignment.center,
+      //                                   children: [
+      //                                     const Text(
+      //                                       'QR chưa được tạo.',
+      //                                       textAlign: TextAlign.center,
+      //                                       style: TextStyle(
+      //                                         color: DefaultTheme.GREY_TEXT,
+      //                                       ),
+      //                                     ),
+      //                                     const Padding(
+      //                                         padding:
+      //                                             EdgeInsets.only(top: 10)),
+      //                                     ButtonIconWidget(
+      //                                       width: 220,
+      //                                       icon: Icons.add_rounded,
+      //                                       title: 'Thêm tài khoản ngân hàng',
+      //                                       bgColor: DefaultTheme.GREEN,
+      //                                       textColor:
+      //                                           Theme.of(context).primaryColor,
+      //                                       function: () {
+      //                                         Navigator.of(context).push(
+      //                                           MaterialPageRoute(
+      //                                             builder: (context) =>
+      //                                                 const BankManageView(),
+      //                                           ),
+      //                                         );
+      //                                       },
+      //                                     ),
+      //                                   ],
+      //                                 ),
+      //                               )
+      //                             : Stack(
+      //                                 fit: StackFit.expand,
+      //                                 children: [
+      //                                   CarouselSlider(
+      //                                     carouselController:
+      //                                         _carouselController,
+      //                                     options: CarouselOptions(
+      //                                       height: 400,
+      //                                       enlargeCenterPage: true,
+      //                                       enableInfiniteScroll: false,
+      //                                       onPageChanged: ((index, reason) {
+      //                                         Provider.of<BankAccountProvider>(
+      //                                                 context,
+      //                                                 listen: false)
+      //                                             .updateIndex(index);
+      //                                       }),
+      //                                     ),
+      //                                     items: _cardWidgets.map((i) {
+      //                                       return i;
+      //                                     }).toList(),
+      //                                   ),
+      //                                   Positioned(
+      //                                     top: 0,
+      //                                     right: 0,
+      //                                     child: Tooltip(
+      //                                       message: 'Phóng to mã QR',
+      //                                       child: InkWell(
+      //                                         onTap: () {
+      //                                           VietQRGenerateDTO dto =
+      //                                               VietQRGenerateDTO(
+      //                                             cAIValue: VietQRUtils.instance.generateCAIValue(
+      //                                                 _bankAccounts[Provider.of<
+      //                                                                 BankAccountProvider>(
+      //                                                             context,
+      //                                                             listen: false)
+      //                                                         .indexSelected]
+      //                                                     .bankCode,
+      //                                                 _bankAccounts[Provider.of<
+      //                                                                 BankAccountProvider>(
+      //                                                             context,
+      //                                                             listen: false)
+      //                                                         .indexSelected]
+      //                                                     .bankAccount),
+      //                                             transactionAmountValue: '',
+      //                                             additionalDataFieldTemplateValue:
+      //                                                 '',
+      //                                           );
+      //                                           //global key
+      //                                           final GlobalKey key =
+      //                                               GlobalKey();
+      //                                           final VietQRWidget qrWidget =
+      //                                               VietQRWidget(
+      //                                             width: 300,
+      //                                             bankAccountDTO: _bankAccounts[
+      //                                                 Provider.of<BankAccountProvider>(
+      //                                                         context,
+      //                                                         listen: false)
+      //                                                     .indexSelected],
+      //                                             vietQRGenerateDTO: dto,
+      //                                             globalKey: key,
+      //                                             content: '',
+      //                                           );
+      //                                           DialogWidget.instance
+      //                                               .openContentDialog(
+      //                                             context,
+      //                                             null,
+      //                                             qrWidget,
+      //                                           );
+      //                                         },
+      //                                         child: Container(
+      //                                           width: 30,
+      //                                           height: 30,
+      //                                           decoration: BoxDecoration(
+      //                                             color: Theme.of(context)
+      //                                                 .canvasColor,
+      //                                             borderRadius:
+      //                                                 BorderRadius.circular(30),
+      //                                           ),
+      //                                           child: const Icon(
+      //                                             Icons.zoom_out_map_rounded,
+      //                                             color: DefaultTheme.GREY_TEXT,
+      //                                             size: 15,
+      //                                           ),
+      //                                         ),
+      //                                       ),
+      //                                     ),
+      //                                   ),
+      //                                   Positioned(
+      //                                     top: 130,
+      //                                     left: 0,
+      //                                     child: ButtonNavigatePageWidget(
+      //                                         width: 20,
+      //                                         height: 50,
+      //                                         function: () {
+      //                                           _carouselController.animateToPage(
+      //                                               Provider.of<BankAccountProvider>(
+      //                                                           context,
+      //                                                           listen: false)
+      //                                                       .indexSelected -
+      //                                                   1);
+      //                                         },
+      //                                         isPrevious: true),
+      //                                   ),
+      //                                   Positioned(
+      //                                     top: 130,
+      //                                     right: 0,
+      //                                     child: ButtonNavigatePageWidget(
+      //                                         width: 20,
+      //                                         height: 50,
+      //                                         function: () {
+      //                                           _carouselController.animateToPage(
+      //                                               Provider.of<BankAccountProvider>(
+      //                                                           context,
+      //                                                           listen: false)
+      //                                                       .indexSelected +
+      //                                                   1);
+      //                                         },
+      //                                         isPrevious: false),
+      //                                   ),
+      //                                 ],
+      //                               );
+      //                       }),
+      //                     ),
+      //                   ),
+      //                 ),
+      //                 const Padding(padding: EdgeInsets.only(top: 5)),
+      //                 SizedBox(
+      //                   width: 310,
+      //                   child: Row(
+      //                     children: [
+      //                       ButtonIconWidget(
+      //                         width: 150,
+      //                         icon: Icons.download_rounded,
+      //                         alignment: Alignment.center,
+      //                         title: 'Lưu',
+      //                         function: () {},
+      //                         bgColor: Theme.of(context).cardColor,
+      //                         textColor: DefaultTheme.GREEN,
+      //                       ),
+      //                       const Padding(padding: EdgeInsets.only(left: 10)),
+      //                       ButtonIconWidget(
+      //                         width: 150,
+      //                         icon: Icons.print_rounded,
+      //                         alignment: Alignment.center,
+      //                         title: 'In',
+      //                         function: () {},
+      //                         bgColor: Theme.of(context).cardColor,
+      //                         textColor: DefaultTheme.GREEN,
+      //                       ),
+      //                     ],
+      //                   ),
+      //                 ),
+      //                 const Padding(padding: EdgeInsets.only(top: 10)),
+      //                 ButtonIconWidget(
+      //                   width: 310,
+      //                   icon: Icons.add_rounded,
+      //                   autoFocus: true,
+      //                   focusNode: focusNode,
+      //                   title: 'Tạo QR theo giao dịch',
+      //                   function: () {
+      //                     if (_bankAccounts.isNotEmpty) {
+      //                       Navigator.of(context).push(
+      //                         MaterialPageRoute(
+      //                           builder: (context) => CreateQR(
+      //                             bankAccountDTO: _bankAccounts[
+      //                                 Provider.of<BankAccountProvider>(context,
+      //                                         listen: false)
+      //                                     .indexSelected],
+      //                           ),
+      //                         ),
+      //                       );
+      //                     } else {
+      //                       DialogWidget.instance.openMsgDialog(
+      //                           context: context,
+      //                           title: 'Không thể tạo mã QR thanh toán',
+      //                           msg:
+      //                               'Thêm tài khoản ngân hàng để sử dụng chức năng này.');
+      //                     }
+      //                   },
+      //                   bgColor: DefaultTheme.GREEN,
+      //                   textColor: Theme.of(context).primaryColor,
+      //                 ),
+      //               ],
+      //             ),
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+      //   widget3: Container(
+      //     width: width,
+      //     padding: const EdgeInsets.only(top: 10),
+      //     child: Column(
+      //       children: [
+      //         TitleHomeWebWidget(
+      //           width: width,
+      //           iconAsset: 'assets/images/ic-dashboard.png',
+      //           title: 'Giao dịch',
+      //           description: 'Danh sách các giao dịch gần đây',
+      //         ),
+      //         // Expanded(
+      //         //   child: SizedBox(
+      //         //     width: width,
+      //         //     height: 570,
+      //         //     child: (_transactions.isNotEmpty)
+      //         //         ? ListView.builder(
+      //         //             shrinkWrap: true,
+      //         //             itemCount: _transactions.length,
+      //         //             itemBuilder: ((context, index) {
+      //         //               return SMSListItemWeb(
+      //         //                   transactionDTO: _transactions[index]);
+      //         //             }),
+      //         //           )
+      //         //         : const SizedBox(),
+      //         //   ),
+      //         // ),
+      //         Expanded(
+      //           child: BlocConsumer<NotificationBloc, NotificationState>(
+      //             listener: (context, state) {
+      //               if (state is NotificationReceivedSuccessState) {
+      //                 DialogWidget.instance.openContentDialog(
+      //                   context,
+      //                   null,
+      //                   _buildTransactionWidget(state.transactionDTO),
+      //                 );
+      //                 _notificationBloc.add(NotificationEventUpdateStatus(
+      //                     notificationId: state.notificationId));
+      //               }
+      //               if (state is NotificationUpdateSuccessState) {
+      //                 String userId =
+      //                     UserInformationHelper.instance.getUserId();
+      //                 _notificationBloc
+      //                     .add(NotificationEventGetList(userId: userId));
+      //               }
+      //               if (state is NotificationListSuccessfulState) {
+      //                 _notificationBloc.add(const NotificationInitialEvent());
+      //               }
+      //             },
+      //             builder: (context, state) {
+      //               if (state is NotificationReceivedSuccessState) {
+      //                 _transactions.insert(0, state.transactionDTO);
+      //               }
+      //               return BlocConsumer<TransactionBloc, TransactionState>(
+      //                 listener: (context, state) {
+      //                   if (state is TransactionSuccessfulListState) {
+      //                     _transactions.clear();
+      //                     if (_transactions.isEmpty && state.list.isNotEmpty) {
+      //                       _transactions.addAll(state.list);
+      //                     }
+      //                   }
+      //                 },
+      //                 builder: (context, state) {
+      //                   if (state is TransactionSuccessfulListState) {
+      //                     if (state.list.isEmpty) {
+      //                       _transactions.clear();
+      //                     }
+      //                   }
+      //                   return SizedBox(
+      //                     width: width,
+      //                     height: 570,
+      //                     child: (_transactions.isNotEmpty)
+      //                         ? ListView.builder(
+      //                             shrinkWrap: true,
+      //                             itemCount: _transactions.length,
+      //                             itemBuilder: ((context, index) {
+      //                               return SMSListItemWeb(
+      //                                   transactionDTO: _transactions[index]);
+      //                             }),
+      //                           )
+      //                         : const SizedBox(),
+      //                   );
+      //                 },
+      //               );
+      //             },
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+      //   backgroundAsset: 'assets/images/bg-qr.png',
+      // ),
+
       floatingActionButtonLocation: (PlatformUtils.instance.isWeb())
           ? null
           : FloatingActionButtonLocation.centerDocked,
@@ -747,7 +1169,7 @@ class _HomeScreen extends State<HomeScreen> {
             ),
             TextSpan(
               text:
-                  '${TimeUtils.instance.getCurrentDateInWeek()}, ${TimeUtils.instance.getCurentDate()}',
+                  '${TimeUtils.instance.getCurrentDateInWeek(DateTime.now())}, ${TimeUtils.instance.getCurentDate(DateTime.now())}',
               style: const TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.normal,
@@ -771,6 +1193,17 @@ class _HomeScreen extends State<HomeScreen> {
     }
     return titleWidget;
   }
+}
+
+Widget _buildTitle(String text, Color? color) {
+  return Text(
+    text,
+    style: TextStyle(
+      fontSize: 15,
+      fontWeight: FontWeight.bold,
+      color: color,
+    ),
+  );
 }
 
 Widget _buildTransactionWidget(
@@ -888,5 +1321,57 @@ Widget _buildTransactionWidget(
         ),
       ),
     ],
+  );
+}
+
+Widget TableRowWidget({
+  required BuildContext context,
+  required TableType tableType,
+  required String value,
+  double? textSize,
+  Color? textColor,
+  bool? isHeader,
+  double? width,
+  Alignment? alignment,
+  TextAlign? textAlign,
+}) {
+  double width = 0;
+  double height = 40;
+  switch (tableType) {
+    case TableType.NO:
+      width = 50;
+      break;
+    case TableType.TRANSACTION:
+      width = 150;
+      break;
+    case TableType.STATUS:
+      width = 100;
+      break;
+    case TableType.TIME:
+      width = 120;
+      break;
+    case TableType.CONTENT:
+      width = width;
+      break;
+    default:
+      width = 100;
+      break;
+  }
+  return Container(
+    width: width,
+    height: height,
+    padding: const EdgeInsets.symmetric(vertical: 5),
+    alignment: (alignment != null) ? alignment : Alignment.center,
+    child: Text(
+      value,
+      textAlign: textAlign,
+      style: TextStyle(
+        fontSize: (textSize != null) ? textSize : 12,
+        color: (textColor != null) ? textColor : Theme.of(context).hintColor,
+        fontWeight: (isHeader != null && isHeader)
+            ? FontWeight.bold
+            : FontWeight.normal,
+      ),
+    ),
   );
 }

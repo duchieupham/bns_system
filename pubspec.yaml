@@ -101,6 +101,7 @@ flutter:
       - assets/images/ic-avatar.png
       - assets/images/ic-viet-qr.png
       - assets/images/ic-viet-qr-small.png
+      - assets/images/ic-viet-qr-small-trans.png
       - assets/images/logo.png
       - assets/images/ic-dropdown.png
       - assets/images/bg-qr.png
@@ -111,6 +112,8 @@ flutter:
       - assets/images/ic-member.png
       - assets/images/ic-transaction-success.png
       - assets/images/ic-viet-qr-login.png
+      - assets/images/banks/ic-shb.png
+      - assets/images/banks/ic-mb.png
        
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
