@@ -12,15 +12,11 @@ import 'package:vierqr/commons/widgets/viet_qr_widget.dart';
 import 'package:vierqr/features_mobile/generate_qr/views/create_qr.dart';
 import 'package:vierqr/features_mobile/generate_qr/views/qr_information_view.dart';
 import 'package:vierqr/features_mobile/home/frames/home_frame.dart';
-import 'package:vierqr/features_mobile/home/frames/home_frame_old.dart';
 import 'package:vierqr/features_mobile/home/widgets/bank_item_widget.dart';
-import 'package:vierqr/features_mobile/home/widgets/button_navigate_page_widget.dart';
-import 'package:vierqr/features_mobile/home/widgets/title_home_web_widget.dart';
 import 'package:vierqr/features_mobile/log_sms/blocs/transaction_bloc.dart';
 import 'package:vierqr/features_mobile/log_sms/events/transaction_event.dart';
 import 'package:vierqr/features_mobile/log_sms/sms_list.dart';
 import 'package:vierqr/features_mobile/log_sms/states/transaction_state.dart';
-import 'package:vierqr/features_mobile/log_sms/widgets/sms_list_item_web.dart';
 import 'package:vierqr/features_mobile/notification/blocs/notification_bloc.dart';
 import 'package:vierqr/features_mobile/notification/events/notification_event.dart';
 import 'package:vierqr/features_mobile/notification/repositories/notification_repository.dart';
@@ -28,15 +24,14 @@ import 'package:vierqr/features_mobile/notification/states/notification_state.da
 import 'package:vierqr/features_mobile/personal/blocs/bank_manage_bloc.dart';
 import 'package:vierqr/features_mobile/personal/events/bank_manage_event.dart';
 import 'package:vierqr/features_mobile/personal/states/bank_manage_state.dart';
-import 'package:vierqr/features_mobile/personal/views/bank_manage.dart';
 import 'package:vierqr/features_mobile/personal/views/user_setting.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
 import 'package:vierqr/models/transaction_dto.dart';
 import 'package:vierqr/models/viet_qr_generate_dto.dart';
+import 'package:vierqr/services/providers/account_balance_home_provider.dart';
 import 'package:vierqr/services/providers/bank_account_provider.dart';
-import 'package:vierqr/services/providers/clock_provider.dart';
 import 'package:vierqr/services/providers/home_tab_provider.dart';
 import 'package:vierqr/services/providers/page_select_provider.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
@@ -72,6 +67,10 @@ class _HomeScreen extends State<HomeScreen> {
   static late NotificationBloc _notificationBloc;
   static late TransactionBloc _transactionBloc;
 
+  //providers
+  final AccountBalanceHomeProvider accountBalanceHomeProvider =
+      AccountBalanceHomeProvider('');
+
   @override
   void initState() {
     super.initState();
@@ -87,6 +86,9 @@ class _HomeScreen extends State<HomeScreen> {
       _notificationBloc.add(NotificationEventListen(
           userId: userId, notificationBloc: _notificationBloc));
       _transactionBloc.add(TransactionEventGetList(userId: userId));
+      //
+      Provider.of<HomeTabProvider>(context, listen: false).updateTabSelect(0);
+      accountBalanceHomeProvider.updateAccountBalance('');
     } else {
       _homeScreens.addAll([
         const QRInformationView(
@@ -132,6 +134,51 @@ class _HomeScreen extends State<HomeScreen> {
       body: HomeFrame(
         width: width,
         height: height,
+        mobileWidget: Stack(
+          children: [
+            PageView(
+              key: const PageStorageKey('PAGE_VIEW'),
+              allowImplicitScrolling: true,
+              physics: const NeverScrollableScrollPhysics(),
+              controller: _pageController,
+              onPageChanged: (index) {
+                Provider.of<PageSelectProvider>(context, listen: false)
+                    .updateIndex(index);
+              },
+              children: _homeScreens,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: 65,
+              child: ClipRRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(
+                    sigmaX: 25,
+                    sigmaY: 25,
+                  ),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context)
+                          .scaffoldBackgroundColor
+                          .withOpacity(0.6),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Consumer<PageSelectProvider>(
+                            builder: (context, page, child) {
+                          return _getTitlePaqe(context, page.indexSelected);
+                        }),
+                        const Spacer(),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
         widget1: BlocConsumer<BankManageBloc, BankManageState>(
             listener: (context, state) {
           if (state is BankManageListSuccessState) {
@@ -139,6 +186,7 @@ class _HomeScreen extends State<HomeScreen> {
                 .updateIndex(0);
             if (_bankAccounts.isEmpty) {
               _bankAccounts.addAll(state.list);
+              _bankAccounts.addAll(state.listOther);
               for (BankAccountDTO bankAccountDTO in _bankAccounts) {
                 VietQRGenerateDTO dto = VietQRGenerateDTO(
                   cAIValue: VietQRUtils.instance.generateCAIValue(
@@ -195,13 +243,22 @@ class _HomeScreen extends State<HomeScreen> {
                           child: ListView.builder(
                             itemCount: _bankAccounts.length,
                             shrinkWrap: true,
+                            scrollDirection:
+                                (PlatformUtils.instance.resizeWhen(width, 800))
+                                    ? Axis.vertical
+                                    : Axis.horizontal,
                             itemBuilder: (context, index) {
                               return InkWell(
                                 onTap: () {
+                                  accountBalanceHomeProvider
+                                      .updateAccountBalance('');
                                   provider.updateTabSelect(index);
                                 },
                                 child: BankItemWidget(
-                                  width: 300,
+                                  width: (PlatformUtils.instance
+                                          .resizeWhen(width, 800))
+                                      ? 300
+                                      : 50,
                                   isSelected: provider.tabSelect == index,
                                   isExpanded: provider.isExpanded,
                                   bankAccountDTO: _bankAccounts[index],
@@ -218,8 +275,60 @@ class _HomeScreen extends State<HomeScreen> {
         }),
         widget2: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            _buildTitle('Danh sách giao dịch', Theme.of(context).hintColor),
+            const Padding(padding: EdgeInsets.only(top: 10)),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildTitle('Danh sách giao dịch', Theme.of(context).hintColor),
+                const Spacer(),
+                BlocBuilder<BankManageBloc, BankManageState>(
+                  builder: (context, state) {
+                    return (_bankAccounts.isNotEmpty)
+                        ? Consumer<HomeTabProvider>(
+                            builder: (context, provider, child) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  _bankAccounts[provider.tabSelect].bankName,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  '${_bankAccounts[provider.tabSelect].bankAccount} - ${_bankAccounts[provider.tabSelect].bankAccountName}',
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                ValueListenableBuilder(
+                                    valueListenable: accountBalanceHomeProvider,
+                                    builder:
+                                        (_, accountBalanceProvider, child) {
+                                      return (accountBalanceHomeProvider.value
+                                              .toString()
+                                              .isNotEmpty)
+                                          ? Text(
+                                              'Số dư: ${accountBalanceProvider.toString()}',
+                                              style: const TextStyle(
+                                                fontSize: 12,
+                                                color: DefaultTheme.GREEN,
+                                              ),
+                                            )
+                                          : const SizedBox();
+                                    }),
+                              ],
+                            );
+                          })
+                        : const SizedBox();
+                  },
+                ),
+              ],
+            ),
+            const Padding(padding: EdgeInsets.only(top: 10)),
             Expanded(
               child: BlocConsumer<NotificationBloc, NotificationState>(
                 listener: (context, state) {
@@ -287,146 +396,89 @@ class _HomeScreen extends State<HomeScreen> {
                                   transactionsByadd.add(transactionDTO);
                                 }
                               }
+                              Future.delayed(Duration.zero, () {
+                                accountBalanceHomeProvider.updateAccountBalance(
+                                    transactionsByadd[0].accountBalance);
+                              });
                             }
-                            print('---tab select: ${provider.tabSelect}');
-                            // print(
-                            //     ' _transactionsByAddr[provider.tabSelect] length: ${_transactionsByAddr[provider.tabSelect]!.length ?? 0}');
-                            print(
-                                '---transactionsByadd length:${transactionsByadd.length}');
-                            print(
-                                '----? ${_transactionsByAddr.containsKey(_bankAccounts[provider.tabSelect].bankCode)}');
-                            print('----rebuild list');
                           }
 
                           return (transactionsByadd.isNotEmpty)
-                              ? Column(
-                                  children: [
-                                    SizedBox(
-                                      width: width,
-                                      child: Row(
-                                        children: [
-                                          TableRowWidget(
-                                            context: context,
-                                            tableType: TableType.NO,
-                                            alignment: Alignment.center,
-                                            isHeader: true,
-                                            value: 'No.',
-                                          ),
-                                          TableRowWidget(
-                                            context: context,
-                                            tableType: TableType.TRANSACTION,
-                                            alignment: Alignment.center,
-                                            isHeader: true,
-                                            value: 'Giao dịch',
-                                          ),
-                                          TableRowWidget(
-                                            context: context,
-                                            tableType: TableType.TIME,
-                                            alignment: Alignment.center,
-                                            isHeader: true,
-                                            value: 'Thời gian',
-                                          ),
-                                          TableRowWidget(
-                                            context: context,
-                                            tableType: TableType.STATUS,
-                                            alignment: Alignment.center,
-                                            isHeader: true,
-                                            value: 'Trạng thái',
-                                          ),
-                                          Expanded(
-                                            child: TableRowWidget(
-                                              context: context,
-                                              tableType: TableType.CONTENT,
-                                              alignment: Alignment.center,
-                                              isHeader: true,
-                                              width: width,
-                                              value: 'Nội dung',
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: ListView.separated(
-                                          itemCount: transactionsByadd.length,
-                                          separatorBuilder: (context, index) {
-                                            return Container(
-                                              width: width,
-                                              height: 0.5,
-                                              decoration: const BoxDecoration(
-                                                color: DefaultTheme
-                                                    .GREY_TOP_TAB_BAR,
+                              ? SizedBox(
+                                  width: width,
+                                  height: height,
+                                  child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: 1,
+                                      shrinkWrap: true,
+                                      itemBuilder: (context, index) {
+                                        return SizedBox(
+                                          width: 620,
+                                          height: height,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              SizedBox(
+                                                width: 620,
+                                                child: Row(
+                                                  children: [
+                                                    TableRowWidget(
+                                                      context: context,
+                                                      tableType: TableType.NO,
+                                                      alignment:
+                                                          Alignment.center,
+                                                      isHeader: true,
+                                                      value: 'No.',
+                                                    ),
+                                                    TableRowWidget(
+                                                      context: context,
+                                                      tableType:
+                                                          TableType.TRANSACTION,
+                                                      alignment:
+                                                          Alignment.center,
+                                                      isHeader: true,
+                                                      value: 'Giao dịch (VND)',
+                                                    ),
+                                                    TableRowWidget(
+                                                      context: context,
+                                                      tableType: TableType.TIME,
+                                                      alignment:
+                                                          Alignment.center,
+                                                      isHeader: true,
+                                                      value: 'Thời gian',
+                                                    ),
+                                                    TableRowWidget(
+                                                      context: context,
+                                                      tableType:
+                                                          TableType.STATUS,
+                                                      alignment:
+                                                          Alignment.center,
+                                                      isHeader: true,
+                                                      value: 'Trạng thái',
+                                                    ),
+                                                    TableRowWidget(
+                                                      context: context,
+                                                      tableType:
+                                                          TableType.CONTENT,
+                                                      alignment:
+                                                          Alignment.center,
+                                                      isHeader: true,
+                                                      widthRow: 200,
+                                                      value: 'Nội dung',
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            );
-                                          },
-                                          itemBuilder: (context, index) {
-                                            return Row(
-                                              children: [
-                                                TableRowWidget(
-                                                  context: context,
-                                                  tableType: TableType.NO,
-                                                  alignment: Alignment.center,
-                                                  value: (index + 1).toString(),
-                                                ),
-                                                TableRowWidget(
-                                                  context: context,
-                                                  tableType:
-                                                      TableType.TRANSACTION,
-                                                  alignment: Alignment.center,
-                                                  textColor: BankInformationUtil
-                                                          .instance
-                                                          .isIncome(
-                                                              (transactionsByadd[
-                                                                      index]
-                                                                  .transaction))
-                                                      ? DefaultTheme.GREEN
-                                                      : DefaultTheme.RED_TEXT,
-                                                  textSize: 18,
-                                                  value:
-                                                      transactionsByadd[index]
-                                                          .transaction,
-                                                ),
-                                                TableRowWidget(
-                                                  context: context,
-                                                  tableType: TableType.TIME,
-                                                  alignment: Alignment.center,
-                                                  textAlign: TextAlign.center,
-                                                  value: TimeUtils.instance
-                                                      .formatDateFromTimeStamp2(
-                                                    transactionsByadd[index]
-                                                        .timeInserted,
-                                                    false,
-                                                  ),
-                                                ),
-                                                TableRowWidget(
-                                                  context: context,
-                                                  tableType: TableType.STATUS,
-                                                  alignment: Alignment.center,
-                                                  value: BankInformationUtil
-                                                      .instance
-                                                      .formatTransactionStatus(
-                                                          transactionsByadd[
-                                                                  index]
-                                                              .status),
-                                                ),
-                                                Expanded(
-                                                  child: TableRowWidget(
-                                                    context: context,
-                                                    tableType:
-                                                        TableType.CONTENT,
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    width: width,
-                                                    value:
-                                                        transactionsByadd[index]
-                                                            .content,
-                                                  ),
-                                                ),
-                                              ],
-                                            );
-                                          }),
-                                    ),
-                                  ],
+                                              Expanded(
+                                                child: _buildListTransaction(
+                                                    width, transactionsByadd),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }),
                                 )
                               : const Center(
                                   child: Text(
@@ -1071,6 +1123,75 @@ class _HomeScreen extends State<HomeScreen> {
     );
   }
 
+  _buildListTransaction(
+    double width,
+    List<TransactionDTO> transactionsByadd,
+  ) {
+    return ScrollConfiguration(
+      behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+      child: ListView.separated(
+          itemCount: transactionsByadd.length,
+          shrinkWrap: true,
+          physics: const ClampingScrollPhysics(),
+          separatorBuilder: (context, index) {
+            return Container(
+              width: width,
+              height: 0.5,
+              decoration: const BoxDecoration(
+                color: DefaultTheme.GREY_TOP_TAB_BAR,
+              ),
+            );
+          },
+          itemBuilder: (context, index) {
+            return Row(
+              children: [
+                TableRowWidget(
+                  context: context,
+                  tableType: TableType.NO,
+                  alignment: Alignment.center,
+                  value: (index + 1).toString(),
+                ),
+                TableRowWidget(
+                  context: context,
+                  tableType: TableType.TRANSACTION,
+                  alignment: Alignment.center,
+                  textColor: BankInformationUtil.instance
+                          .isIncome((transactionsByadd[index].transaction))
+                      ? DefaultTheme.GREEN
+                      : DefaultTheme.RED_TEXT,
+                  textSize: 18,
+                  value: transactionsByadd[index].transaction.split(' VND')[0],
+                ),
+                TableRowWidget(
+                  context: context,
+                  tableType: TableType.TIME,
+                  alignment: Alignment.center,
+                  textAlign: TextAlign.center,
+                  value: TimeUtils.instance.formatDateFromTimeStamp2(
+                    transactionsByadd[index].timeInserted,
+                    false,
+                  ),
+                ),
+                TableRowWidget(
+                  context: context,
+                  tableType: TableType.STATUS,
+                  alignment: Alignment.center,
+                  value: BankInformationUtil.instance
+                      .formatTransactionStatus(transactionsByadd[index].status),
+                ),
+                TableRowWidget(
+                  context: context,
+                  tableType: TableType.CONTENT,
+                  alignment: Alignment.centerLeft,
+                  widthRow: 200,
+                  value: transactionsByadd[index].content,
+                ),
+              ],
+            );
+          }),
+    );
+  }
+
   //build shorcuts in bottom bar
   _buildShortcut(int index, int indexSelected, BuildContext context) {
     bool isSelected = (index == indexSelected);
@@ -1331,7 +1452,7 @@ Widget TableRowWidget({
   double? textSize,
   Color? textColor,
   bool? isHeader,
-  double? width,
+  double? widthRow,
   Alignment? alignment,
   TextAlign? textAlign,
 }) {
@@ -1351,7 +1472,7 @@ Widget TableRowWidget({
       width = 120;
       break;
     case TableType.CONTENT:
-      width = width;
+      width = widthRow!;
       break;
     default:
       width = 100;

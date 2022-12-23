@@ -165,10 +165,12 @@ class DialogWidget {
     );
   }
 
-  openNotificationDialog(
-      {required BuildContext context,
-      required Widget child,
-      required double height}) {
+  openNotificationDialog({
+    required BuildContext context,
+    required Widget child,
+    required double height,
+    double? marginRight,
+  }) {
     return showDialog(
         context: context,
         barrierColor: DefaultTheme.TRANSPARENT,
@@ -182,8 +184,8 @@ class DialogWidget {
                 height: height * 0.7,
                 borderRadius: 5,
                 enableShadow: true,
-                margin: const EdgeInsets.only(
-                  right: 120,
+                margin: EdgeInsets.only(
+                  right: (marginRight != null) ? marginRight : 120,
                   top: 60,
                 ),
                 padding: const EdgeInsets.all(0),

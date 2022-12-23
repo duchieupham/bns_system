@@ -42,7 +42,7 @@ class BankInformationWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  bankAccountDTO.bankName,
+                  bankAccountDTO.bankName.trim(),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(

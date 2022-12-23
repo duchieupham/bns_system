@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
-import 'package:vierqr/commons/widgets/web_widgets/header_mweb_widget.dart';
+import 'package:vierqr/commons/widgets/web_widgets/header_mweb_widget_old.dart';
 import 'package:vierqr/commons/widgets/web_widgets/header_web_widget_old.dart';
 import 'package:vierqr/features_mobile/home/home.dart';
 import 'package:vierqr/services/providers/create_qr_provider.dart';
@@ -134,7 +134,7 @@ class CreateQRFrame extends StatelessWidget {
                           );
                         },
                       )
-                    : HeaderMwebWidget(
+                    : HeaderMwebWidgetOld(
                         title: 'Tạo QR theo giao dịch',
                         isSubHeader: true,
                         functionBack: () {

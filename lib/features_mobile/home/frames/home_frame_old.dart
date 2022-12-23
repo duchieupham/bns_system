@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
-import 'package:vierqr/commons/widgets/web_widgets/header_mweb_widget.dart';
+import 'package:vierqr/commons/widgets/web_widgets/header_mweb_widget_old.dart';
 import 'package:vierqr/commons/widgets/web_widgets/header_web_widget_old.dart';
 import 'package:vierqr/layouts/blur_layout.dart';
 
@@ -130,7 +130,7 @@ class HomeFrame2 extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const HeaderMwebWidget(
+                  const HeaderMwebWidgetOld(
                     title: '',
                   ),
                 ]

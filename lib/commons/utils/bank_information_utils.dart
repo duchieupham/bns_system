@@ -453,9 +453,9 @@ class BankInformationUtil {
   String formatTransactionStatus(String status) {
     String result = '';
     if (status == 'PAID') {
-      result = 'Đã thanh toán';
+      result = 'Thành công ';
     } else {
-      result = 'Chưa thanh toán';
+      result = 'Thất bại';
     }
     return result;
   }

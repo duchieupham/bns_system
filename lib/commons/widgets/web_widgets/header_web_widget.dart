@@ -4,6 +4,7 @@ import 'package:vierqr/commons/constants/configurations/stringify.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/utils/time_utils.dart';
 import 'package:vierqr/commons/widgets/dialog_widget.dart';
+import 'package:vierqr/commons/widgets/web_widgets/notification_list_widget.dart';
 import 'package:vierqr/commons/widgets/web_widgets/pop_up_menu_web_widget.dart';
 import 'package:vierqr/features_mobile/notification/blocs/notification_bloc.dart';
 import 'package:vierqr/features_mobile/notification/events/notification_event.dart';
@@ -73,7 +74,6 @@ class HeaderWebWidget extends StatelessWidget {
                         style: const TextStyle(
                           fontFamily: 'TimesNewRoman',
                           fontSize: 12,
-                          fontWeight: FontWeight.bold,
                           letterSpacing: 1,
                         ),
                       ),
@@ -121,7 +121,10 @@ class HeaderWebWidget extends StatelessWidget {
                 DialogWidget.instance.openNotificationDialog(
                   context: context,
                   height: height,
-                  child: _buildNotificationList(_notifications),
+                  child: NotificationListWidget(
+                    list: _notifications,
+                    notificationCount: _notificationCount,
+                  ),
                 );
               },
               child: SizedBox(
@@ -218,73 +221,5 @@ class HeaderWebWidget extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Widget _buildNotificationList(List<NotificationDTO> list) {
-    return (list.isNotEmpty)
-        ? ListView.builder(
-            itemCount: list.length,
-            shrinkWrap: true,
-            padding: const EdgeInsets.all(0),
-            itemBuilder: ((context, index) {
-              return Container(
-                color: (list[index].isRead || _notificationCount == 0)
-                    ? DefaultTheme.TRANSPARENT
-                    : DefaultTheme.GREY_VIEW.withOpacity(0.5),
-                padding: const EdgeInsets.only(top: 5, bottom: 5, right: 5),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 40,
-                      height: 40,
-                      child: Image.asset(
-                        (list[index].type ==
-                                Stringify.NOTIFICATION_TYPE_TRANSACTION)
-                            ? 'assets/images/ic-transaction-success.png'
-                            : 'assets/images/ic-member.png',
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            (list[index].type ==
-                                    Stringify.NOTIFICATION_TYPE_TRANSACTION)
-                                ? 'Giao dịch thành công'
-                                : 'Thêm thành viên',
-                            style: const TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            list[index].message,
-                            style: const TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Text(
-                      TimeUtils.instance.formatDateFromTimeStamp(
-                          list[index].timeInserted, true),
-                      textAlign: TextAlign.right,
-                      style: const TextStyle(
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }),
-          )
-        : const Center(
-            child: Text(
-              'Không có thông báo nào.',
-              style: TextStyle(fontSize: 10),
-            ),
-          );
   }
 }

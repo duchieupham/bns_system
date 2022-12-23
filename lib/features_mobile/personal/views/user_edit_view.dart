@@ -12,7 +12,7 @@ import 'package:vierqr/commons/widgets/dialog_widget.dart';
 import 'package:vierqr/commons/widgets/divider_widget.dart';
 import 'package:vierqr/commons/widgets/sub_header_widget.dart';
 import 'package:vierqr/commons/widgets/textfield_widget.dart';
-import 'package:vierqr/commons/widgets/web_widgets/header_mweb_widget.dart';
+import 'package:vierqr/commons/widgets/web_widgets/header_mweb_widget_old.dart';
 import 'package:vierqr/commons/widgets/web_widgets/header_web_widget_old.dart';
 import 'package:vierqr/features_mobile/home/home.dart';
 import 'package:vierqr/features_mobile/personal/blocs/user_edit_bloc.dart';
@@ -76,7 +76,7 @@ class UserEditView extends StatelessWidget {
                   },
                 )
               : (PlatformUtils.instance.isWeb())
-                  ? HeaderMwebWidget(
+                  ? HeaderMwebWidgetOld(
                       title: 'Thông tin cá nhân',
                       isSubHeader: true,
                       functionBack: () {
