@@ -52,10 +52,7 @@ class HeaderWebWidget extends StatelessWidget {
           Text(
             '${TimeUtils.instance.getCurrentDateInWeek(null)}, ${TimeUtils.instance.getCurentDate(null)}',
             style: const TextStyle(
-              fontFamily: 'TimesNewRoman',
               fontSize: 12,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 0.5,
             ),
           ),
           const Padding(padding: EdgeInsets.only(left: 10)),

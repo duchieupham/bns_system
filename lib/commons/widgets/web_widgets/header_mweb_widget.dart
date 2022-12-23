@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
+import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
 import 'package:vierqr/commons/utils/time_utils.dart';
 import 'package:vierqr/commons/widgets/dialog_widget.dart';
 import 'package:vierqr/commons/widgets/web_widgets/notification_list_widget.dart';
@@ -68,36 +69,35 @@ class HeaderMWebWidget extends StatelessWidget {
           Text(
             '${TimeUtils.instance.getCurrentDateInWeek(null)}, ${TimeUtils.instance.getCurentDate(null)}',
             style: const TextStyle(
-              fontFamily: 'TimesNewRoman',
               fontSize: 12,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 0.5,
             ),
           ),
           const Padding(padding: EdgeInsets.only(left: 10)),
-          ValueListenableBuilder(
-            builder: (_, clock, child) {
-              return (clock.toString().isNotEmpty)
-                  ? BoxLayout(
-                      width: 80,
-                      height: 35,
-                      borderRadius: 5,
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.all(0),
-                      bgColor: Theme.of(context).canvasColor.withOpacity(0.5),
-                      child: Text(
-                        clock.toString(),
-                        style: const TextStyle(
-                          fontFamily: 'TimesNewRoman',
-                          fontSize: 12,
-                          letterSpacing: 1,
-                        ),
-                      ),
-                    )
-                  : const SizedBox();
-            },
-            valueListenable: clockProvider,
-          ),
+          (PlatformUtils.instance.resizeWhen(width, 400))
+              ? ValueListenableBuilder(
+                  builder: (_, clock, child) {
+                    return (clock.toString().isNotEmpty)
+                        ? BoxLayout(
+                            width: 80,
+                            height: 35,
+                            borderRadius: 5,
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.all(0),
+                            bgColor:
+                                Theme.of(context).canvasColor.withOpacity(0.5),
+                            child: Text(
+                              clock.toString(),
+                              style: const TextStyle(
+                                fontFamily: 'TimesNewRoman',
+                                fontSize: 12,
+                              ),
+                            ),
+                          )
+                        : const SizedBox();
+                  },
+                  valueListenable: clockProvider,
+                )
+              : const SizedBox(),
           const Spacer(),
           BlocConsumer<NotificationBloc, NotificationState>(
               listener: (context, state) {
