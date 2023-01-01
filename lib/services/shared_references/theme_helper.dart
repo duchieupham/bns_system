@@ -16,10 +16,6 @@ class ThemeHelper {
   }
 
   String getTheme() {
-    if (!sharedPrefs.containsKey('THEME_SYSTEM') ||
-        sharedPrefs.getString('THEME_SYSTEM') == null) {
-      initialTheme();
-    }
     return sharedPrefs.getString('THEME_SYSTEM')!;
   }
 }

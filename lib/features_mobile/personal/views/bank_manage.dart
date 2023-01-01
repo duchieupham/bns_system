@@ -2,7 +2,7 @@ import 'package:uuid/uuid.dart';
 import 'package:vierqr/commons/constants/configurations/stringify.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/utils/bank_information_utils.dart';
-import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
+import 'package:vierqr/commons/utils/platform_utils.dart';
 import 'package:vierqr/commons/utils/string_utils.dart';
 import 'package:vierqr/commons/widgets/bank_card_widget.dart';
 import 'package:vierqr/commons/widgets/button_widget.dart';
@@ -143,7 +143,8 @@ class BankManageView extends StatelessWidget {
           if (state is BankManageRemoveSuccessState ||
               state is BankManageAddSuccessState) {
             //close loading dialog
-            Navigator.pop(context);
+            Navigator.of(context, rootNavigator: true).pop();
+
             //
             _bankAccounts.clear();
             _cardWebWidgets.clear();
@@ -153,7 +154,8 @@ class BankManageView extends StatelessWidget {
             _cardOtherWebWidgets.clear();
             _bankManageBloc.add(BankManageEventGetList(
                 userId: UserInformationHelper.instance.getUserId()));
-            Navigator.pop(context);
+            Navigator.of(context).pop();
+            ;
           }
         }),
         builder: ((context, state) {
@@ -179,7 +181,8 @@ class BankManageView extends StatelessWidget {
                     function: () {
                       Provider.of<BankAccountProvider>(context, listen: false)
                           .reset();
-                      Navigator.pop(context);
+                      Navigator.of(context).pop();
+                      ;
                     }),
                 Consumer<BankAccountProvider>(
                     builder: (context, provider, child) {

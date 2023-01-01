@@ -173,14 +173,16 @@ class TimeUtils {
   }
 
   //check valid if in range of time
-  bool checkValidTimeRange(Timestamp timeCheck, int secondRange) {
+  bool checkValidTimeRange(dynamic timeCheck, int secondRange) {
     bool result = false;
     try {
-      DateTime timeInserted =
-          DateTime.fromMicrosecondsSinceEpoch(timeCheck.microsecondsSinceEpoch);
-      if (timeInserted
-          .isAfter(DateTime.now().subtract(Duration(seconds: secondRange)))) {
-        result = true;
+      if (timeCheck != null) {
+        DateTime timeInserted = DateTime.fromMicrosecondsSinceEpoch(
+            timeCheck.microsecondsSinceEpoch);
+        if (timeInserted
+            .isAfter(DateTime.now().subtract(Duration(seconds: secondRange)))) {
+          result = true;
+        }
       }
     } catch (e) {
       print('Error at checkValidTimeRange: $e');
@@ -188,30 +190,34 @@ class TimeUtils {
     return result;
   }
 
-  String formatDateFromTimeStamp(Timestamp timestamp, bool isMultipleRow) {
+  String formatDateFromTimeStamp(dynamic timestamp, bool isMultipleRow) {
     String result = '';
     try {
-      DateTime time =
-          DateTime.fromMicrosecondsSinceEpoch(timestamp.microsecondsSinceEpoch);
-      DateFormat format = (isMultipleRow)
-          ? DateFormat('dd/MM/yyyy\nHH:mm')
-          : DateFormat('dd/MM/yyyy HH:mm');
-      result = format.format(time).toString();
+      if (timestamp != null) {
+        DateTime time = DateTime.fromMicrosecondsSinceEpoch(
+            timestamp.microsecondsSinceEpoch);
+        DateFormat format = (isMultipleRow)
+            ? DateFormat('dd/MM/yyyy\nHH:mm')
+            : DateFormat('dd/MM/yyyy HH:mm');
+        result = format.format(time).toString();
+      }
     } catch (e) {
       print('Error at formatDateFromTimeStamp: $e');
     }
     return result;
   }
 
-  String formatDateFromTimeStamp2(Timestamp timestamp, bool isMultipleRow) {
+  String formatDateFromTimeStamp2(dynamic timestamp, bool isMultipleRow) {
     String result = '';
     try {
-      DateTime time =
-          DateTime.fromMicrosecondsSinceEpoch(timestamp.microsecondsSinceEpoch);
-      DateFormat format = (isMultipleRow)
-          ? DateFormat('dd/MM/yyyy\nHH:mm')
-          : DateFormat('HH:mm:ss\ndd/MM/yyyy');
-      result = format.format(time).toString();
+      if (timestamp != null) {
+        DateTime time = DateTime.fromMicrosecondsSinceEpoch(
+            timestamp.microsecondsSinceEpoch);
+        DateFormat format = (isMultipleRow)
+            ? DateFormat('dd/MM/yyyy\nHH:mm')
+            : DateFormat('HH:mm:ss dd/MM/yyyy');
+        result = format.format(time).toString();
+      }
     } catch (e) {
       print('Error at formatDateFromTimeStamp: $e');
     }

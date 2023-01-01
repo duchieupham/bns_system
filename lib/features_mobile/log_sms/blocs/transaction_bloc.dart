@@ -37,6 +37,7 @@ void _insertTransaction(TransactionEvent event, Emitter emit) async {
 void _getTransactions(TransactionEvent event, Emitter emit) async {
   try {
     if (event is TransactionEventGetList) {
+      emit(const TransactionLoadingListState());
       //get list transactionId
       List<String> transactionIds =
           await notificationRepository.getTransactionIdsByUserId(event.userId);

@@ -1,9 +1,9 @@
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/utils/share_utils.dart';
 import 'package:vierqr/commons/utils/viet_qr_utils.dart';
+import 'package:vierqr/commons/widgets/button_icon_widget.dart';
 import 'package:vierqr/commons/widgets/button_widget.dart';
 import 'package:vierqr/commons/widgets/dialog_widget.dart';
-import 'package:vierqr/commons/widgets/repaint_boundary_widget.dart';
 import 'package:vierqr/commons/widgets/viet_qr_widget.dart';
 import 'package:vierqr/features_mobile/generate_qr/views/create_qr.dart';
 import 'package:vierqr/features_mobile/personal/blocs/bank_manage_bloc.dart';
@@ -65,6 +65,7 @@ class QRInformationView extends StatelessWidget {
                   }
                   if (_bankAccounts.isEmpty) {
                     _bankAccounts.addAll(state.list);
+                    _bankAccounts.addAll(state.listOther);
                     for (BankAccountDTO bankAccountDTO in _bankAccounts) {
                       GlobalKey key = GlobalKey();
                       _keys.add(key);
@@ -190,20 +191,29 @@ class QRInformationView extends StatelessWidget {
           const Padding(padding: EdgeInsets.only(top: 20)),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: ButtonWidget(
+            child: ButtonIconWidget(
               width: width,
-              text: 'Chia sẻ mã QR của bạn',
+              height: 50,
+              borderRadius: 15,
+              icon: Icons.share_rounded,
+              alignment: Alignment.center,
+              title: 'Chia sẻ',
               textColor: DefaultTheme.GREEN,
               bgColor: Theme.of(context).cardColor,
               function: () async {
                 if (_bankAccounts.isNotEmpty) {
-                  await ShareUtils.instance.shareImage(_keys[
+                  int index =
                       Provider.of<BankAccountProvider>(context, listen: false)
-                          .indexSelected]);
+                          .indexSelected;
+                  await ShareUtils.instance.shareImage(
+                      key: _keys[index],
+                      textSharing:
+                          '${_bankAccounts[index].bankAccount} - ${_bankAccounts[index].bankAccountName}'
+                              .trim());
                 } else {
                   DialogWidget.instance.openMsgDialog(
                       context: context,
-                      title: 'Không thể tạo mã QR thanh toán',
+                      title: 'Không thể chia sẻ',
                       msg:
                           'Thêm tài khoản ngân hàng để sử dụng chức năng này.');
                 }
@@ -215,9 +225,13 @@ class QRInformationView extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: ButtonWidget(
+            child: ButtonIconWidget(
               width: width,
-              text: 'Tạo mã QR thanh toán',
+              height: 50,
+              borderRadius: 15,
+              icon: Icons.add_rounded,
+              alignment: Alignment.center,
+              title: 'Tạo QR theo giao dịch',
               textColor: DefaultTheme.WHITE,
               bgColor: DefaultTheme.GREEN,
               function: () {

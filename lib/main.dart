@@ -29,6 +29,7 @@ import 'package:vierqr/services/providers/register_provider.dart';
 import 'package:vierqr/services/providers/theme_provider.dart';
 import 'package:vierqr/services/providers/user_edit_provider.dart';
 import 'package:vierqr/services/shared_references/create_qr_helper.dart';
+import 'package:vierqr/services/shared_references/event_bloc_helper.dart';
 import 'package:vierqr/services/shared_references/theme_helper.dart';
 import 'package:vierqr/services/shared_references/user_information_helper.dart';
 
@@ -46,7 +47,7 @@ void main() async {
   } else {
     await Firebase.initializeApp();
   }
-  runApp(const BNSApp());
+  runApp(const VietQRApp());
 }
 
 Future<void> _initialServiceHelper() async {
@@ -62,18 +63,19 @@ Future<void> _initialServiceHelper() async {
       sharedPrefs.getString('USER_ID') == null) {
     await UserInformationHelper.instance.initialUserInformationHelper();
   }
+  await EventBlocHelper.instance.initialEventBlocHelper();
 }
 
-class BNSApp extends StatelessWidget {
-  const BNSApp({Key? key}) : super(key: key);
+class VietQRApp extends StatelessWidget {
+  const VietQRApp({Key? key}) : super(key: key);
 
-  static final _homeScreen = (UserInformationHelper.instance.getUserId() != '')
-      ? const HomeScreen()
-      : const Login();
+  static Widget _homeScreen = const Login();
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    _homeScreen = (UserInformationHelper.instance.getUserId() != '')
+        ? const HomeScreen()
+        : const Login();
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
@@ -124,6 +126,15 @@ class BNSApp extends StatelessWidget {
           child: Consumer<ThemeProvider>(
             builder: (context, themeSelect, child) {
               return MaterialApp(
+                builder: (context, child) {
+                  //ignore system scale factor
+                  return MediaQuery(
+                    data: MediaQuery.of(context).copyWith(
+                      textScaleFactor: 1.0,
+                    ),
+                    child: child ?? Container(),
+                  );
+                },
                 debugShowCheckedModeBanner: false,
                 themeMode:
                     (themeSelect.themeSystem == DefaultTheme.THEME_SYSTEM)

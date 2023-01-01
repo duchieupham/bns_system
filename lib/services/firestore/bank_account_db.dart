@@ -145,4 +145,31 @@ class BankAccountDB {
     }
     return result;
   }
+
+  Future<BankAccountDTO> getBankAccountByUserIdAndBankAccount(
+      String userId, String bankAccount) async {
+    BankAccountDTO result = const BankAccountDTO(
+      id: '',
+      bankAccount: '',
+      bankAccountName: '',
+      bankName: '',
+      bankCode: '',
+    );
+    try {
+      await bankAccountDb
+          .where('userId', isEqualTo: userId)
+          .where('bankAccount', isEqualTo: bankAccount)
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        if (querySnapshot.docs.isNotEmpty) {
+          result = BankAccountDTO.fromJson(
+              querySnapshot.docs.first.data() as Map<String, dynamic>);
+        }
+      });
+    } catch (e) {
+      print(
+          'Error at getBankAccountByUserIdAndBankAccount - BankAccountDB: $e');
+    }
+    return result;
+  }
 }

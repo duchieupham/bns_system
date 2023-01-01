@@ -4,9 +4,9 @@ import 'package:vierqr/models/notification_dto.dart';
 import 'package:vierqr/services/firestore/notification_db.dart';
 
 class NotificationRepository {
-  static final notificationController = BehaviorSubject<NotificationDTO>();
+  static var notificationController = BehaviorSubject<NotificationDTO>();
 
-  const NotificationRepository();
+  NotificationRepository();
 
   //step 3
   Future<void> insertNotification(NotificationDTO notificationDTO) async {

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:vierqr/commons/constants/configurations/numeral.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/utils/bank_information_utils.dart';
-import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
+import 'package:vierqr/commons/utils/platform_utils.dart';
 import 'package:vierqr/commons/utils/sms_information_utils.dart';
 import 'package:vierqr/commons/widgets/button_widget.dart';
 import 'package:vierqr/commons/widgets/pin_widget.dart';
@@ -29,6 +29,7 @@ class DialogWidget {
     return showDialog(
       barrierDismissible: false,
       context: context,
+      useRootNavigator: true,
       builder: (BuildContext context) {
         return Material(
           color: DefaultTheme.TRANSPARENT,
@@ -428,6 +429,7 @@ class DialogWidget {
   openLoadingDialog(BuildContext context) {
     return showDialog(
         barrierDismissible: false,
+        useRootNavigator: true,
         context: context,
         builder: (BuildContext context) {
           return Material(
@@ -713,7 +715,7 @@ class DialogWidget {
 
   openTransactionFormattedDialog(
       BuildContext context, String address, String body, String? date) {
-    final ScrollController _scrollContoller = ScrollController();
+    final ScrollController scrollContoller = ScrollController();
     final BankInformationDTO dto = SmsInformationUtils.instance.transferSmsData(
       BankInformationUtil.instance.getBankName(address),
       body,
@@ -869,7 +871,7 @@ class DialogWidget {
                           width: 220,
                           height: 140,
                           child: SingleChildScrollView(
-                            controller: _scrollContoller,
+                            controller: scrollContoller,
                             child: Text(
                               body,
                               style: const TextStyle(fontSize: 15),

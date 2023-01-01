@@ -40,3 +40,14 @@ class BankManageEventRemoveDTO extends BankManageEvent {
   @override
   List<Object> get props => [userId, bankCode, bankId];
 }
+
+class BankManageEventGetDTO extends BankManageEvent {
+  final String userId;
+  final String bankAccount;
+
+  const BankManageEventGetDTO(
+      {required this.userId, required this.bankAccount});
+
+  @override
+  List<Object> get props => [userId, bankAccount];
+}

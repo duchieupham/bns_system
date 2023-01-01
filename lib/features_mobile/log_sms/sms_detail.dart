@@ -1,101 +1,143 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
-import 'package:vierqr/commons/utils/bank_information_utils.dart';
-import 'package:vierqr/commons/utils/sms_information_utils.dart';
-import 'package:vierqr/commons/utils/time_utils.dart';
-import 'package:vierqr/commons/widgets/sub_header_widget.dart';
+import 'package:vierqr/commons/widgets/slider_header.dart';
 import 'package:vierqr/features_mobile/log_sms/widgets/sms_detail_item.dart';
-import 'package:vierqr/models/bank_information_dto.dart';
-import 'package:vierqr/models/message_dto.dart';
 import 'package:flutter/material.dart';
+import 'package:vierqr/features_mobile/personal/blocs/bank_manage_bloc.dart';
+import 'package:vierqr/features_mobile/personal/events/bank_manage_event.dart';
+import 'package:vierqr/features_mobile/personal/states/bank_manage_state.dart';
+import 'package:vierqr/models/bank_account_dto.dart';
+import 'package:vierqr/models/transaction_dto.dart';
+import 'package:vierqr/services/providers/scroll_list_transaction_provider.dart';
 
-class SmsDetailScreen extends StatefulWidget {
+class SmsDetailScreen extends StatelessWidget {
   final String address;
-  final List<MessageDTO> messages;
-  final bool isFormatData;
+  final List<TransactionDTO> transactions;
+  static final ScrollController scrollController = ScrollController();
+  static late BankManageBloc bankManageBloc;
+  final ScrollListTransactionProvider scrollListTransactionProvider =
+      ScrollListTransactionProvider(false);
+  late double maxScrollExtent;
+  late double currentScroll;
+
+  static BankAccountDTO bankAccountDTO = const BankAccountDTO(
+      id: '', bankAccount: '', bankAccountName: '', bankName: '', bankCode: '');
 
   SmsDetailScreen({
     Key? key,
     required this.address,
-    required this.messages,
-    required this.isFormatData,
+    required this.transactions,
   }) : super(key: key);
 
-  @override
-  State<StatefulWidget> createState() => _SmsDetailScreen();
-}
+  void initialServices(BuildContext context) {
+    bankManageBloc = BlocProvider.of(context);
+    bankManageBloc.add(BankManageEventGetDTO(
+        userId: transactions.first.userId,
+        bankAccount: transactions.first.bankAccount));
+    scrollController.addListener(() {
+      //show button back to top
+      if (scrollController.position.pixels >= 150) {
+        scrollListTransactionProvider.updateScroll(true);
+      } else if (scrollController.position.pixels < 150) {
+        scrollListTransactionProvider.updateScroll(false);
+      }
+      //pagging
+    });
+  }
 
-class _SmsDetailScreen extends State<SmsDetailScreen> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    initialServices(context);
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 0,
-      ),
-      body: Column(
+      body: Stack(
         children: [
-          SubHeader(title: widget.address),
-          Visibility(
-            visible: widget.messages.isNotEmpty,
-            child: Expanded(
-              child: ListView.builder(
-                itemCount: widget.messages.length,
-                itemBuilder: ((context, index) {
-                  BankInformationDTO dto = const BankInformationDTO(
-                      address: '',
-                      time: '',
-                      transaction: '',
-                      accountBalance: '',
-                      content: '',
-                      bankAccount: '');
-                  String address = widget.messages[index].address;
-                  String body = widget.messages[index].body;
-                  String date = widget.messages[index].date;
-                  if (widget.isFormatData) {
-                    dto = SmsInformationUtils.instance.transferSmsData(
-                      BankInformationUtil.instance.getBankName(address),
-                      body,
-                      TimeUtils.instance.formatTime(date),
-                    );
-                  }
-                  return (widget.isFormatData)
-                      ? SmsDetailItem(bankInforDTO: dto)
-                      : Container(
-                          margin: const EdgeInsets.only(
-                              bottom: 20, left: 20, right: 20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: width,
-                                padding: const EdgeInsets.all(20),
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).cardColor,
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: Text(
-                                  widget.messages[index].body.toString(),
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ),
-                              const Padding(padding: EdgeInsets.only(top: 5)),
-                              Text(
-                                '\t${TimeUtils.instance.formatHour2(widget.messages[index].date.toString())}',
-                                style: const TextStyle(
-                                  color: DefaultTheme.GREY_TEXT,
-                                ),
-                              ),
-                            ],
+          BlocBuilder<BankManageBloc, BankManageState>(
+              builder: (context, state) {
+            if (state is BankManageGetDTOSuccessfulState) {
+              bankAccountDTO = state.bankAccountDTO;
+            }
+            return CustomScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              controller: scrollController,
+              slivers: <Widget>[
+                SliverAppBar(
+                  automaticallyImplyLeading: false,
+                  pinned: true,
+                  collapsedHeight: MediaQuery.of(context).size.width * 0.3,
+                  floating: false,
+                  expandedHeight: MediaQuery.of(context).size.width * 0.7,
+                  flexibleSpace: SliverHeader(
+                    minHeight: MediaQuery.of(context).size.width * 0.3,
+                    maxHeight: MediaQuery.of(context).size.width * 0.7,
+                    title: 'Chi tiết giao dịch',
+                    image: 'assets/images/bg-qr.png',
+                    bankAccountDTO: bankAccountDTO,
+                    accountBalance: transactions.first.accountBalance,
+                  ),
+                ),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    childCount: 1,
+                    (context, index) {
+                      return _buidListTransaction();
+                    },
+                  ),
+                ),
+                const SliverPadding(padding: EdgeInsets.only(bottom: 60)),
+              ],
+            );
+          }),
+          Positioned(
+            bottom: 30,
+            right: 10,
+            child: ValueListenableBuilder<bool>(
+                valueListenable: scrollListTransactionProvider,
+                builder: (_, scroll, child) {
+                  return (scroll)
+                      ? InkWell(
+                          onTap: () {
+                            _backToTop();
+                          },
+                          borderRadius: BorderRadius.circular(12),
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: Theme.of(context).canvasColor,
+                            ),
+                            child: const Icon(
+                              Icons.keyboard_arrow_up_rounded,
+                              color: DefaultTheme.GREY_TEXT,
+                              size: 30,
+                            ),
                           ),
-                        );
+                        )
+                      : Container();
                 }),
-              ),
-            ),
           ),
         ],
       ),
     );
+  }
+
+  Widget _buidListTransaction() {
+    return Visibility(
+      visible: transactions.isNotEmpty,
+      child: ListView.builder(
+        itemCount: transactions.length,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: ((context, index) {
+          return SmsDetailItem(transactionDTO: transactions[index]);
+        }),
+      ),
+    );
+  }
+
+  _backToTop() {
+    scrollController.animateTo(0.0,
+        duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
   }
 }

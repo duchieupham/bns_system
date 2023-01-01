@@ -2,24 +2,22 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/utils/encrypt_utils.dart';
-import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
+import 'package:vierqr/commons/utils/platform_utils.dart';
 import 'package:vierqr/commons/widgets/button_widget.dart';
 import 'package:vierqr/commons/widgets/dialog_widget.dart';
+import 'package:vierqr/commons/widgets/divider_widget.dart';
 import 'package:vierqr/commons/widgets/textfield_widget.dart';
-import 'package:vierqr/features_mobile/home/home.dart';
 import 'package:vierqr/features_mobile/login/blocs/login_bloc.dart';
 import 'package:vierqr/features_mobile/login/events/login_event.dart';
 import 'package:vierqr/features_mobile/login/frames/login_frame.dart';
-import 'package:vierqr/features_mobile/login/repositories/login_repository.dart';
 import 'package:vierqr/features_mobile/login/states/login_state.dart';
 import 'package:vierqr/features_mobile/register/views/register_view.dart';
 import 'package:vierqr/layouts/border_layout.dart';
 import 'package:vierqr/layouts/box_layout.dart';
+import 'package:vierqr/main.dart';
 import 'package:vierqr/models/account_login_dto.dart';
-import 'package:vierqr/services/providers/page_select_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -66,29 +64,21 @@ class _Login extends State<Login> {
           }
           if (state is LoginGetUserInformationSuccessfulState) {
             //pop loading dialog
-            Navigator.pop(context);
+            Navigator.of(context, rootNavigator: true).pop();
             if (Navigator.canPop(context)) {
-              Navigator.pop(context);
+              Navigator.of(context, rootNavigator: true).pop();
             }
-            //update index 0 of dashboard
-            Provider.of<PageSelectProvider>(context, listen: false)
-                .updateIndex(0);
             //navigate to home screen
-
             Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-                builder: (context) => const HomeScreen(),
-              ),
-              (Route<dynamic> route) => true,
-            );
+                MaterialPageRoute(builder: (context) => const VietQRApp()),
+                (Route<dynamic> route) => false);
           }
           if (state is LoginFailedState) {
             //pop loading dialog
-
-            Navigator.pop(context);
+            Navigator.of(context, rootNavigator: true).pop();
             if (Navigator.canPop(context)) {
               //in case pop keyboard
-              Navigator.pop(context);
+              Navigator.of(context, rootNavigator: true).pop();
             }
             //show msg dialog
             DialogWidget.instance.openMsgDialog(
@@ -124,7 +114,7 @@ class _Login extends State<Login> {
           context: context,
           title: 'Nhập mã PIN',
           onDone: (pin) {
-            Navigator.pop(context);
+            Navigator.of(context, rootNavigator: true).pop();
             AccountLoginDTO dto = AccountLoginDTO(
                 phoneNo: phoneNoController.text,
                 password: EncryptUtils.instance.encrypted(
@@ -167,14 +157,14 @@ class _Login extends State<Login> {
             onChange: (vavlue) {},
           ),
         ),
-        const Padding(padding: EdgeInsets.only(top: 15)),
-        const Text(
-          'Quên mật khẩu?',
-          style: TextStyle(
-            color: DefaultTheme.GREEN,
-            fontSize: 15,
-          ),
-        ),
+        // const Padding(padding: EdgeInsets.only(top: 15)),
+        // const Text(
+        //   'Quên mật khẩu?',
+        //   style: TextStyle(
+        //     color: DefaultTheme.GREEN,
+        //     fontSize: 15,
+        //   ),
+        // ),
         const Padding(padding: EdgeInsets.only(top: 30)),
         ButtonWidget(
           width: width,
@@ -187,12 +177,12 @@ class _Login extends State<Login> {
             openPinDialog(context);
           },
         ),
-        (!isResized)
+        (!isResized && PlatformUtils.instance.isWeb())
             ? const Padding(
                 padding: EdgeInsets.only(top: 10),
               )
             : const SizedBox(),
-        (!isResized)
+        (!isResized && PlatformUtils.instance.isWeb())
             ? ButtonWidget(
                 width: width,
                 height: 40,
@@ -206,36 +196,49 @@ class _Login extends State<Login> {
                 },
               )
             : const SizedBox(),
-        const Padding(padding: EdgeInsets.only(top: 15)),
-        Row(
-          children: [
-            const Text(
-              'Chưa có tài khoản?',
-              style: TextStyle(
-                fontSize: 15,
+        const Padding(padding: EdgeInsets.only(top: 20)),
+        SizedBox(
+          width: width,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: DividerWidget(width: width),
               ),
-            ),
-            const Padding(padding: EdgeInsets.only(left: 5)),
-            InkWell(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => RegisterView(
-                      phoneNo: phoneNoController.text,
-                    ),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                child: Text(
+                  'hoặc',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: DefaultTheme.GREY_TEXT,
                   ),
-                );
-              },
-              child: const Text(
-                'Đăng ký',
-                style: TextStyle(
-                  color: DefaultTheme.GREEN,
-                  fontSize: 15,
                 ),
               ),
-            ),
-          ],
+              Expanded(
+                child: DividerWidget(width: width),
+              ),
+            ],
+          ),
         ),
+        const Padding(padding: EdgeInsets.only(top: 20)),
+        ButtonWidget(
+          width: width,
+          height: 40,
+          text: 'Đăng ký',
+          borderRadius: 5,
+          textColor: DefaultTheme.WHITE,
+          bgColor: DefaultTheme.BLUE_TEXT,
+          function: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => RegisterView(
+                  phoneNo: phoneNoController.text,
+                ),
+              ),
+            );
+          },
+        )
       ],
     );
   }

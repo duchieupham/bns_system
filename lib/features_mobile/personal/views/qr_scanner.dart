@@ -3,9 +3,10 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:vierqr/commons/widgets/sub_header_widget.dart';
 
 class QRScanner extends StatelessWidget {
+  final String? title;
   final MobileScannerController cameraController = MobileScannerController();
 
-  QRScanner({super.key});
+  QRScanner({super.key, this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class QRScanner extends StatelessWidget {
       appBar: AppBar(toolbarHeight: 0),
       body: Column(
         children: [
-          SubHeader(title: 'Quét mã QR'),
+          SubHeader(title: (title != null) ? title! : 'Quét mã QR'),
           Expanded(
             child: MobileScanner(
                 controller: cameraController,

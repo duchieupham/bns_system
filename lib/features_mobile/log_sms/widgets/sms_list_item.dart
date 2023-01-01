@@ -1,15 +1,16 @@
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/utils/bank_information_utils.dart';
-import 'package:vierqr/commons/widgets/avatar_text_widget.dart';
-import 'package:vierqr/models/bank_information_dto.dart';
+import 'package:vierqr/commons/utils/logo_utils.dart';
+import 'package:vierqr/commons/utils/time_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:vierqr/models/transaction_dto.dart';
 
 class SMSListItem extends StatelessWidget {
-  final BankInformationDTO bankInforDTO;
+  final TransactionDTO transactionDTO;
 
   const SMSListItem({
     Key? key,
-    required this.bankInforDTO,
+    required this.transactionDTO,
   }) : super(key: key);
 
   @override
@@ -18,7 +19,7 @@ class SMSListItem extends StatelessWidget {
     return Container(
       width: width,
       margin: const EdgeInsets.only(top: 10),
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(15),
@@ -31,60 +32,104 @@ class SMSListItem extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AvatarTextWidget(size: 50, text: bankInforDTO.address),
+                Image.asset(
+                  LogoUtils.instance.getAssetImageBank(transactionDTO.address),
+                  width: 40,
+                  height: 40,
+                ),
                 const Padding(
                   padding: EdgeInsets.only(left: 10),
                 ),
-                RichText(
-                  textAlign: TextAlign.left,
-                  text: TextSpan(
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Theme.of(context).hintColor,
+                Expanded(
+                  child: RichText(
+                    textAlign: TextAlign.left,
+                    text: TextSpan(
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Theme.of(context).hintColor,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: '${transactionDTO.address}\n',
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        (transactionDTO.timeInserted != null)
+                            ? TextSpan(
+                                text: 'TK: ${transactionDTO.bankAccount}',
+                                style: const TextStyle(
+                                  color: DefaultTheme.GREY_TEXT,
+                                  fontSize: 12,
+                                ),
+                              )
+                            : const TextSpan(text: ''),
+                      ],
                     ),
-                    children: [
-                      TextSpan(
-                        text: '${bankInforDTO.address}\n',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      TextSpan(
-                        text: bankInforDTO.time,
-                        style: const TextStyle(
-                          color: DefaultTheme.GREY_TEXT,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
+                  ),
+                ),
+                Text(
+                  TimeUtils.instance.formatDateFromTimeStamp2(
+                      transactionDTO.timeInserted, false),
+                  style: const TextStyle(
+                    fontSize: 12,
                   ),
                 ),
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 60),
-            child: Text(
-              bankInforDTO.transaction,
-              style: TextStyle(
-                color: (BankInformationUtil.instance
-                        .isIncome(bankInforDTO.transaction))
-                    ? DefaultTheme.GREEN
-                    : DefaultTheme.RED_TEXT,
-                fontSize: 25,
-                fontWeight: FontWeight.w500,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 50),
+                      child: Text(
+                        transactionDTO.transaction,
+                        style: TextStyle(
+                          color: (BankInformationUtil.instance
+                                  .isIncome(transactionDTO.transaction))
+                              ? DefaultTheme.GREEN
+                              : DefaultTheme.RED_TEXT,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 50, top: 5),
+                      child: Text(
+                        'Số dư: ${transactionDTO.accountBalance}',
+                        style: const TextStyle(
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 60, top: 5),
-            child: Text(
-              'Số dư: ${bankInforDTO.accountBalance}',
-              style: const TextStyle(
-                fontSize: 15,
+              Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  width: 25,
+                  height: 25,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).canvasColor,
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: const Icon(
+                    Icons.navigate_next_rounded,
+                    color: DefaultTheme.GREY_TEXT,
+                    size: 20,
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
         ],
       ),

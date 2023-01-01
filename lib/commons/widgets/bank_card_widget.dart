@@ -1,7 +1,7 @@
 import 'package:provider/provider.dart';
 import 'package:vierqr/commons/constants/configurations/stringify.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
-import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
+import 'package:vierqr/commons/utils/platform_utils.dart';
 import 'package:vierqr/commons/widgets/setting_bank_sheet.dart';
 import 'package:vierqr/commons/widgets/web_widgets/pop_up_menu_web_widget.dart';
 import 'package:vierqr/models/bank_account_dto.dart';

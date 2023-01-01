@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/enums/textfield_type.dart';
-import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
+import 'package:vierqr/commons/utils/platform_utils.dart';
 
 class TextFieldWidget extends StatelessWidget {
   final double width;

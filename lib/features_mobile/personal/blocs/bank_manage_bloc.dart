@@ -9,6 +9,7 @@ class BankManageBloc extends Bloc<BankManageEvent, BankManageState> {
     on<BankManageEventGetList>(_getListBankAccount);
     on<BankManageEventAddDTO>(_addBankAccount);
     on<BankManageEventRemoveDTO>(_removeBankAccount);
+    on<BankManageEventGetDTO>(_getBankAccount);
   }
 
   final BankManageRepository bankManageRepository =
@@ -66,6 +67,20 @@ class BankManageBloc extends Bloc<BankManageEvent, BankManageState> {
     } catch (e) {
       print('Error at getListBankAccount - BankManageBloc: $e');
       emit(BankManageRemoveFailedState());
+    }
+  }
+
+  void _getBankAccount(BankManageEvent event, Emitter emit) async {
+    try {
+      if (event is BankManageEventGetDTO) {
+        BankAccountDTO dto =
+            await bankManageRepository.getBankAccountByUserIdAndBankAccount(
+                event.userId, event.bankAccount);
+        emit(BankManageGetDTOSuccessfulState(bankAccountDTO: dto));
+      }
+    } catch (e) {
+      print('Error at _getBankAccount - BankManageBloc: $e');
+      emit(BankManageGetDTOFailedState());
     }
   }
 }

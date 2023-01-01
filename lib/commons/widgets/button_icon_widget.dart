@@ -7,23 +7,28 @@ class ButtonIconWidget extends StatelessWidget {
   final VoidCallback function;
   final Color bgColor;
   final Color textColor;
+  final double? height;
   final double? textSize;
   final bool? autoFocus;
+  final double? borderRadius;
   final FocusNode? focusNode;
   final Alignment? alignment;
 
-  const ButtonIconWidget(
-      {super.key,
-      required this.width,
-      required this.icon,
-      required this.title,
-      required this.function,
-      required this.bgColor,
-      required this.textColor,
-      this.textSize,
-      this.autoFocus,
-      this.focusNode,
-      this.alignment});
+  const ButtonIconWidget({
+    super.key,
+    required this.width,
+    required this.icon,
+    required this.title,
+    required this.function,
+    required this.bgColor,
+    required this.textColor,
+    this.height,
+    this.textSize,
+    this.autoFocus,
+    this.borderRadius,
+    this.focusNode,
+    this.alignment,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +38,13 @@ class ButtonIconWidget extends StatelessWidget {
       focusNode: focusNode,
       child: Container(
         width: width,
+        height: height,
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         alignment: alignment,
         decoration: BoxDecoration(
           color: bgColor,
-          borderRadius: BorderRadius.circular(5),
+          borderRadius:
+              BorderRadius.circular((borderRadius != null) ? borderRadius! : 5),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

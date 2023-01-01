@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/enums/textfield_type.dart';
-import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
+import 'package:vierqr/commons/utils/platform_utils.dart';
 import 'package:vierqr/commons/utils/time_utils.dart';
 import 'package:vierqr/commons/widgets/button_widget.dart';
 import 'package:vierqr/commons/widgets/checkbox_widget.dart';
@@ -197,14 +197,14 @@ class UserEditView extends StatelessWidget {
                             ],
                           ),
                         ),
-                        const Padding(padding: EdgeInsets.only(top: 10)),
-                        ButtonWidget(
-                          width: width - 40,
-                          text: 'Cập nhật ảnh đại diện',
-                          textColor: DefaultTheme.GREEN,
-                          bgColor: Theme.of(context).cardColor,
-                          function: () {},
-                        ),
+                        // const Padding(padding: EdgeInsets.only(top: 10)),
+                        // ButtonWidget(
+                        //   width: width - 40,
+                        //   text: 'Cập nhật ảnh đại diện',
+                        //   textColor: DefaultTheme.GREEN,
+                        //   bgColor: Theme.of(context).cardColor,
+                        //   function: () {},
+                        // ),
                         const Padding(padding: EdgeInsets.only(top: 10)),
                         ButtonWidget(
                           width: width - 40,
@@ -223,7 +223,7 @@ class UserEditView extends StatelessWidget {
                         const Padding(padding: EdgeInsets.only(top: 10)),
                         ButtonWidget(
                           width: width - 40,
-                          text: 'Cập nhật thông tin bằng QR chứng minh thư',
+                          text: 'Cập nhật thông tin qua CCCD',
                           textColor: DefaultTheme.GREEN,
                           bgColor: Theme.of(context).cardColor,
                           function: () {
@@ -283,6 +283,16 @@ class UserEditView extends StatelessWidget {
                                 // );
                               }
                             });
+                          },
+                        ),
+                        const Padding(padding: EdgeInsets.only(top: 10)),
+                        ButtonWidget(
+                          width: width - 40,
+                          text: 'Xoá tài khoản',
+                          textColor: DefaultTheme.RED_TEXT,
+                          bgColor: Theme.of(context).cardColor,
+                          function: () {
+                            //
                           },
                         ),
                         const Padding(padding: EdgeInsets.only(top: 30)),

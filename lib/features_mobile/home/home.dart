@@ -4,11 +4,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vierqr/commons/enums/table_type.dart';
 import 'package:vierqr/commons/utils/bank_information_utils.dart';
-import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
+import 'package:vierqr/commons/utils/platform_utils.dart';
 import 'package:vierqr/commons/utils/viet_qr_utils.dart';
 import 'package:vierqr/commons/widgets/button_icon_widget.dart';
 import 'package:vierqr/commons/widgets/dialog_widget.dart';
 import 'package:vierqr/commons/widgets/viet_qr_widget.dart';
+import 'package:vierqr/commons/widgets/web_widgets/notification_list_widget.dart';
 import 'package:vierqr/features_mobile/generate_qr/views/create_qr.dart';
 import 'package:vierqr/features_mobile/generate_qr/views/qr_information_view.dart';
 import 'package:vierqr/features_mobile/home/frames/home_frame.dart';
@@ -21,6 +22,7 @@ import 'package:vierqr/features_mobile/notification/blocs/notification_bloc.dart
 import 'package:vierqr/features_mobile/notification/events/notification_event.dart';
 import 'package:vierqr/features_mobile/notification/repositories/notification_repository.dart';
 import 'package:vierqr/features_mobile/notification/states/notification_state.dart';
+import 'package:vierqr/features_mobile/notification/views/notification_view.dart';
 import 'package:vierqr/features_mobile/personal/blocs/bank_manage_bloc.dart';
 import 'package:vierqr/features_mobile/personal/events/bank_manage_event.dart';
 import 'package:vierqr/features_mobile/personal/states/bank_manage_state.dart';
@@ -28,6 +30,7 @@ import 'package:vierqr/features_mobile/personal/views/user_setting.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
+import 'package:vierqr/models/notification_dto.dart';
 import 'package:vierqr/models/transaction_dto.dart';
 import 'package:vierqr/models/viet_qr_generate_dto.dart';
 import 'package:vierqr/services/providers/account_balance_home_provider.dart';
@@ -50,7 +53,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreen extends State<HomeScreen> {
   //page controller
   static late PageController _pageController;
-  final CarouselController _carouselController = CarouselController();
+  // final CarouselController _carouselController = CarouselController();
+
+  static int _notificationCount = 0;
 
   //list page
   final List<Widget> _homeScreens = [];
@@ -58,14 +63,15 @@ class _HomeScreen extends State<HomeScreen> {
   static final List<BankAccountDTO> _bankAccounts = [];
   static final Map<String, List<TransactionDTO>> _transactionsByAddr = {};
   static final List<TransactionDTO> _transactions = [];
+  static final List<NotificationDTO> _notifications = [];
 
   //focus node
   final FocusNode focusNode = FocusNode();
 
   //blocs
-  static late BankManageBloc _bankManageBloc;
-  static late NotificationBloc _notificationBloc;
-  static late TransactionBloc _transactionBloc;
+  late BankManageBloc _bankManageBloc;
+  late NotificationBloc _notificationBloc;
+  late TransactionBloc _transactionBloc;
 
   //providers
   final AccountBalanceHomeProvider accountBalanceHomeProvider =
@@ -74,14 +80,13 @@ class _HomeScreen extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    _bankManageBloc = BlocProvider.of(context);
+    _notificationBloc = BlocProvider.of(context);
+    _transactionBloc = BlocProvider.of(context);
+    String userId = UserInformationHelper.instance.getUserId();
     if (PlatformUtils.instance.isWeb()) {
-      // _cardWidgets.clear();
-      // _bankAccounts.clear();
-      _bankManageBloc = BlocProvider.of(context);
-      _notificationBloc = BlocProvider.of(context);
-      _transactionBloc = BlocProvider.of(context);
-      //
-      String userId = UserInformationHelper.instance.getUserId();
+      _cardWidgets.clear();
+      _bankAccounts.clear();
       _bankManageBloc.add(BankManageEventGetList(userId: userId));
       _notificationBloc.add(NotificationEventListen(
           userId: userId, notificationBloc: _notificationBloc));
@@ -90,6 +95,7 @@ class _HomeScreen extends State<HomeScreen> {
       Provider.of<HomeTabProvider>(context, listen: false).updateTabSelect(0);
       accountBalanceHomeProvider.updateAccountBalance('');
     } else {
+      _notificationBloc.add(NotificationEventGetList(userId: userId));
       _homeScreens.addAll([
         const QRInformationView(
           key: PageStorageKey('QR_GENERATOR_PAGE'),
@@ -136,6 +142,7 @@ class _HomeScreen extends State<HomeScreen> {
         height: height,
         mobileWidget: Stack(
           children: [
+            //body
             PageView(
               key: const PageStorageKey('PAGE_VIEW'),
               allowImplicitScrolling: true,
@@ -147,6 +154,7 @@ class _HomeScreen extends State<HomeScreen> {
               },
               children: _homeScreens,
             ),
+            //header
             SizedBox(
               width: MediaQuery.of(context).size.width,
               height: 65,
@@ -171,6 +179,103 @@ class _HomeScreen extends State<HomeScreen> {
                           return _getTitlePaqe(context, page.indexSelected);
                         }),
                         const Spacer(),
+                        BlocConsumer<NotificationBloc, NotificationState>(
+                            listener: (context, state) {
+                          if (state is NotificationListSuccessfulState) {
+                            _notifications.clear();
+                            if (_notifications.isEmpty &&
+                                state.list.isNotEmpty) {
+                              _notifications.addAll(state.list);
+                              _notificationCount = 0;
+                              for (NotificationDTO dto in _notifications) {
+                                if (!dto.isRead) {
+                                  _notificationCount += 1;
+                                }
+                              }
+                            }
+                          }
+                        }, builder: (context, state) {
+                          if (state is NotificationListSuccessfulState) {
+                            if (state.list.isEmpty) {
+                              _notifications.clear();
+                            }
+                          }
+                          if (state is NotificationsUpdateSuccessState) {
+                            _notificationCount = 0;
+                          }
+                          return InkWell(
+                            onTap: () {
+                              List<String> notificationIds = [];
+                              for (NotificationDTO dto in _notifications) {
+                                if (!dto.isRead) {
+                                  notificationIds.add(dto.id);
+                                }
+                              }
+                              if (notificationIds.isNotEmpty) {
+                                _notificationBloc.add(
+                                    NotificationEventUpdateAllStatus(
+                                        notificationIds: notificationIds));
+                              }
+                              if (_notifications.isNotEmpty) {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => NotificationScreen(
+                                      list: _notifications,
+                                      notificationCount: _notificationCount,
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                            child: SizedBox(
+                              height: 60,
+                              width: 40,
+                              child: Stack(
+                                children: [
+                                  Center(
+                                      child: Container(
+                                    width: 40,
+                                    height: 40,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: Theme.of(context).cardColor,
+                                    ),
+                                    child: const Icon(
+                                      Icons.notifications_rounded,
+                                      color: DefaultTheme.GREY_TEXT,
+                                      size: 20,
+                                    ),
+                                  )),
+                                  (_notificationCount != 0)
+                                      ? Positioned(
+                                          bottom: 5,
+                                          right: 0,
+                                          child: Container(
+                                            width: 20,
+                                            height: 20,
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                              color: DefaultTheme.RED_CALENDAR,
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            child: Text(
+                                              _notificationCount.toString(),
+                                              textAlign: TextAlign.center,
+                                              style: const TextStyle(
+                                                color: DefaultTheme.WHITE,
+                                                fontSize: 8,
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      : const SizedBox(),
+                                ],
+                              ),
+                            ),
+                          );
+                        }),
                       ],
                     ),
                   ),

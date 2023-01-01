@@ -53,10 +53,7 @@ class VietQRWidget extends StatelessWidget {
                   top: 10,
                   child: InkWell(
                     onTap: () async {
-                      String bankInformationString =
-                          '${bankAccountDTO.bankName}\n${bankAccountDTO.bankAccountName.toUpperCase()}\n${bankAccountDTO.bankAccount}';
-
-                      await FlutterClipboard.copy(bankInformationString).then(
+                      await FlutterClipboard.copy(getTextSharing()).then(
                         (value) => Fluttertoast.showToast(
                           msg: 'Đã sao chép',
                           toastLength: Toast.LENGTH_SHORT,
@@ -104,18 +101,26 @@ class VietQRWidget extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                bankAccountDTO.bankName,
-                style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
+              SizedBox(
+                width: width,
+                child: Text(
+                  bankAccountDTO.bankName,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const Padding(padding: EdgeInsets.only(top: 5)),
-              Text(
-                '${bankAccountDTO.bankAccount} - ${bankAccountDTO.bankAccountName.toUpperCase()}',
-                style: const TextStyle(
-                  fontSize: 12,
+              SizedBox(
+                width: width * 0.9,
+                child: Text(
+                  '${bankAccountDTO.bankAccount} - ${bankAccountDTO.bankAccountName.toUpperCase()}',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 12,
+                  ),
                 ),
               ),
               const Padding(padding: EdgeInsets.only(top: 30)),
@@ -163,10 +168,12 @@ class VietQRWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              (vietQRGenerateDTO.transactionAmountValue != '')
+              (vietQRGenerateDTO.transactionAmountValue != '' &&
+                      vietQRGenerateDTO.transactionAmountValue != '0')
                   ? const Padding(padding: EdgeInsets.only(top: 30))
                   : const SizedBox(),
-              (vietQRGenerateDTO.transactionAmountValue != '')
+              (vietQRGenerateDTO.transactionAmountValue != '' &&
+                      vietQRGenerateDTO.transactionAmountValue != '0')
                   ? RichText(
                       textAlign: TextAlign.left,
                       text: TextSpan(
@@ -192,12 +199,19 @@ class VietQRWidget extends StatelessWidget {
                       ),
                     )
                   : const SizedBox(),
+              const Padding(
+                padding: EdgeInsets.only(top: 5),
+              ),
               (content != '')
-                  ? Text(
-                      content,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        color: DefaultTheme.GREEN,
+                  ? SizedBox(
+                      width: width * 0.9,
+                      child: Text(
+                        content,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          color: DefaultTheme.GREEN,
+                        ),
                       ),
                     )
                   : const SizedBox(),
@@ -206,5 +220,30 @@ class VietQRWidget extends StatelessWidget {
         );
       },
     );
+  }
+
+  String getTextSharing() {
+    String result = '';
+
+    if (vietQRGenerateDTO.transactionAmountValue != '' &&
+        vietQRGenerateDTO.transactionAmountValue != '0') {
+      if (content != '') {
+        result =
+            '${bankAccountDTO.bankAccount} - ${bankAccountDTO.bankAccountName}\nSố tiền: ${vietQRGenerateDTO.transactionAmountValue}\nNội dung: $content';
+      } else {
+        result =
+            '${bankAccountDTO.bankAccount} - ${bankAccountDTO.bankAccountName}\nSố tiền: ${vietQRGenerateDTO.transactionAmountValue}';
+      }
+    } else {
+      if (content != '') {
+        result =
+            '${bankAccountDTO.bankAccount} - ${bankAccountDTO.bankAccountName}\nNội dung: $content';
+      } else {
+        result =
+            '${bankAccountDTO.bankAccount} - ${bankAccountDTO.bankAccountName}';
+      }
+    }
+
+    return result.trim();
   }
 }

@@ -13,12 +13,14 @@ import 'package:vierqr/features_mobile/personal/views/bank_manage.dart';
 import 'package:vierqr/features_mobile/personal/views/qr_scanner.dart';
 import 'package:vierqr/features_mobile/personal/views/user_edit_view.dart';
 import 'package:vierqr/features_mobile/personal/widgets/add_members_card_widget.dart';
+import 'package:vierqr/main.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
 import 'package:vierqr/services/providers/bank_account_provider.dart';
 import 'package:vierqr/services/providers/create_qr_page_select_provider.dart';
 import 'package:vierqr/services/providers/create_qr_provider.dart';
 import 'package:vierqr/services/providers/register_provider.dart';
 import 'package:vierqr/services/providers/user_edit_provider.dart';
+import 'package:vierqr/services/shared_references/event_bloc_helper.dart';
 import 'package:vierqr/services/shared_references/user_information_helper.dart';
 
 class PopupMenuWebWidget {
@@ -224,11 +226,11 @@ class PopupMenuWebWidget {
         PopupMenuItem<int>(
           value: 5,
           onTap: () async {
-            resetAll(context);
-            await UserInformationHelper.instance.initialUserInformationHelper();
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => const Login()),
-                (Route<dynamic> route) => true);
+            await resetAll(context).then((_) {
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => const VietQRApp()),
+                  (Route<dynamic> route) => false);
+            });
           },
           child: const Text(
             'Đăng xuất',
@@ -341,11 +343,11 @@ class PopupMenuWebWidget {
         PopupMenuItem<int>(
           value: 7,
           onTap: () async {
-            resetAll(context);
-            await UserInformationHelper.instance.initialUserInformationHelper();
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => const Login()),
-                (Route<dynamic> route) => true);
+            await resetAll(context).then((_) {
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => const VietQRApp()),
+                  (Route<dynamic> route) => false);
+            });
           },
           child: const Text(
             'Đăng xuất',
@@ -388,11 +390,13 @@ class PopupMenuWebWidget {
     return position;
   }
 
-  void resetAll(BuildContext context) {
+  Future<void> resetAll(BuildContext context) async {
     Provider.of<CreateQRProvider>(context, listen: false).reset();
     Provider.of<CreateQRPageSelectProvider>(context, listen: false).reset();
     Provider.of<BankAccountProvider>(context, listen: false).reset();
     Provider.of<UserEditProvider>(context, listen: false).reset();
     Provider.of<RegisterProvider>(context, listen: false).reset();
+    await EventBlocHelper.instance.initialEventBlocHelper();
+    await UserInformationHelper.instance.initialUserInformationHelper();
   }
 }

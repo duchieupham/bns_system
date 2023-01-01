@@ -13,7 +13,8 @@ class ShareUtils {
   static const ShareUtils _instance = ShareUtils._privateConsrtructor();
   static ShareUtils get instance => _instance;
 
-  Future<bool> shareImage(GlobalKey key) async {
+  Future<bool> shareImage(
+      {required GlobalKey key, required String textSharing}) async {
     bool result = false;
     try {
       RenderRepaintBoundary boundary =
@@ -28,8 +29,7 @@ class ShareUtils {
         File('$tempPath/imgshare.png').writeAsBytesSync(pngBytes);
         XFile xFile = XFile('$tempPath/imgshare.png');
         List<XFile> files = []..add(xFile);
-        await Share.shareXFiles(files, text: 'Mã QR được tạo bởi BNS.')
-            .then((value) async {
+        await Share.shareXFiles(files, text: textSharing).then((value) async {
           File file = File('$tempPath/imgshare.png');
           await file.delete();
           result = true;

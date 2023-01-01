@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rxdart/subjects.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vierqr/commons/constants/configurations/stringify.dart';
-import 'package:vierqr/features_mobile/log_sms/blocs/transaction_bloc.dart';
+import 'package:vierqr/features_mobile/log_sms/repositories/transaction_repository.dart';
 import 'package:vierqr/features_mobile/notification/events/notification_event.dart';
 import 'package:vierqr/features_mobile/notification/repositories/notification_repository.dart';
 import 'package:vierqr/features_mobile/notification/states/notification_state.dart';
@@ -22,7 +23,8 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 }
 
 const MemberManageRepository memberManageRepository = MemberManageRepository();
-const NotificationRepository notificationRepository = NotificationRepository();
+const TransactionRepository transactionRepository = TransactionRepository();
+NotificationRepository notificationRepository = NotificationRepository();
 
 void _initial(NotificationEvent event, Emitter emit) {
   const NotificationDTO notificationDTO = NotificationDTO(
@@ -34,6 +36,10 @@ void _initial(NotificationEvent event, Emitter emit) {
     timeInserted: null,
     isRead: false,
   );
+  if (NotificationRepository.notificationController.isClosed) {
+    NotificationRepository.notificationController =
+        BehaviorSubject<NotificationDTO>();
+  }
   NotificationRepository.notificationController.sink.add(notificationDTO);
   emit(const NotificationInitialState());
 }

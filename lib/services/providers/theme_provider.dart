@@ -7,8 +7,8 @@ class ThemeProvider with ChangeNotifier {
 
   get themeSystem => _themeSystem;
 
-  void updateTheme(String mode) async {
-    ThemeHelper.instance.updateTheme(mode);
+  Future<void> updateTheme(String mode) async {
+    await ThemeHelper.instance.updateTheme(mode);
     _themeSystem = ThemeHelper.instance.getTheme();
     notifyListeners();
   }
@@ -26,7 +26,7 @@ class ThemeProvider with ChangeNotifier {
   }
 
   //update theme by index
-  void updateThemeByIndex(int index) {
+  Future<void> updateThemeByIndex(int index) async {
     String mode = '';
     if (index == 0) {
       mode = DefaultTheme.THEME_LIGHT;
@@ -35,7 +35,7 @@ class ThemeProvider with ChangeNotifier {
     } else {
       mode = DefaultTheme.THEME_SYSTEM;
     }
-    ThemeHelper.instance.updateTheme(mode);
+    await ThemeHelper.instance.updateTheme(mode);
     _themeSystem = ThemeHelper.instance.getTheme();
     notifyListeners();
   }

@@ -1,5 +1,4 @@
 import 'package:vierqr/commons/utils/bank_information_utils.dart';
-import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
 import 'package:vierqr/models/message_dto.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
 import 'package:permission_handler/permission_handler.dart';

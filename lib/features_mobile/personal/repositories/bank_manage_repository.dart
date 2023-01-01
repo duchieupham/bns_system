@@ -86,4 +86,23 @@ class BankManageRepository {
     }
     return result;
   }
+
+  Future<BankAccountDTO> getBankAccountByUserIdAndBankAccount(
+      String userId, String bankAccount) async {
+    BankAccountDTO result = const BankAccountDTO(
+      id: '',
+      bankAccount: '',
+      bankAccountName: '',
+      bankName: '',
+      bankCode: '',
+    );
+    try {
+      result = await BankAccountDB.instance
+          .getBankAccountByUserIdAndBankAccount(userId, bankAccount);
+    } catch (e) {
+      print(
+          'Error at getBankAccountByUserIdAndBankAccount - BankManageRepository: $e');
+    }
+    return result;
+  }
 }

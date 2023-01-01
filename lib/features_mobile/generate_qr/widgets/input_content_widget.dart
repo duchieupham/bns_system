@@ -1,5 +1,7 @@
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:vierqr/commons/widgets/button_icon_widget.dart';
+import 'package:vierqr/features_mobile/personal/views/qr_scanner.dart';
 
 class InputContentWidget extends StatelessWidget {
   final TextEditingController msgController;
@@ -16,6 +18,19 @@ class InputContentWidget extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        const Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: EdgeInsets.only(left: 20),
+            child: Text(
+              'Nội dung',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ),
         Container(
           width: width - 40,
           padding: const EdgeInsets.all(20),
@@ -37,7 +52,42 @@ class InputContentWidget extends StatelessWidget {
             ),
           ),
         ),
-        const Text('Nhập nội dung thanh toán '),
+        const Padding(
+          padding: EdgeInsets.only(top: 10),
+        ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Container(
+            margin: const EdgeInsets.only(left: 20),
+            child: ButtonIconWidget(
+              width: 150,
+              alignment: Alignment.center,
+              icon: Icons.document_scanner_rounded,
+              title: 'Quét Barcode',
+              bgColor: Theme.of(context).cardColor,
+              textColor: DefaultTheme.GREEN,
+              function: () {
+                Navigator.of(context)
+                    .push(
+                  MaterialPageRoute(
+                    builder: (context) => QRScanner(
+                      title: 'Quét Barcode',
+                    ),
+                  ),
+                )
+                    .then((code) {
+                  if (code != null) {
+                    if (code.toString().isNotEmpty) {
+                      msgController.value = msgController.value.copyWith(
+                        text: msgController.text + code.toString(),
+                      );
+                    }
+                  }
+                });
+              },
+            ),
+          ),
+        ),
         const Spacer(),
       ],
     );

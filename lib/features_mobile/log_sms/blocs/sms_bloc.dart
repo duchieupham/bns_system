@@ -39,9 +39,21 @@ void _listenNewSMS(SMSEvent event, Emitter emit) {
   try {
     if (event is SMSEventListen) {
       smsRepository.listenNewSMS();
+      SmsRepository.smsListenController.add(
+        const MessageDTO(
+            id: 0,
+            threadId: 0,
+            address: '',
+            body: '',
+            date: '',
+            dateSent: '',
+            read: false),
+      );
       SmsRepository.smsListenController.listen((messageDTO) {
-        event.smsBloc.add(
-            SMSEventReceived(messageDTO: messageDTO, userId: event.userId));
+        if (messageDTO.address.isNotEmpty) {
+          event.smsBloc.add(
+              SMSEventReceived(messageDTO: messageDTO, userId: event.userId));
+        }
       });
     }
   } catch (e) {

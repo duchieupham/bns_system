@@ -63,13 +63,13 @@ class ThemeSettingView extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   decoration: DefaultTheme.cardDecoration(context),
                   child: ListView.separated(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: _assetList.length,
                     itemBuilder: (context, index) {
                       return InkWell(
-                        onTap: () {
-                          _themeProvider.updateThemeByIndex(index);
+                        onTap: () async {
+                          await _themeProvider.updateThemeByIndex(index);
                           _themeUIController.animateToPage(
                               _themeProvider.getThemeIndex(),
                               duration: const Duration(milliseconds: 100),
@@ -82,23 +82,24 @@ class ThemeSettingView extends StatelessWidget {
                           child: Row(
                             children: [
                               Text(getTitleTheme(index)),
-                              Spacer(),
+                              const Spacer(),
                               //check box
-                              CheckBoxWidget(
-                                check: (Provider.of<ThemeProvider>(context,
-                                            listen: false)
-                                        .getThemeIndex() ==
-                                    index),
-                                size: 25,
-                                function: () {},
-                              ),
+                              Consumer<ThemeProvider>(
+                                builder: (context, provider, child) {
+                                  return CheckBoxWidget(
+                                    check: (provider.getThemeIndex() == index),
+                                    size: 25,
+                                    function: () {},
+                                  );
+                                },
+                              )
                             ],
                           ),
                         ),
                       );
                     },
                     separatorBuilder: (context, index) {
-                      return Divider(
+                      return const Divider(
                         color: DefaultTheme.GREY_TEXT,
                         height: 0.5,
                       );

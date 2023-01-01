@@ -1,7 +1,7 @@
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/constants/vietqr/additional_data.dart';
 import 'package:vierqr/commons/utils/currency_utils.dart';
-import 'package:vierqr/commons/utils/screen_resolution_utils.dart';
+import 'package:vierqr/commons/utils/platform_utils.dart';
 import 'package:vierqr/commons/utils/string_utils.dart';
 import 'package:vierqr/commons/utils/viet_qr_utils.dart';
 import 'package:vierqr/commons/widgets/bank_information_widget.dart';
@@ -145,21 +145,15 @@ class _CreateQR extends State<CreateQR> {
                       textColor: DefaultTheme.GREEN,
                       bgColor: Theme.of(context).cardColor,
                       function: () {
-                        if ((Provider.of<CreateQRProvider>(context,
-                                        listen: false)
-                                    .transactionAmount ==
-                                '0') ||
-                            (Provider.of<CreateQRProvider>(context,
-                                        listen: false)
-                                    .transactionAmount ==
-                                '')) {
-                          DialogWidget.instance.openMsgDialog(
-                              context: context,
-                              title: 'Không thể tạo mã QR thanh toán',
-                              msg: 'Vui lòng nhập số tiền cần thanh toán.');
-                        } else {
-                          _animatedToPage(1);
+                        if (Provider.of<CreateQRProvider>(context,
+                                listen: false)
+                            .transactionAmount
+                            .toString()
+                            .isEmpty) {
+                          Provider.of<CreateQRProvider>(context, listen: false)
+                              .updateTransactionAmount('0');
                         }
+                        _animatedToPage(1);
                       },
                     )
                   : ButtonWidget(

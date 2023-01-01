@@ -9,7 +9,6 @@ import 'package:vierqr/features_mobile/personal/blocs/member_manage_bloc.dart';
 import 'package:vierqr/features_mobile/personal/events/member_manage_event.dart';
 import 'package:vierqr/features_mobile/personal/states/member_manage_state.dart';
 import 'package:vierqr/layouts/border_layout.dart';
-import 'package:vierqr/models/user_bank_dto.dart';
 import 'package:vierqr/services/providers/memeber_manage_provider.dart';
 import 'package:vierqr/services/shared_references/user_information_helper.dart';
 
