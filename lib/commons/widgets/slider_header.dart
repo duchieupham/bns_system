@@ -34,9 +34,9 @@ class SliverHeader extends StatelessWidget {
           children: [
             _buildImage(context),
             _buildGradient(animation),
-            _buildLogo(animation, context),
             _buildTitle(animation, context),
-            _buildBackFunction(animation, context),
+            _buildLogo(animation, context),
+            _buildBackFunction(context),
           ],
         );
       },
@@ -66,27 +66,27 @@ class SliverHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildBackFunction(Animation<double> animation, BuildContext context) {
+  Widget _buildBackFunction(BuildContext context) {
     return Positioned(
-      top: Tween<double>(begin: 35, end: 65).evaluate(animation),
+      top: 65,
       left: 20,
       child: InkWell(
         onTap: () {
           Navigator.pop(context);
         },
         child: Container(
-          width: Tween<double>(begin: 30, end: 40).evaluate(animation),
-          height: Tween<double>(begin: 30, end: 40).evaluate(animation),
+          width: 40,
+          height: 40,
           alignment: Alignment.center,
           padding: const EdgeInsets.all(0),
           decoration: BoxDecoration(
             // color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(40),
           ),
-          child: Icon(
+          child: const Icon(
             Icons.arrow_back_ios_rounded,
             color: DefaultTheme.WHITE,
-            size: Tween<double>(begin: 15, end: 20).evaluate(animation),
+            size: 20,
           ),
         ),
       ),
@@ -95,17 +95,21 @@ class SliverHeader extends StatelessWidget {
 
   Widget _buildLogo(Animation<double> animation, BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 50),
+      padding: EdgeInsets.only(
+        top: Tween<double>(begin: 32.5, end: 50).evaluate(animation),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Flexible(
             child: Container(
-              width: Tween<double>(begin: 0, end: 120).evaluate(animation),
-              height: Tween<double>(begin: 0, end: 60).evaluate(animation),
+              width: Tween<double>(begin: 30, end: 120).evaluate(animation),
+              height: Tween<double>(begin: 30, end: 60).evaluate(animation),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(
+                  Tween<double>(begin: 30, end: 10).evaluate(animation),
+                ),
                 color: DefaultTheme.WHITE,
                 image: DecorationImage(
                   fit: BoxFit.contain,
@@ -133,7 +137,11 @@ class SliverHeader extends StatelessWidget {
           begin: Alignment.bottomCenter,
           end: Alignment.bottomLeft,
         ).evaluate(animation),
-        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+        padding: const EdgeInsets.only(
+          left: 20,
+          right: 20,
+          bottom: 20,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,7 +154,7 @@ class SliverHeader extends StatelessWidget {
                 title,
                 style: TextStyle(
                     fontSize:
-                        Tween<double>(begin: 15, end: 20).evaluate(animation),
+                        Tween<double>(begin: 0, end: 20).evaluate(animation),
                     fontWeight: FontWeight.w500,
                     color: DefaultTheme.WHITE),
               ),
@@ -160,7 +168,7 @@ class SliverHeader extends StatelessWidget {
               child: Container(
                 width: Tween<double>(begin: width * 0.7, end: width * 0.8)
                     .evaluate(animation),
-                height: Tween<double>(begin: 60, end: 80).evaluate(animation),
+                height: Tween<double>(begin: 75, end: 80).evaluate(animation),
                 decoration: BoxDecoration(
                   color: Theme.of(context).cardColor.withOpacity(0.9),
                   borderRadius: BorderRadius.circular(10),
@@ -169,9 +177,11 @@ class SliverHeader extends StatelessWidget {
                         begin: Alignment.bottomCenter,
                         end: Alignment.bottomLeft)
                     .evaluate(animation),
-                padding: EdgeInsets.symmetric(
-                    horizontal:
-                        Tween<double>(begin: 0, end: 20).evaluate(animation)),
+                padding: EdgeInsets.only(
+                  left: Tween<double>(begin: 0, end: 20).evaluate(animation),
+                  top: Tween<double>(begin: 15, end: 0).evaluate(animation),
+                  bottom: Tween<double>(begin: 10, end: 0).evaluate(animation),
+                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

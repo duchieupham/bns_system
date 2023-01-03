@@ -155,7 +155,6 @@ class BankManageView extends StatelessWidget {
             _bankManageBloc.add(BankManageEventGetList(
                 userId: UserInformationHelper.instance.getUserId()));
             Navigator.of(context).pop();
-            ;
           }
         }),
         builder: ((context, state) {
