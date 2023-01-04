@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vierqr/commons/constants/configurations/stringify.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/utils/time_utils.dart';
 import 'package:vierqr/commons/widgets/dialog_widget.dart';
@@ -57,6 +56,7 @@ class HeaderWebWidget extends StatelessWidget {
           ),
           const Padding(padding: EdgeInsets.only(left: 10)),
           ValueListenableBuilder(
+            valueListenable: clockProvider,
             builder: (_, clock, child) {
               return (clock.toString().isNotEmpty)
                   ? BoxLayout(
@@ -77,7 +77,6 @@ class HeaderWebWidget extends StatelessWidget {
                     )
                   : const SizedBox();
             },
-            valueListenable: clockProvider,
           ),
           const Spacer(),
           BlocConsumer<NotificationBloc, NotificationState>(

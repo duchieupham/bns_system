@@ -1,7 +1,7 @@
 import 'package:vierqr/commons/utils/bank_information_utils.dart';
 import 'package:vierqr/models/message_dto.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
-import 'package:permission_handler/permission_handler.dart';
+// import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_sms_listener/flutter_sms_listener.dart' as smslistener;
 import 'package:rxdart/rxdart.dart';
 
@@ -15,7 +15,7 @@ class SmsRepository {
     Map<String, List<MessageDTO>> result = {};
     try {
       final SmsQuery query = SmsQuery();
-      await Permission.sms.request();
+      // await Permission.sms.request();
       List<SmsMessage> messages = await query.getAllSms;
       if (messages.isNotEmpty) {
         for (int i = 0; i < messages.length; i++) {

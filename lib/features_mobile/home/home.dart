@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vierqr/commons/enums/table_type.dart';
 import 'package:vierqr/commons/utils/bank_information_utils.dart';
@@ -9,12 +8,13 @@ import 'package:vierqr/commons/utils/viet_qr_utils.dart';
 import 'package:vierqr/commons/widgets/button_icon_widget.dart';
 import 'package:vierqr/commons/widgets/dialog_widget.dart';
 import 'package:vierqr/commons/widgets/viet_qr_widget.dart';
-import 'package:vierqr/commons/widgets/web_widgets/notification_list_widget.dart';
 import 'package:vierqr/features_mobile/generate_qr/views/create_qr.dart';
 import 'package:vierqr/features_mobile/generate_qr/views/qr_information_view.dart';
 import 'package:vierqr/features_mobile/home/frames/home_frame.dart';
 import 'package:vierqr/features_mobile/home/widgets/bank_item_widget.dart';
+import 'package:vierqr/features_mobile/log_sms/blocs/sms_bloc.dart';
 import 'package:vierqr/features_mobile/log_sms/blocs/transaction_bloc.dart';
+import 'package:vierqr/features_mobile/log_sms/events/sms_event.dart';
 import 'package:vierqr/features_mobile/log_sms/events/transaction_event.dart';
 import 'package:vierqr/features_mobile/log_sms/sms_list.dart';
 import 'package:vierqr/features_mobile/log_sms/states/transaction_state.dart';
@@ -50,7 +50,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreen();
 }
 
-class _HomeScreen extends State<HomeScreen> {
+class _HomeScreen extends State<HomeScreen> with WidgetsBindingObserver {
   //page controller
   static late PageController _pageController;
   // final CarouselController _carouselController = CarouselController();
@@ -72,6 +72,7 @@ class _HomeScreen extends State<HomeScreen> {
   late BankManageBloc _bankManageBloc;
   late NotificationBloc _notificationBloc;
   late TransactionBloc _transactionBloc;
+  late SMSBloc _smsBloc;
 
   //providers
   final AccountBalanceHomeProvider accountBalanceHomeProvider =
@@ -80,9 +81,11 @@ class _HomeScreen extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _bankManageBloc = BlocProvider.of(context);
     _notificationBloc = BlocProvider.of(context);
     _transactionBloc = BlocProvider.of(context);
+    _smsBloc = BlocProvider.of(context);
     String userId = UserInformationHelper.instance.getUserId();
     if (PlatformUtils.instance.isWeb()) {
       _cardWidgets.clear();
@@ -101,8 +104,8 @@ class _HomeScreen extends State<HomeScreen> {
           key: PageStorageKey('QR_GENERATOR_PAGE'),
         ),
         if (!PlatformUtils.instance.isWeb())
-          const SMSList(
-            key: PageStorageKey('SMS_LIST_PAGE'),
+          SMSList(
+            key: const PageStorageKey('SMS_LIST_PAGE'),
           ),
         const UserSetting(
           key: PageStorageKey('USER_SETTING_PAGE'),
@@ -116,12 +119,25 @@ class _HomeScreen extends State<HomeScreen> {
     );
   }
 
+  // @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) {
+  //   print('didChangeAppLifecycleState - state: $state');
+  //   if (state == AppLifecycleState.resumed) {
+  //     String userId = UserInformationHelper.instance.getUserId();
+  //     _smsBloc.add(SMSEventListen(
+  //       smsBloc: _smsBloc,
+  //       userId: userId,
+  //     ));
+  //   }
+  // }
+
   @override
   void dispose() {
     _notificationBloc.close();
-    NotificationRepository.notificationController.close();
     _bankManageBloc.close();
     _transactionBloc.close();
+    NotificationRepository.notificationController.close();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 

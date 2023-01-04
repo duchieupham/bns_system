@@ -27,6 +27,7 @@ import 'package:vierqr/services/providers/page_select_provider.dart';
 import 'package:vierqr/services/providers/pin_provider.dart';
 import 'package:vierqr/services/providers/register_provider.dart';
 import 'package:vierqr/services/providers/shortcut_provider.dart';
+import 'package:vierqr/services/providers/suggestion_widget_provider.dart';
 import 'package:vierqr/services/providers/theme_provider.dart';
 import 'package:vierqr/services/providers/user_edit_provider.dart';
 import 'package:vierqr/services/shared_references/create_qr_helper.dart';
@@ -122,6 +123,8 @@ class VietQRApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => UserEditProvider()),
             ChangeNotifierProvider(create: (context) => HomeTabProvider()),
             ChangeNotifierProvider(create: (context) => ShortcutProvider()),
+            ChangeNotifierProvider(
+                create: (context) => SuggestionWidgetProvider()),
             ChangeNotifierProvider(
                 create: (context) => MemeberManageProvider()),
           ],

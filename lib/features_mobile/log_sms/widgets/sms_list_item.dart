@@ -32,10 +32,19 @@ class SMSListItem extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset(
-                  LogoUtils.instance.getAssetImageBank(transactionDTO.address),
+                Container(
                   width: 40,
                   height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: DefaultTheme.WHITE,
+                    image: DecorationImage(
+                      image: AssetImage(
+                        LogoUtils.instance
+                            .getAssetImageBank(transactionDTO.address),
+                      ),
+                    ),
+                  ),
                 ),
                 const Padding(
                   padding: EdgeInsets.only(left: 10),

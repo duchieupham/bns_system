@@ -20,36 +20,34 @@ import 'package:vierqr/features_mobile/notification/states/notification_state.da
 import 'package:vierqr/layouts/box_layout.dart';
 import 'package:vierqr/models/transaction_dto.dart';
 import 'package:vierqr/services/providers/shortcut_provider.dart';
+import 'package:vierqr/services/providers/suggestion_widget_provider.dart';
 import 'package:vierqr/services/shared_references/event_bloc_helper.dart';
 import 'package:vierqr/services/shared_references/user_information_helper.dart';
 
 class SMSList extends StatelessWidget {
-  // static final Map<String, List<MessageDTO>> messagesByAddr = {};
   static final Map<String, List<TransactionDTO>> transactionByAddr = {};
   static late SMSBloc _smsBloc;
   static late TransactionBloc _transactionBloc;
   static late NotificationBloc _notificationBloc;
 
+  static final SuggestionWidgetProvider _smsPermissionProvider =
+      SuggestionWidgetProvider();
+
   const SMSList({Key? key}) : super(key: key);
 
   initialServices(BuildContext context) async {
+    print('initial services sms list');
     String userId = UserInformationHelper.instance.getUserId();
     _transactionBloc = BlocProvider.of(context);
     _notificationBloc = BlocProvider.of(context);
     _smsBloc = BlocProvider.of(context);
-    // _transactionBloc.add(TransactionEventGetList(userId: userId));
+    _transactionBloc.add(TransactionEventGetList(userId: userId));
     //android process
     if (PlatformUtils.instance.isAndroidApp(context)) {
-      if (PlatformUtils.instance.isAndroidApp(context)) {
-        _smsBloc.add(const SMSEventGetList());
-        if (!EventBlocHelper.instance.isListenedSMS()) {
-          _smsBloc.add(SMSEventListen(
-            smsBloc: _smsBloc,
-            userId: userId,
-          ));
-          await EventBlocHelper.instance.updateListenSMS(true);
-        }
-      }
+      _smsBloc.add(SMSEventListen(
+        smsBloc: _smsBloc,
+        userId: userId,
+      ));
     }
     if (!EventBlocHelper.instance.isListenedNotification()) {
       _notificationBloc.add(NotificationEventListen(
@@ -60,6 +58,7 @@ class SMSList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('---build sms list page');
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     initialServices(context);
@@ -71,6 +70,7 @@ class SMSList extends StatelessWidget {
         child: (PlatformUtils.instance.isAndroidApp(context))
             ? BlocListener<SMSBloc, SMSState>(
                 listener: ((context, state) {
+                  print('---sms bloc state is: $state');
                   if (state is SMSReceivedState) {
                     if (BankInformationUtil.instance
                         .checkAvailableAddress(state.messageDTO.address)) {
@@ -89,6 +89,20 @@ class SMSList extends StatelessWidget {
                     }
                     _transactionBloc.add(TransactionEventInsert(
                         transactionDTO: state.transactionDTO));
+                  }
+                  if (state is SMSDeniedPermissionState) {
+                    Future.delayed(const Duration(milliseconds: 0), () {
+                      Provider.of<SuggestionWidgetProvider>(context,
+                              listen: false)
+                          .updateSMSPermission(true);
+                    });
+                  }
+                  if (state is SMSAcceptPermissionState) {
+                    Future.delayed(const Duration(milliseconds: 0), () {
+                      Provider.of<SuggestionWidgetProvider>(context,
+                              listen: false)
+                          .updateSMSPermission(false);
+                    });
                   }
                 }),
                 child: BlocConsumer<NotificationBloc, NotificationState>(
@@ -167,6 +181,7 @@ class SMSList extends StatelessWidget {
                         shrinkWrap: true,
                         physics: const AlwaysScrollableScrollPhysics(),
                         children: [
+                          _buildSuggestion(context),
                           _buildShortcut(context),
                           _buildTitle('Danh sách giao dịch'),
                           (transactionByAddr.isEmpty)
@@ -232,82 +247,116 @@ class SMSList extends StatelessWidget {
     );
   }
 
+  Widget _buildSuggestion(BuildContext context) {
+    // double width = MediaQuery.of(context).size.width;
+    return Consumer<SuggestionWidgetProvider>(
+      builder: (context, provider, child) {
+        return (provider.showSuggestion)
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  _buildTitle('Gợi ý'),
+                  _buildSuggestionBox(
+                    context: context,
+                    text:
+                        'Cho phép truy cập quyền tin nhắn để đồng bộ giao dịch',
+                    icon: Icons.message_rounded,
+                    color: DefaultTheme.GREEN,
+                    function: () {},
+                  ),
+                  const Padding(padding: EdgeInsets.only(top: 10)),
+                  _buildSuggestionBox(
+                    context: context,
+                    text: 'Cập nhật thông tin cá nhân',
+                    icon: Icons.person,
+                    color: DefaultTheme.BLUE_TEXT,
+                    function: () {},
+                  ),
+                ],
+              )
+            : const SizedBox();
+      },
+    );
+  }
+
   Widget _buildShortcut(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Consumer<ShortcutProvider>(
       builder: (context, provider, child) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: width,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
+        return (provider.enableShortcut)
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  _buildTitle('Phím tắt'),
-                  const Spacer(),
-                  InkWell(
-                    onTap: () {
-                      provider.updateExpanded(!provider.expanded);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 20, top: 20),
-                      child: Icon(
-                        (provider.expanded)
-                            ? Icons.keyboard_arrow_up_rounded
-                            : Icons.keyboard_arrow_down_rounded,
-                        size: 25,
-                        color: DefaultTheme.GREY_TEXT,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const Padding(padding: EdgeInsets.only(top: 10)),
-            (provider.expanded)
-                ? BoxLayout(
+                  SizedBox(
                     width: width,
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _buildShorcutIcon(
-                          widgetWidth: width,
-                          title: 'Tạo QR\ngiao dịch',
-                          icon: Icons.qr_code_rounded,
-                          color: DefaultTheme.BLUE_TEXT,
-                          function: () {},
-                        ),
-                        _buildShorcutIcon(
-                          widgetWidth: width,
-                          title: 'Tài khoản ngân hàng',
-                          icon: Icons.credit_card,
-                          color: DefaultTheme.ORANGE,
-                          function: () {},
-                        ),
-                        _buildShorcutIcon(
-                          widgetWidth: width,
-                          title: 'Đăng nhập\nbằng QR',
-                          icon: Icons.login_rounded,
-                          color: DefaultTheme.GREEN,
-                          function: () {},
+                        _buildTitle('Phím tắt'),
+                        const Spacer(),
+                        InkWell(
+                          onTap: () {
+                            provider.updateExpanded(!provider.expanded);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 20, top: 20),
+                            child: Icon(
+                              (provider.expanded)
+                                  ? Icons.keyboard_arrow_up_rounded
+                                  : Icons.keyboard_arrow_down_rounded,
+                              size: 25,
+                              color: DefaultTheme.GREY_TEXT,
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                  )
-                : const SizedBox(),
-            Padding(
-              padding: EdgeInsets.only(
-                left: 20,
-                right: 20,
-                top: (provider.expanded) ? 20 : 0,
-              ),
-              child: DividerWidget(width: width),
-            ),
-          ],
-        );
+                  ),
+                  const Padding(padding: EdgeInsets.only(top: 10)),
+                  (provider.expanded)
+                      ? BoxLayout(
+                          width: width,
+                          margin: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              _buildShorcutIcon(
+                                widgetWidth: width,
+                                title: 'Tạo QR\ngiao dịch',
+                                icon: Icons.qr_code_rounded,
+                                color: DefaultTheme.BLUE_TEXT,
+                                function: () {},
+                              ),
+                              _buildShorcutIcon(
+                                widgetWidth: width,
+                                title: 'Tài khoản ngân hàng',
+                                icon: Icons.credit_card,
+                                color: DefaultTheme.ORANGE,
+                                function: () {},
+                              ),
+                              _buildShorcutIcon(
+                                widgetWidth: width,
+                                title: 'Đăng nhập\nbằng QR',
+                                icon: Icons.login_rounded,
+                                color: DefaultTheme.GREEN,
+                                function: () {},
+                              ),
+                            ],
+                          ),
+                        )
+                      : const SizedBox(),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: 20,
+                      right: 20,
+                      top: (provider.expanded) ? 20 : 0,
+                    ),
+                    child: DividerWidget(width: width),
+                  ),
+                ],
+              )
+            : const SizedBox();
       },
     );
   }
@@ -356,6 +405,31 @@ class SMSList extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildSuggestionBox(
+      {required BuildContext context,
+      required String text,
+      required IconData icon,
+      required Color color,
+      required VoidCallback function}) {
+    double width = MediaQuery.of(context).size.width;
+    return BoxLayout(
+      width: width,
+      borderRadius: 5,
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            size: 20,
+            color: color,
+          ),
+          Expanded(
+            child: Text(text),
+          ),
+        ],
       ),
     );
   }

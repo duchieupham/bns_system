@@ -38,6 +38,20 @@ class SMSListenFailedState extends SMSState {
   List<Object?> get props => [];
 }
 
+class SMSDeniedPermissionState extends SMSState {
+  const SMSDeniedPermissionState();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class SMSAcceptPermissionState extends SMSState {
+  const SMSAcceptPermissionState();
+
+  @override
+  List<Object?> get props => [];
+}
+
 //for receive new SMS
 class SMSReceivedState extends SMSState {
   final MessageDTO messageDTO;

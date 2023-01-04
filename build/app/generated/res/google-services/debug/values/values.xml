@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">723381873229-r3eopvst6m9qb2rqoehjr0lbd9r496ne.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">723381873229</string>
+    <string name="google_api_key" translatable="false">AIzaSyCQDXNyuh5f-bms8PI1610wow6Emyoh8P0</string>
+    <string name="google_app_id" translatable="false">1:723381873229:android:ee4663c88ed79162fbca04</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyCQDXNyuh5f-bms8PI1610wow6Emyoh8P0</string>
+    <string name="google_storage_bucket" translatable="false">bns-stagging.appspot.com</string>
+    <string name="project_id" translatable="false">bns-stagging</string>
+</resources>

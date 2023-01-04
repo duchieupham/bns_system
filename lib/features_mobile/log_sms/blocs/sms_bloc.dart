@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vierqr/commons/utils/bank_information_utils.dart';
 import 'package:vierqr/commons/utils/sms_information_utils.dart';
@@ -10,6 +11,7 @@ import 'package:vierqr/features_mobile/personal/repositories/bank_manage_reposit
 import 'package:vierqr/models/bank_information_dto.dart';
 import 'package:vierqr/models/message_dto.dart';
 import 'package:vierqr/models/transaction_dto.dart';
+import 'package:vierqr/services/shared_references/event_bloc_helper.dart';
 
 class SMSBloc extends Bloc<SMSEvent, SMSState> {
   SMSBloc() : super(SMSInitialState()) {
@@ -35,26 +37,43 @@ void _getList(SMSEvent event, Emitter emit) async {
   }
 }
 
-void _listenNewSMS(SMSEvent event, Emitter emit) {
+void _listenNewSMS(SMSEvent event, Emitter emit) async {
   try {
     if (event is SMSEventListen) {
-      smsRepository.listenNewSMS();
-      SmsRepository.smsListenController.add(
-        const MessageDTO(
-            id: 0,
-            threadId: 0,
-            address: '',
-            body: '',
-            date: '',
-            dateSent: '',
-            read: false),
-      );
-      SmsRepository.smsListenController.listen((messageDTO) {
-        if (messageDTO.address.isNotEmpty) {
-          event.smsBloc.add(
-              SMSEventReceived(messageDTO: messageDTO, userId: event.userId));
+      //check permission
+
+      PermissionStatus smsPermissionStatus = await Permission.sms.status;
+      // if (!smsPermissionStatus.isGranted) {
+      //   await Permission.sms.request();
+      // }
+      print('----sms permission: ${smsPermissionStatus.name}');
+      print('---permission is denied: ${smsPermissionStatus.isDenied}');
+      await Permission.sms.request();
+      if (smsPermissionStatus.isDenied) {
+        emit(const SMSDeniedPermissionState());
+      } else {
+        emit(const SMSAcceptPermissionState());
+        if (!EventBlocHelper.instance.isListenedSMS()) {
+          await EventBlocHelper.instance.updateListenSMS(true);
+          smsRepository.listenNewSMS();
+          SmsRepository.smsListenController.add(
+            const MessageDTO(
+                id: 0,
+                threadId: 0,
+                address: '',
+                body: '',
+                date: '',
+                dateSent: '',
+                read: false),
+          );
+          SmsRepository.smsListenController.listen((messageDTO) {
+            if (messageDTO.address.isNotEmpty) {
+              event.smsBloc.add(SMSEventReceived(
+                  messageDTO: messageDTO, userId: event.userId));
+            }
+          });
         }
-      });
+      }
     }
   } catch (e) {
     print('Error at _listenNewSMS - SMSBloc: $e');
