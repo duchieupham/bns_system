@@ -10,6 +10,15 @@ class EventBlocHelper {
   Future<void> initialEventBlocHelper() async {
     await sharedPrefs.setBool('EVENT_LISTEN_SMS', false);
     await sharedPrefs.setBool('EVENT_LISTEN_NOTIFICATION', false);
+    await sharedPrefs.setBool('LOGOUT_BEFORE', false);
+  }
+
+  Future<void> updateLogoutBefore(bool value) async {
+    await sharedPrefs.setBool('LOGOUT_BEFORE', value);
+  }
+
+  bool isLogoutBefore() {
+    return sharedPrefs.getBool('LOGOUT_BEFORE')!;
   }
 
   Future<void> updateListenSMS(bool value) async {

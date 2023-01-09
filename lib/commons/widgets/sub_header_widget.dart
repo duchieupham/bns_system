@@ -22,6 +22,7 @@ class SubHeader extends StatelessWidget {
               onTap: (function == null)
                   ? () {
                       Navigator.of(context).pop();
+                      ;
                     }
                   : function,
               child: Image.asset(

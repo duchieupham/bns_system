@@ -9,6 +9,7 @@ import 'package:vierqr/commons/utils/sms_information_utils.dart';
 import 'package:vierqr/commons/widgets/button_widget.dart';
 import 'package:vierqr/commons/widgets/pin_widget.dart';
 import 'package:vierqr/layouts/box_layout.dart';
+import 'package:vierqr/main.dart';
 import 'package:vierqr/models/bank_information_dto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,16 +21,14 @@ class DialogWidget {
   static const DialogWidget _instance = DialogWidget._privateConstructor();
   static DialogWidget get instance => _instance;
 
-  openPINDialog(
-      {required BuildContext context,
-      required String title,
-      required Function(String) onDone}) {
+  static bool isPopLoading = false;
+
+  openPINDialog({required String title, required Function(String) onDone}) {
     final FocusNode focusNode = FocusNode();
     focusNode.requestFocus();
     return showDialog(
       barrierDismissible: false,
-      context: context,
-      useRootNavigator: true,
+      context: NavigationService.navigatorKey.currentContext!,
       builder: (BuildContext context) {
         return Material(
           color: DefaultTheme.TRANSPARENT,
@@ -51,7 +50,7 @@ class DialogWidget {
                       children: [
                         const Padding(padding: EdgeInsets.only(top: 10)),
                         const Text(
-                          'Mã PIN',
+                          'Mật khẩu',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 16,
@@ -63,7 +62,7 @@ class DialogWidget {
                           width: 250,
                           height: 60,
                           child: Text(
-                            'Mã PIN bao gồm 6 số.',
+                            'Mật khẩu bao gồm 6 số.',
                             textAlign: TextAlign.center,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
@@ -167,13 +166,12 @@ class DialogWidget {
   }
 
   openNotificationDialog({
-    required BuildContext context,
     required Widget child,
     required double height,
     double? marginRight,
   }) {
     return showDialog(
-        context: context,
+        context: NavigationService.navigatorKey.currentContext!,
         barrierColor: DefaultTheme.TRANSPARENT,
         barrierDismissible: true,
         builder: (BuildContext context) {
@@ -211,7 +209,6 @@ class DialogWidget {
   }
 
   openBoxWebConfirm({
-    required BuildContext context,
     required String title,
     required String confirmText,
     required String imageAsset,
@@ -222,7 +219,7 @@ class DialogWidget {
   }) {
     return showDialog(
         barrierDismissible: false,
-        context: context,
+        context: NavigationService.navigatorKey.currentContext!,
         builder: (BuildContext context) {
           return Material(
             color: DefaultTheme.TRANSPARENT,
@@ -301,13 +298,12 @@ class DialogWidget {
   }
 
   openContentDialog(
-    BuildContext context,
     VoidCallback? onClose,
     Widget child,
   ) {
     return showDialog(
         barrierDismissible: false,
-        context: context,
+        context: NavigationService.navigatorKey.currentContext!,
         builder: (BuildContext context) {
           return Material(
             color: DefaultTheme.TRANSPARENT,
@@ -365,11 +361,13 @@ class DialogWidget {
   }
 
   Future openDateTimePickerDialog(
-      BuildContext context, String title, Function(DateTime) onChanged) async {
-    double width = MediaQuery.of(context).size.width;
+      String title, Function(DateTime) onChanged) async {
+    double width = MediaQuery.of(NavigationService.navigatorKey.currentContext!)
+        .size
+        .width;
     return await showModalBottomSheet(
         isScrollControlled: true,
-        context: context,
+        context: NavigationService.navigatorKey.currentContext!,
         backgroundColor: DefaultTheme.TRANSPARENT,
         builder: (context) {
           return BackdropFilter(
@@ -426,69 +424,68 @@ class DialogWidget {
         });
   }
 
-  openLoadingDialog(BuildContext context) {
-    return showDialog(
-        barrierDismissible: false,
-        useRootNavigator: true,
-        context: context,
-        builder: (BuildContext context) {
-          return Material(
-            color: DefaultTheme.TRANSPARENT,
-            child: Center(
-              child: (PlatformUtils.instance.isWeb())
-                  ? Container(
-                      width: 200,
-                      height: 200,
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).cardColor,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
-                          CircularProgressIndicator(
-                            color: DefaultTheme.GREEN,
-                          ),
-                          Padding(padding: EdgeInsets.only(top: 30)),
-                          Text(
-                            'Đang tải',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
+  void openLoadingDialog() async {
+    if (!isPopLoading) {
+      isPopLoading = true;
+      return await showDialog(
+          barrierDismissible: false,
+          context: NavigationService.navigatorKey.currentContext!,
+          builder: (BuildContext context) {
+            return Material(
+              color: DefaultTheme.TRANSPARENT,
+              child: Center(
+                child: (PlatformUtils.instance.isWeb())
+                    ? Container(
+                        width: 200,
+                        height: 200,
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).cardColor,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: const [
+                            CircularProgressIndicator(
+                              color: DefaultTheme.GREEN,
                             ),
-                          ),
-                        ],
+                            Padding(padding: EdgeInsets.only(top: 30)),
+                            Text(
+                              'Đang tải',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : Container(
+                        width: 250,
+                        height: 200,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).cardColor.withOpacity(0.9),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: const CircularProgressIndicator(
+                          color: DefaultTheme.GREEN,
+                        ),
                       ),
-                    )
-                  : Container(
-                      width: 250,
-                      height: 200,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).cardColor.withOpacity(0.9),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: const CircularProgressIndicator(
-                        color: DefaultTheme.GREEN,
-                      ),
-                    ),
-            ),
-          );
-        });
+              ),
+            );
+          }).then((value) => isPopLoading = false);
+    }
   }
 
-  openMsgDialog(
-      {required BuildContext context,
-      required String title,
-      required String msg}) {
+  openMsgDialog({required String title, required String msg}) {
     return showDialog(
         barrierDismissible: false,
-        context: context,
+        context: NavigationService.navigatorKey.currentContext!,
         builder: (BuildContext context) {
           return Material(
             color: DefaultTheme.TRANSPARENT,
@@ -592,11 +589,11 @@ class DialogWidget {
         });
   }
 
-  openTransactionDialog(BuildContext context, String address, String body) {
+  openTransactionDialog(String address, String body) {
     final ScrollController _scrollContoller = ScrollController();
     return showDialog(
       barrierDismissible: false,
-      context: context,
+      context: NavigationService.navigatorKey.currentContext!,
       builder: (BuildContext context) {
         return Material(
           color: DefaultTheme.TRANSPARENT,
@@ -713,8 +710,7 @@ class DialogWidget {
     );
   }
 
-  openTransactionFormattedDialog(
-      BuildContext context, String address, String body, String? date) {
+  openTransactionFormattedDialog(String address, String body, String? date) {
     final ScrollController scrollContoller = ScrollController();
     final BankInformationDTO dto = SmsInformationUtils.instance.transferSmsData(
       BankInformationUtil.instance.getBankName(address),
@@ -727,7 +723,7 @@ class DialogWidget {
             : DefaultTheme.RED_TEXT;
     return showDialog(
       barrierDismissible: false,
-      context: context,
+      context: NavigationService.navigatorKey.currentContext!,
       builder: (BuildContext context) {
         return Material(
           color: DefaultTheme.TRANSPARENT,

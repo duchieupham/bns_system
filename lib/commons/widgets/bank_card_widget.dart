@@ -80,7 +80,6 @@ class BankCardWidget extends StatelessWidget {
                             if (PlatformUtils.instance.isWeb()) {
                               await PopupMenuWebWidget.instance
                                   .showPopUpBankCard(
-                                    context: context,
                                     bankAccountDTO: bankAccountDTO,
                                     isDelete: (isDelete != null && isDelete!)
                                         ? isDelete!
@@ -97,7 +96,6 @@ class BankCardWidget extends StatelessWidget {
                             } else {
                               await SettingBankSheet.instance
                                   .openSettingCard(
-                                    context: context,
                                     userId: UserInformationHelper.instance
                                         .getUserId(),
                                     bankAccountDTO: bankAccountDTO,

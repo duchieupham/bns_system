@@ -13,6 +13,10 @@ class LogoUtils {
       result = 'assets/images/banks/ic-shb.png';
     } else if (bankName == AVAILABLE_ADD_BANKNAME.MBBANK.toString()) {
       result = 'assets/images/banks/ic-mb.png';
+    } else if (bankName == AVAILABLE_ADD_BANKNAME.VIETINBANK.toString()) {
+      result = 'assets/images/banks/ic-icb.png';
+    } else if (bankName == AVAILABLE_ADD_BANKNAME.VIETCOMBANK.toString()) {
+      result = 'assets/images/banks/ic-vcb.png';
     } else {
       result = 'assets/images/ic-viet-qr-small.png';
     }

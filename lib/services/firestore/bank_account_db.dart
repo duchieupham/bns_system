@@ -37,7 +37,8 @@ class BankAccountDB {
             bankAccount: '',
             bankAccountName: '',
             bankName: '',
-            bankCode: '');
+            bankCode: '',
+            userId: '');
         await bankAccountDb
             .where('id', isEqualTo: bankId)
             .get()
@@ -49,12 +50,14 @@ class BankAccountDB {
                 querySnapshot.docs.first['bankAccountName'] ?? '';
             String bankCode = querySnapshot.docs.first['bankCode'] ?? '';
             String bankName = querySnapshot.docs.first['bankName'] ?? '';
+            String userId = querySnapshot.docs.first['userId'] ?? '';
             dto = BankAccountDTO(
               id: id,
               bankAccount: bankAccount,
               bankAccountName: bankAccountName,
               bankName: bankName,
               bankCode: bankCode,
+              userId: userId,
             );
           }
         });
@@ -82,12 +85,14 @@ class BankAccountDB {
             String bankAccountName = querySnapshot.docs[i]['bankAccountName'];
             String bankCode = querySnapshot.docs[i]['bankCode'];
             String bankName = querySnapshot.docs[i]['bankName'];
+            String userId = querySnapshot.docs[i]['userId'];
             BankAccountDTO dto = BankAccountDTO(
               id: id,
               bankAccount: bankAccount,
               bankAccountName: bankAccountName,
               bankName: bankName,
               bankCode: bankCode,
+              userId: userId,
             );
             result.add(dto);
           }
@@ -154,6 +159,7 @@ class BankAccountDB {
       bankAccountName: '',
       bankName: '',
       bankCode: '',
+      userId: '',
     );
     try {
       await bankAccountDb

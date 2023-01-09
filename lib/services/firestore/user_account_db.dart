@@ -56,7 +56,7 @@ class UserAccountDB {
           } else {
             result = {
               'check': false,
-              'msg': 'Mã PIN cũ không chính xác, vui lòng thử lại.'
+              'msg': 'Mật khẩu cũ không chính xác, vui lòng thử lại.'
             };
           }
         },

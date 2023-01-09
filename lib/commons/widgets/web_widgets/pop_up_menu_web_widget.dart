@@ -3,16 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/widgets/dialog_widget.dart';
-import 'package:vierqr/features_mobile/home/home.dart';
-import 'package:vierqr/features_mobile/login/blocs/login_bloc.dart';
-import 'package:vierqr/features_mobile/login/events/login_event.dart';
-import 'package:vierqr/features_mobile/login/views/login.dart';
-import 'package:vierqr/features_mobile/personal/blocs/bank_manage_bloc.dart';
-import 'package:vierqr/features_mobile/personal/events/bank_manage_event.dart';
-import 'package:vierqr/features_mobile/personal/views/bank_manage.dart';
-import 'package:vierqr/features_mobile/personal/views/qr_scanner.dart';
-import 'package:vierqr/features_mobile/personal/views/user_edit_view.dart';
-import 'package:vierqr/features_mobile/personal/widgets/add_members_card_widget.dart';
+import 'package:vierqr/features/home/home.dart';
+import 'package:vierqr/features/login/blocs/login_bloc.dart';
+import 'package:vierqr/features/login/events/login_event.dart';
+import 'package:vierqr/features/personal/blocs/bank_manage_bloc.dart';
+import 'package:vierqr/features/personal/events/bank_manage_event.dart';
+import 'package:vierqr/features/personal/views/bank_manage.dart';
+import 'package:vierqr/features/personal/views/qr_scanner.dart';
+import 'package:vierqr/features/personal/views/user_edit_view.dart';
+import 'package:vierqr/features/personal/widgets/add_members_card_widget.dart';
 import 'package:vierqr/main.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
 import 'package:vierqr/services/providers/bank_account_provider.dart';
@@ -31,16 +30,15 @@ class PopupMenuWebWidget {
   static PopupMenuWebWidget get instance => _instance;
 
   Future<void> showPopUpBankCard({
-    required BuildContext context,
     required BankAccountDTO bankAccountDTO,
     required bool isDelete,
     required String role,
   }) async {
-    final RelativeRect position = _buttonMenuCardPosition(context);
+    final RelativeRect position =
+        _buttonMenuCardPosition(NavigationService.navigatorKey.currentContext!);
     await showMenu(
-      context: context,
+      context: NavigationService.navigatorKey.currentContext!,
       position: position,
-      useRootNavigator: true,
       items: (isDelete)
           ? [
               PopupMenuItem<int>(
@@ -49,7 +47,6 @@ class PopupMenuWebWidget {
                   await Future.delayed(const Duration(milliseconds: 200), () {})
                       .then(
                     (value) => DialogWidget.instance.openContentDialog(
-                      context,
                       null,
                       AddMembersCardWidget(
                         width: 500,
@@ -84,15 +81,14 @@ class PopupMenuWebWidget {
                   await Future.delayed(
                       const Duration(milliseconds: 200), () {});
                   DialogWidget.instance.openBoxWebConfirm(
-                    context: context,
                     title: 'Xoá tài khoản ngân hàng',
                     confirmText: 'Xoá',
                     imageAsset: 'assets/images/ic-card.png',
                     description:
                         'Bạn có muốn xoá ${bankAccountDTO.bankAccount} ra khỏi danh sách không?',
                     confirmFunction: () async {
-                      final BankManageBloc bankManageBloc =
-                          BlocProvider.of(context);
+                      final BankManageBloc bankManageBloc = BlocProvider.of(
+                          NavigationService.navigatorKey.currentContext!);
                       bankManageBloc.add(
                         BankManageEventRemoveDTO(
                           userId: UserInformationHelper.instance.getUserId(),
@@ -134,7 +130,6 @@ class PopupMenuWebWidget {
                   await Future.delayed(const Duration(milliseconds: 200), () {})
                       .then(
                     (value) => DialogWidget.instance.openContentDialog(
-                      context,
                       null,
                       AddMembersCardWidget(
                         width: 500,
@@ -172,7 +167,6 @@ class PopupMenuWebWidget {
     await showMenu(
       context: context,
       position: position,
-      useRootNavigator: true,
       items: [
         PopupMenuItem<int>(
           value: 0,

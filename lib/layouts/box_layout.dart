@@ -42,7 +42,7 @@ class BoxLayout extends StatelessWidget {
         boxShadow: (enableShadow != null && enableShadow!)
             ? [
                 BoxShadow(
-                  color: DefaultTheme.GREY_TOP_TAB_BAR.withOpacity(0.3),
+                  color: Theme.of(context).shadowColor.withOpacity(0.3),
                   spreadRadius: 5,
                   blurRadius: 5,
                   offset: const Offset(1, 2),

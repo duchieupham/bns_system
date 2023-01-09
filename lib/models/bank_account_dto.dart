@@ -4,6 +4,7 @@ class BankAccountDTO {
   final String bankName;
   final String bankCode;
   final String bankAccountName;
+  final String userId;
 
   const BankAccountDTO({
     required this.id,
@@ -11,6 +12,7 @@ class BankAccountDTO {
     required this.bankAccountName,
     required this.bankName,
     required this.bankCode,
+    required this.userId,
   });
 
   factory BankAccountDTO.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,7 @@ class BankAccountDTO {
       bankAccountName: json['bankAccountName'] ?? '',
       bankName: json['bankName'] ?? '',
       bankCode: json['bankCode'] ?? '',
+      userId: json['userId'] ?? '',
     );
   }
 
@@ -30,6 +33,7 @@ class BankAccountDTO {
     data['bankAccountName'] = bankAccountName;
     data['bankName'] = bankName;
     data['bankCode'] = bankCode;
+    data['userId'] = userId;
     return data;
   }
 }

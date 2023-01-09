@@ -6,9 +6,9 @@ import 'package:vierqr/commons/utils/time_utils.dart';
 import 'package:vierqr/commons/widgets/dialog_widget.dart';
 import 'package:vierqr/commons/widgets/web_widgets/notification_list_widget.dart';
 import 'package:vierqr/commons/widgets/web_widgets/pop_up_menu_web_widget.dart';
-import 'package:vierqr/features_mobile/notification/blocs/notification_bloc.dart';
-import 'package:vierqr/features_mobile/notification/events/notification_event.dart';
-import 'package:vierqr/features_mobile/notification/states/notification_state.dart';
+import 'package:vierqr/features/notification/blocs/notification_bloc.dart';
+import 'package:vierqr/features/notification/events/notification_event.dart';
+import 'package:vierqr/features/notification/states/notification_state.dart';
 import 'package:vierqr/layouts/box_layout.dart';
 import 'package:vierqr/models/notification_dto.dart';
 import 'package:vierqr/services/providers/clock_provider.dart';
@@ -135,7 +135,6 @@ class HeaderMWebWidget extends StatelessWidget {
                       notificationIds: notificationIds));
                 }
                 DialogWidget.instance.openNotificationDialog(
-                  context: context,
                   height: height,
                   marginRight: 40,
                   child: NotificationListWidget(

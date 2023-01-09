@@ -6,17 +6,24 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:vierqr/commons/constants/configurations/firebase_config.dart';
+import 'package:vierqr/commons/constants/configurations/route.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
-import 'package:vierqr/features_mobile/home/home.dart';
-import 'package:vierqr/features_mobile/log_sms/blocs/sms_bloc.dart';
-import 'package:vierqr/features_mobile/log_sms/blocs/transaction_bloc.dart';
-import 'package:vierqr/features_mobile/notification/blocs/notification_bloc.dart';
-import 'package:vierqr/features_mobile/login/blocs/login_bloc.dart';
-import 'package:vierqr/features_mobile/login/views/login.dart';
-import 'package:vierqr/features_mobile/personal/blocs/bank_manage_bloc.dart';
-import 'package:vierqr/features_mobile/personal/blocs/member_manage_bloc.dart';
-import 'package:vierqr/features_mobile/personal/blocs/user_edit_bloc.dart';
-import 'package:vierqr/features_mobile/register/blocs/register_bloc.dart';
+import 'package:vierqr/features/home/home.dart';
+import 'package:vierqr/features/home/theme_setting.dart';
+import 'package:vierqr/features/log_sms/blocs/sms_bloc.dart';
+import 'package:vierqr/features/log_sms/blocs/transaction_bloc.dart';
+import 'package:vierqr/features/notification/blocs/notification_bloc.dart';
+import 'package:vierqr/features/login/blocs/login_bloc.dart';
+import 'package:vierqr/features/login/views/login.dart';
+import 'package:vierqr/features/permission/blocs/permission_bloc.dart';
+import 'package:vierqr/features/personal/blocs/bank_manage_bloc.dart';
+import 'package:vierqr/features/personal/blocs/member_manage_bloc.dart';
+import 'package:vierqr/features/personal/blocs/user_edit_bloc.dart';
+import 'package:vierqr/features/personal/views/bank_manage.dart';
+import 'package:vierqr/features/personal/views/qr_scanner.dart';
+import 'package:vierqr/features/personal/views/user_edit_view.dart';
+import 'package:vierqr/features/personal/views/user_update_password_view.dart';
+import 'package:vierqr/features/register/blocs/register_bloc.dart';
 import 'package:vierqr/services/providers/bank_account_provider.dart';
 import 'package:vierqr/services/providers/bank_select_provider.dart';
 import 'package:vierqr/services/providers/create_qr_page_select_provider.dart';
@@ -68,6 +75,10 @@ Future<void> _initialServiceHelper() async {
   await EventBlocHelper.instance.initialEventBlocHelper();
 }
 
+class NavigationService {
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+}
+
 class VietQRApp extends StatelessWidget {
   const VietQRApp({Key? key}) : super(key: key);
 
@@ -108,6 +119,9 @@ class VietQRApp extends StatelessWidget {
           BlocProvider<NotificationBloc>(
             create: (BuildContext context) => NotificationBloc(),
           ),
+          BlocProvider<PermissionBloc>(
+            create: (BuildContext context) => PermissionBloc(),
+          ),
         ],
         child: MultiProvider(
           providers: [
@@ -131,6 +145,8 @@ class VietQRApp extends StatelessWidget {
           child: Consumer<ThemeProvider>(
             builder: (context, themeSelect, child) {
               return MaterialApp(
+                navigatorKey: NavigationService.navigatorKey,
+                debugShowCheckedModeBanner: false,
                 builder: (context, child) {
                   //ignore system scale factor
                   return MediaQuery(
@@ -140,7 +156,18 @@ class VietQRApp extends StatelessWidget {
                     child: child ?? Container(),
                   );
                 },
-                debugShowCheckedModeBanner: false,
+                initialRoute: '/',
+                routes: {
+                  Routes.APP: (context) => const VietQRApp(),
+                  Routes.LOGIN: (context) => const Login(),
+                  Routes.HOME: (context) => const HomeScreen(),
+                  Routes.USER_EDIT: (context) => const UserEditView(),
+                  Routes.UPDATE_PASSWORD: (context) =>
+                      const UserUpdatePassword(),
+                  Routes.QR_SCAN: (context) => const QRScanner(),
+                  Routes.BANK_MANAGE: (context) => const BankManageView(),
+                  Routes.UI_SETTING: (context) => const ThemeSettingView(),
+                },
                 themeMode:
                     (themeSelect.themeSystem == DefaultTheme.THEME_SYSTEM)
                         ? ThemeMode.system

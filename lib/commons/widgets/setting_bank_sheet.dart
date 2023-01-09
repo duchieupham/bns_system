@@ -1,16 +1,26 @@
 import 'dart:ui';
 import 'package:uuid/uuid.dart';
+import 'package:vierqr/commons/constants/configurations/stringify.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/utils/bank_information_utils.dart';
 import 'package:vierqr/commons/utils/string_utils.dart';
+import 'package:vierqr/commons/widgets/bank_card_widget.dart';
+import 'package:vierqr/commons/widgets/bank_information_widget.dart';
 import 'package:vierqr/commons/widgets/button_widget.dart';
 import 'package:vierqr/commons/widgets/dialog_widget.dart';
+import 'package:vierqr/commons/widgets/divider_widget.dart';
+import 'package:vierqr/commons/widgets/dot_widget.dart';
 import 'package:vierqr/commons/widgets/textfield_widget.dart';
-import 'package:vierqr/features_mobile/personal/blocs/bank_manage_bloc.dart';
-import 'package:vierqr/features_mobile/personal/events/bank_manage_event.dart';
-import 'package:vierqr/features_mobile/personal/widgets/add_members_card_widget.dart';
+import 'package:vierqr/features/generate_qr/views/create_qr.dart';
+import 'package:vierqr/features/personal/blocs/bank_manage_bloc.dart';
+import 'package:vierqr/features/personal/events/bank_manage_event.dart';
+import 'package:vierqr/features/personal/states/bank_manage_state.dart';
+import 'package:vierqr/features/personal/widgets/add_members_card_widget.dart';
+import 'package:vierqr/main.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
+import 'package:vierqr/services/providers/bank_account_provider.dart';
 import 'package:vierqr/services/providers/bank_select_provider.dart';
+import 'package:vierqr/services/providers/memeber_manage_provider.dart';
 import 'package:vierqr/services/shared_references/user_information_helper.dart';
 
 import 'package:flutter/material.dart';
@@ -24,17 +34,310 @@ class SettingBankSheet {
       SettingBankSheet._privateConsrtructor();
   static SettingBankSheet get instance => _instance;
 
-  Future openAddingFormCard(
-      BuildContext context,
+  Future<void> openChosingBankToCreateQR() {
+    final String userId = UserInformationHelper.instance.getUserId();
+    final double width =
+        MediaQuery.of(NavigationService.navigatorKey.currentContext!)
+            .size
+            .width;
+    final double height =
+        MediaQuery.of(NavigationService.navigatorKey.currentContext!)
+            .size
+            .height;
+    final List<Widget> cardWidgets = [];
+    final List<BankAccountDTO> bankAccounts = [];
+    final BankManageBloc bankManageBloc =
+        BlocProvider.of(NavigationService.navigatorKey.currentContext!);
+    bankManageBloc.add(BankManageEventGetList(userId: userId));
+    return showModalBottomSheet(
+        isScrollControlled: true,
+        context: NavigationService.navigatorKey.currentContext!,
+        backgroundColor: DefaultTheme.TRANSPARENT,
+        builder: (context) {
+          return BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+            child: ClipRRect(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 5, left: 5, right: 5),
+                child: Container(
+                  padding: const EdgeInsets.only(
+                    left: 10,
+                    right: 10,
+                    top: 20,
+                  ),
+                  width: width - 10,
+                  height: height * 0.8,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Theme.of(context).cardColor,
+                  ),
+                  child: BlocConsumer<BankManageBloc, BankManageState>(
+                      listener: (context, state) {
+                    if (state is BankManageListSuccessState) {
+                      Provider.of<BankAccountProvider>(context, listen: false)
+                          .updateIndex(0);
+                      bankAccounts.clear();
+                      cardWidgets.clear();
+                      if (bankAccounts.isEmpty &&
+                          (state.list.isNotEmpty ||
+                              state.listOther.isNotEmpty)) {
+                        if (state.list.isNotEmpty) {
+                          bankAccounts.addAll(state.list);
+                        }
+                        if (state.listOther.isNotEmpty) {
+                          bankAccounts.addAll(state.listOther);
+                        }
+                        for (BankAccountDTO bankAccountDTO in bankAccounts) {
+                          BankInformationWidget cardWidget =
+                              BankInformationWidget(
+                            width: width,
+                            height: 80,
+                            bankAccountDTO: bankAccountDTO,
+                            icon: Icons.navigate_next_rounded,
+                          );
+                          cardWidgets.add(cardWidget);
+                        }
+                      }
+                    }
+                  }, builder: (context, state) {
+                    return Column(
+                      children: [
+                        const Text(
+                          'Chọn ngân hàng',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 10),
+                        ),
+                        (state is BankManageLoadingListState)
+                            ? SizedBox(
+                                width: width,
+                                height: 200,
+                                child: const Center(
+                                  child: CircularProgressIndicator(
+                                    color: DefaultTheme.GREEN,
+                                  ),
+                                ),
+                              )
+                            : (bankAccounts.isEmpty)
+                                ? const SizedBox()
+                                : Expanded(
+                                    child: ListView.separated(
+                                      itemCount: cardWidgets.length,
+                                      shrinkWrap: true,
+                                      itemBuilder: (context, index) {
+                                        return InkWell(
+                                          onTap: () {
+                                            Navigator.of(context).pop();
+                                            Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                builder: (context) => CreateQR(
+                                                  bankAccountDTO:
+                                                      bankAccounts[index],
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5),
+                                            child: cardWidgets[index],
+                                          ),
+                                        );
+                                      },
+                                      separatorBuilder: (context, index) {
+                                        return DividerWidget(
+                                          width: width - 60,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                      ],
+                    );
+                  }),
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
+  Future<void> openChosingBank() {
+    final String userId = UserInformationHelper.instance.getUserId();
+    final PageController pageController =
+        PageController(initialPage: 0, keepPage: false);
+    final double width =
+        MediaQuery.of(NavigationService.navigatorKey.currentContext!)
+            .size
+            .width;
+    final List<BankCardWidget> cardWidgets = [];
+    final List<BankAccountDTO> bankAccounts = [];
+    final BankManageBloc bankManageBloc =
+        BlocProvider.of(NavigationService.navigatorKey.currentContext!);
+    bankManageBloc.add(BankManageEventGetList(userId: userId));
+    return showModalBottomSheet(
+        isScrollControlled: true,
+        context: NavigationService.navigatorKey.currentContext!,
+        backgroundColor: DefaultTheme.TRANSPARENT,
+        builder: (context) {
+          return BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+            child: ClipRRect(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 5, left: 5, right: 5),
+                child: Container(
+                  padding: const EdgeInsets.only(
+                    left: 10,
+                    right: 10,
+                    top: 20,
+                  ),
+                  width: MediaQuery.of(context).size.width - 10,
+                  height: 350,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Theme.of(context).cardColor,
+                  ),
+                  child: BlocConsumer<BankManageBloc, BankManageState>(
+                    listener: (context, state) {
+                      if (state is BankManageListSuccessState) {
+                        Provider.of<BankAccountProvider>(context, listen: false)
+                            .updateIndex(0);
+                        bankAccounts.clear();
+                        cardWidgets.clear();
+                        if (bankAccounts.isEmpty &&
+                            (state.list.isNotEmpty ||
+                                state.listOther.isNotEmpty)) {
+                          if (state.list.isNotEmpty) {
+                            bankAccounts.addAll(state.list);
+                          }
+                          if (state.listOther.isNotEmpty) {
+                            bankAccounts.addAll(state.listOther);
+                          }
+                          for (BankAccountDTO bankAccountDTO in bankAccounts) {
+                            BankCardWidget cardWidget = BankCardWidget(
+                              key: PageStorageKey(bankAccountDTO.bankCode),
+                              width: width - 40,
+                              bankAccountDTO: bankAccountDTO,
+                              isMenuShow: false,
+                              isDelete: false,
+                              roleInsert: (bankAccountDTO.userId == userId)
+                                  ? Stringify.ROLE_CARD_MEMBER_ADMIN
+                                  : Stringify.ROLE_CARD_MEMBER_MANAGER,
+                            );
+                            cardWidgets.add(cardWidget);
+                          }
+                        }
+                      }
+                    },
+                    builder: (context, state) {
+                      return Consumer<BankAccountProvider>(
+                          builder: (context, provider, child) {
+                        return Column(
+                          children: [
+                            const Text(
+                              'Chọn ngân hàng',
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 10),
+                            ),
+                            (state is BankManageLoadingListState)
+                                ? SizedBox(
+                                    width: width,
+                                    height: 200,
+                                    child: const Center(
+                                      child: CircularProgressIndicator(
+                                        color: DefaultTheme.GREEN,
+                                      ),
+                                    ),
+                                  )
+                                : (bankAccounts.isEmpty)
+                                    ? const SizedBox()
+                                    : SizedBox(
+                                        width: width,
+                                        height: 200,
+                                        child: PageView(
+                                          key: const PageStorageKey(
+                                              'CARD_PAGE_VIEW'),
+                                          controller: pageController,
+                                          onPageChanged: (index) {
+                                            Provider.of<BankAccountProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .updateIndex(index);
+                                          },
+                                          children: cardWidgets,
+                                        ),
+                                      ),
+                            (bankAccounts.isEmpty)
+                                ? const SizedBox()
+                                : Container(
+                                    width: width,
+                                    height: 10,
+                                    alignment: Alignment.center,
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemCount: bankAccounts.length,
+                                      itemBuilder: (context, index) =>
+                                          DotWidget(
+                                        isSelected:
+                                            (index == provider.indexSelected),
+                                      ),
+                                    ),
+                                  ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 20),
+                            ),
+                            (bankAccounts.isNotEmpty)
+                                ? ButtonWidget(
+                                    width: width - 80,
+                                    text: 'Chọn',
+                                    textColor: DefaultTheme.WHITE,
+                                    bgColor: DefaultTheme.GREEN,
+                                    function: () async {
+                                      Navigator.of(context).pop();
+                                      await openAddMemberIntoBank(
+                                        bankId:
+                                            bankAccounts[provider.indexSelected]
+                                                .id,
+                                        roleInsert:
+                                            cardWidgets[provider.indexSelected]
+                                                .roleInsert!,
+                                      );
+                                    },
+                                  )
+                                : const SizedBox(),
+                          ],
+                        );
+                      });
+                    },
+                  ),
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
+  Future<void> openAddingFormCard(
       List<String> banks,
       TextEditingController bankAccountController,
       TextEditingController bankAccountNameController) {
-    final double width = MediaQuery.of(context).size.width;
-    final BankManageBloc bankManageBloc = BlocProvider.of(context);
+    final double width = MediaQuery.of(
+      NavigationService.navigatorKey.currentContext!,
+    ).size.width;
+    final BankManageBloc bankManageBloc = BlocProvider.of(
+      NavigationService.navigatorKey.currentContext!,
+    );
     String bankSelected = banks.first;
     return showModalBottomSheet(
         isScrollControlled: true,
-        context: context,
+        context: NavigationService.navigatorKey.currentContext!,
         backgroundColor: DefaultTheme.TRANSPARENT,
         builder: (context) {
           return BackdropFilter(
@@ -199,6 +502,7 @@ class SettingBankSheet {
                             textColor: DefaultTheme.WHITE,
                             bgColor: DefaultTheme.GREEN,
                             function: () {
+                              FocusManager.instance.primaryFocus?.unfocus();
                               value.updateErrs(
                                   (value.bankSelected == 'Chọn ngân hàng'),
                                   (bankAccountController.text.isEmpty ||
@@ -218,6 +522,8 @@ class SettingBankSheet {
                                     bankCode: bankSelected.split('-')[0].trim(),
                                     bankName: BankInformationUtil.instance
                                         .getBankNameFromSelectBox(bankSelected),
+                                    userId: UserInformationHelper.instance
+                                        .getUserId(),
                                   );
                                   bankManageBloc.add(
                                     BankManageEventAddDTO(
@@ -232,7 +538,6 @@ class SettingBankSheet {
                                 }
                               } else {
                                 DialogWidget.instance.openMsgDialog(
-                                    context: context,
                                     title: 'Không thể thêm tài khoản',
                                     msg:
                                         'Không thể thêm tài khoản ngân hàng. Vui lòng nhập đầy đủ và chính xác thông tin tài khoản ngân hàng.');
@@ -252,13 +557,14 @@ class SettingBankSheet {
   }
 
   Future openAddMemberIntoBank(
-      {required BuildContext context,
-      required String bankId,
-      required String roleInsert}) {
-    final double width = MediaQuery.of(context).size.width;
+      {required String bankId, required String roleInsert}) {
+    final double width =
+        MediaQuery.of(NavigationService.navigatorKey.currentContext!)
+            .size
+            .width;
     return showModalBottomSheet(
         isScrollControlled: true,
-        context: context,
+        context: NavigationService.navigatorKey.currentContext!,
         backgroundColor: DefaultTheme.TRANSPARENT,
         builder: (context) {
           return BackdropFilter(
@@ -288,20 +594,25 @@ class SettingBankSheet {
               ),
             ),
           );
-        });
+        }).then((value) => Provider.of<MemeberManageProvider>(
+            NavigationService.navigatorKey.currentContext!,
+            listen: false)
+        .reset());
   }
 
   Future openSettingCard({
-    required BuildContext context,
     required String userId,
     required BankAccountDTO bankAccountDTO,
     required bool isDelete,
     required String role,
   }) {
-    final double width = MediaQuery.of(context).size.width;
+    final double width =
+        MediaQuery.of(NavigationService.navigatorKey.currentContext!)
+            .size
+            .width;
     return showModalBottomSheet(
         isScrollControlled: false,
-        context: context,
+        context: NavigationService.navigatorKey.currentContext!,
         backgroundColor: DefaultTheme.TRANSPARENT,
         builder: (context) {
           return Padding(
@@ -334,9 +645,7 @@ class SettingBankSheet {
                           function: () {
                             Navigator.pop(context);
                             openAddMemberIntoBank(
-                                bankId: bankAccountDTO.id,
-                                context: context,
-                                roleInsert: role);
+                                bankId: bankAccountDTO.id, roleInsert: role);
                           },
                         ),
                         (isDelete)
@@ -352,6 +661,7 @@ class SettingBankSheet {
                                 textColor: DefaultTheme.RED_TEXT,
                                 bgColor: DefaultTheme.TRANSPARENT,
                                 function: () {
+                                  Navigator.pop(context);
                                   final BankManageBloc bankManageBloc =
                                       BlocProvider.of(context);
                                   bankManageBloc.add(

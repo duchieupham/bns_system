@@ -38,6 +38,7 @@ class HeaderMwebWidgetOld extends StatelessWidget {
                       onTap: (functionBack == null)
                           ? () {
                               Navigator.of(context).pop();
+                              ;
                             }
                           : functionBack,
                       child: Tooltip(
