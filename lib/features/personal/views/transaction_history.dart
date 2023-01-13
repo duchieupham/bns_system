@@ -6,7 +6,7 @@ import 'package:vierqr/commons/widgets/dialog_widget.dart';
 import 'package:vierqr/commons/widgets/divider_widget.dart';
 import 'package:vierqr/commons/widgets/sub_header_widget.dart';
 import 'package:vierqr/features/personal/repositories/bank_manage_repository.dart';
-import 'package:vierqr/features/personal/views/transaction_bank_item.dart';
+import 'package:vierqr/features/personal/widgets/transaction_bank_item.dart';
 import 'package:vierqr/layouts/box_layout.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
 import 'package:vierqr/models/transaction_bank_dto.dart';
