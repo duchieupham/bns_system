@@ -1,3 +1,4 @@
+import 'package:vierqr/models/account_balance_dto.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
 import 'package:equatable/equatable.dart';
 
@@ -49,3 +50,15 @@ class BankManageGetDTOSuccessfulState extends BankManageState {
 }
 
 class BankManageGetDTOFailedState extends BankManageState {}
+
+class BankManageGetAccountBalanceSuccessState extends BankManageState {
+  final AccountBalanceDTO accountBalanceDTO;
+
+  const BankManageGetAccountBalanceSuccessState(
+      {required this.accountBalanceDTO});
+
+  @override
+  List<Object?> get props => [accountBalanceDTO];
+}
+
+class BankManageGetAccountBalanceFailedState extends BankManageState {}

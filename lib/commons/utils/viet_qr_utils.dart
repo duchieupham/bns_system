@@ -207,7 +207,7 @@ class VietQRUtils {
           BANKNAME.OCB.toString()) {
         caiBank = CAIBank.MID_CAI_OCB;
       } else if (BankInformationUtil.instance.getBankName(bankName) ==
-          BANKNAME.MBBANK.toString()) {
+          BANKNAME.MB.toString()) {
         caiBank = CAIBank.MID_CAI_MBBANK;
       } else if (BankInformationUtil.instance.getBankName(bankName) ==
           BANKNAME.ACB.toString()) {

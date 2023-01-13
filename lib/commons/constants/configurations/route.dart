@@ -13,4 +13,5 @@ class Routes {
   static const String QR_SCAN = '/qrScan';
   static const String BANK_MANAGE = '/bankManage';
   static const String UI_SETTING = '/uiSetting';
+  static const String TRANSACTION_HISTORY = '/transactionHistory';
 }

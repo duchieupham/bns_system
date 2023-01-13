@@ -37,7 +37,7 @@ class BankInformationWidget extends StatelessWidget {
             width: 50,
             height: 50,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(25),
               color: DefaultTheme.WHITE,
               image: DecorationImage(
                 image: AssetImage(

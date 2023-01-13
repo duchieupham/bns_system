@@ -11,7 +11,7 @@ class LogoUtils {
     bankName = 'AVAILABLE_ADD_BANKNAME.$bankName';
     if (bankName == AVAILABLE_ADD_BANKNAME.SHB.toString()) {
       result = 'assets/images/banks/ic-shb.png';
-    } else if (bankName == AVAILABLE_ADD_BANKNAME.MBBANK.toString()) {
+    } else if (bankName == AVAILABLE_ADD_BANKNAME.MB.toString()) {
       result = 'assets/images/banks/ic-mb.png';
     } else if (bankName == AVAILABLE_ADD_BANKNAME.VIETINBANK.toString()) {
       result = 'assets/images/banks/ic-icb.png';

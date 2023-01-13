@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +23,26 @@ class TimeUtils {
   String formatTime(String date) {
     String result = '';
     DateFormat format = DateFormat('dd/MM/yyyy HH:mm');
+    bool isValidDate = DateTime.tryParse(date.toString()) != null;
+    if (date != '' && isValidDate) {
+      result = format.format(DateTime.parse(date)).toString();
+    }
+    return result;
+  }
+
+  String formatBankTime(String date) {
+    String result = '';
+    DateFormat format = DateFormat('yyyy-MM-ddTHH:mm:ss');
+    bool isValidDate = DateTime.tryParse(date.toString()) != null;
+    if (date != '' && isValidDate) {
+      result = format.format(DateTime.parse(date)).toString();
+    }
+    return result;
+  }
+
+  String formatBankTimeView(String date) {
+    String result = '';
+    DateFormat format = DateFormat('HH:mm dd/MM/yyyy');
     bool isValidDate = DateTime.tryParse(date.toString()) != null;
     if (date != '' && isValidDate) {
       result = format.format(DateTime.parse(date)).toString();

@@ -5,9 +5,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:vierqr/commons/constants/configurations/firebase_config.dart';
 import 'package:vierqr/commons/constants/configurations/route.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
+import 'package:vierqr/commons/constants/env/env_config.dart';
+import 'package:vierqr/commons/utils/log.dart';
 import 'package:vierqr/features/home/home.dart';
 import 'package:vierqr/features/home/theme_setting.dart';
 import 'package:vierqr/features/log_sms/blocs/sms_bloc.dart';
@@ -21,6 +22,7 @@ import 'package:vierqr/features/personal/blocs/member_manage_bloc.dart';
 import 'package:vierqr/features/personal/blocs/user_edit_bloc.dart';
 import 'package:vierqr/features/personal/views/bank_manage.dart';
 import 'package:vierqr/features/personal/views/qr_scanner.dart';
+import 'package:vierqr/features/personal/views/transaction_history.dart';
 import 'package:vierqr/features/personal/views/user_edit_view.dart';
 import 'package:vierqr/features/personal/views/user_update_password_view.dart';
 import 'package:vierqr/features/register/blocs/register_bloc.dart';
@@ -37,6 +39,7 @@ import 'package:vierqr/services/providers/shortcut_provider.dart';
 import 'package:vierqr/services/providers/suggestion_widget_provider.dart';
 import 'package:vierqr/services/providers/theme_provider.dart';
 import 'package:vierqr/services/providers/user_edit_provider.dart';
+import 'package:vierqr/services/shared_references/account_helper.dart';
 import 'package:vierqr/services/shared_references/create_qr_helper.dart';
 import 'package:vierqr/services/shared_references/event_bloc_helper.dart';
 import 'package:vierqr/services/shared_references/theme_helper.dart';
@@ -45,17 +48,19 @@ import 'package:vierqr/services/shared_references/user_information_helper.dart';
 //Share Preferences
 late SharedPreferences sharedPrefs;
 
+//go into EnvConfig to change env
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   sharedPrefs = await SharedPreferences.getInstance();
   await _initialServiceHelper();
   if (kIsWeb) {
     await Firebase.initializeApp(
-      options: FirebaseConfig.FIREBASE_STAGGING_OPTION,
+      options: EnvConfig.getFirebaseConfig(),
     );
   } else {
     await Firebase.initializeApp();
   }
+  LOG.verbose('Config Environment: ${EnvConfig.getEnv()}');
   runApp(const VietQRApp());
 }
 
@@ -63,6 +68,10 @@ Future<void> _initialServiceHelper() async {
   if (!sharedPrefs.containsKey('THEME_SYSTEM') ||
       sharedPrefs.getString('THEME_SYSTEM') == null) {
     await ThemeHelper.instance.initialTheme();
+  }
+  if (!sharedPrefs.containsKey('BANK_TOKEN') ||
+      sharedPrefs.getString('BANK_TOKEN') == null) {
+    await AccountHelper.instance.initialAccountHelper();
   }
   if (!sharedPrefs.containsKey('TRANSACTION_AMOUNT') ||
       sharedPrefs.getString('TRANSACTION_AMOUNT') == null) {
@@ -167,6 +176,8 @@ class VietQRApp extends StatelessWidget {
                   Routes.QR_SCAN: (context) => const QRScanner(),
                   Routes.BANK_MANAGE: (context) => const BankManageView(),
                   Routes.UI_SETTING: (context) => const ThemeSettingView(),
+                  Routes.TRANSACTION_HISTORY: (context) =>
+                      const TransactionHistory(),
                 },
                 themeMode:
                     (themeSelect.themeSystem == DefaultTheme.THEME_SYSTEM)

@@ -1,6 +1,8 @@
+import 'package:vierqr/commons/utils/log.dart';
 import 'package:vierqr/features/personal/events/bank_manage_event.dart';
 import 'package:vierqr/features/personal/repositories/bank_manage_repository.dart';
 import 'package:vierqr/features/personal/states/bank_manage_state.dart';
+import 'package:vierqr/models/account_balance_dto.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,6 +12,7 @@ class BankManageBloc extends Bloc<BankManageEvent, BankManageState> {
     on<BankManageEventAddDTO>(_addBankAccount);
     on<BankManageEventRemoveDTO>(_removeBankAccount);
     on<BankManageEventGetDTO>(_getBankAccount);
+    on<BankManageEventGetAccountBalance>(_getAccountBalance);
   }
 
   final BankManageRepository bankManageRepository =
@@ -82,6 +85,21 @@ class BankManageBloc extends Bloc<BankManageEvent, BankManageState> {
     } catch (e) {
       print('Error at _getBankAccount - BankManageBloc: $e');
       emit(BankManageGetDTOFailedState());
+    }
+  }
+
+  void _getAccountBalance(BankManageEvent event, Emitter emit) async {
+    try {
+      if (event is BankManageEventGetAccountBalance) {
+        // AccountBalanceDTO dto =
+        await bankManageRepository.getBankToken();
+        AccountBalanceDTO dto = await bankManageRepository.getAccountBalace(
+            event.customerId, event.accountNumber);
+        emit(BankManageGetAccountBalanceSuccessState(accountBalanceDTO: dto));
+      }
+    } catch (e) {
+      LOG.error(e.toString());
+      emit(BankManageGetAccountBalanceFailedState());
     }
   }
 }

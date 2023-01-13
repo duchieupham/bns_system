@@ -1,7 +1,9 @@
 import 'package:uuid/uuid.dart';
+import 'package:vierqr/commons/constants/configurations/route.dart';
 import 'package:vierqr/commons/constants/configurations/stringify.dart';
 import 'package:vierqr/commons/constants/configurations/theme.dart';
 import 'package:vierqr/commons/utils/bank_information_utils.dart';
+import 'package:vierqr/commons/utils/currency_utils.dart';
 import 'package:vierqr/commons/utils/platform_utils.dart';
 import 'package:vierqr/commons/utils/string_utils.dart';
 import 'package:vierqr/commons/widgets/bank_card_widget.dart';
@@ -17,6 +19,7 @@ import 'package:vierqr/features/personal/states/bank_manage_state.dart';
 import 'package:vierqr/layouts/border_layout.dart';
 import 'package:vierqr/layouts/box_layout.dart';
 import 'package:vierqr/main.dart';
+import 'package:vierqr/models/account_balance_dto.dart';
 import 'package:vierqr/models/bank_account_dto.dart';
 import 'package:vierqr/services/providers/bank_account_provider.dart';
 import 'package:vierqr/services/providers/bank_select_provider.dart';
@@ -44,6 +47,14 @@ class BankManageView extends StatelessWidget {
       TextEditingController();
   static final TextEditingController _bankAccountNameController =
       TextEditingController();
+
+  static AccountBalanceDTO _accountBalanceDTO = const AccountBalanceDTO(
+    accountNumber: '',
+    accountName: '',
+    productName: '',
+    acctCurrency: '',
+    workingBalance: '',
+  );
 
   void initialServices(BuildContext context) {
     _bankManageBloc = BlocProvider.of(context);
@@ -173,136 +184,319 @@ class BankManageView extends StatelessWidget {
                           .reset();
                       Navigator.of(context).pop();
                     }),
-                Consumer<BankAccountProvider>(
-                    builder: (context, provider, child) {
-                  return BoxLayout(
-                    width: width * 0.7 + 10,
-                    height: 35,
-                    borderRadius: 5,
-                    padding: const EdgeInsets.all(0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _buildTabButton(
-                          isSelected: (provider.indexMenu == 0),
-                          width: width * 0.35,
-                          text: 'Của bạn',
-                          function: () {
-                            provider.updateIndexMenu(0);
-                            provider.updateIndex(0);
-                            provider.updateOtherIndex(0);
-                          },
-                        ),
-                        _buildTabButton(
-                          isSelected: (provider.indexMenu == 1),
-                          width: width * 0.35,
-                          text: 'Khác',
-                          function: () {
-                            provider.updateIndexMenu(1);
-                            provider.updateIndex(0);
-                            provider.updateOtherIndex(0);
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                }),
-                const Padding(
-                  padding: EdgeInsets.only(top: 30),
-                ),
-                Consumer<BankAccountProvider>(
-                    builder: (context, provider, child) {
-                  return (provider.indexMenu == 0)
-                      ? Column(
-                          children: [
-                            (_bankAccounts.isEmpty)
-                                ? const SizedBox()
-                                : SizedBox(
-                                    width: width,
-                                    height: 200,
-                                    child: PageView(
-                                      key: const PageStorageKey(
-                                          'CARD_PAGE_VIEW'),
-                                      controller: _pageController,
-                                      onPageChanged: (index) {
-                                        Provider.of<BankAccountProvider>(
-                                                context,
-                                                listen: false)
-                                            .updateIndex(index);
-                                      },
-                                      children: _cardWidgets,
-                                    ),
-                                  ),
-                            const Padding(
-                              padding: EdgeInsets.only(top: 10),
+                Expanded(
+                  child: ListView(
+                    children: [
+                      Consumer<BankAccountProvider>(
+                          builder: (context, provider, child) {
+                        return UnconstrainedBox(
+                          child: BoxLayout(
+                            width: width * 0.7 + 10,
+                            height: 35,
+                            borderRadius: 5,
+                            padding: const EdgeInsets.all(0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                _buildTabButton(
+                                  isSelected: (provider.indexMenu == 0),
+                                  width: width * 0.35,
+                                  text: 'Admin',
+                                  function: () {
+                                    provider.updateIndexMenu(0);
+                                    provider.updateIndex(0);
+                                    provider.updateOtherIndex(0);
+                                  },
+                                ),
+                                _buildTabButton(
+                                  isSelected: (provider.indexMenu == 1),
+                                  width: width * 0.35,
+                                  text: 'Thành viên',
+                                  function: () {
+                                    provider.updateIndexMenu(1);
+                                    provider.updateIndex(0);
+                                    provider.updateOtherIndex(0);
+                                  },
+                                ),
+                              ],
                             ),
-                            (_bankAccounts.isEmpty)
-                                ? const SizedBox()
-                                : Container(
-                                    width: width,
-                                    height: 10,
-                                    alignment: Alignment.center,
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.horizontal,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount: _bankAccounts.length,
-                                      itemBuilder: ((context, index) =>
-                                          _buildDot(
-                                            (index == provider.indexSelected),
-                                          )),
-                                    ),
-                                  ),
-                          ],
-                        )
-                      : Column(
-                          children: [
-                            (_bankOtherAccounts.isEmpty)
-                                ? const SizedBox()
-                                : SizedBox(
-                                    width: width,
-                                    height: 200,
-                                    child: PageView(
-                                      key: const PageStorageKey(
-                                          'CARD_PAGE_VIEW_OTHER'),
-                                      // physics: const NeverScrollableScrollPhysics(),
-                                      controller: _pageOtherController,
-                                      onPageChanged: (index) {
-                                        Provider.of<BankAccountProvider>(
-                                                context,
-                                                listen: false)
-                                            .updateOtherIndex(index);
-                                      },
-                                      children: _cardOtherWidgets,
-                                    ),
-                                  ),
-                            const Padding(
-                              padding: EdgeInsets.only(top: 10),
-                            ),
-                            (_bankOtherAccounts.isEmpty)
-                                ? const SizedBox()
-                                : Container(
-                                    width: width,
-                                    height: 10,
-                                    alignment: Alignment.center,
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.horizontal,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount: _bankOtherAccounts.length,
-                                      itemBuilder: ((context, index) =>
-                                          _buildDot(
-                                            (index ==
-                                                provider.indexOtherSelected),
-                                          )),
-                                    ),
-                                  ),
-                          ],
+                          ),
                         );
-                }),
-                const Spacer(),
+                      }),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 30),
+                      ),
+                      SizedBox(
+                        width: width,
+                        height: 250,
+                        child: Consumer<BankAccountProvider>(
+                            builder: (context, provider, child) {
+                          return (provider.indexMenu == 0)
+                              ? Column(
+                                  children: [
+                                    (_bankAccounts.isEmpty)
+                                        ? const SizedBox()
+                                        : SizedBox(
+                                            width: width,
+                                            height: 200,
+                                            child: PageView(
+                                              key: const PageStorageKey(
+                                                  'CARD_PAGE_VIEW'),
+                                              controller: _pageController,
+                                              onPageChanged: (index) {
+                                                Provider.of<BankAccountProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .updateIndex(index);
+                                              },
+                                              children: _cardWidgets,
+                                            ),
+                                          ),
+                                    const Padding(
+                                      padding: EdgeInsets.only(top: 10),
+                                    ),
+                                    (_bankAccounts.isEmpty)
+                                        ? const SizedBox()
+                                        : Container(
+                                            width: width,
+                                            height: 10,
+                                            alignment: Alignment.center,
+                                            child: ListView.builder(
+                                              shrinkWrap: true,
+                                              scrollDirection: Axis.horizontal,
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              itemCount: _bankAccounts.length,
+                                              itemBuilder: ((context, index) =>
+                                                  _buildDot(
+                                                    (index ==
+                                                        provider.indexSelected),
+                                                  )),
+                                            ),
+                                          ),
+                                  ],
+                                )
+                              : Column(
+                                  children: [
+                                    (_bankOtherAccounts.isEmpty)
+                                        ? const SizedBox()
+                                        : SizedBox(
+                                            width: width,
+                                            height: 200,
+                                            child: PageView(
+                                              key: const PageStorageKey(
+                                                  'CARD_PAGE_VIEW_OTHER'),
+                                              // physics: const NeverScrollableScrollPhysics(),
+                                              controller: _pageOtherController,
+                                              onPageChanged: (index) {
+                                                Provider.of<BankAccountProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .updateOtherIndex(index);
+                                              },
+                                              children: _cardOtherWidgets,
+                                            ),
+                                          ),
+                                    const Padding(
+                                      padding: EdgeInsets.only(top: 10),
+                                    ),
+                                    (_bankOtherAccounts.isEmpty)
+                                        ? const SizedBox()
+                                        : Container(
+                                            width: width,
+                                            height: 10,
+                                            alignment: Alignment.center,
+                                            child: ListView.builder(
+                                              shrinkWrap: true,
+                                              scrollDirection: Axis.horizontal,
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              itemCount:
+                                                  _bankOtherAccounts.length,
+                                              itemBuilder: ((context, index) =>
+                                                  _buildDot(
+                                                    (index ==
+                                                        provider
+                                                            .indexOtherSelected),
+                                                  )),
+                                            ),
+                                          ),
+                                  ],
+                                );
+                        }),
+                      ),
+                      const Padding(padding: EdgeInsets.only(top: 20)),
+                      Consumer<BankAccountProvider>(
+                          builder: (context, provider, child) {
+                        String bankName = '';
+                        if (provider.indexMenu == 0) {
+                          if (_bankAccounts.isNotEmpty) {
+                            bankName =
+                                _bankAccounts[provider.indexSelected].bankCode;
+                          }
+                        } else {
+                          if (_bankOtherAccounts.isNotEmpty) {
+                            bankName =
+                                _bankOtherAccounts[provider.indexOtherSelected]
+                                    .bankCode;
+                          }
+                        }
+                        if (bankName.trim() == 'MB') {
+                          if (!provider.isGetAccountBalance) {
+                            _bankManageBloc.add(
+                              const BankManageEventGetAccountBalance(
+                                  customerId: '22550388',
+                                  accountNumber: '3262079112948'),
+                            );
+                            Future.delayed(const Duration(seconds: 0), () {
+                              provider.updateGetAccountBalace(true);
+                            });
+                          }
+                        } else {
+                          Future.delayed(const Duration(seconds: 0), () {
+                            provider.updateGetAccountBalace(false);
+                          });
+                        }
+                        return (bankName.trim() == 'MB')
+                            ? BlocConsumer<BankManageBloc, BankManageState>(
+                                listener: (context, state) {
+                                  if (state
+                                      is BankManageGetAccountBalanceSuccessState) {
+                                    _accountBalanceDTO =
+                                        state.accountBalanceDTO;
+                                  }
+                                },
+                                builder: (context, state) {
+                                  return Column(
+                                    children: [
+                                      BoxLayout(
+                                        width: width,
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 20),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 20, horizontal: 20),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text(
+                                              'Số dư',
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                // color: DefaultTheme.GREY_TEXT,
+                                              ),
+                                            ),
+                                            const Padding(
+                                                padding:
+                                                    EdgeInsets.only(top: 5)),
+                                            RichText(
+                                              textAlign: TextAlign.left,
+                                              text: TextSpan(
+                                                  style: const TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: DefaultTheme.GREEN,
+                                                  ),
+                                                  children: [
+                                                    TextSpan(
+                                                      text: CurrencyUtils
+                                                          .instance
+                                                          .getCurrencyFormatted(
+                                                              _accountBalanceDTO
+                                                                  .workingBalance),
+                                                    ),
+                                                    TextSpan(
+                                                      text:
+                                                          ' ${_accountBalanceDTO.acctCurrency}',
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .hintColor,
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                      ),
+                                                    ),
+                                                  ]),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const Padding(
+                                          padding: EdgeInsets.only(top: 10)),
+                                      InkWell(
+                                        onTap: () {
+                                          BankAccountDTO bankAccountDTO =
+                                              const BankAccountDTO(
+                                            id: '',
+                                            bankAccount: '',
+                                            bankAccountName: '',
+                                            bankName: '',
+                                            bankCode: '',
+                                            userId: '',
+                                          );
+                                          if (provider.indexMenu == 0) {
+                                            if (_bankAccounts.isNotEmpty) {
+                                              bankAccountDTO = _bankAccounts[
+                                                  provider.indexSelected];
+                                            }
+                                          } else {
+                                            if (_bankOtherAccounts.isNotEmpty) {
+                                              bankAccountDTO =
+                                                  _bankOtherAccounts[provider
+                                                      .indexOtherSelected];
+                                            }
+                                          }
+                                          Navigator.pushNamed(
+                                            context,
+                                            Routes.TRANSACTION_HISTORY,
+                                            arguments: {
+                                              'bankAccountDTO': bankAccountDTO,
+                                            },
+                                          );
+                                        },
+                                        child: BoxLayout(
+                                          width: width,
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 20),
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 20),
+                                          child: Row(
+                                            children: const [
+                                              Icon(
+                                                Icons.manage_search_rounded,
+                                                color: DefaultTheme.BLUE_TEXT,
+                                              ),
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 10)),
+                                              Text(
+                                                'Truy vấn lịch sử giao dịch',
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                              Spacer(),
+                                              Icon(
+                                                Icons.navigate_next_rounded,
+                                                size: 15,
+                                                color: DefaultTheme.GREY_TEXT,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              )
+                            : const SizedBox();
+                      }),
+                    ],
+                  ),
+                ),
+                const Padding(padding: EdgeInsets.only(top: 10)),
                 ButtonWidget(
                   width: width - 40,
                   text: 'Thêm tài khoản ngân hàng',

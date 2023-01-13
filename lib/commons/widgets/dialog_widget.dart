@@ -382,7 +382,7 @@ class DialogWidget {
                       top: 10,
                     ),
                     width: MediaQuery.of(context).size.width - 10,
-                    height: MediaQuery.of(context).size.height * 0.8,
+                    height: MediaQuery.of(context).size.height * 0.4,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       color: Theme.of(context).cardColor,
@@ -402,7 +402,7 @@ class DialogWidget {
                           child: CupertinoDatePicker(
                             initialDateTime: DateTime.now(),
                             maximumDate: DateTime.now(),
-                            mode: CupertinoDatePickerMode.date,
+                            mode: CupertinoDatePickerMode.dateAndTime,
                             onDateTimeChanged: onChanged,
                           ),
                         ),

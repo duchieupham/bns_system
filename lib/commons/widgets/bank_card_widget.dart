@@ -142,12 +142,15 @@ class BankCardWidget extends StatelessWidget {
                     ),
                   ),
             Text(
-              bankAccountDTO.bankName,
+              bankAccountDTO.bankName.trim(),
               maxLines: 1,
               style: TextStyle(
-                color: DefaultTheme.BLACK,
-                fontSize: defaultRatio / 22,
+                color: DefaultTheme.GREY_TEXT,
                 fontFamily: 'TimesNewRoman',
+                fontSize: defaultRatio / 22,
+                letterSpacing: 0.2,
+                wordSpacing: -1,
+                // fontFamily: 'TimesNewRoman',
               ),
             ),
             (isReduceSpace != null && isReduceSpace!)

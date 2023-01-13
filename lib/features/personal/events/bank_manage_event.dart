@@ -51,3 +51,16 @@ class BankManageEventGetDTO extends BankManageEvent {
   @override
   List<Object> get props => [userId, bankAccount];
 }
+
+class BankManageEventGetAccountBalance extends BankManageEvent {
+  final String customerId;
+  final String accountNumber;
+
+  const BankManageEventGetAccountBalance({
+    required this.customerId,
+    required this.accountNumber,
+  });
+
+  @override
+  List<Object> get props => [customerId, accountNumber];
+}

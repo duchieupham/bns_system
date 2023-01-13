@@ -183,7 +183,7 @@ class BankInformationUtil {
               .replaceAll('AVAILABLE_ADD_BANKNAME.', '')) {
         suffix = 'NH TMCP Phương Đông';
       } else if (prefix ==
-          AVAILABLE_ADD_BANKNAME.MBBANK
+          AVAILABLE_ADD_BANKNAME.MB
               .toString()
               .replaceAll('AVAILABLE_ADD_BANKNAME.', '')) {
         suffix = 'NH TMCP Quân đội';

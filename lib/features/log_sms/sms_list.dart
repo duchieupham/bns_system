@@ -54,7 +54,7 @@ class SMSList extends StatelessWidget {
     _notificationBloc = BlocProvider.of(context);
     _smsBloc = BlocProvider.of(context);
     _loginBloc = BlocProvider.of(context);
-    _transactionBloc.add(TransactionEventGetList(userId: userId));
+    // _transactionBloc.add(TransactionEventGetList(userId: userId));
     //android process
     if (!EventBlocHelper.instance.isListenedNotification()) {
       _notificationBloc.add(NotificationEventListen(
