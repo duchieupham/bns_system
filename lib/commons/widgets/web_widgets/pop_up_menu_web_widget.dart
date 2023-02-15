@@ -357,7 +357,7 @@ class PopupMenuWebWidget {
   RelativeRect _buttonMenuPosition(BuildContext context) {
     final RenderBox bar = context.findRenderObject() as RenderBox;
     final RenderBox overlay =
-        Overlay.of(context)?.context.findRenderObject() as RenderBox;
+        Overlay.of(context).context.findRenderObject() as RenderBox;
     const Offset offset = Offset.zero;
     final RelativeRect position = RelativeRect.fromRect(
       Rect.fromPoints(
@@ -372,7 +372,7 @@ class PopupMenuWebWidget {
   RelativeRect _buttonMenuCardPosition(BuildContext context) {
     final RenderBox bar = context.findRenderObject() as RenderBox;
     final RenderBox overlay =
-        Overlay.of(context)?.context.findRenderObject() as RenderBox;
+        Overlay.of(context).context.findRenderObject() as RenderBox;
     const Offset offset = Offset.zero;
     final RelativeRect position = RelativeRect.fromRect(
       Rect.fromPoints(
